@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.base.mapper.BaseExpenseMainTypeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.base.entity.BaseExpenseMainType">
+        <id column="ID" property="id" />
+        <result column="CODE" property="code" />
+        <result column="NAME" property="name" />
+        <result column="PARENT_FLAG" property="parentFlag" />
+        <result column="PARENT_CODE" property="parentCode" />
+        <result column="INVALID_FLAG" property="invalidFlag" />
+        <result column="VALID_DATE" property="validDate" />
+        <result column="INVALID_DATE" property="invalidDate" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="BUDGET_ACCOUNT_ID" property="budgetAccountId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, CODE, NAME, PARENT_FLAG, PARENT_CODE, INVALID_FLAG, VALID_DATE, INVALID_DATE, CREATE_TIME, CREATE_BY, UPDATE_BY, UPDATE_TIME,BUDGET_ACCOUNT_ID
+    </sql>
+
+    <update id="clearBudgetAccountId" parameterType="java.lang.Long">
+        update BASE_EXPENSE_MAIN_TYPE set BUDGET_ACCOUNT_ID = null
+        where id in
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </update>
+
+</mapper>

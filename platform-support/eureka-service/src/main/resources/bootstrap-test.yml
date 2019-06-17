@@ -1,0 +1,49 @@
+server:
+  port: ${EUREKA_PORT:8101}
+  #context-path: /
+  tomcat:
+    uri-encoding: UTF-8  
+    
+spring:
+  application:
+    name: eureka-server
+  rabbitmq:
+    #mq的配置可能在jenkins的脚本替换
+    host: ${RABBIT_MQ_HOST:test-rabbitmq}
+    port: ${RABBIT_MQ_PORT:5672}
+    username: ${RABBIT_MQ_USERNAME:cams}
+    password: ${RABBIT_MQ_PASSWORD:cams123456}
+    publisher-confirms: true
+    virtual-host: /
+
+info:
+  app:
+     name: ${spring.application.name}
+     version: v1.0.0
+  
+eureka:
+  client:
+    registerWithEureka: ${BOOL_REGISTER:true} # Eureka高可用配置，跟随start.sh的环境变量
+    fetchRegistry: ${BOOL_FETCH:true} # Eureka高可用配置，跟随start.sh的环境变量
+    service-url:
+      defaultZone: ${EUREKA_URL_LIST:http://eureka-svc:8101/eureka/} # 指定服务中心 eureka server的地址
+      #defaultZone: ${EUREKA_URL_LIST:http://eureka-peer1:8101/eureka/} # 指定服务中心 eureka server的地址
+    healthcheck:
+      enabled: true
+  server:
+    enable-self-preservation: ${SELF_PRESERVATION:false} # 自我保护模式，跟随start.sh的环境变量
+    eviction-interval-timer-in-ms: 10000    #更新服务状态的时间为10秒（快速下线已经失效的服务，默认是60）
+    response-cache-update-interval-ms: 10000     #刷新readCacheMap缓存的时间
+  
+  instance:
+    #hostname: ${server.port}
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    
+#生产环境建议打开安全选项
+#security:
+#  basic:
+#    enabled: true
+#  user:
+#    name: cloud
+#    password: EurekaAdmin

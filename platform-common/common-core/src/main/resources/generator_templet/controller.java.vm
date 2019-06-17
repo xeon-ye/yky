@@ -1,0 +1,109 @@
+package ${package.Controller};
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import ${cfg.apiPackage}.param.${entity}QueryForm;
+import ${cfg.apiPackage}.vo.${entity}Form;
+import ${cfg.apiPackage}.vo.${entity}Vo;
+import ${cfg.apiPackage}.client.${entity}Client;
+import com.deloitte.platform.common.core.entity.vo.Result;
+import io.swagger.annotations.*;
+import lombok.extern.slf4j.Slf4j;
+import com.deloitte.platform.common.core.util.BeanUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import javax.validation.Valid;
+import java.util.List;
+
+import ${package.Service}.${table.serviceName};
+import ${package.Entity}.${entity};
+
+
+/**
+ * @Author : ${author}
+ * @Date : Create in ${date}
+ * @Description :   ${entity}控制器实现类
+ * @Modified :
+ */
+@Api(tags = "${entity}操作接口")
+@Slf4j
+#if(${restControllerStyle})
+@RestController
+#else
+@Controller
+#end
+#if(${superControllerClass})
+public class ${table.controllerName} extends ${superControllerClass} {
+#else
+public class ${table.controllerName} implements ${entity}Client {
+#end
+
+    @Autowired
+    public ${table.serviceName}  ${table.entityPath}Service;
+
+
+    @Override
+    @ApiOperation(value = "新增${entity}", notes = "新增一个${entity}")
+    @ApiResponses(
+            @ApiResponse(code = 200, message = "处理成功", response = Result.class)
+    )
+    public Result add(@Valid @RequestBody @ApiParam(name="${table.entityPath}Form",value="新增${entity}的form表单",required=true)  ${entity}Form ${table.entityPath}Form) {
+        log.info("form:",  ${table.entityPath}Form.toString());
+        ${entity} ${table.entityPath} =new BeanUtils<${entity}>().copyObj(${table.entityPath}Form,${entity}.class);
+        return Result.success( ${table.entityPath}Service.save(${table.entityPath}));
+    }
+
+
+    @Override
+    @ApiOperation(value = "删除${entity}", notes = "根据url的id来指定删除对象")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "${entity}ID", required = true, dataType = "long")
+    public Result delete(@PathVariable long id) {
+        ${table.entityPath}Service.removeById(id);
+        return Result.success();
+    }
+
+
+    @Override
+    @ApiOperation(value = "修改${entity}", notes = "修改指定${entity}信息")
+    @ApiImplicitParam(paramType = "path",name = "id", value = "${entity}的ID", required = true, dataType = "long")
+    public Result update(@PathVariable long id,
+                         @Valid @RequestBody @ApiParam(name="${table.entityPath}Form",value="修改${entity}的form表单",required=true)  ${entity}Form ${table.entityPath}Form) {
+        ${entity} ${table.entityPath} =new BeanUtils<${entity}>().copyObj(${table.entityPath}Form,${entity}.class);
+        ${table.entityPath}.setId(id);
+        ${table.entityPath}Service.saveOrUpdate(${table.entityPath});
+        return Result.success();
+    }
+
+
+    @Override
+    @ApiOperation(value = "获取${entity}", notes = "获取指定ID的${entity}信息")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "${entity}的ID", required = true, dataType = "long")
+    public Result<${entity}Vo> get(@PathVariable long id) {
+        log.info("get with id:{}", id);
+        ${entity} ${table.entityPath}=${table.entityPath}Service.getById(id);
+        ${entity}Vo ${table.entityPath}Vo=new BeanUtils<${entity}Vo>().copyObj(${table.entityPath},${entity}Vo.class);
+        return new Result<${entity}Vo>().sucess(${table.entityPath}Vo);
+    }
+
+    @Override
+    @ApiOperation(value = "列表查询${entity}", notes = "根据条件查询${entity}列表数据")
+    public Result<List<${entity}Vo>> list(@Valid @RequestBody @ApiParam(name="${table.entityPath}QueryForm",value="${entity}查询参数",required=true) ${entity}QueryForm ${table.entityPath}QueryForm) {
+        log.info("search with ${table.entityPath}QueryForm:", ${table.entityPath}QueryForm.toString());
+        List<${entity}> ${table.entityPath}List=${table.entityPath}Service.selectList(${table.entityPath}QueryForm);
+        List<${entity}Vo> ${table.entityPath}VoList=new BeanUtils<${entity}Vo>().copyObjs(${table.entityPath}List,${entity}Vo.class);
+        return new Result<List<${entity}Vo>>().sucess(${table.entityPath}VoList);
+    }
+
+
+    @Override
+    @ApiOperation(value = "分页查询${entity}", notes = "根据条件查询${entity}分页数据")
+    public Result<IPage<${entity}Vo>> search(@Valid @RequestBody @ApiParam(name="${table.entityPath}QueryForm",value="${entity}查询参数",required=true) ${entity}QueryForm ${table.entityPath}QueryForm) {
+        log.info("search with ${table.entityPath}QueryForm:", ${table.entityPath}QueryForm.toString());
+        IPage<${entity}> ${table.entityPath}Page=${table.entityPath}Service.selectPage(${table.entityPath}QueryForm);
+        IPage<${entity}Vo> ${table.entityPath}VoPage=new BeanUtils<${entity}Vo>().copyPageObjs(${table.entityPath}Page,${entity}Vo.class);
+        return new Result<IPage<${entity}Vo>>().sucess(${table.entityPath}VoPage);
+    }
+
+}
+
+
+

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.performance.mapper.PerformancePrjSubTypeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.performance.entity.PerformancePrjSubType">
+        <result column="ID" property="id" />
+        <result column="CODE" property="code" />
+        <result column="NAME" property="name" />
+        <result column="EXPLAIN" property="explain" />
+        <result column="MAIN_TYPE_ID" property="mainTypeId" />
+        <result column="VALID_FLAG" property="validFlag" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+        <result column="ORG_ID" property="orgId" />
+        <result column="ORG_PATH" property="orgPath" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, CODE, NAME, EXPLAIN, MAIN_TYPE_ID, VALID_FLAG, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME,
+         EXT1, EXT2, EXT3, EXT4, EXT5, ORG_ID, ORG_PATH
+    </sql>
+
+    <sql id="VO_Column_List">
+        subType.ID as id, subType.CODE as code, subType.NAME as name, subType.MAIN_TYPE_ID as mainTypeId,
+        mainType.code as mainTypeCode, mainType.name as mainTypeName, subType.VALID_FLAG AS validFlag,
+        subType.explain as explain,
+        subType.CREATE_TIME as createTime, subType.CREATE_BY as createBy,
+        subType.UPDATE_BY as updateBy, subType.UPDATE_TIME as updateTime,
+        subType.ORG_ID as orgId, subType.ORG_PATH as orgPath
+    </sql>
+
+    <select id="selectVoPage" resultType="com.deloitte.platform.api.fssc.performance.vo.PerformancePrjSubTypeVo">
+        select <include refid="VO_Column_List"/>
+        from PERFORMANCE_PRJ_SUB_TYPE subType LEFT JOIN PERFORMANCE_PRJ_MAIN_TYPE mainType
+        ON subType.MAIN_TYPE_ID = mainType.ID
+        <where>
+            1 = 1
+            <if test="queryForm.code != null and queryForm.code != ''">
+                and subType.CODE LIKE CONCAT('%',CONCAT(#{queryForm.code},'%'))
+            </if>
+            <if test="queryForm.name != null and queryForm.name != ''">
+                and subType.NAME LIKE CONCAT('%',CONCAT(#{queryForm.name},'%'))
+            </if>
+            <if test="queryForm.validFlag != null and queryForm.validFlag != ''">
+                and subType.VALID_FLAG = #{queryForm.validFlag}
+            </if>
+        </where>
+        <choose>
+            <when test="queryForm.sort != null and queryForm.sort != ''
+                    and queryForm.sortOrder != null  and queryForm.sortOrder != ''"  >
+                order by ${queryForm.sort} ${queryForm.sortOrder}
+            </when>
+            <otherwise>
+                order by subType.UPDATE_TIME desc
+            </otherwise>
+        </choose>
+    </select>
+
+
+</mapper>

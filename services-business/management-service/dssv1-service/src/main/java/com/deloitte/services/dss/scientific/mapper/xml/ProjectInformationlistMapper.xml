@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.scientific.mapper.IProjectInformationlistMapper">
+    <!-- 查询映射结果 -->
+    <resultMap id="projectDetail" type="com.deloitte.platform.api.dss.scientific.vo.ProjectDetailInformationVo">
+        <result column="PROJECT_NAME" property="projectName"></result>
+        <result column="PERSON_NAME" property="projectPI"></result>
+        <result column="BUDGET_AMOUNT" property="fund"></result>
+        <result column="POST_DOCTOR" property="postDoctorNum"></result>
+        <result column="DOCTOR_MASTER" property="doctorAndMasterNum"></result>
+        <result column="UNDERGRADUATE" property="undergraduateNum"></result>
+        <result column="STATUS" property="status"></result>
+        <result column="SUBJECT_CATEGORY" property="subjectCategory"></result>
+    </resultMap>
+    <resultMap id="projectMember" type="com.deloitte.platform.api.dss.scientific.vo.ProjectMemberInformationVo">
+        <result column="PERSON_NAME" property="personName"></result>
+        <result column="DEPT_NAME" property="unit"></result>
+        <result column="DEGREE" property="degree"></result>
+        <result column="NATIONAL_NUM" property="nationalNum"></result>
+        <result column="PROVINCIAL_NUM" property="provincialNum"></result>
+        <result column="PERSON_CATEGORY" property="personCategory"></result>
+        <result column="PHD_COLLEGE" property="phpCollege"></result>
+        <result column="MASTER_COLLEGE" property="masterCollege"></result>
+        <result column="BACHELOR_COLLEGE" property="bachelorCollege"></result>
+        <result column="SUBJECT_BACKGROUND" property="subjectBackground"></result>
+    </resultMap>
+
+
+    <select id="queryProjectDetailInformation"  resultMap="projectDetail" parameterType="java.lang.String">
+       <![CDATA[
+            select
+                task.NAME PROJECT_NAME,
+                U.NAME PERSON_NAME,
+                task.FUNDS    BUDGET_AMOUNT,
+                PRO.STATE STATUS,
+                (select sub.DICT_VALUE FROM SYS_DICT sub  WHERE sub.DICT_CODE = PRO.SRPMS_PROJECT )   SUBJECT_CATEGORY,
+                temp.POST_DOCTOR,
+                temp.DOCTOR_MASTER,
+                temp.UNDERGRADUATE
+            from  ISUMP_USER U,DSS_SCIENTIFIC_PROJECT  PRO,DSS_SCIENTIFIC_TASK task
+            LEFT JOIN
+            (select
+                    task.ID,
+                    SUM(case when MEN.CATEGROY = 3 then 1 else 0 end)           POST_DOCTOR,
+                    SUM(case when usr.EDUCATION in ('10', '20') then 1 else 0 end) DOCTOR_MASTER,
+                    SUM(case when usr.EDUCATION = '30' then 1 else 0 end)          UNDERGRADUATE
+             from DSS_SCIENTIFIC_MAIN_MENBER MEN,
+                  DSS_SCIENTIFIC_PROJECT P,
+                  ISUMP_USER usr,
+                  DSS_SCIENTIFIC_TASK task
+               where
+                  MEN.USER_ID = usr.ID and MEN.TASK_ID = task.ID and task.CODE = #{projectNum}
+                  and  task.PRO_ID  = p.ID
+                  group by task.ID
+            ) temp  on task.ID  = temp.ID
+            where  task.CODE  = #{projectNum} and task.LEAD_PERSON_ID = u.ID  and  task.PRO_ID = PRO.ID
+]]>
+   </select>
+
+
+    <select id="queryProjectMemberInformation"  resultMap="projectMember" parameterType="java.lang.String">
+    <![CDATA[
+       select PERSON_NAME,DEPT_NAME,DEGREE,PERSON_CATEGORY,NATIONAL_NUM,PROVINCIAL_NUM,SUBJECT_BACKGROUND,PHD_COLLEGE,MASTER_COLLEGE,BACHELOR_COLLEGE from (
+       select DIU.NAME PERSON_NAME,dept.DEPT_NAME DEPT_NAME,DIU.DEGREE DEGREE,SRI.CATEGROY PERSON_CATEGORY,
+           (SELECT  COUNT(ID)   FROM SRPMS_OUTLINE_AWARD WHERE COMPLETION_PERSON=DIU.id and substr(AWARD_CAT,0,2)='国家')  NATIONAL_NUM,
+           (SELECT  COUNT(ID)   FROM SRPMS_OUTLINE_AWARD WHERE COMPLETION_PERSON=DIU.id and substr(AWARD_CAT,0,2)='省部') PROVINCIAL_NUM,
+           DIU.PHD_COLLEGE,DIU.MASTER_COLLEGE ,DIU.BACHELOR_COLLEGE ,DIU.SUBJECT_BACKGROUND SUBJECT_BACKGROUND
+        from DSS_SCIENTIFIC_MAIN_MENBER SRI,ISUMP_DEPT dept,DSS_SCIENTIFIC_PROJECT PRO,DSS_SCIENTIFIC_TASK task,ISUMP_USER DIU
+        left join SYS_DICT sub on  DIU.SUBJECT_BACKGROUND  = sub.DICT_CODE
+        where
+             SRI.USER_ID = DIU.ID
+             and SRI.TASK_ID = task.ID
+             and  DIU.DEPT = dept.DEPT_CODE
+             and PRO.ID  = task.PRO_ID
+			  AND task.CODE=#{projectNum}
+		 ) group by PERSON_NAME,DEPT_NAME,DEGREE,PERSON_CATEGORY,NATIONAL_NUM,PROVINCIAL_NUM,PHD_COLLEGE,MASTER_COLLEGE,BACHELOR_COLLEGE,SUBJECT_BACKGROUND
+        ]]>
+    </select>
+
+
+</mapper>

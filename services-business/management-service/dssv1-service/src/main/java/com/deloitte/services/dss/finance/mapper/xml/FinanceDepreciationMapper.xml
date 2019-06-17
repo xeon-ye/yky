@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.finance.mapper.FinanceDepreciationMapper">
+
+    <!-- 查询累计折旧率 -->
+    <select id="queryDepreciation" parameterType="com.deloitte.platform.api.dss.finance.vo.FinanceDepreciationVo"
+            resultType="com.deloitte.platform.api.dss.finance.vo.FinanceDepreciationVo">
+         select
+          sum(YTD) ytd,
+          ind.INDEX_CODE indexCode,
+          ind.INDEX_DES indexDes
+        from
+          DSS_FIN_ETL_FACT fact
+        inner join
+          DSS_FIN_ETL_INDEX ind
+        on
+          fact.INDEX_CODE = ind.INDEX_CODE
+        where
+          fact.PERIOD_CODE like #{periodCode}||'%'
+        and
+          ind.INDEX_CODE in (
+            select distinct INDEX_CODE from DSS_FIN_ETL_LIAB_MAP1
+          )
+        group by
+          ind.INDEX_CODE,ind.INDEX_DES
+        order by
+          ind.INDEX_CODE
+    </select>
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.platform.api.dss.finance.vo.FinanceDepreciationVo">
+        <result column="ID" property="id" />
+        <result column="COM_CODE" property="comCode" />
+        <result column="DEPRECIATION" property="depreciation" />
+        <result column="EX1" property="ex1" />
+        <result column="EX2" property="ex2" />
+        <result column="YEAR" property="year" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, COM_CODE, DEPRECIATION, EX1, EX2, YEAR
+    </sql>
+
+</mapper>

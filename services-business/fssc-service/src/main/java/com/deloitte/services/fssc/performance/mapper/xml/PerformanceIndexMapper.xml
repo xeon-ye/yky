@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.performance.mapper.PerformanceIndexMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap"
+        type="com.deloitte.services.fssc.performance.entity.PerformanceIndex">
+        <result column="ID" property="id"/>
+        <result column="CODE" property="code"/>
+        <result column="NAME" property="name"/>
+        <result column="VALID_FLAG" property="validFlag"/>
+        <result column="INDEX_LIBRARY_ID" property="indexLibraryId"/>
+        <result column="VALUE_JUDGE_CONDITION" property="valueJudgeCondition"/>
+        <result column="VALUE_UNIT_ID" property="valueUnitId"/>
+        <result column="VALUE_LEVEL" property="valueLevel"/>
+        <result column="LEVEL_1_ID" property="level1Id"/>
+        <result column="LEVEL_2_ID" property="level2Id"/>
+        <result column="CREATE_BY" property="createBy"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="UPDATE_BY" property="updateBy"/>
+        <result column="UPDATE_TIME" property="updateTime"/>
+        <result column="EXT1" property="ext1"/>
+        <result column="EXT2" property="ext2"/>
+        <result column="EXT3" property="ext3"/>
+        <result column="EXT4" property="ext4"/>
+        <result column="EXT5" property="ext5"/>
+        <result column="ORG_ID" property="orgId"/>
+        <result column="ORG_PATH" property="orgPath"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, CODE, NAME, VALID_FLAG, VALUE_LIBRARY_ID, VALUE_JUDGE_CONDITION, VALUE_UNIT_ID, VALUE_LEVEL,
+        LEVEL_1_ID, LEVEL_2_ID, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME, EXT1, EXT2, EXT3, EXT4, EXT5, ORG_ID, ORG_PATH
+    </sql>
+
+
+    <select id="selectVo"
+        resultType="com.deloitte.platform.api.fssc.performance.vo.PerformanceIndexVo">
+        select
+        A.ID, A.CODE, A.NAME, A.VALID_FLAG,
+        A.INDEX_LIBRARY_ID,indexLib.Name AS INDEX_LIBRARY_NAME,
+        A.VALUE_JUDGE_CONDITION, dicValue.DIC_DESCIPTION AS VALUE_JUDGE_CONDITION_NAME,
+        A.VALUE_UNIT_ID,indexValue.Name AS VALUE_UNIT_NAME,A.VALUE_LEVEL,
+        A.LEVEL_1_ID, B.NAME AS LEVEL_1_NAME,
+        A.LEVEL_2_ID, C.NAME AS LEVEL_2_NAME,
+        A.CREATE_BY, A.CREATE_TIME, A.UPDATE_BY, A.UPDATE_TIME,
+        A.EXT1, A.EXT2, A.EXT3, A.EXT4, A.EXT5, A.ORG_ID, A.ORG_PATH
+        from
+        PERFORMANCE_INDEX A
+        LEFT JOIN PERFORMANCE_INDEX B ON A.LEVEL_1_ID = B.ID
+        LEFT JOIN PERFORMANCE_INDEX C ON A.LEVEL_2_ID = C.ID
+        LEFT JOIN T_DIC_VALUE dicValue on dicValue.Dic_Code = 'BUDGET_INDEX_JUDGET_CONDITION'
+        AND A.VALUE_JUDGE_CONDITION = dicValue.dic_value
+        LEFT JOIN PERFORMANCE_INDEX_VALUE indexValue ON A.VALUE_UNIT_ID = indexValue.ID
+        LEFT JOIN PERFORMANCE_INDEX_LIBRARY indexLib ON A.INDEX_LIBRARY_ID = indexLib.ID
+        <where>
+            A.VALUE_LEVEL IN ('2','3')
+            <if test="queryForm.code != null and queryForm.code != ''">
+                and A.CODE LIKE CONCAT('%',CONCAT(#{queryForm.code},'%'))
+            </if>
+            <if test="queryForm.name != null and queryForm.name != ''">
+                and A.NAME LIKE CONCAT('%',CONCAT(#{queryForm.name},'%'))
+            </if>
+            <if test="queryForm.validFlag != null and queryForm.validFlag != ''">
+                and A.VALID_FLAG = #{queryForm.validFlag}
+            </if>
+            <if test="queryForm.indexLibraryCode != null and queryForm.indexLibraryCode != ''">
+                and indexLib.CODE LIKE CONCAT('%',CONCAT(#{queryForm.indexLibraryCode},'%'))
+            </if>
+            <if test="queryForm.indexLibraryName != null and queryForm.indexLibraryName != ''">
+                and indexLib.NAME LIKE CONCAT('%',CONCAT(#{queryForm.indexLibraryName},'%'))
+            </if>
+            <if test="queryForm.valueUnitCode != null and queryForm.valueUnitCode != ''">
+                and indexValue.CODE LIKE CONCAT('%',CONCAT(#{queryForm.valueUnitCode},'%'))
+            </if>
+            <if test="queryForm.valueUnitName != null and queryForm.valueUnitName != ''">
+                and indexValue.NAME LIKE CONCAT('%',CONCAT(#{queryForm.valueUnitName},'%'))
+            </if>
+        </where>
+        <choose>
+            <when test="queryForm.sort != null and queryForm.sort != ''
+                    and queryForm.sortOrder != null  and queryForm.sortOrder != ''">
+                order by ${queryForm.sort} ${queryForm.sortOrder}
+            </when>
+            <otherwise>
+                order by A.CODE asc
+            </otherwise>
+        </choose>
+    </select>
+</mapper>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.budget.mq.mapper.SyncMsgMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.budget.mq.entity.SyncMsg">
+        <id column="ID" property="id" />
+        <result column="RELATION_ID" property="relationId" />
+        <result column="MSG_TYPE" property="msgType" />
+        <result column="MSG_BODY" property="msgBody" />
+        <result column="MSG_STATUS" property="msgStatus" />
+        <result column="MSG_ERROR_INFO" property="msgErrorInfo" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, RELATION_ID, MSG_TYPE, MSG_BODY, MSG_STATUS, MSG_ERROR_INFO, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+    </sql>
+
+</mapper>

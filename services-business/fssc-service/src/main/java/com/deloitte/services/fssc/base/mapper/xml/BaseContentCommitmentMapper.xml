@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.base.mapper.BaseContentCommitmentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.base.entity.BaseContentCommitment">
+        <id column="ID" property="id" />
+        <result column="BILL_NAME" property="billName" />
+        <result column="VALID_FLAG" property="validFlag" />
+        <result column="CONTENT_COMMITMENT" property="contentCommitment" />
+        <result column="VALID_DATE" property="validDate" />
+        <result column="INVALID_DATE" property="invalidDate" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, BILLNAME, VAILD_FLAG, CONTENT_COMMITMENT, VALID_DATE, INVALID_DATE, CREATE_TIME,
+        CREATE_BY, UPDATE_BY, UPDATE_TIME, EXT1, EXT2, EXT3, EXT4, EXT5
+    </sql>
+
+</mapper>

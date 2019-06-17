@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>登录中心</title>
+    <link rel="stylesheet" href="css/login.css" />
+    <link rel="stylesheet" href="css/login1366.css" />
+
+    <link rel="stylesheet" href="css/base.css" />
+    <!-- 只有在IE下才引用这个文件，不影响性能 -->
+    <!--[if IE]>
+    <style>
+        .interval {
+            behavior: url(../../static/themes/cams/ie-css3.htc);
+            /* 通知IE浏览器调用脚本作用于'interval'类
+              解决IE不兼容圆角和阴影的问题*/
+        }
+    </style>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="logo"><img src="images/logo.png" alt="" /></div>
+    <div class="login">
+        <div class="title">
+            <div class="p1">登录中心</div>
+            <div class="p2">Landing Center</div>
+        </div>
+        <form id="fm1">
+            <ul>
+                <li>
+                    <img class="user-img" src="images/user.png" alt="" />
+                    <input type="text" class="user" id="username" placeholder="用户名" tabindex="1" th:disabled="${guaEnabled}" autocomplete="off"/>
+                </li>
+
+                <li>
+                    <img class="psd-img" src="images/password.png" alt="" />
+                    <input type="password" class="psd" id="password" value="Mellon" placeholder="密码"
+                        tabindex="2" autocomplete="off" />
+                </li>
+                <li class="clearfix">
+                    <span class="forget fl"><a href="#">忘记密码AAA</a> </span>
+                    <span class="reset-P fr"><a href="#">重置密码</a> </span>
+                </li>
+                <li>
+                    <input id="submit" type="button" class="login-btn" onclick="login();" name="submit" accesskey="l" value="登 录" tabindex="6" />
+                </li>
+            </ul>
+        </form>
+    </div>
+</body>
+<script type="text/javascript" src="jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+var send = 0;
+    function login(){
+		var username = document.getElementById("username").value;
+		var password = document.getElementById("password").value;
+		var uri = "http://124.17.100.183:30209/isump/login?username="+username+"&password="+password;
+		$.ajax(
+            {
+                url: uri,
+                type: "GET",
+                dataType: "json",
+                success: function (result) {
+                    if(result.code=="000000"){
+						localStorage.setItem("token",result.data.token);
+						//获取service
+						 var uri = getUrlParam("service");
+						 if(uri == null || uri == ''){
+							uri = "http://124.17.100.183:30080/srpmp/#/myBacklog?token=" + result.data.token;
+						 }else{
+							uri += "?token=" + result.data.token;
+						 }
+						 console.log(uri);
+						window.location.href = uri;
+					}else{
+						alert(result.mesg);
+					}
+                },
+                error: function (xhr, status, p3, p4) {
+                    alert(xhr);
+					cosole.log(xhr);
+                }
+            });
+	}
+	
+	function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+            var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+            if (r != null) return unescape(r[2]); return null; //返回参数值
+        }
+</script>
+
+</html>

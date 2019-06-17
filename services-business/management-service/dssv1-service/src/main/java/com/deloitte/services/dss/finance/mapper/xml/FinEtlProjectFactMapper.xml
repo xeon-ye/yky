@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.finance.mapper.FinEtlProjectFactMapper">
+
+    <insert id="insertIntoFact" parameterType="com.deloitte.services.dss.finance.entity.FinEtlProjectPret">
+        insert into
+          DSS_FIN_ETL_PROJECT_FACT
+            (ID, INDEX_CODE, COM_CODE, YTD_T1, YTD_T2, YTD_T3)
+        values
+          (AUTOID.NEXTVAL, #{indexCode},#{comCode},#{ytdT1},#{ytdT2},#{ytdT3})
+    </insert>
+
+    <delete id="deleteData" parameterType="com.deloitte.services.dss.finance.entity.FinEtlProjectPret">
+        delete
+          DSS_FIN_ETL_PROJECT_FACT
+        where
+          INDEX_CODE = #{indexCode}
+        and
+          COM_CODE = #{comCode}
+    </delete>
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.dss.finance.entity.FinEtlProjectFact">
+        <result column="ID" property="id" />
+        <result column="INDEX_CODE" property="indexCode" />
+        <result column="COM_CODE" property="comCode" />
+        <result column="SPARE1" property="spare1" />
+        <result column="SPARE2" property="spare2" />
+        <result column="SPARE3" property="spare3" />
+        <result column="YTD_T1" property="ytdT1" />
+        <result column="YTD_T2" property="ytdT2" />
+        <result column="YTD_T3" property="ytdT3" />
+        <result column="EX1" property="ex1" />
+        <result column="EX2" property="ex2" />
+        <result column="EX3" property="ex3" />
+        <result column="EX4" property="ex4" />
+        <result column="EX5" property="ex5" />
+        <result column="EX6" property="ex6" />
+        <result column="EX7" property="ex7" />
+        <result column="EX8" property="ex8" />
+        <result column="EX9" property="ex9" />
+        <result column="EX10" property="ex10" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, INDEX_CODE, COM_CODE, SPARE1, SPARE2, SPARE3, YTD_T1, YTD_T2, YTD_T3, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME
+    </sql>
+
+</mapper>

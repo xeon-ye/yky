@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.srpmp.project.mpr.mapper.MprEvaTechRewardTableMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.srpmp.project.mpr.entity.MprEvaTechRewardTable">
+        <id column="ID" property="id" />
+        <result column="PROJECT_NO" property="projectNo" />
+        <result column="ACHIEVE_NAME" property="achieveName" />
+        <result column="OBTAIN_PERSON" property="obtainPerson" />
+        <result column="AWARD_CATEGORY" property="awardCategory" />
+        <result column="AWARD_LEVEL" property="awardLevel" />
+        <result column="AWARD_YEAR" property="awardYear" />
+        <result column="AWARD_NAME" property="awardName" />
+        <result column="CERT_NUM" property="certNum" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, PROJECT_NO, ACHIEVE_NAME, OBTAIN_PERSON, AWARD_CATEGORY, AWARD_LEVEL, AWARD_YEAR, AWARD_NAME, CERT_NUM, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+    </sql>
+
+</mapper>

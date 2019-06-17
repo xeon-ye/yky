@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.finance.mapper.IncomeBudgetExecutionMapper">
+    <!-- 预算执行 - 收入预算 -->
+
+    <!-- 收入预算达成率 折线图 -->
+    <select id="queryIncomeBudExe" parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo">
+        select
+        sum(YTD_N)/sum(YTD_D) execution,
+        fact.PERIOD_CODE periodCode,
+        ind.INDEX_CODE indexCode,
+        ind.INDEX_DES indexDes
+        from
+        DSS_FIN_ETL_FACT fact
+        inner join
+        DSS_FIN_ETL_INDEX ind
+        on fact.INDEX_CODE = ind.INDEX_CODE
+        where
+        PERIOD_CODE in ${monthTotal}
+        and
+        fact.INDEX_CODE in (select distinct INDEX_CODE from DSS_FIN_ETL_INCOME_MAP3)
+        <if test="comCode != null">
+            and fact.COM_CODE in ${comCode}
+        </if>
+        <if test="indexCode != null">
+            and fact.INDEX_CODE = #{indexCode}
+        </if>
+        group by
+        fact.PERIOD_CODE,ind.INDEX_CODE,ind.INDEX_DES,fact.PERIOD_CODE
+        order by
+        fact.PERIOD_CODE
+    </select>
+
+    <!-- 收入同比增长 折线图 -->
+    <select id="queryIncomeRate" parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo">
+        select
+        sum(YTD_N)/sum(YTD_D)-1 rate,
+        fact.PERIOD_CODE periodCode,
+        ind.INDEX_CODE indexCode,
+        ind.INDEX_DES indexDes
+        from
+        DSS_FIN_ETL_FACT fact
+        inner join
+        DSS_FIN_ETL_INDEX ind
+        on fact.INDEX_CODE = ind.INDEX_CODE
+        where
+        PERIOD_CODE in ${monthTotal}
+        and
+        fact.INDEX_CODE in (select distinct INDEX_CODE from DSS_FIN_ETL_INCOME_MAP4)
+        <if test="comCode != null">
+            and fact.COM_CODE in ${comCode}
+        </if>
+        <if test="indexCode != null">
+            and fact.INDEX_CODE = #{indexCode}
+        </if>
+        group by
+        fact.PERIOD_CODE,ind.INDEX_CODE,ind.INDEX_DES,fact.PERIOD_CODE
+        order by
+        fact.PERIOD_CODE
+    </select>
+
+    <!-- 机构收入预算执行率 X坐标 -->
+    <select id="queryComIncomeBudExe" parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo">
+        select
+        sum(YTD_N)/sum(YTD_D) execution,
+        ind.INDEX_CODE indexCode,
+        ind.INDEX_DES indexDes,
+        com.COM_CODE comCode,
+        com.COM_DES comDes
+        from
+        DSS_FIN_ETL_FACT fact
+        inner join
+        DSS_FIN_ETL_INDEX ind
+        on fact.INDEX_CODE = ind.INDEX_CODE
+        inner join
+        DSS_FINANCE_COMPANY com
+        on
+        com.COM_CODE = fact.COM_CODE
+        where
+        PERIOD_CODE like #{periodCode}||'%'
+        and
+        fact.INDEX_CODE in (select distinct INDEX_CODE from DSS_FIN_ETL_INCOME_MAP3)
+        <if test="comCode != null">
+            and fact.COM_CODE in ${comCode}
+        </if>
+        <if test="indexCode != null">
+            and fact.INDEX_CODE = #{indexCode}
+        </if>
+        group by
+        ind.INDEX_CODE,ind.INDEX_DES,com.COM_CODE,com.COM_DES
+        order by
+        com.COM_CODE
+    </select>
+
+    <!-- 收入类型预算执行率 X坐标 -->
+    <select id="queryTypeIncomeBudExe" parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo">
+        select
+        sum(YTD_N)/sum(YTD_D) execution,
+        ind.INDEX_CODE indexCode,
+        ind.INDEX_DES indexDes,
+        fact.PERIOD_CODE periodCode
+        from
+        DSS_FIN_ETL_FACT fact
+        inner join
+        DSS_FIN_ETL_INDEX ind
+        on fact.INDEX_CODE = ind.INDEX_CODE
+        inner join
+        DSS_FINANCE_COMPANY com
+        on
+        com.COM_CODE = fact.COM_CODE
+        where
+        PERIOD_CODE like #{periodCode}||'%'
+        and
+        fact.INDEX_CODE in (select distinct INDEX_CODE from DSS_FIN_ETL_INCOME_MAP3)
+        <if test="comCode != null">
+            and fact.COM_CODE in ${comCode}
+        </if>
+        <if test="indexCode != null">
+            and fact.INDEX_CODE = #{indexCode}
+        </if>
+        group by
+        ind.INDEX_CODE,ind.INDEX_DES,fact.PERIOD_CODE
+        order by
+        ind.INDEX_CODE
+    </select>
+
+    <!-- 机构收入 圆点数据 -->
+    <select id="queryComIncome" parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo">
+        select
+        sum(YTD) ytd,
+        ind.INDEX_CODE indexCode,
+        ind.INDEX_DES indexDes,
+        com.COM_CODE comCode,
+        com.COM_DES comDes,
+        fact.PERIOD_CODE periodCode
+        from
+        DSS_FIN_ETL_FACT fact
+        inner join
+        DSS_FIN_ETL_INDEX ind
+        on fact.INDEX_CODE = ind.INDEX_CODE
+        inner join
+        DSS_FINANCE_COMPANY com
+        on
+        com.COM_CODE = fact.COM_CODE
+        where
+        PERIOD_CODE = #{periodCode}
+        and
+        fact.INDEX_CODE in (select distinct INDEX_CODE from DSS_FIN_ETL_INCOME_MAP2)
+        <if test="comCode != null">
+            and fact.COM_CODE in ${comCode}
+        </if>
+        <if test="indexCode != null">
+            and fact.INDEX_CODE = #{indexCode}
+        </if>
+        group by
+        ind.INDEX_CODE,ind.INDEX_DES,com.COM_CODE,com.COM_DES,fact.PERIOD_CODE
+        order by
+        com.COM_CODE
+    </select>
+
+    <!-- 机构收入预算 圆点数据 -->
+    <select id="queryComIncomeBud" parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo">
+        select
+        sum(YTD) ytd,
+        ind.INDEX_CODE indexCode,
+        ind.INDEX_DES indexDes,
+        fact.PERIOD_CODE periodCode
+        from
+        DSS_FIN_ETL_FACT fact
+        inner join
+        DSS_FIN_ETL_INDEX ind
+        on fact.INDEX_CODE = ind.INDEX_CODE
+        inner join
+        DSS_FINANCE_COMPANY com
+        on
+        com.COM_CODE = fact.COM_CODE
+        where
+        PERIOD_CODE = #{periodCode}
+        and
+        fact.INDEX_CODE in (select distinct INDEX_CODE from DSS_FIN_ETL_INCOME_MAP6)
+        <if test="comCode != null">
+            and fact.COM_CODE in ${comCode}
+        </if>
+        <if test="indexCode != null">
+            and fact.INDEX_CODE = #{indexCode}
+        </if>
+        group by
+        ind.INDEX_CODE,ind.INDEX_DES,fact.PERIOD_CODE
+        order by
+        ind.INDEX_CODE
+    </select>
+
+
+    <!-- 预算结构 - 支出预算 -->
+
+    <!-- 查询支出项目类型 -->
+    <select id="queryProExpType" parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo">
+        select
+        distinct INDEX_CODE indexCode,
+        INDEX_DES indexDes
+        from
+        DSS_FIN_ETL_EXP_TYPE
+    </select>
+
+    <!-- 支出预算执行率 折线图-->
+    <select id="expBudExeMonth" parameterType="java.util.Map"
+                resultType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo">
+        select
+        sum(YTD_N)/sum(YTD_D) execution,
+        PERIOD_CODE periodCode,
+        fact.INDEX_CODE indexCode,
+        INDEX_DES indexDex
+        from
+          DSS_FIN_ETL_FACT fact
+        inner join
+        DSS_FIN_ETL_INDEX ind
+        on fact.INDEX_CODE = ind.INDEX_CODE
+        where
+          PERIOD_CODE in ${monthTotal}
+        and
+          fact.INDEX_CODE in (select distinct INDEX_CODE from DSS_FIN_ETL_EXP_MAP3)
+        <if test="comCode != null">
+            and fact.COM_CODE in ${comCode}
+        </if>
+        <if test="indexCode != null">
+            and fact.INDEX_CODE = #{indexCode}
+        </if>
+        group by
+        PERIOD_CODE,fact.INDEX_CODE,INDEX_DES
+        order by
+        fact.PERIOD_CODE
+    </select>
+
+    <!-- 支出同比增长 折线图 -->
+    <select id="expRateMonth" parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo">
+        select
+        sum(YTD_N)/sum(YTD_D)-1 rate,
+        PERIOD_CODE periodCode,
+        fact.INDEX_CODE indexCode,
+        ind.INDEX_DES indexDex
+        from
+        DSS_FIN_ETL_FACT fact
+        inner join
+        DSS_FIN_ETL_INDEX ind
+        on fact.INDEX_CODE = ind.INDEX_CODE
+        where
+        PERIOD_CODE  in ${monthTotal}
+        and
+        fact.INDEX_CODE in (select distinct INDEX_CODE from DSS_FIN_ETL_EXP_MAP4)
+        <if test="comCode != null">
+            and fact.COM_CODE in ${comCode}
+        </if>
+        <if test="indexCode != null">
+            and fact.INDEX_CODE = #{indexCode}
+        </if>
+        group by
+        PERIOD_CODE,fact.INDEX_CODE,INDEX_DES
+        order by
+        fact.PERIOD_CODE
+    </select>
+
+    <!-- 整体支出预算执行率 虚线 -->
+    <select id="queryTotalExpExe" parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo">
+        select
+        sum(YTD_N)/sum(YTD_D) execution,
+        fact.INDEX_CODE indexCode,
+        ind.INDEX_DES indexDes
+        from
+        DSS_FIN_ETL_FACT fact
+        inner join
+        DSS_FIN_ETL_INDEX ind
+        on fact.INDEX_CODE = ind.INDEX_CODE
+        where
+        PERIOD_CODE like #{periodCode}||'%'
+        and
+        fact.INDEX_CODE in (select distinct INDEX_CODE from DSS_FIN_ETL_EXP_MAP3)
+        group by
+        fact.INDEX_CODE,ind.INDEX_DES
+    </select>
+
+    <!-- 支出预算执行率 柱状图 -->
+    <select id="queryComExpBudExe" parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo">
+        select
+        sum(YTD_N)/sum(YTD_D) execution,
+        fact.INDEX_CODE indexCode,
+        ind.INDEX_DES indexDes,
+        com.COM_CODE comCode,
+        com.COM_DES comDes
+        from
+        DSS_FIN_ETL_FACT fact
+        inner join
+        DSS_FIN_ETL_INDEX ind
+        on fact.INDEX_CODE = ind.INDEX_CODE
+        inner join
+        DSS_FINANCE_COMPANY com
+        on com.COM_CODE = fact.COM_CODE
+        where
+        PERIOD_CODE like #{periodCode}||'%'
+        and
+        fact.INDEX_CODE in (select distinct INDEX_CODE from DSS_FIN_ETL_EXP_MAP3)
+        <if test="comCode != null">
+            and fact.COM_CODE in ${comCode}
+        </if>
+        <if test="indexCode != null">
+            and fact.INDEX_CODE = #{indexCode}
+        </if>
+        group by
+        fact.INDEX_CODE,ind.INDEX_DES,com.COM_CODE,com.COM_DES
+        order by
+        execution
+    </select>
+
+    <!-- 机构支出同比增长 Y坐标 -->
+    <select id="queryComExpRate" parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo">
+        select
+        sum(YTD_N)/sum(YTD_D)-1 rate,
+        fact.INDEX_CODE indexCode,
+        ind.INDEX_DES indexDex,
+        com.COM_CODE comCode,
+        com.COM_DES comDes
+        from
+        DSS_FIN_ETL_FACT fact
+        inner join
+        DSS_FIN_ETL_INDEX ind
+        on fact.INDEX_CODE = ind.INDEX_CODE
+        inner join
+        DSS_FINANCE_COMPANY com
+        on com.COM_CODE = fact.COM_CODE
+        where
+        PERIOD_CODE like #{periodCode}||'%'
+        and
+        fact.INDEX_CODE in (select distinct INDEX_CODE from DSS_FIN_ETL_EXP_MAP4)
+        <if test="comCode != null">
+            and com.COM_CODE in ${comCode}
+        </if>
+        <if test="indexCode != null">
+            and fact.INDEX_CODE = #{indexCode}
+        </if>
+        group by
+        fact.INDEX_CODE,ind.INDEX_DES,com.COM_CODE,com.COM_DES
+        order by
+        com.COM_CODE
+    </select>
+
+    <!-- 机构支出计划增长 X坐标 -->
+    <select id="queryComExpGrowth" parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo">
+        select
+        sum(YTD_N)/sum(YTD_D)-1 growthRate,
+        fact.INDEX_CODE indexCode,
+        ind.INDEX_DES indexDex,
+        com.COM_CODE comCode,
+        com.COM_DES comDes
+        from
+        DSS_FIN_ETL_FACT fact
+        inner join
+        DSS_FIN_ETL_INDEX ind
+        on fact.INDEX_CODE = ind.INDEX_CODE
+        inner join
+        DSS_FINANCE_COMPANY com
+        on com.COM_CODE = fact.COM_CODE
+        where
+        PERIOD_CODE like #{periodCode}||'%'
+        and
+        fact.INDEX_CODE in (select distinct INDEX_CODE from DSS_FIN_ETL_EXP_MAP5)
+        <if test="comCode != null">
+            and com.COM_CODE in ${comCode}
+        </if>
+        <if test="indexCode != null">
+            and fact.INDEX_CODE = #{indexCode}
+        </if>
+        group by
+        fact.INDEX_CODE,ind.INDEX_DES,com.COM_CODE,com.COM_DES
+        order by
+        com.COM_CODE
+    </select>
+
+    <!-- 机构支出 圆点数据 -->
+    <select id="queryComExp" parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo">
+        select
+        sum(YTD) ytd,
+        ind.INDEX_CODE indexCode,
+        ind.INDEX_DES indexDes,
+        com.COM_CODE comCode,
+        com.COM_DES comDes
+        from
+        DSS_FIN_ETL_FACT fact
+        inner join
+        DSS_FIN_ETL_INDEX ind
+        on fact.INDEX_CODE = ind.INDEX_CODE
+        inner join
+        DSS_FINANCE_COMPANY com
+        on
+        com.COM_CODE = fact.COM_CODE
+        where
+        PERIOD_CODE = #{periodCode}
+        and
+        fact.INDEX_CODE in (select distinct INDEX_CODE from DSS_FIN_ETL_EXP_MAP2)
+        <if test="comCode != null">
+            and com.COM_CODE in ${comCode}
+        </if>
+        <if test="indexCode != null">
+            and fact.INDEX_CODE = #{indexCode}
+        </if>
+        group by
+        ind.INDEX_CODE,ind.INDEX_DES,com.COM_CODE,com.COM_DES
+        order by
+        com.COM_CODE
+    </select>
+
+    <!-- 项目支出同比增长 Y坐标 -->
+    <select id="queryProExpRate" parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo">
+        select
+        sum(YTD_N)/sum(YTD_D)-1 rate,
+        fact.INDEX_CODE indexCode,
+        ind.INDEX_DES indexDex,
+        from
+        DSS_FIN_ETL_FACT fact
+        inner join
+        DSS_FIN_ETL_INDEX ind
+        on fact.INDEX_CODE = ind.INDEX_CODE
+        inner join
+        DSS_FINANCE_COMPANY com
+        on com.COM_CODE = fact.COM_CODE
+        where
+        PERIOD_CODE like #{periodCode}||'%'
+        and
+        fact.INDEX_CODE in (select distinct INDEX_CODE from DSS_FIN_ETL_EXP_TYPE)
+        <if test="comCode != null">
+            and fact.COM_CODE in ${comCode}
+        </if>
+        <if test="indexCode != null">
+            and fact.INDEX_CODE in ${indexCode}
+        </if>
+        group by
+        fact.INDEX_CODE,ind.INDEX_DES
+        order by
+        com.COM_CODE
+    </select>
+
+    <!-- 项目支出同比增长 Y坐标 -->
+    <select id="queryComExpRate" parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo">
+        select
+        sum(YTD_N)/sum(YTD_D)-1 rate,
+        fact.INDEX_CODE indexCode,
+        ind.INDEX_DES indexDex,
+        com.COM_CODE comCode,
+        com.COM_DES comDes
+        from
+        DSS_FIN_ETL_FACT fact
+        inner join
+        DSS_FIN_ETL_INDEX ind
+        on fact.INDEX_CODE = ind.INDEX_CODE
+        inner join
+        DSS_FINANCE_COMPANY com
+        on com.COM_CODE = fact.COM_CODE
+        where
+        PERIOD_CODE like #{periodCode}||'%'
+        and
+        fact.INDEX_CODE in (select distinct INDEX_CODE from DSS_FIN_ETL_EXP_TYPE)
+        <if test="comCode != null">
+            and com.COM_CODE in ${comCode}
+        </if>
+        <if test="indexCode != null">
+            and fact.INDEX_CODE = #{indexCode}
+        </if>
+        group by
+        fact.INDEX_CODE,ind.INDEX_DES,com.COM_CODE,com.COM_DES
+        order by
+        com.COM_CODE
+    </select>
+
+    <!-- 支出类型同比增长 Y坐标 -->
+    <select id="queryExpTypeRate" parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo">
+        select
+        sum(YTD_N)/sum(YTD_D)-1 rate,
+        fact.INDEX_CODE indexCode,
+        ind.INDEX_DES indexDex
+        from
+        DSS_FIN_ETL_FACT fact
+        inner join
+        DSS_FIN_ETL_INDEX ind
+        on fact.INDEX_CODE = ind.INDEX_CODE
+        inner join
+        DSS_FINANCE_COMPANY com
+        on com.COM_CODE = fact.COM_CODE
+        where
+        PERIOD_CODE like #{periodCode}||'%'
+        <if test="comCode != null">
+            and com.COM_CODE in ${comCode}
+        </if>
+        and fact.INDEX_CODE in ('FINC0047','FINC0049','FINC0048')
+        group by
+        fact.INDEX_CODE,ind.INDEX_DES
+        order by
+        fact.INDEX_CODE
+    </select>
+
+    <!-- 支出类型支出计划增长 X坐标 -->
+    <select id="queryExpTypeGrowthRate" parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo">
+        select
+        sum(YTD_N)/sum(YTD_D)-1 rate,
+        fact.INDEX_CODE indexCode,
+        ind.INDEX_DES indexDex
+        from
+        DSS_FIN_ETL_FACT fact
+        inner join
+        DSS_FIN_ETL_INDEX ind
+        on fact.INDEX_CODE = ind.INDEX_CODE
+        inner join
+        DSS_FINANCE_COMPANY com
+        on com.COM_CODE = fact.COM_CODE
+        where
+        PERIOD_CODE like #{periodCode}||'%'
+        <if test="comCode != null">
+            and com.COM_CODE in ${comCode}
+        </if>
+        and fact.INDEX_CODE in ('FINC0071','FINC0070','FINC0072')
+        group by
+        fact.INDEX_CODE,ind.INDEX_DES
+        order by
+        fact.INDEX_CODE
+    </select>
+
+    <!-- 支出类型支出 圆点数据 -->
+    <select id="queryExpTypeExp" parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo">
+        select
+        sum(YTD) ytd,
+        fact.INDEX_CODE indexCode,
+        ind.INDEX_DES indexDes
+        from
+        DSS_FIN_ETL_FACT fact
+        inner join
+        DSS_FIN_ETL_INDEX ind
+        on fact.INDEX_CODE = ind.INDEX_CODE
+        inner join
+        DSS_FINANCE_COMPANY com
+        on com.COM_CODE = fact.COM_CODE
+        where
+        PERIOD_CODE like #{periodCode}||'%'
+        <if test="comCode != null">
+            and com.COM_CODE in ${comCode}
+        </if>
+        and fact.INDEX_CODE in ('FIND0038','FIND0039','FIND0040')
+        group by
+        fact.INDEX_CODE,ind.INDEX_DES
+        order by
+        fact.INDEX_CODE
+    </select>
+
+</mapper>

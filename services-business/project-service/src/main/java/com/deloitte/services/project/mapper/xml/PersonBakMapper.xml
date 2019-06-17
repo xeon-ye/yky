@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.project.mapper.PersonBakMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.project.entity.PersonBak">
+        <id column="ID" property="id" />
+        <result column="MAN_ID" property="manId" />
+        <result column="REVIEW_ID" property="reviewId" />
+        <result column="REPLY_ID" property="replyId" />
+        <result column="PROJECT_ID" property="projectId" />
+        <result column="APPLICATION_ID" property="applicationId" />
+        <result column="PER_ID" property="perId" />
+        <result column="PER_NAME" property="perName" />
+        <result column="PER_POSITION_CODE" property="perPositionCode" />
+        <result column="PER_POSITION_NAME" property="perPositionName" />
+        <result column="PHONE" property="phone" />
+        <result column="EMAIL" property="email" />
+        <result column="BEGIN_TIME" property="beginTime" />
+        <result column="END_TIME" property="endTime" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+        <result column="ORG_ID" property="orgId" />
+        <result column="ORG_PATH" property="orgPath" />
+        <result column="ADRESS" property="adress" />
+        <result column="PERSON_CODE" property="personCode" />
+        <result column="PERSON_NAME" property="personName" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, MAN_ID, REVIEW_ID, REPLY_ID, PROJECT_ID, APPLICATION_ID, PER_ID, PER_NAME, PER_POSITION_CODE, PER_POSITION_NAME, PHONE, EMAIL, BEGIN_TIME, END_TIME, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, EXT1, EXT2, EXT3, EXT4, EXT5, ORG_ID, ORG_PATH, ADRESS, PERSON_CODE, PERSON_NAME
+    </sql>
+
+    <select id="selectListPage" parameterType="Map" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List"></include>
+        from project_person_bak where 1=1
+        <if test="data.perId != null and data.perId != ''">
+            and per_id = #{data.perId}
+        </if>
+
+        <if test="data.perName != null and data.perName != ''">
+            and per_name like '%'||#{data.perName}||'%'
+        </if>
+
+    </select>
+</mapper>

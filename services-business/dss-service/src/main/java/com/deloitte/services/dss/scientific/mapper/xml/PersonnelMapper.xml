@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.scientific.mapper.PersonnelMapper">
+    <!-- 查询映射结果 -->
+  <resultMap id="PersonnelVo" type="com.deloitte.platform.api.dss.scientific.vo.PersonnelVo">
+        <result column="positionTitle" property="positionTitle" />
+        <result column="totalNum" property="totalNum" />
+    </resultMap>
+
+    <!-- 柱状图数据vo-->
+    <resultMap id="PersonneColumnarlVo" type="com.deloitte.platform.api.dss.scientific.vo.PersonnelColumnarVo">
+        <result column="deptName" property="deptName" />
+        <result column="totalNum" property="totalNum" />
+        <result column="highLever" property="highLever" />
+        <result column="midLever" property="midLever" />
+        <result column="lowLever" property="lowLever" />
+        <result column="postdoctor" property="postdoctor" />
+    </resultMap>
+
+
+    <select id="queryPersonNum"  resultType="java.util.Map">
+        <![CDATA[
+            select
+              position_title  positionTitle,
+              count(*) totalNum
+            from (
+              select leader.NAME name,
+              leader.id_card,
+              leader.DEPT,
+              TRUNC(months_between(sysdate, leader.birth_date) / 12) AS age,
+              leader.position_title
+              from SRPMS_PROJECT pro,ISUMP_USER leader
+              where pro.status = 50
+              and pro.LEAD_PERSON_ID = leader.id
+              and to_char(pro.project_action_date_start, 'yyyy') <=
+              to_char(sysdate, 'yyyy')
+              and to_char(pro.project_action_date_end, 'yyyy') >=
+              to_char(sysdate, 'yyyy')
+              union
+              select
+                   usr.NAME name,
+                   usr.id_card,
+                   usr.DEPT,
+                    TRUNC(months_between(sysdate, usr.birth_date) / 12) AS age,
+                   usr.position_title
+              from SRPMS_PROJECT pro,
+                   SRPMS_PROJECT_PERSON_JOIN menber,
+                   ISUMP_USER usr
+              where pro.status = 50
+              and pro.id = menber.project_id
+              and menber.PERSON_ID = usr.ID
+              and to_char(pro.project_action_date_start, 'yyyy') <=
+              to_char(sysdate, 'yyyy')
+              and to_char(pro.project_action_date_end, 'yyyy') >=
+              to_char(sysdate, 'yyyy')
+              ) temp
+              group by position_title
+         ]]>
+    </select>
+
+    <!-- 各职级本年度45岁占比 -->
+    <select id="queryAgeProp"  resultMap="PersonnelVo"  parameterType="java.util.Map">
+        <![CDATA[
+             select position_title positionTitle, count(*) totalNum,sum(case when age > 45 then 1 else 0 end) over45Num
+                from (select leader.NAME,
+                             leader.id_card,
+                             leader.DEPT,
+                             TRUNC(months_between(sysdate, leader.birth_date) / 12) AS age,
+                             leader.position_title
+                      from SRPMS_PROJECT pro, ISUMP_USER leader
+                        where pro.status = 50
+                             and pro.LEAD_PERSON_ID = leader.id
+                             and to_char(pro.project_action_date_start, 'yyyy') <=
+                                 to_char(sysdate, 'yyyy')
+                             and to_char(pro.project_action_date_end, 'yyyy') >=
+                                 to_char(sysdate, 'yyyy')
+                        union
+                        select usr.NAME,
+                           usr.id_card,
+                           usr.DEPT,
+                           TRUNC(months_between(sysdate, usr.birth_date) / 12) AS age,
+                           usr.position_title
+                        from SRPMS_PROJECT pro, SRPMS_PROJECT_PERSON_JOIN menber,ISUMP_USER  usr
+                        where pro.status = 50
+                        and pro.id = menber.project_id
+                        and menber.PERSON_ID = usr.id
+                        and to_char(pro.project_action_date_start, 'yyyy') <=
+                        to_char(sysdate, 'yyyy')
+                        and to_char(pro.project_action_date_end, 'yyyy') >=
+                        to_char(sysdate, 'yyyy')) temp
+                  group by position_title
+        ]]>
+    </select>
+
+
+    <!-- 查询科研人才柱状数据-->
+    <select id="queryColumnarData"  resultMap="PersonneColumnarlVo"  parameterType="java.util.Map">
+         <![CDATA[
+           select
+              dept.DEPT_NAME deptName,
+              count(*) totalNum,
+              sum(case when position_title = '10' then 1 else 0 end) highLever,
+              sum(case when position_title = '20' then 1 else 0 end) midLever,
+              sum(case when position_title = '30' then 1 else 0 end) lowLever,
+              sum(case when position_title not in ('10','20','30') then 1 else 0 end) postdoctor
+            from
+              (
+                select leader.NAME,
+                       leader.id_card,
+                       leader.DEPT deptCode,
+                       TRUNC(months_between(sysdate, leader.birth_date) / 12) AS age,
+                       leader.position_title
+                from SRPMS_PROJECT pro, ISUMP_USER leader
+                  where pro.status = 50
+                       and pro.LEAD_PERSON_ID = leader.id
+                       and to_char(pro.project_action_date_start, 'yyyy') <=
+                           to_char(sysdate, 'yyyy')
+                       and to_char(pro.project_action_date_end, 'yyyy') >=
+                           to_char(sysdate, 'yyyy')
+                  union
+                  select usr.name,
+                     usr.id_card,
+                     usr.DEPT deptCode,
+                     TRUNC(months_between(sysdate, usr.birth_date) / 12) AS age,
+                     usr.position_title
+                  from SRPMS_PROJECT pro, SRPMS_PROJECT_PERSON_JOIN menber,ISUMP_USER usr
+                  where pro.status = 50
+                  and pro.id = menber.project_id
+                  and  menber.PERSON_ID = usr.ID
+                  and to_char(pro.project_action_date_start, 'yyyy') <=
+                  to_char(sysdate, 'yyyy')
+                  and to_char(pro.project_action_date_end, 'yyyy') >=
+                  to_char(sysdate, 'yyyy')
+              ) temp1 ,ISUMP_DEPT dept where temp1.deptCode = dept.DEPT_CODE  group by dept.DEPT_NAME
+          ]]>
+    </select>
+</mapper>

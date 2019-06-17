@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.scientific.mapper.ResultMapper">
+    <!-- 查询映射结果 -->
+    <!--科研成果总数-->
+  <resultMap id="ResultVo" type="com.deloitte.platform.api.dss.scientific.vo.ResultVo">
+        <result column="category" property="category" />
+        <result column="total" property="total" />
+    </resultMap>
+    <!--科研成果数按依托单位统计-->
+    <resultMap id="ResultColumnVo" type="com.deloitte.platform.api.dss.scientific.vo.ResultColumnVo">
+        <result column="addres" property="addres" />
+        <result column="height" property="height" />
+        <result column="result" property="result" />
+        <result column="patent" property="patent" />
+        <result column="paper"  property="paper" />
+        <result column="code" property="code"/>
+    </resultMap>
+    <!--查询科研成果当年总数-->
+    <select id="queryResult" resultMap="ResultVo">
+        <![CDATA[
+                SELECT
+            '专利数量' category,
+            count( t.Patent_Num ) total
+        FROM
+            SRPMS_OUTLINE_PATENT t
+        WHERE
+            to_char( t.AUTHORIZED_TIME, 'yyyy' ) = to_char( SYSDATE, 'yyyy' )
+            UNION
+        SELECT
+            '论文数量' category,
+            count( r.paper_title ) total
+        FROM
+            SRPMS_OUTLINE_PAPER r
+        WHERE
+            r.year = to_char( SYSDATE, 'yyyy' )
+            UNION
+        SELECT
+            '成果转化' category,
+            count( * ) total
+        FROM
+            SRPMS_OUTLINE_RESULT_TRANS s
+        WHERE
+            contract_signing_year = to_char(SYSDATE,'yyyy')
+    ]]>
+    </select>
+    <!--科研成果总数按依托单位统计-->
+    <select id="queryResultColumn" resultMap="ResultColumnVo">
+        <![CDATA[
+       select
+                       temp.deptCode code,
+                       dept.DEPT_NAME  addres,
+						count(*) height,
+                       sum(case when type='04' THEN 1 ELSE 0 END)  result,
+                       sum(case when type='05' THEN 1 ELSE 0 END)  patent,
+						sum(case when type=08 then 1 else 0 end) paper
+                from
+                       (
+                         select '04' type,  pro.LEAD_DEPT_ID deptCode
+                            from SRPMS_OUTLINE_RESULT_TRANS result,
+                              DSS_SCIENTIFIC_PROJECT  pro
+                            where
+                               pro.CODE = result.PRO_CODE
+                              and result.CONTRACT_SIGNING_YEAR = TO_CHAR(sysdate, 'yyyy')
+                            union all
+                            select '05' type, pro.LEAD_DEPT_ID  deptCode
+                            from SRPMS_OUTLINE_PATENT patent,
+                                 DSS_SCIENTIFIC_PROJECT  pro
+                            where
+                               patent.PRO_CODE = pro.CODE
+                              and to_char(patent.AUTHORIZED_TIME,'yyyy') = TO_CHAR(sysdate, 'yyyy')
+							union all
+							select '08' type,pro.LEAD_DEPT_ID  deptCode from
+							SRPMS_OUTLINE_PAPER paper,
+                            DSS_SCIENTIFIC_PROJECT  pro
+							where paper.PRO_CODE = pro.code
+							and paper.year=to_char(sysdate,'yyyy')
+                            union all
+                            select '04' type,
+							(select id from ISUMP_DEPT where result.ORG_ID=DEPT_CODE) deptCode
+                            from SRPMS_OUTLINE_RESULT_TRANS result
+                            where
+                               not exists(select CODE from DSS_SCIENTIFIC_PROJECT WHERE CODE = result.PRO_CODE)
+                              and result.CONTRACT_SIGNING_YEAR = TO_CHAR(sysdate, 'yyyy')
+                            union all
+                            select '05' type,
+							(select id from ISUMP_DEPT where patent.ORG_ID=DEPT_CODE) deptCode
+                            from SRPMS_OUTLINE_PATENT patent
+                            where
+                              not exists(select CODE from DSS_SCIENTIFIC_PROJECT WHERE CODE = patent.PRO_CODE)
+                              and to_char(patent.AUTHORIZED_TIME,'yyyy') = TO_CHAR(sysdate, 'yyyy')
+							union all
+							select '08' type,(select id from ISUMP_DEPT where paper.ORG_ID=DEPT_CODE) deptCode
+							from SRPMS_OUTLINE_PAPER paper
+							where
+							not exists(select CODE from DSS_SCIENTIFIC_PROJECT WHERE CODE = paper.PRO_CODE)
+							and paper.year=to_char(sysdate,'yyyy')
+                       )  temp , ISUMP_DEPT dept where temp.deptCode = dept.id group by  temp.deptCode,dept.DEPT_NAME
+        ]]>
+    </select>
+</mapper>

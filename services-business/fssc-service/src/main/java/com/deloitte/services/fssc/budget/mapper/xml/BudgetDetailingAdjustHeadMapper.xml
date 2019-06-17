@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.budget.mapper.BudgetDetailingAdjustHeadMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.budget.entity.BudgetDetailingAdjustHead">
+        <id column="ID" property="id" />
+        <result column="DOCUMENT_NUM" property="documentNum" />
+        <result column="DOCUMENT_STATUS" property="documentStatus" />
+        <result column="UNIT_ID" property="unitId" />
+        <result column="UNIT_CODE" property="unitCode" />
+        <result column="UNIT_NAME" property="unitName" />
+        <result column="DEPT_ID" property="deptId" />
+        <result column="DEPT_CODE" property="deptCode" />
+        <result column="DEPT_NAME" property="deptName" />
+        <result column="FUND_TYPE" property="fundType" />
+        <result column="RELATED_DOCUMENT_NUM" property="relatedDocumentNum" />
+        <result column="RELATED_DOCUMENT_ID" property="relatedDocumentId" />
+        <result column="RELATED_DOCUMENT_TYPE" property="relatedDocumentType" />
+        <result column="LINE_NUM" property="lineNum" />
+        <result column="APPLY_TOTAL" property="applyTotal" />
+        <result column="REMARK" property="remark" />
+        <result column="ORG_ID" property="orgId" />
+        <result column="ORG_PATH" property="orgPath" />
+        <result column="APPLY_FOR_PERSON" property="applyForPerson" />
+        <result column="APPLY_FOR_PERSON_NAME" property="applyForPersonName" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+        <result column="VERSION" property="version" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, DOCUMENT_NUM, DOCUMENT_STATUS, UNIT_ID, UNIT_CODE, UNIT_NAME, DEPT_ID, DEPT_CODE, DEPT_NAME, FUND_TYPE, RELATED_DOCUMENT_NUM, RELATED_DOCUMENT_ID, RELATED_DOCUMENT_TYPE, LINE_NUM, APPLY_TOTAL, REMARK, ORG_ID, ORG_PATH, APPLY_FOR_PERSON, APPLY_FOR_PERSON_NAME, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME, EXT1, EXT2, EXT3, EXT4, EXT5, VERSION
+    </sql>
+
+</mapper>

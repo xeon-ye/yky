@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.srpmp.project.base.mapper.SrpmsProjectMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.srpmp.project.base.entity.SrpmsProject">
+        <id column="ID" property="id"/>
+        <result column="PROJECT_NAME" property="projectName"/>
+        <result column="PROJECT_NUM" property="projectNum"/>
+        <result column="APL_NUM" property="aplNum"/>
+        <result column="BUD_NUM" property="budNum"/>
+        <result column="TAS_NUM" property="tasNum"/>
+        <result column="PUD_NUM" property="pudNum"/>
+        <result column="APD_NUM" property="apdNum"/>
+        <result column="APPLY_YEAR" property="applyYear"/>
+        <result column="PROJECT_CATEGORY" property="projectCategory"/>
+        <result column="PROJECT_TYPE" property="projectType"/>
+        <result column="PROJECT_ACTION_DATE_START" property="projectActionDateStart"/>
+        <result column="PROJECT_ACTION_DATE_END" property="projectActionDateEnd"/>
+        <result column="LEAD_PERSON_ID" property="leadPersonId"/>
+        <result column="BOTH_TOP_EXPERT_PERSON_ID" property="bothTopExpertPersonId"/>
+        <result column="LEAD_PERSON" property="leadPerson"/>
+        <result column="BOTH_TOP_EXPERT_PERSON" property="bothTopExpertPerson"/>
+        <result column="LEAD_DEPT_ID" property="leadDeptId"/>
+        <result column="LEAD_DEPT" property="leadDept"/>
+        <result column="PROJECT_ROLE" property="projectRole"/>
+        <result column="SUBJECT_CATEGORY" property="subjectCategory"/>
+        <result column="STATUS" property="status"/>
+        <result column="PUBLIC_TIME" property="publicTime"/>
+        <result column="APPROVE_TIME" property="approveTime"/>
+        <result column="DEL_FLG" property="delFlg"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="CREATE_BY" property="createBy"/>
+        <result column="UPDATE_TIME" property="updateTime"/>
+        <result column="UPDATE_BY" property="updateBy"/>
+        <result column="APPLY_BOOK_FILE_ID" property="applyBookFileId"/>
+        <result column="APPLY_BOOK_FILE_URL" property="applyBookFileUrl"/>
+        <result column="APPLY_BOOK_FILE_NAME" property="applyBookFileName"/>
+        <result column="BUDGET_BOOK_FILE_ID" property="budgetBookFileId"/>
+        <result column="BUDGET_BOOK_FILE_URL" property="budgetBookFileUrl"/>
+        <result column="BUDGET_BOOK_FILE_NAME" property="budgetBookFileName"/>
+        <result column="BUD_FIRST_OPEN_FLG" property="budFirstOpenFlg"/>
+        <result column="TASK_FIRST_OPEN_FLG" property="taskFirstOpenFlg"/>
+        <result column="TASK_BUD_FIRST_OPEN_FLG" property="taskBudFirstOpenFlg"/>
+        <result column="TASK_BOOK_FILE_ID" property="taskBookFileId"/>
+        <result column="TASK_BOOK_FILE_NAME" property="taskBookFileName"/>
+        <result column="TASK_BOOK_FILE_URL" property="taskBookFileUrl"/>
+        <result column="PUBLISH_BOOK_FILE_ID" property="publishBookFileId"/>
+        <result column="PUBLISH_BOOK_FILE_NAME" property="publishBookFileName"/>
+        <result column="PUBLISH_BOOK_FILE_URL" property="publishBookFileUrl"/>
+        <result column="APPROVE_BOOK_FILE_ID" property="approveBookFileId"/>
+        <result column="APPROVE_BOOK_FILE_NAME" property="approveBookFileName"/>
+        <result column="APPROVE_BOOK_FILE_URL" property="approveBookFileUrl"/>
+        <result column="BUDGET_TASK_BOOK_FILE_ID" property="budgetTaskBookFileId"/>
+        <result column="BUDGET_TASK_BOOK_FILE_URL" property="budgetTaskBookFileUrl"/>
+        <result column="BUDGET_TASK_BOOK_FILE_NAME" property="budgetTaskBookFileName"/>
+        <result column="PROJECT_FLAG" property="projectFlag"/>
+        <result column="ACCEPT_NUM" property="acceptNum"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, PROJECT_NAME, PROJECT_NUM, APL_NUM, BUD_NUM, TAS_NUM, PUD_NUM, APD_NUM, APPLY_YEAR, PROJECT_CATEGORY, PROJECT_TYPE, PROJECT_ACTION_DATE_START, PROJECT_ACTION_DATE_END, LEAD_PERSON_ID, BOTH_TOP_EXPERT_PERSON_ID, LEAD_PERSON, BOTH_TOP_EXPERT_PERSON, LEAD_DEPT_ID, LEAD_DEPT, PROJECT_ROLE, SUBJECT_CATEGORY, STATUS, PUBLIC_TIME, APPROVE_TIME, DEL_FLG, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, APPLY_BOOK_FILE_ID, APPLY_BOOK_FILE_URL, APPLY_BOOK_FILE_NAME, BUDGET_BOOK_FILE_ID, BUDGET_BOOK_FILE_URL, BUDGET_BOOK_FILE_NAME, BUD_FIRST_OPEN_FLG, TASK_FIRST_OPEN_FLG, TASK_BUD_FIRST_OPEN_FLG, TASK_BOOK_FILE_ID, TASK_BOOK_FILE_NAME, TASK_BOOK_FILE_URL, PUBLISH_BOOK_FILE_ID, PUBLISH_BOOK_FILE_NAME, PUBLISH_BOOK_FILE_URL, APPROVE_BOOK_FILE_ID, APPROVE_BOOK_FILE_NAME, APPROVE_BOOK_FILE_URL, BUDGET_TASK_BOOK_FILE_ID, BUDGET_TASK_BOOK_FILE_URL, BUDGET_TASK_BOOK_FILE_NAME, PROJECT_FLAG, ACCEPT_NUM
+    </sql>
+
+    <select id="selectMyPage" parameterType="com.deloitte.platform.api.srpmp.project.base.param.SrpmsProjectQueryForm"
+            resultMap="BaseResultMap">
+        SELECT * FROM (
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM SRPMS_PROJECT t1
+
+        WHERE
+        t1.DEL_FLG = '0'
+        <if test="queryForm.projectNum != null  and queryForm.projectNum != '' ">
+            AND t1.PROJECT_NUM LIKE '%'||#{queryForm.projectNum}||'%'
+        </if>
+        <if test="queryForm.projectName != null  and queryForm.projectName != '' ">
+            AND t1.PROJECT_NAME LIKE '%'||#{queryForm.projectName}||'%'
+        </if>
+        <if test="queryForm.applyYear != null  and queryForm.applyYear != '' ">
+            AND t1.APPLY_YEAR LIKE '%'||#{queryForm.applyYear}||'%'
+        </if>
+        <if test="queryForm.subjectCategory != null  and queryForm.subjectCategory != '' ">
+            AND t1.SUBJECT_CATEGORY LIKE '%'||#{queryForm.subjectCategory}||'%'
+        </if>
+        <if test="queryForm.leadPersonId != null">
+            AND t1.LEAD_PERSON_ID = #{queryForm.leadPersonId}
+        </if>
+        <if test="queryForm.leadDeptId != null">
+            AND t1.LEAD_DEPT_ID = #{queryForm.leadDeptId}
+        </if>
+        <if test="queryForm.projectRole != null  and queryForm.projectRole != '' ">
+            AND t1.SUBJECT_CATEGORY LIKE '%'||#{queryForm.projectRole}||'%'
+        </if>
+        <if test="queryForm.aplNum != null  and queryForm.aplNum != '' ">
+            AND t1.APL_NUM = #{queryForm.aplNum}
+        </if>
+        <if test="queryForm.apdNum != null  and queryForm.apdNum != '' ">
+            AND t1.APD_NUM = #{queryForm.apdNum}
+        </if>
+        <if test="queryForm.pudNum != null  and queryForm.pudNum != '' ">
+            AND t1.PUD_NUM = #{queryForm.pudNum}
+        </if>
+        <if test="queryForm.projectFlag != null  and queryForm.projectFlag != '' ">
+            AND t1.PROJECT_FLAG = #{queryForm.projectFlag}
+        </if>
+        <if test="queryForm.projectType != null and queryForm.projectType != '' ">
+            AND t1.PROJECT_TYPE = #{queryForm.projectType}
+        </if>
+        <if test="queryForm.status != null and queryForm.status != '' ">
+            AND t1.STATUS = #{queryForm.status}
+        </if>
+        <if test="queryForm.statusArr != null and queryForm.statusArr.length > 0 ">
+            AND t1.STATUS NOT IN
+            <foreach collection="queryForm.statusArr" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+
+        UNION ALL
+
+        SELECT DISTINCT SP.* FROM SRPMS_PROJECT SP
+        LEFT JOIN SRPMS_PROJECT_PERSON_JOIN PJ
+        ON SP.ID = PJ.PROJECT_ID
+        AND SP.LEAD_PERSON_ID &lt;&gt; PJ.PERSON_ID
+        WHERE
+        SP.DEL_FLG = '0'
+        <if test="queryForm.leadPersonId != null">
+            AND PJ.PERSON_ID = #{queryForm.leadPersonId}
+        </if>
+        <if test="queryForm.projectNum != null  and queryForm.projectNum != '' ">
+            AND SP.PROJECT_NUM LIKE '%'||#{queryForm.projectNum}||'%'
+        </if>
+        <if test="queryForm.projectName != null  and queryForm.projectName != '' ">
+            AND SP.PROJECT_NAME LIKE '%'||#{queryForm.projectName}||'%'
+        </if>
+        <if test="queryForm.applyYear != null  and queryForm.applyYear != '' ">
+            AND SP.APPLY_YEAR LIKE '%'||#{queryForm.applyYear}||'%'
+        </if>
+        <if test="queryForm.subjectCategory != null  and queryForm.subjectCategory != '' ">
+            AND SP.SUBJECT_CATEGORY LIKE '%'||#{queryForm.subjectCategory}||'%'
+        </if>
+        <if test="queryForm.projectRole != null  and queryForm.projectRole != '' ">
+            AND SP.SUBJECT_CATEGORY LIKE '%'||#{queryForm.projectRole}||'%'
+        </if>
+        <if test="queryForm.aplNum != null  and queryForm.aplNum != '' ">
+            AND SP.APL_NUM = #{queryForm.aplNum}
+        </if>
+        <if test="queryForm.apdNum != null  and queryForm.apdNum != '' ">
+            AND SP.APD_NUM = #{queryForm.apdNum}
+        </if>
+        <if test="queryForm.pudNum != null  and queryForm.pudNum != '' ">
+            AND SP.PUD_NUM = #{queryForm.pudNum}
+        </if>
+        <if test="queryForm.projectFlag != null  and queryForm.projectFlag != '' ">
+            AND SP.PROJECT_FLAG = #{queryForm.projectFlag}
+        </if>
+        <if test="queryForm.projectType != null and queryForm.projectType != '' ">
+            AND SP.PROJECT_TYPE = #{queryForm.projectType}
+        </if>
+        <if test="queryForm.status != null and queryForm.status != '' ">
+            AND SP.STATUS = #{queryForm.status}
+        </if>
+        <if test="queryForm.statusArr != null and queryForm.statusArr.length > 0 ">
+            AND SP.STATUS NOT IN
+            <foreach collection="queryForm.statusArr" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        )
+        <choose>
+            <when test="queryForm.status != null and queryForm.status != '' and queryForm.status == '30'">
+                ORDER by nvl(PUBLIC_TIME, TO_DATE('1900-01-01', 'YYYY-MM-DD HH24:MI:SS')) DESC
+            </when>
+            <when test="queryForm.status != null and queryForm.status != '' and queryForm.status == '60'">
+                ORDER by nvl(APPROVE_TIME, TO_DATE('1900-01-01', 'YYYY-MM-DD HH24:MI:SS')) DESC
+            </when>
+            <otherwise>
+                ORDER by nvl(UPDATE_TIME, TO_DATE('1900-01-01', 'YYYY-MM-DD HH24:MI:SS')) DESC
+            </otherwise>
+        </choose>
+
+    </select>
+</mapper>

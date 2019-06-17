@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.business.edu.mapper.FundsApplyLineMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.business.edu.entity.FundsApplyLine">
+        <id column="ID" property="id"/>
+        <result column="DOCUMENT_ID" property="documentId"/>
+        <result column="DOCUMENT_TYPE" property="documentType"/>
+        <result column="CREATE_BY" property="createBy"/>
+        <result column="CREATE_USER_NAME" property="createUserName"/>
+        <result column="UPDATE_BY" property="updateBy"/>
+        <result column="UPDATE_TIME" property="updateTime"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="VERSION" property="version"/>
+        <result column="REMARK" property="remark"/>
+        <result column="SCHOOL_ID" property="schoolId"/>
+        <result column="APPLY_AMOUNT" property="applyAmount"/>
+        <result column="USE_TYPE" property="useType"/>
+        <result column="RECIEVE_USER_ID" property="recieveUserId"/>
+        <result column="RECIEVE_USER_NAME" property="recieveUserName"/>
+        <result column="RECIEVE_EMP_NO" property="recieveEmpNo"/>
+        <result column="APPLY_UNIT_NAME" property="applyUnitName"/>
+        <result column="APPLY_USER_NAME" property="applyUserName"/>
+        <result column="IS_CONNECTED" property="isConnected"/>
+        <result column="EX1" property="ex1"/>
+        <result column="EX2" property="ex2"/>
+        <result column="EX3" property="ex3"/>
+        <result column="EX4" property="ex4"/>
+        <result column="EX5" property="ex5"/>
+        <result column="EX6" property="ex6"/>
+        <result column="EX7" property="ex7"/>
+        <result column="EX8" property="ex8"/>
+        <result column="EX9" property="ex9"/>
+        <result column="EX10" property="ex10"/>
+        <result column="EX11" property="ex11"/>
+        <result column="EX12" property="ex12"/>
+        <result column="EX13" property="ex13"/>
+        <result column="EX14" property="ex14"/>
+        <result column="EX15" property="ex15"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, CREATE_BY, CREATE_USER_NAME, UPDATE_BY, UPDATE_TIME, CREATE_TIME, VERSION, REMARK, SCHOOL_ID, APPLY_AMOUNT, USE_TYPE, RECIEVE_USER_ID, RECIEVE_USER_NAME, RECIEVE_EMP_NO, APPLY_UNIT_NAME, APPLY_USER_NAME, IS_CONNECTED, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10, EX11, EX12, EX13, EX14, EX15
+    </sql>
+
+    <resultMap id="ExtendsResultMap" type="com.deloitte.platform.api.fssc.edu.vo.FundsApplyLineVo">
+        <result column="ID" property="id"/>
+        <result column="DOCUMENT_ID" property="documentId"/>
+        <result column="DOCUMENT_TYPE" property="documentType"/>
+        <result column="DOCUMENT_NUM" property="documentNum"/>
+        <result column="APPLY_AMOUNT" property="applyAmount"/>
+        <result column="RECIEVE_USER_NAME" property="recieveUserName"/>
+        <result column="RECIEVE_EMP_NO" property="recieveEmpNo"/>
+        <result column="LINE_NUMBER" property="lineNumber"/>
+    </resultMap>
+
+    <select id="selectLineVo" resultMap="ExtendsResultMap">
+        select
+        line.id, line.document_id, head.document_num, line.document_type,
+        line.RECIEVE_EMP_NO,line.RECIEVE_USER_NAME,
+        line.APPLY_AMOUNT, line.line_number
+        from
+        EDU_FUNDS_APPLY_HEAD head,EDU_FUNDS_APPLY_LINE line
+        <where>
+            line.document_id = head.id AND head.document_status = 'APPROVED'
+            AND (line.IS_CONNECTED != 'Y' or line.IS_CONNECTED is null)
+            AND head.unit_id = #{unitId}
+            <if test="schoolId != null">
+                AND line.school_id = #{schoolId}
+            </if>
+            <if test="recieveUserId != null">
+                AND line.RECIEVE_USER_ID = #{recieveUserId}
+            </if>
+            <if test="documentNum != null and documentNum != ''">
+                AND line.document_num like CONCAT('%',CONCAT(#{queryForm.documentNum},'%'))
+            </if>
+        </where>
+        order by line.update_time desc
+    </select>
+</mapper>

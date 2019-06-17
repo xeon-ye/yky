@@ -1,0 +1,1744 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<#escape x as x?html>
+<w:document xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas"
+            xmlns:cx="http://schemas.microsoft.com/office/drawing/2014/chartex"
+            xmlns:cx1="http://schemas.microsoft.com/office/drawing/2015/9/8/chartex"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:o="urn:schemas-microsoft-com:office:office"
+            xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
+            xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml"
+            xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing"
+            xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"
+            xmlns:w10="urn:schemas-microsoft-com:office:word"
+            xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+            xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml"
+            xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml"
+            xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex"
+            xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup"
+            xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk"
+            xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml"
+            xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape"
+            mc:Ignorable="w14 w15 w16se wp14">
+    <w:body>
+        <w:p w:rsidR="00B83C69" w:rsidRDefault="00214790" w:rsidP="00631055">
+            <w:pPr>
+                <w:jc w:val="center"/>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="宋体"/>
+                    <w:b/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+                <w:t>医科科便函</w:t>
+            </w:r>
+            <w:r w:rsidR="00B83C69">
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+                <w:t>（</w:t>
+            </w:r>
+            <w:r w:rsidR="006F3ACE" w:rsidRPr="006F3ACE">
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="宋体"/>
+                    <w:b/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+                <w:t>${year}</w:t>
+            </w:r>
+            <w:r w:rsidR="00B83C69">
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+                <w:t>）</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+                <w:t xml:space="preserve">  </w:t>
+            </w:r>
+            <w:r w:rsidR="00B83C69">
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+                <w:t>号</w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="00214790" w:rsidRDefault="00B04866" w:rsidP="00631055">
+            <w:pPr>
+                <w:jc w:val="center"/>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="宋体"/>
+                    <w:b/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+                <w:t>关于</w:t>
+            </w:r>
+            <w:r w:rsidR="00631055" w:rsidRPr="004161C7">
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+                <w:t>拨</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+                <w:t>付</w:t>
+            </w:r>
+            <w:r w:rsidR="00216558">
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+                <w:t>中国医学科学院</w:t>
+            </w:r>
+            <w:r w:rsidR="00631055" w:rsidRPr="004161C7">
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+                <w:t>科技体制改革</w:t>
+            </w:r>
+            <w:r w:rsidR="00214790">
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+                <w:t>经费</w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="00631055" w:rsidRPr="004161C7" w:rsidRDefault="00F1201E" w:rsidP="00631055">
+            <w:pPr>
+                <w:jc w:val="center"/>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="宋体"/>
+                    <w:b/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+            </w:pPr>
+            <w:r w:rsidRPr="00F1201E">
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="宋体"/>
+                    <w:b/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+                <w:t>${year}</w:t>
+            </w:r>
+            <w:r w:rsidR="00214790">
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+                <w:t>年</w:t>
+            </w:r>
+            <w:r w:rsidR="00631055" w:rsidRPr="004161C7">
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+                <w:t>项目经费的通知</w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="00631055" w:rsidRDefault="00631055" w:rsidP="00631055">
+            <w:pPr>
+                <w:rPr>
+                    <w:sz w:val="28"/>
+                    <w:szCs w:val="28"/>
+                </w:rPr>
+            </w:pPr>
+        </w:p>
+        <w:p w:rsidR="00631055" w:rsidRPr="004161C7" w:rsidRDefault="00631055" w:rsidP="00C660BF">
+            <w:pPr>
+                <w:ind w:firstLineChars="250" w:firstLine="800"/>
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+            </w:pPr>
+            <w:r w:rsidRPr="004161C7">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+                <w:t>：</w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="00631055" w:rsidRPr="004161C7" w:rsidRDefault="00631055" w:rsidP="00631055">
+            <w:pPr>
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+            </w:pPr>
+            <w:r w:rsidRPr="004161C7">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+                <w:t xml:space="preserve">     现将我院委托你单位开展的</w:t>
+            </w:r>
+            <w:r w:rsidR="00216558">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+                <w:t>中国医学科学院</w:t>
+            </w:r>
+            <w:r w:rsidR="00582B8C" w:rsidRPr="00582B8C">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+                <w:t>${year}</w:t>
+            </w:r>
+            <w:r w:rsidRPr="004161C7">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+                <w:t>年“科技体制改革项目”经费</w:t>
+            </w:r>
+            <w:r w:rsidRPr="004161C7">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                    <w:u w:val="single"/>
+                </w:rPr>
+                <w:t xml:space="preserve">    </w:t>
+            </w:r>
+            <w:r w:rsidRPr="004161C7">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+                <w:t>万元（详见附件）拨付给你单位，请按照国家有关管理办法和规定实施项目，加强监督和管理。并严格按照项目任务书中的预算使用经费，在项目结题后及时向院校主管部门递交总结报告。</w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="00631055" w:rsidRPr="004161C7" w:rsidRDefault="00631055" w:rsidP="00631055">
+            <w:pPr>
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+            </w:pPr>
+        </w:p>
+        <w:p w:rsidR="00631055" w:rsidRPr="004161C7" w:rsidRDefault="00631055" w:rsidP="00631055">
+            <w:pPr>
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+            </w:pPr>
+            <w:r w:rsidRPr="004161C7">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+                <w:t>附件：</w:t>
+            </w:r>
+            <w:r w:rsidR="00DC0C0A" w:rsidRPr="00DC0C0A">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+                <w:t>${year}</w:t>
+            </w:r>
+            <w:r w:rsidR="005838A1">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+                <w:t>年</w:t>
+            </w:r>
+            <w:r w:rsidRPr="004161C7">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+                <w:t>拨</w:t>
+            </w:r>
+            <w:r w:rsidR="005838A1">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+                <w:t>付</w:t>
+            </w:r>
+            <w:r w:rsidRPr="004161C7">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+                <w:t>科研经费表</w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="00631055" w:rsidRPr="004161C7" w:rsidRDefault="00631055" w:rsidP="00631055">
+            <w:pPr>
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+            </w:pPr>
+        </w:p>
+        <w:p w:rsidR="00631055" w:rsidRDefault="00631055" w:rsidP="00631055">
+            <w:pPr>
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+            </w:pPr>
+        </w:p>
+        <w:p w:rsidR="00243499" w:rsidRDefault="00243499" w:rsidP="00631055">
+            <w:pPr>
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+            </w:pPr>
+        </w:p>
+        <w:p w:rsidR="00243499" w:rsidRPr="004161C7" w:rsidRDefault="00243499" w:rsidP="00631055">
+            <w:pPr>
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+            </w:pPr>
+        </w:p>
+        <w:p w:rsidR="00631055" w:rsidRPr="004161C7" w:rsidRDefault="00631055" w:rsidP="00631055">
+            <w:pPr>
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+            </w:pPr>
+        </w:p>
+        <w:p w:rsidR="00631055" w:rsidRPr="004161C7" w:rsidRDefault="00631055" w:rsidP="00631055">
+            <w:pPr>
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+            </w:pPr>
+            <w:r w:rsidRPr="004161C7">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+                <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r w:rsidR="00214790">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+                <w:t xml:space="preserve">                              </w:t>
+            </w:r>
+            <w:r w:rsidR="00243499">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+                <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r w:rsidRPr="004161C7">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+                <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r w:rsidR="00243499">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+                <w:t>中国医学科学院</w:t>
+            </w:r>
+            <w:r w:rsidR="00214790">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+                <w:t>科技管理处</w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="00631055" w:rsidRPr="004161C7" w:rsidRDefault="00631055" w:rsidP="00631055">
+            <w:pPr>
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+            </w:pPr>
+            <w:r w:rsidRPr="004161C7">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+                <w:t xml:space="preserve">           </w:t>
+            </w:r>
+            <w:r w:rsidR="00EA41F9">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+                <w:t xml:space="preserve">                            </w:t>
+            </w:r>
+            <w:r w:rsidR="00EA41F9" w:rsidRPr="00A40E25">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:sz w:val="28"/>
+                    <w:szCs w:val="28"/>
+                </w:rPr>
+                <w:t>${now?string("yyyy年MM月dd日")}</w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="004161C7" w:rsidRDefault="004161C7" w:rsidP="00631055">
+            <w:pPr>
+                <w:rPr>
+                    <w:sz w:val="28"/>
+                    <w:szCs w:val="28"/>
+                </w:rPr>
+            </w:pPr>
+        </w:p>
+        <w:p w:rsidR="00F611B4" w:rsidRPr="00243499" w:rsidRDefault="00631055" w:rsidP="00243499">
+            <w:pPr>
+                <w:jc w:val="center"/>
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+            </w:pPr>
+            <w:r w:rsidRPr="00945A0E">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+                <w:t xml:space="preserve">     </w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="00F611B4" w:rsidRPr="00B16411" w:rsidRDefault="00F611B4" w:rsidP="00F611B4">
+            <w:pPr>
+                <w:jc w:val="center"/>
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+            </w:pPr>
+            <w:r w:rsidRPr="00B16411">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+                <w:t>中国医学科学院</w:t>
+            </w:r>
+            <w:r w:rsidR="00B97C5F" w:rsidRPr="00B97C5F">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+                <w:t>${year}</w:t>
+            </w:r>
+            <w:r w:rsidR="00451E1F">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+                <w:t>年</w:t>
+            </w:r>
+            <w:r w:rsidRPr="00B16411">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+                <w:t>拨</w:t>
+            </w:r>
+            <w:r w:rsidR="00451E1F">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+                <w:t>付</w:t>
+            </w:r>
+            <w:r w:rsidRPr="00B16411">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+                <w:t>科研经费表</w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="00F611B4" w:rsidRDefault="00F611B4" w:rsidP="00F611B4">
+            <w:pPr>
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                    <w:sz w:val="28"/>
+                    <w:szCs w:val="28"/>
+                </w:rPr>
+            </w:pPr>
+            <w:r w:rsidRPr="00B16411">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="24"/>
+                </w:rPr>
+                <w:t xml:space="preserve">  </w:t>
+            </w:r>
+            <w:r w:rsidRPr="00B16411">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="28"/>
+                    <w:szCs w:val="28"/>
+                </w:rPr>
+                <w:t xml:space="preserve"> </w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="00F611B4" w:rsidRPr="00B16411" w:rsidRDefault="00F611B4" w:rsidP="00F611B4">
+            <w:pPr>
+                <w:ind w:firstLineChars="100" w:firstLine="280"/>
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                    <w:sz w:val="28"/>
+                    <w:szCs w:val="28"/>
+                </w:rPr>
+            </w:pPr>
+            <w:r w:rsidRPr="00B16411">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="28"/>
+                    <w:szCs w:val="28"/>
+                </w:rPr>
+                <w:t>拨付单位：院校条财处</w:t>
+            </w:r>
+        </w:p>
+        <w:tbl>
+            <w:tblPr>
+                <w:tblW w:w="0" w:type="auto"/>
+                <w:tblInd w:w="467" w:type="dxa"/>
+                <w:tblBorders>
+                    <w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+                    <w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+                    <w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+                    <w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+                    <w:insideH w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+                    <w:insideV w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+                </w:tblBorders>
+                <w:tblLook w:val="0000" w:firstRow="0" w:lastRow="0" w:firstColumn="0" w:lastColumn="0" w:noHBand="0"
+                           w:noVBand="0"/>
+            </w:tblPr>
+            <w:tblGrid>
+                <w:gridCol w:w="912"/>
+                <w:gridCol w:w="2533"/>
+                <w:gridCol w:w="1409"/>
+                <w:gridCol w:w="1977"/>
+                <w:gridCol w:w="2047"/>
+            </w:tblGrid>
+            <w:tr w:rsidR="00F611B4" w:rsidRPr="00B16411" w:rsidTr="00D82105">
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="912" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="00F611B4" w:rsidRPr="00B16411" w:rsidRDefault="00F611B4" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:jc w:val="center"/>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                        <w:r w:rsidRPr="00B16411">
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t>序号</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="2533" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="00F611B4" w:rsidRPr="00B16411" w:rsidRDefault="00F611B4" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:ind w:firstLineChars="50" w:firstLine="140"/>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                        <w:r w:rsidRPr="00B16411">
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t>单</w:t>
+                        </w:r>
+                        <w:r>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t xml:space="preserve">  </w:t>
+                        </w:r>
+                        <w:r w:rsidRPr="00B16411">
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t>位 名 称</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="1409" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="00F611B4" w:rsidRPr="00B16411" w:rsidRDefault="00F611B4" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:ind w:firstLineChars="50" w:firstLine="140"/>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                        <w:r w:rsidRPr="00B16411">
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t>课题数</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="1977" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="00F611B4" w:rsidRPr="00B16411" w:rsidRDefault="00F611B4" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                        <w:r w:rsidRPr="00B16411">
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t>经费（万元）</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="2047" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="00F611B4" w:rsidRPr="00B16411" w:rsidRDefault="00F611B4" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:ind w:firstLineChars="100" w:firstLine="280"/>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                        <w:r w:rsidRPr="00B16411">
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t>备 注</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+            </w:tr>
+            <#list deptList as d>
+            <w:tr w:rsidR="00F611B4" w:rsidRPr="00B16411" w:rsidTr="00D82105">
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="912" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="00F611B4" w:rsidRPr="00B16411" w:rsidRDefault="00F611B4" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:jc w:val="center"/>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                        <w:r w:rsidRPr="00B16411">
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t>${d_index+1}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="2533" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="00F611B4" w:rsidRPr="00B16411" w:rsidRDefault="00214790" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:ind w:firstLineChars="150" w:firstLine="420"/>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                        <w:r>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t>${(d.deptName)!""}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="1409" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="00F611B4" w:rsidRPr="00B16411" w:rsidRDefault="00F611B4" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                        <w:r w:rsidR="00243499">
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t>${(d.size)!""}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="1977" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="00F611B4" w:rsidRPr="00B16411" w:rsidRDefault="00F611B4" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:ind w:firstLineChars="100" w:firstLine="280"/>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                        <w:r w:rsidRPr="00B16411">
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t>${d.budget!""}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="2047" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="00F611B4" w:rsidRPr="00B16411" w:rsidRDefault="00F611B4" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                    </w:p>
+                </w:tc>
+            </w:tr>
+            </#list>
+            <w:tr w:rsidR="00F611B4" w:rsidRPr="00B16411" w:rsidTr="002372AB">
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="917" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="00F611B4" w:rsidRPr="00B16411" w:rsidRDefault="00F611B4" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:jc w:val="center"/>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="2552" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="00F611B4" w:rsidRPr="00B16411" w:rsidRDefault="00F611B4" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="1417" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="00F611B4" w:rsidRPr="00B16411" w:rsidRDefault="00F611B4" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="1985" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="00F611B4" w:rsidRPr="00B16411" w:rsidRDefault="00F611B4" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="2062" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="00F611B4" w:rsidRPr="00B16411" w:rsidRDefault="00F611B4" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                    </w:p>
+                </w:tc>
+            </w:tr>
+            <w:tr w:rsidR="00F611B4" w:rsidRPr="00B16411" w:rsidTr="00D82105">
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="912" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="00F611B4" w:rsidRPr="00B16411" w:rsidRDefault="00F611B4" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:jc w:val="center"/>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                        <w:r w:rsidRPr="00B16411">
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t>合计</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="2533" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="00F611B4" w:rsidRPr="00B16411" w:rsidRDefault="00F611B4" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="1409" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="00F611B4" w:rsidRPr="00B16411" w:rsidRDefault="00243499" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:ind w:firstLineChars="150" w:firstLine="420"/>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                        <w:r>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t>${allSize!""}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="1977" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="00F611B4" w:rsidRPr="00B16411" w:rsidRDefault="00F611B4" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:ind w:firstLineChars="200" w:firstLine="560"/>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                        <w:r w:rsidRPr="00B16411">
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t>${budgetAmount!""}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="2047" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="00F611B4" w:rsidRPr="00B16411" w:rsidRDefault="00F611B4" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                    </w:p>
+                </w:tc>
+            </w:tr>
+        </w:tbl>
+        <w:p w:rsidR="000E1F57" w:rsidRDefault="00BA0FA0" w:rsidP="000E1F57">
+            <w:pPr>
+                <w:rPr>
+                    <w:sz w:val="28"/>
+                    <w:szCs w:val="28"/>
+                </w:rPr>
+            </w:pPr>
+            <w:r w:rsidRPr="00746DE9">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:sz w:val="28"/>
+                    <w:szCs w:val="28"/>
+                </w:rPr>
+                <w:t xml:space="preserve">                                          </w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="00A00EBD" w:rsidRDefault="00A00EBD" w:rsidP="000E1F57">
+            <w:pPr>
+                <w:rPr>
+                    <w:sz w:val="28"/>
+                    <w:szCs w:val="28"/>
+                </w:rPr>
+            </w:pPr>
+        </w:p>
+        <#list deptList as dept>
+        <w:p w:rsidR="00A00EBD" w:rsidRDefault="00A00EBD" w:rsidP="000E1F57">
+            <w:pPr>
+                <w:rPr>
+                    <w:sz w:val="28"/>
+                    <w:szCs w:val="28"/>
+                </w:rPr>
+            </w:pPr>
+        </w:p>
+        <w:p w:rsidR="00A00EBD" w:rsidRDefault="00A00EBD" w:rsidP="000E1F57">
+            <w:pPr>
+                <w:rPr>
+                    <w:sz w:val="28"/>
+                    <w:szCs w:val="28"/>
+                </w:rPr>
+            </w:pPr>
+        </w:p>
+        <w:p w:rsidR="00A00EBD" w:rsidRDefault="00A00EBD" w:rsidP="000E1F57">
+            <w:pPr>
+                <w:rPr>
+                    <w:sz w:val="28"/>
+                    <w:szCs w:val="28"/>
+                </w:rPr>
+            </w:pPr>
+        </w:p>
+        <w:p w:rsidR="00A00EBD" w:rsidRDefault="00A00EBD" w:rsidP="000E1F57">
+            <w:pPr>
+                <w:rPr>
+                    <w:sz w:val="28"/>
+                    <w:szCs w:val="28"/>
+                </w:rPr>
+            </w:pPr>
+        </w:p>
+        <w:p w:rsidR="00A00EBD" w:rsidRPr="00746DE9" w:rsidRDefault="00A00EBD" w:rsidP="000E1F57">
+            <w:pPr>
+                <w:rPr>
+                    <w:sz w:val="28"/>
+                    <w:szCs w:val="28"/>
+                </w:rPr>
+            </w:pPr>
+        </w:p>
+        <w:p w:rsidR="0035419B" w:rsidRPr="00B16411" w:rsidRDefault="0035419B" w:rsidP="008104FC">
+            <w:pPr>
+                <w:ind w:firstLineChars="200" w:firstLine="880"/>
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+            </w:pPr>
+            <w:r w:rsidRPr="00B16411">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+                <w:lastRenderedPageBreak/>
+                <w:t>中国医学科学院</w:t>
+            </w:r>
+            <w:r w:rsidR="008400EF" w:rsidRPr="00B97C5F">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+                <w:t>${year}</w:t>
+            </w:r>
+            <w:r w:rsidR="00451E1F">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+                <w:t>年</w:t>
+            </w:r>
+            <w:r w:rsidRPr="00B16411">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+                <w:t>拨</w:t>
+            </w:r>
+            <w:r w:rsidR="00451E1F">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+                <w:t>付</w:t>
+            </w:r>
+            <w:r w:rsidRPr="00B16411">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="44"/>
+                    <w:szCs w:val="44"/>
+                </w:rPr>
+                <w:t>科研经费表</w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="0035419B" w:rsidRDefault="0035419B" w:rsidP="0035419B">
+            <w:pPr>
+                <w:ind w:firstLineChars="100" w:firstLine="280"/>
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                    <w:sz w:val="28"/>
+                    <w:szCs w:val="28"/>
+                </w:rPr>
+            </w:pPr>
+        </w:p>
+        <w:p w:rsidR="0035419B" w:rsidRPr="00B16411" w:rsidRDefault="0035419B" w:rsidP="0035419B">
+            <w:pPr>
+                <w:ind w:firstLineChars="100" w:firstLine="280"/>
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                    <w:sz w:val="28"/>
+                    <w:szCs w:val="28"/>
+                </w:rPr>
+            </w:pPr>
+            <w:r w:rsidRPr="00B16411">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="28"/>
+                    <w:szCs w:val="28"/>
+                </w:rPr>
+                <w:t>承担单位：</w:t>
+            </w:r>
+            <w:r w:rsidRPr="00B16411">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                    <w:sz w:val="28"/>
+                    <w:szCs w:val="28"/>
+                </w:rPr>
+                <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r w:rsidR="00214790">
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                    <w:sz w:val="28"/>
+                    <w:szCs w:val="28"/>
+                </w:rPr>
+                <w:t>${(dept.deptName)!""}</w:t>
+            </w:r>
+        </w:p>
+        <w:tbl>
+            <w:tblPr>
+                <w:tblW w:w="0" w:type="auto"/>
+                <w:tblInd w:w="392" w:type="dxa"/>
+                <w:tblBorders>
+                    <w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+                    <w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+                    <w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+                    <w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+                    <w:insideH w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+                    <w:insideV w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+                </w:tblBorders>
+                <w:tblLook w:val="0000" w:firstRow="0" w:lastRow="0" w:firstColumn="0" w:lastColumn="0" w:noHBand="0"
+                           w:noVBand="0"/>
+            </w:tblPr>
+            <w:tblGrid>
+                <w:gridCol w:w="983"/>
+                <w:gridCol w:w="2646"/>
+                <w:gridCol w:w="1677"/>
+                <w:gridCol w:w="1773"/>
+                <w:gridCol w:w="1874"/>
+            </w:tblGrid>
+            <w:tr w:rsidR="0035419B" w:rsidRPr="00B16411" w:rsidTr="005F6D67">
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="983" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="0035419B" w:rsidRPr="00B16411" w:rsidRDefault="0035419B" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                        <w:r w:rsidRPr="00B16411">
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t>序号</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="2646" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="0035419B" w:rsidRPr="00B16411" w:rsidRDefault="0035419B" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                        <w:r w:rsidRPr="00B16411">
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t xml:space="preserve"> 项</w:t>
+                        </w:r>
+                        <w:r>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t xml:space="preserve">  </w:t>
+                        </w:r>
+                        <w:r w:rsidRPr="00B16411">
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t>目</w:t>
+                        </w:r>
+                        <w:r>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t xml:space="preserve">   </w:t>
+                        </w:r>
+                        <w:r w:rsidRPr="00B16411">
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t>名</w:t>
+                        </w:r>
+                        <w:r>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t xml:space="preserve">  </w:t>
+                        </w:r>
+                        <w:r w:rsidRPr="00B16411">
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t xml:space="preserve"> 称</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="1677" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="0035419B" w:rsidRPr="00B16411" w:rsidRDefault="0035419B" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:jc w:val="center"/>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                        <w:r w:rsidRPr="00B16411">
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t>项目负责人</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="1773" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="0035419B" w:rsidRDefault="0035419B" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:jc w:val="center"/>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                        <w:r w:rsidRPr="00B16411">
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t>经费</w:t>
+                        </w:r>
+                    </w:p>
+                    <w:p w:rsidR="0035419B" w:rsidRPr="00B16411" w:rsidRDefault="0035419B" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:jc w:val="center"/>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                        <w:r w:rsidRPr="00B16411">
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t>（万元）</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="1874" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="0035419B" w:rsidRPr="00B16411" w:rsidRDefault="0035419B" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:ind w:firstLineChars="100" w:firstLine="280"/>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                        <w:r w:rsidRPr="00B16411">
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t>备 注</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+            </w:tr>
+            <#list dept.projectList as p>
+            <w:tr w:rsidR="0035419B" w:rsidRPr="00B16411" w:rsidTr="002372AB">
+                <w:trPr>
+                    <w:trHeight w:val="681"/>
+                </w:trPr>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="992" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="0035419B" w:rsidRPr="00B16411" w:rsidRDefault="0035419B" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:ind w:firstLineChars="100" w:firstLine="280"/>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                        <w:r w:rsidRPr="00B16411">
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t>${p_index+1}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="2693" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="0035419B" w:rsidRPr="00B16411" w:rsidRDefault="00214790" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:cs="宋体"/>
+                                <w:color w:val="000000"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                        <w:r>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:cs="宋体" w:hint="eastAsia"/>
+                                <w:color w:val="000000"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t>${p.projectName!""}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="1701" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="0035419B" w:rsidRPr="00B16411" w:rsidRDefault="00214790" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:jc w:val="center"/>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:cs="宋体"/>
+                                <w:color w:val="000000"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                        <w:r>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:cs="宋体" w:hint="eastAsia"/>
+                                <w:color w:val="000000"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t>${p.personName!""}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="1790" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="0035419B" w:rsidRPr="00B16411" w:rsidRDefault="0035419B" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:ind w:firstLineChars="150" w:firstLine="420"/>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                        <w:r w:rsidRPr="00B16411">
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t>${p.budget}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="1896" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="0035419B" w:rsidRPr="00B16411" w:rsidRDefault="00857BC4" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                        <w:r>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t>${p.projectNum!""}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+            </w:tr>
+        	</#list>
+            <w:tr w:rsidR="0035419B" w:rsidRPr="00B16411" w:rsidTr="002372AB">
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="992" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="0035419B" w:rsidRPr="00B16411" w:rsidRDefault="0035419B" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="2693" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="0035419B" w:rsidRPr="00B16411" w:rsidRDefault="0035419B" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="1701" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="0035419B" w:rsidRPr="00B16411" w:rsidRDefault="0035419B" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:jc w:val="center"/>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="1790" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="0035419B" w:rsidRPr="00B16411" w:rsidRDefault="0035419B" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="1896" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="0035419B" w:rsidRPr="00B16411" w:rsidRDefault="0035419B" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                    </w:p>
+                </w:tc>
+            </w:tr>
+            <w:tr w:rsidR="0035419B" w:rsidRPr="00B16411" w:rsidTr="005F6D67">
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="983" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="0035419B" w:rsidRPr="00B16411" w:rsidRDefault="0035419B" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                        <w:r w:rsidRPr="00B16411">
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t>合计</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="2646" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="0035419B" w:rsidRPr="00B16411" w:rsidRDefault="0035419B" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="1677" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="0035419B" w:rsidRPr="00B16411" w:rsidRDefault="0035419B" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:jc w:val="center"/>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                        <w:r w:rsidRPr="00B16411">
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t>${dept.size!""}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="1773" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="0035419B" w:rsidRPr="00B16411" w:rsidRDefault="0035419B" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:ind w:firstLineChars="150" w:firstLine="420"/>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                        <w:r w:rsidRPr="00B16411">
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋" w:hint="eastAsia"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                            <w:t>${dept.budget!""}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="1874" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="0035419B" w:rsidRPr="00B16411" w:rsidRDefault="0035419B" w:rsidP="002372AB">
+                        <w:pPr>
+                            <w:rPr>
+                                <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                                <w:sz w:val="28"/>
+                                <w:szCs w:val="28"/>
+                            </w:rPr>
+                        </w:pPr>
+                    </w:p>
+                </w:tc>
+                <w:bookmarkStart w:id="0" w:name="_GoBack"/>
+                <w:bookmarkEnd w:id="0"/>
+            </w:tr>
+        </w:tbl>
+        <w:p w:rsidR="0035419B" w:rsidRDefault="0035419B" w:rsidP="00F611B4">
+            <w:pPr>
+                <w:jc w:val="center"/>
+                <w:rPr>
+                    <w:rFonts w:ascii="仿宋" w:eastAsia="仿宋" w:hAnsi="仿宋"/>
+                    <w:b/>
+                    <w:sz w:val="32"/>
+                    <w:szCs w:val="32"/>
+                </w:rPr>
+            </w:pPr>
+        </w:p>
+        </#list>
+        <w:p w:rsidR="00EC1DD4" w:rsidRDefault="00EC1DD4" w:rsidP="00F611B4">
+            <w:pPr>
+                <w:rPr>
+                    <w:sz w:val="28"/>
+                    <w:szCs w:val="28"/>
+                </w:rPr>
+            </w:pPr>
+            <w:r w:rsidRPr="00746DE9">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:sz w:val="28"/>
+                    <w:szCs w:val="28"/>
+                </w:rPr>
+                <w:t xml:space="preserve">    </w:t>
+            </w:r>
+        </w:p>
+        <w:sectPr w:rsidR="00EC1DD4" w:rsidSect="00BA0FA0">
+            <w:pgSz w:w="11907" w:h="16840" w:code="9"/>
+            <w:pgMar w:top="2835" w:right="1418" w:bottom="1418" w:left="1134" w:header="851" w:footer="992"
+                     w:gutter="0"/>
+            <w:cols w:space="425"/>
+            <w:docGrid w:type="lines" w:linePitch="312"/>
+        </w:sectPr>
+    </w:body>
+</w:document>
+</#escape>

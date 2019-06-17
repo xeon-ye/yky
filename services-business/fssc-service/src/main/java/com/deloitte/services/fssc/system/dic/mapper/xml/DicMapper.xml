@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.system.dic.mapper.DicMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.system.dic.entity.Dic">
+        <id column="ID" property="id" />
+        <result column="EUM_CODE" property="eumCode" />
+        <result column="EUM_NAME" property="eumName" />
+        <result column="EUM_DESCIPTION" property="eumDesciption" />
+        <result column="EUM_ORDER" property="eumOrder" />
+        <result column="EUM_CONCAT_TAB" property="eumConcatTab" />
+        <result column="IS_VALID" property="isValid" />
+        <result column="EXT_1" property="ext1" />
+        <result column="EXT_2" property="ext2" />
+        <result column="EXT_3" property="ext3" />
+        <result column="EXT_4" property="ext4" />
+        <result column="EXT_5" property="ext5" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_BY" property="updateBy" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, EUM_CODE, EUM_NAME, EUM_DESCIPTION, EUM_ORDER, EUM_CONCAT_TAB, IS_VALID, EXT_1, EXT_2, EXT_3, EXT_4, EXT_5, CREATE_TIME, UPDATE_TIME, CREATE_BY, UPDATE_BY
+    </sql>
+
+    <sql id="searchWhere">
+        <if test="eumCode != null and eumCode != ''">
+            and EUM_CODE LIKE CONCAT('%',CONCAT(#{eumCode},'%'))
+        </if>
+        <if test="eumName != null and eumName != ''">
+            and EUM_NAME LIKE CONCAT('%',CONCAT(#{eumName},'%'))
+        </if>
+    </sql>
+
+    <select id="count" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(*)
+        FROM
+        T_DIC
+        where 1=1
+        <include refid="searchWhere"></include>
+    </select>
+
+
+    <select id="findByPage" parameterType="java.util.Map" resultType="com.deloitte.services.fssc.system.dic.entity.Dic">
+    select * from
+    (SELECT
+    t.*, rownum as rn
+    FROM (
+    select EUM_CODE eumCode ,
+        EUM_NAME eumName,
+        EUM_DESCIPTION eumDesciption,
+    IS_VALID isValid
+    from T_DIC
+    where 1 = 1
+    <include refid="searchWhere"></include>
+    <choose>
+        <when test="sortField != null and sortField != '' and sortOrder != null and sortOrder != ''"> order by ${sortField} ${sortOrder}</when>
+        <otherwise>order by  CREATE_TIME desc </otherwise>
+    </choose>
+    ) t
+    )a
+    where a.rn
+    between #{pageIndex} and #{pageSize}
+</select>
+
+    <delete id="deleteByEnumType" parameterType="java.util.List" >
+        delete T_DIC  t1
+        WHERE t1.EUM_CODE  in
+        <foreach item="item" index="index" open="(" separator="," close=")" collection="list">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="countBySysEnumType" parameterType="com.deloitte.services.fssc.system.dic.entity.Dic" resultType="java.lang.Integer">
+		select count(0)
+		FROM
+		T_DIC
+		where EUM_CODE=#{eumCode}
+	</select>
+
+    <insert id="insertt" parameterType="com.deloitte.services.fssc.system.dic.entity.Dic"  >
+        insert into T_DIC (<include refid="Base_Column_List"></include>)
+    values (
+        #{id},
+        #{eumCode},
+        #{eumName},
+        #{eumDesciption},
+        #{eumOrder},
+        #{eumConcatTab},
+        #{isValid},
+        #{ext1},
+        #{ext2},
+        #{ext3},
+        #{ext4},
+        #{ext5},
+        #{createTime},
+        #{updateTime},
+        #{createBy},
+        #{updateBy}
+      )
+  </insert>
+
+    <select id="selectByPageConditions" resultType="com.deloitte.platform.api.fssc.dic.vo.DicVo" >
+    SELECT * FROM T_DIC ut
+    <where>
+
+        <if test="form.eumCode != null and form.eumCode != ''">
+            and ut.EUM_CODE LIKE CONCAT('%',CONCAT(#{form.eumCode},'%'))
+
+        </if>
+        <if test="form.eumName != null and form.eumName != ''">
+            and ut.EUM_NAME LIKE CONCAT('%',CONCAT(#{form.eumName},'%'))
+        </if>
+
+    </where>
+    </select>
+
+</mapper>

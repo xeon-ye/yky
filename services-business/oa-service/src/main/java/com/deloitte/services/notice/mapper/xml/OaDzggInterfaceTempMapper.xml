@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.notice.mapper.OaDzggInterfaceTempMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.notice.entity.OaDzggInterfaceTemp">
+        <id column="REQUEST_ID" property="requestId" />
+        <result column="NOTICE_NO" property="noticeNo" />
+        <result column="APPLY_DATE" property="applyDate" />
+        <result column="TYPE_NAME" property="typeName" />
+        <result column="SORT_NAME" property="sortName" />
+        <result column="IS_READ" property="isRead" />
+        <result column="NOTICE_TITLE" property="noticeTitle" />
+        <result column="NOTICE_CONTENT" property="noticeContent" />
+        <result column="NOTICE_SRC" property="noticeSrc" />
+        <result column="APPLY_ORG_CODE" property="applyOrgCode" />
+        <result column="APPLY_ORG_NAME" property="applyOrgName" />
+        <result column="APPLY_USER_CODE" property="applyUserCode" />
+        <result column="APPLY_USER_EMPNO" property="applyUserEmpno" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        REQUEST_ID, NOTICE_NO, APPLY_DATE, TYPE_NAME, SORT_NAME, ATTACHMENT_PATH, IS_READ, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_SRC, APPLY_ORG_CODE,
+        APPLY_ORG_NAME, APPLY_USER_CODE, APPLY_USER_EMPNO
+    </sql>
+
+</mapper>

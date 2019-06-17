@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.engine.automatic.mapper.AvAccountLogicHeadMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.engine.automatic.entity.AvAccountLogicHead">
+        <id column="ID" property="id" />
+        <result column="LOGIC_ID" property="logicId" />
+        <result column="JUDGE_CONDITION" property="judgeCondition" />
+        <result column="TYPE_FROM" property="typeFrom" />
+        <result column="NUM_FROM" property="numFrom" />
+        <result column="VOUCHER_FROM" property="voucherFrom" />
+        <result column="RATE_FROM" property="rateFrom" />
+        <result column="HEAD_FROM" property="headFrom" />
+        <result column="CREATE_DATE" property="createDate" />
+        <result column="CRRETE_BY" property="crreteBy" />
+        <result column="UPDATE_DATE" property="updateDate" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="ETX_1" property="etx1" />
+        <result column="ETX_2" property="etx2" />
+        <result column="ETX_3" property="etx3" />
+        <result column="ETX_4" property="etx4" />
+        <result column="ETX_5" property="etx5" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, LOGIC_ID, JUDGE_CONDITION, TYPE_FROM, NUM_FROM, VOUCHER_FROM, RATE_FROM, HEAD_FROM, CREATE_DATE, CRRETE_BY, UPDATE_DATE, UPDATE_BY, ETX_1, ETX_2, ETX_3, ETX_4, ETX_5
+    </sql>
+
+</mapper>

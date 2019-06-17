@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <style type="text/css">
+        li{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div style="width: 100%;">
+    <div style="width: 200px;float: left;">
+        <ul>
+            <li onclick="goTo('/user-list.html')">用户管理</li>
+            <li onclick="goTo('/org-list.html')">组织查询</li>
+            <li onclick="goTo('/menu/menu.html')">菜单管理</li>
+            <li onclick="goTo('/menu/role_menu.html')">角色管理</li>
+            <li onclick="goTo('/user-deputy-list.html')">副账号管理</li>
+        </ul>
+    </div>
+    <div style="float: left;width: 85%;overflow: hidden;">
+        <iframe id="iframe" frameborder="0" src="" width="100%" scrolling="auto"></iframe>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+
+    function calcPageHeight(doc) {
+        var cHeight = Math.max(doc.body.clientHeight, doc.documentElement.clientHeight)
+        var sHeight = Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight)
+        var height  = Math.max(cHeight, sHeight)
+        return height
+    }
+    //根据ID获取iframe对象
+    var ifr = document.getElementById('iframe')
+    ifr.onload = function() {
+        //解决打开高度太高的页面后再打开高度较小页面滚动条不收缩
+        ifr.style.height = '0px';
+        var iDoc = ifr.contentDocument || ifr.document
+        var height = calcPageHeight(iDoc)
+        if (height < 850) {
+            height = 800;
+        }
+        ifr.style.height = height + 'px'
+    }
+    function goTo(url){
+        ifr.src = url;
+    }
+</script>
+</html>

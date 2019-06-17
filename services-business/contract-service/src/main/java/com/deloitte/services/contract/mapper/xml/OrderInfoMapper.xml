@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.contract.mapper.OrderInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.contract.entity.OrderInfo">
+        <id column="ID" property="id" />
+        <result column="ORDER_NUM" property="orderNum" />
+        <result column="ORDER_AMOUNT" property="orderAmount" />
+        <result column="ORG_CODE" property="orgCode" />
+        <result column="ORG" property="org" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="IS_USED" property="isUsed" />
+        <result column="CONTRACT_ID" property="contractId" />
+        <result column="CONTRACT_NAME" property="contractName" />
+        <result column="SPARE_FIELD_1" property="spareField1" />
+        <result column="SPARE_FIELD_2" property="spareField2" />
+        <result column="SPARE_FIELD_3" property="spareField3" />
+        <result column="SPARE_FIELD_4" property="spareField4" />
+        <result column="SPARE_FIELD_5" property="spareField5" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, ORDER_NUM, ORDER_AMOUNT, ORG_CODE, ORG, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, IS_USED, CONTRACT_ID, CONTRACT_NAME, SPARE_FIELD_1, SPARE_FIELD_2, SPARE_FIELD_3, SPARE_FIELD_4, SPARE_FIELD_5
+    </sql>
+
+    <select id="selectListByContractId" parameterType="java.lang.String" resultType="com.deloitte.platform.api.contract.vo.OrderInfoVo">
+        select co.*
+          from contract_basic_order_map bo
+          left join contract_order_info co
+            on bo.order_id = co.id
+         where bo.contract_id = #{_parameter}
+    </select>
+</mapper>

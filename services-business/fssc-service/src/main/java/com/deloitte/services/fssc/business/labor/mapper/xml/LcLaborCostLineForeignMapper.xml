@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.business.labor.mapper.LcLaborCostLineForeignMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.business.labor.entity.LcLaborCostLineForeign">
+        <id column="ID" property="id" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_USER_NAME" property="createUserName" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="VERSION" property="version" />
+        <result column="DOCUMENT_ID" property="documentId" />
+        <result column="SUB_TYPE_ID" property="subTypeId" />
+        <result column="SUB_TYPE_CODE" property="subTypeCode" />
+        <result column="RECIEVE_USER_NAME" property="recieveUserName" />
+        <result column="NATIONALITY" property="nationality" />
+        <result column="FIRST_IN_CHINA" property="firstInChina" />
+        <result column="BIRTHDAY" property="birthday" />
+        <result column="BIRTH_ADDRESS" property="birthAddress" />
+        <result column="GENDER" property="gender" />
+        <result column="HAS_DOMICILE_IN_CHINA" property="hasDomicileInChina" />
+        <result column="ESTIMATED_TIME_OF_DEPARTURE" property="estimatedTimeOfDeparture" />
+        <result column="TYPE_OF_EMPLOYMENT" property="typeOfEmployment" />
+        <result column="TYPE_OF_EMPLOYMENT_TIME" property="typeOfEmploymentTime" />
+        <result column="RECIEVE_USER_ID" property="recieveUserId" />
+        <result column="UNIT_NAME" property="unitName" />
+        <result column="UNIT_CODE" property="unitCode" />
+        <result column="UNIT_ID" property="unitId" />
+        <result column="POSITION" property="position" />
+        <result column="CERT_TYPE" property="certType" />
+        <result column="CERT_NUM" property="certNum" />
+        <result column="DISTRIBUTION_STANDARD" property="distributionStandard" />
+        <result column="BANK_NAME" property="bankName" />
+        <result column="BANK_CODE" property="bankCode" />
+        <result column="BANK_ACCOUNT" property="bankAccount" />
+        <result column="INTER_BRANCH_NUMBER" property="interBranchNumber" />
+        <result column="SHOULD_GIVE_AMOUNT" property="shouldGiveAmount" />
+        <result column="DEDUCTED_AMOUNT" property="deductedAmount" />
+        <result column="REAL_GIVE_AMOUNT" property="realGiveAmount" />
+        <result column="SUB_TYPE_NAME" property="subTypeName" />
+        <result column="REMARK" property="remark" />
+        <result column="EX1" property="ex1" />
+        <result column="EX2" property="ex2" />
+        <result column="EX3" property="ex3" />
+        <result column="EX4" property="ex4" />
+        <result column="EX5" property="ex5" />
+        <result column="EX6" property="ex6" />
+        <result column="EX7" property="ex7" />
+        <result column="EX8" property="ex8" />
+        <result column="EX9" property="ex9" />
+        <result column="EX10" property="ex10" />
+        <result column="EX11" property="ex11" />
+        <result column="EX12" property="ex12" />
+        <result column="EX13" property="ex13" />
+        <result column="EX14" property="ex14" />
+        <result column="EX15" property="ex15" />
+        <result column="LINE_NUMBER" property="lineNumber" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, CREATE_BY, CREATE_USER_NAME, UPDATE_BY, UPDATE_TIME, CREATE_TIME, VERSION, DOCUMENT_ID, SUB_TYPE_ID, SUB_TYPE_CODE, RECIEVE_USER_NAME, NATIONALITY, FIRST_IN_CHINA, BIRTHDAY, BIRTH_ADDRESS, GENDER, HAS_DOMICILE_IN_CHINA, ESTIMATED_TIME_OF_DEPARTURE, TYPE_OF_EMPLOYMENT, TYPE_OF_EMPLOYMENT_TIME, RECIEVE_USER_ID, UNIT_NAME, UNIT_CODE, UNIT_ID, POSITION, CERT_TYPE, CERT_NUM, DISTRIBUTION_STANDARD, BANK_NAME, BANK_CODE, BANK_ACCOUNT, INTER_BRANCH_NUMBER, SHOULD_GIVE_AMOUNT, DEDUCTED_AMOUNT, REAL_GIVE_AMOUNT, SUB_TYPE_NAME, REMARK, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10, EX11, EX12, EX13, EX14, EX15, LINE_NUMBER
+    </sql>
+
+    <select id="existsByExpenseSubTypeIds" resultType="java.lang.Long">
+        select count(ID) from LC_LABOR_COST_LINE_FOREIGN where SUB_TYPE_ID in
+        <foreach collection="ExpenseSubTypeList" separator="," item="item" open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+</mapper>

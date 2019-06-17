@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.project.mapper.BudgetMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.project.entity.Budget">
+        <id column="ID" property="id" />
+        <result column="BUDGET_ID" property="budgetId" />
+        <result column="APPLICATION_ID" property="applicationId" />
+        <result column="EXPENSE_PROJECT_CODE" property="expenseProjectCode" />
+        <result column="EXPENSE_PROJECT" property="expenseProject" />
+        <result column="BUDGETARY_YEAR" property="budgetaryYear" />
+        <result column="APPLY_TOTAL" property="applyTotal" />
+        <result column="CENTRAL_FIN" property="centralFin" />
+        <result column="DEPARTMENT" property="department" />
+        <result column="OTHER" property="other" />
+        <result column="BASIS_ESTIMATING_APP_FUNDS" property="basisEstimatingAppFunds" />
+        <result column="REVIEW_ID" property="reviewId" />
+        <result column="REVIEW_CENTRAL_FINANCE" property="reviewCentralFinance" />
+        <result column="REVIEW_DEPARTEMNT_FUND" property="reviewDepartemntFund" />
+        <result column="REVIEW_OTHERS" property="reviewOthers" />
+        <result column="REPLAY_ID" property="replayId" />
+        <result column="REPLAY_OTHER" property="replayOther" />
+        <result column="REPLAY_CENTER" property="replayCenter" />
+        <result column="REPLAY_DEP" property="replayDep" />
+        <result column="FOUNDING_FORWARD" property="foundingForward" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="EXT1" property="ext1" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+        <result column="ORG_ID" property="orgId" />
+        <result column="ORG_PATH" property="orgPath" />
+        <result column="PROJECT_ID" property="projectId" />
+        <result column="EXPENSE_CODES" property="expenseCodes" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, BUDGET_ID, APPLICATION_ID, EXPENSE_PROJECT_CODE, EXPENSE_PROJECT, BUDGETARY_YEAR, APPLY_TOTAL, CENTRAL_FIN, DEPARTMENT, OTHER, BASIS_ESTIMATING_APP_FUNDS, REVIEW_ID, REVIEW_CENTRAL_FINANCE, REVIEW_DEPARTEMNT_FUND, REVIEW_OTHERS, REPLAY_ID, REPLAY_OTHER, REPLAY_CENTER, REPLAY_DEP, FOUNDING_FORWARD, CREATE_TIME, CREATE_BY, UPDATE_TIME, EXT1, UPDATE_BY, EXT2, EXT3, EXT4, EXT5, ORG_ID, ORG_PATH, PROJECT_ID, EXPENSE_CODES
+    </sql>
+
+    <select id="getBudgetYearList" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT DISTINCT BUDGETARY_YEAR FROM PROJECT_BUDGET WHERE APPLICATION_ID = #{applicationId}
+    </select>
+
+    <select id="getAppYearCount" parameterType="java.lang.String" resultType="java.lang.String">
+        select distinct(budgetary_year) from project_budget where application_id = #{applicationId}
+    </select>
+
+    <select id="getAppBudgetMap" parameterType="Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from project_budget
+        where application_id = #{data.applicationId}
+        and budgetary_year = #{data.budgetYear}
+    </select>
+
+    <select id="getRepYearCount" parameterType="java.lang.String" resultType="java.lang.String">
+        select distinct(budgetary_year) from project_budget where replay_id = #{replyId}
+    </select>
+
+    <select id="getRepBudgetMap" parameterType="Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from project_budget
+        where replay_id = #{data.replyId}
+        and budgetary_year = #{data.budgetYear}
+    </select>
+
+    <select id="deleteByRepIdAndYear" parameterType="Map">
+        delete
+        <include refid="Base_Column_List"></include>
+        from project_budget
+        where replay_id = #{data.replyId}
+        and budgetary_year = #{data.budgetYear}
+    </select>
+</mapper>

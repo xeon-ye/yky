@@ -1,0 +1,1152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.business.pay.mapper.PyPamentOrderInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.business.pay.entity.PyPamentOrderInfo">
+        <id column="ID" property="id" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_USER_NAME" property="createUserName" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="VERSION" property="version" />
+        <result column="DOCUMENT_NUM" property="documentNum" />
+        <result column="DOCUMENT_STATUS" property="documentStatus" />
+        <result column="UNIT_CODE" property="unitCode" />
+        <result column="UNIT_ID" property="unitId" />
+        <result column="UNIT_NAME" property="unitName" />
+        <result column="DEPT_CODE" property="deptCode" />
+        <result column="DEPT_ID" property="deptId" />
+        <result column="DEPT_NAME" property="deptName" />
+        <result column="REMARK" property="remark" />
+        <result column="CURRENCY_CODE" property="currencyCode" />
+        <result column="COST" property="cost" />
+        <result column="TOTAL_AMOUNT" property="totalAmount" />
+        <result column="TOTAL_AMOUNT_OTHER_CURRENCY" property="totalAmountOtherCurrency" />
+        <result column="PAID_AMOUNT" property="paidAmount" />
+        <result column="NO_PAID_AMOUNT" property="noPaidAmount" />
+        <result column="PAY_DOCUMENT_NUM" property="payDocumentNum" />
+        <result column="PAY_DOCUMENT_TYPE" property="payDocumentType" />
+        <result column="PAYMENT_TYPE" property="paymentType" />
+        <result column="BANK_ACCOUNT" property="bankAccount" />
+        <result column="BANK_TYPE" property="bankType" />
+        <result column="IS_AFTER_PATCH" property="isAfterPatch" />
+        <result column="EX1" property="ex1" />
+        <result column="EX2" property="ex2" />
+        <result column="EX3" property="ex3" />
+        <result column="EX4" property="ex4" />
+        <result column="EX5" property="ex5" />
+        <result column="EX6" property="ex6" />
+        <result column="EX7" property="ex7" />
+        <result column="EX8" property="ex8" />
+        <result column="EX9" property="ex9" />
+        <result column="EX10" property="ex10" />
+        <result column="EX11" property="ex11" />
+        <result column="EX12" property="ex12" />
+        <result column="EX13" property="ex13" />
+        <result column="EX14" property="ex14" />
+        <result column="EX15" property="ex15" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, CREATE_BY, CREATE_USER_NAME, UPDATE_BY, UPDATE_TIME, CREATE_TIME, VERSION, DOCUMENT_NUM, DOCUMENT_STATUS, UNIT_CODE, UNIT_ID, UNIT_NAME, DEPT_CODE, DEPT_ID, DEPT_NAME, REMARK, CURRENCY_CODE, COST, TOTAL_AMOUNT, TOTAL_AMOUNT_OTHER_CURRENCY, PAID_AMOUNT, NO_PAID_AMOUNT, PAY_DOCUMENT_NUM, PAY_DOCUMENT_TYPE, PAYMENT_TYPE, BANK_ACCOUNT, BANK_TYPE, IS_AFTER_PATCH, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10, EX11, EX12, EX13, EX14, EX15
+    </sql>
+
+    <select id="findDocumentAll"
+            resultType="com.deloitte.platform.api.fssc.pay.vo.PyPamentOverListVo">
+        <if test="form.documentType=='GE_GENERAL_EXPENSE'.toString()">
+            select
+            GE.ID connectDocumentId,
+            GE.DOCUMENT_NUM connectDocumentNum,
+            '通用报账单'  connectDocumentTypeName,
+            'GE_GENERAL_EXPENSE' connectDocumentType,
+            GE.MAIN_TYPE_NAME mainTypeName,
+            GE.MAIN_TYPE_CODE mainTypeCode,
+            GE.MAIN_TYPE_ID mainTypeId,
+            bank.UNIT_ID unitId,
+            bank.UNIT_CODE unitCode,
+            bank.UNIT_NAME unitName,
+            GE.CREATE_TIME transactionDate,
+            GE.CREATE_USER_NAME recieveEmpName,
+            GE.CREATE_BY recieveId,
+            GE.REMARK remark,
+            PAY.PAY_AMOUNT payAmount,
+            PAY.PAY_STATUS payStatus,
+            PAY.BANK_CODE bankCode,
+            PAY.COMMON_CREDIT_CODE commonCreditCode,
+            PAY.BANK_ACCOUNT bankAccount,
+            PAY.BANK_NAME bankName,
+            PAY.INTER_BRANCH_NUMBER interBranchNumber,
+            PAY.ACCOUNT_NAME  accountName,
+            PAY.LINE_NUMBER connectNumber,
+            PAY.EX1  ex1,
+            PAY.BANK_UNIT_ID bankId,
+            PAY.ID  connectDocumentIdLine
+            from GE_GENERAL_EXPENSE GE  LEFT JOIN  GE_EXPENSE_PAYMENT_LIST PAY  ON GE.ID=PAY.DOCUMENT_ID
+            LEFT JOIN BASE_BANK_UNIT_INFO bank ON bank.id=PAY.BANK_UNIT_ID
+            WHERE GE.PAY_STATUS='NO_PAY' AND  GE.DOCUMENT_STATUS='HAS_ACCOUTED'
+             AND PAY.DOCUMENT_ID IS NOT NULL  AND (PAY.EX1 &lt;&gt; 'Y' OR  PAY.EX1 IS NULL)
+            <if test="form.documentNum!=null and form.documentNum!=''">
+                AND GE.DOCUMENT_NUM LIKE CONCAT('%',CONCAT(#{form.documentNum},'%'))
+            </if>
+            <if test="form.mainTypeId!=null">
+                AND GE.MAIN_TYPE_ID=#{form.mainTypeId}
+            </if>
+            <if test="form.isAfterPatch!=null">
+                AND GE.IS_AFTER_PATCH=#{form.isAfterPatch}
+            </if>
+            <if test="form.startTime!=null">
+                AND GE.CREATE_TIME  <![CDATA[>=]]>  to_date(to_char(#{form.startTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+            <if test="form.endTime!=null">
+                AND GE.CREATE_TIME  <![CDATA[<=]]>  to_date(to_char(#{form.endTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+
+            <if test="form.payMoneyStart!=null">
+                AND PAY.PAY_AMOUNT  <![CDATA[>=]]>  #{form.payMoneyStart}
+            </if>
+            <if test="form.payMoneyEnd!=null">
+                AND PAY.PAY_AMOUNT  <![CDATA[<=]]>  #{form.payMoneyEnd}
+            </if>
+            ORDER BY GE.UPDATE_TIME DESC
+        </if>
+
+        <if test="form.documentType=='TAS_TRAVEL_REIMBURSE'.toString()">
+            SELECT  TAS.ID connectDocumentId,
+            TAS.DOCUMENT_NUM connectDocumentNum,
+            '差旅报账单'  connectDocumentTypeName,
+            'TAS_TRAVEL_REIMBURSE' connectDocumentType,
+            TAS.MAIN_TYPE_NAME mainTypeName,
+            TAS.MAIN_TYPE_CODE mainTypeCode,
+            TAS.MAIN_TYPE_ID mainTypeId,
+            bank.UNIT_ID unitId,
+            bank.UNIT_CODE unitCode,
+            bank.UNIT_NAME unitName,
+            TAS.CREATE_TIME transactionDate,
+            TAS.CREATE_USER_NAME recieveEmpName,
+            TAS.CREATE_BY recieveId,
+            TAS.REMARK remark,
+            PAY.PAY_AMOUNT payAmount,
+            PAY.PAY_STATUS payStatus,
+            PAY.BANK_CODE bankCode,
+            PAY.BANK_UNIT_ID bankId,
+            PAY.COMMON_CREDIT_CODE commonCreditCode,
+            PAY.BANK_ACCOUNT bankAccount,
+            PAY.BANK_NAME bankName,
+            PAY.INTER_BRANCH_NUMBER interBranchNumber,
+            PAY.ACCOUNT_NAME  accountName,
+            PAY.LINE_NUMBER connectNumber,
+            PAY.EX1  ex1,
+            PAY.ID  connectDocumentIdLine
+            from TAS_TRAVEL_REIMBURSE TAS  LEFT JOIN  GE_EXPENSE_PAYMENT_LIST PAY  ON TAS.ID=PAY.DOCUMENT_ID
+            LEFT JOIN BASE_BANK_UNIT_INFO bank ON bank.id=PAY.BANK_UNIT_ID
+            WHERE TAS.PAY_STATUS='NO_PAY' AND  TAS.DOCUMENT_STATUS='HAS_ACCOUTED' AND PAY.DOCUMENT_ID IS NOT NULL
+            AND (PAY.EX1 &lt;&gt; 'Y' OR  PAY.EX1 IS NULL)
+            <if test="form.documentNum!=null and form.documentNum!=''">
+                AND TAS.DOCUMENT_NUM LIKE CONCAT('%',CONCAT(#{form.documentNum},'%'))
+            </if>
+            <if test="form.mainTypeId!=null">
+                AND TAS.MAIN_TYPE_ID=#{form.mainTypeId}
+            </if>
+            <if test="form.isAfterPatch!=null">
+                AND TAS.IS_AFTER_PATCH=#{form.isAfterPatch}
+            </if>
+            <if test="form.startTime!=null">
+                AND TAS.CREATE_TIME  <![CDATA[>=]]>  to_date(to_char(#{form.startTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+            <if test="form.endTime!=null">
+                AND TAS.CREATE_TIME  <![CDATA[<=]]>  to_date(to_char(#{form.endTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+
+            <if test="form.payMoneyStart!=null">
+                AND PAY.PAY_AMOUNT  <![CDATA[>=]]>  #{form.payMoneyStart}
+            </if>
+            <if test="form.payMoneyEnd!=null">
+                AND PAY.PAY_AMOUNT  <![CDATA[<=]]>  #{form.payMoneyEnd}
+            </if>
+            ORDER BY TAS.UPDATE_TIME DESC
+        </if>
+
+        <if test="form.documentType=='ADP_ADVANCE_PAYMENT_INFO'.toString()">
+            SELECT  ADP.ID connectDocumentId,
+            ADP.DOCUMENT_NUM connectDocumentNum,
+            '对公预付款单'  connectDocumentTypeName,
+            'ADP_ADVANCE_PAYMENT_INFO' connectDocumentType,
+            ADP.MAIN_TYPE_NAME mainTypeName,
+            ADP.MAIN_TYPE_CODE mainTypeCode,
+            ADP.MAIN_TYPE_ID mainTypeId,
+            bank.UNIT_ID unitId,
+            bank.UNIT_CODE unitCode,
+            bank.UNIT_NAME unitName,
+            ADP.CREATE_TIME transactionDate,
+            ADP.CREATE_USER_NAME recieveEmpName,
+            ADP.CREATE_BY recieveId,
+            ADP.REMARK remark,
+            PAY.PAY_AMOUNT payAmount,
+            PAY.PAY_STATUS payStatus,
+            PAY.BANK_CODE bankCode,
+            PAY.BANK_UNIT_ID bankId,
+            PAY.COMMON_CREDIT_CODE commonCreditCode,
+            PAY.BANK_ACCOUNT bankAccount,
+            PAY.BANK_NAME bankName,
+            PAY.INTER_BRANCH_NUMBER interBranchNumber,
+            PAY.ACCOUNT_NAME  accountName,
+            PAY.LINE_NUMBER connectNumber,
+            PAY.EX1  ex1,
+            PAY.ID  connectDocumentIdLine
+            from  ADP_ADVANCE_PAYMENT_INFO ADP  LEFT JOIN  GE_EXPENSE_PAYMENT_LIST PAY  ON ADP.ID=PAY.DOCUMENT_ID
+            LEFT JOIN BASE_BANK_UNIT_INFO bank ON bank.id=PAY.BANK_UNIT_ID
+            WHERE  ADP.PAY_STATUS='NO_PAY' AND  ADP.DOCUMENT_STATUS='HAS_ACCOUTED'
+            AND PAY.DOCUMENT_ID IS NOT NULL   AND (PAY.EX1 &lt;&gt; 'Y' OR  PAY.EX1 IS NULL)
+            <if test="form.documentNum!=null and form.documentNum!=''">
+                AND ADP.DOCUMENT_NUM LIKE CONCAT('%',CONCAT(#{form.documentNum},'%'))
+            </if>
+            <if test="form.mainTypeId!=null">
+                AND ADP.MAIN_TYPE_ID=#{form.mainTypeId}
+            </if>
+            <if test="form.isAfterPatch!=null">
+                AND ADP.IS_AFTER_PATCH=#{form.isAfterPatch}
+            </if>
+            <if test="form.startTime!=null">
+                AND ADP.CREATE_TIME  <![CDATA[>=]]>  to_date(to_char(#{form.startTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+            <if test="form.endTime!=null">
+                AND ADP.CREATE_TIME  <![CDATA[<=]]>  to_date(to_char(#{form.endTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+
+            <if test="form.payMoneyStart!=null">
+                AND PAY.PAY_AMOUNT  <![CDATA[>=]]>  #{form.payMoneyStart}
+            </if>
+            <if test="form.payMoneyEnd!=null">
+                AND PAY.PAY_AMOUNT  <![CDATA[<=]]>  #{form.payMoneyEnd}
+            </if>
+            ORDER BY ADP.UPDATE_TIME DESC
+        </if>
+
+        <if test="form.documentType=='CRB_CONTRACT_REIMBURSE_BILL'.toString()">
+            SELECT  CRB.ID connectDocumentId,
+            CRB.DOCUMENT_NUM connectDocumentNum,
+            '合同报账单'  connectDocumentTypeName,
+            'CRB_CONTRACT_REIMBURSE_BILL' connectDocumentType,
+            CRB.MAIN_TYPE_NAME mainTypeName,
+            CRB.MAIN_TYPE_CODE mainTypeCode,
+            CRB.MAIN_TYPE_ID mainTypeId,
+            bank.UNIT_ID unitId,
+            bank.UNIT_CODE unitCode,
+            bank.UNIT_NAME unitName,
+            CRB.CREATE_TIME transactionDate,
+            CRB.CREATE_USER_NAME recieveEmpName,
+            CRB.CREATE_BY recieveId,
+            CRB.REMARK remark,
+            PAY.LINE_NUMBER connectNumber,
+            PAY.PAY_AMOUNT payAmount,
+            PAY.PAY_STATUS payStatus,
+            PAY.BANK_CODE bankCode,
+            PAY.BANK_UNIT_ID bankId,
+            PAY.COMMON_CREDIT_CODE commonCreditCode,
+            PAY.BANK_ACCOUNT bankAccount,
+            PAY.BANK_NAME bankName,
+            PAY.INTER_BRANCH_NUMBER interBranchNumber,
+            PAY.ACCOUNT_NAME  accountName,
+            PAY.EX1  ex1,
+            PAY.ID  connectDocumentIdLine
+            from CRB_CONTRACT_REIMBURSE_BILL CRB  LEFT JOIN  GE_EXPENSE_PAYMENT_LIST PAY  ON CRB.ID=PAY.DOCUMENT_ID
+            LEFT JOIN BASE_BANK_UNIT_INFO bank ON bank.id=PAY.BANK_UNIT_ID
+            WHERE CRB.PAY_STATUS='NO_PAY' AND  CRB.DOCUMENT_STATUS='HAS_ACCOUTED'
+            AND PAY.DOCUMENT_ID IS NOT NULL   AND (PAY.EX1 &lt;&gt; 'Y' OR  PAY.EX1 IS NULL)
+            <if test="form.documentNum!=null and form.documentNum!=''">
+                AND CRB.DOCUMENT_NUM LIKE CONCAT('%',CONCAT(#{form.documentNum},'%'))
+            </if>
+            <if test="form.mainTypeId!=null">
+                AND CRB.MAIN_TYPE_ID=#{form.mainTypeId}
+            </if>
+            <if test="form.isAfterPatch!=null">
+                AND CRB.IS_AFTER_PATCH=#{form.isAfterPatch}
+            </if>
+            <if test="form.startTime!=null">
+                AND CRB.CREATE_TIME  <![CDATA[>=]]>  to_date(to_char(#{form.startTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+            <if test="form.endTime!=null">
+                AND CRB.CREATE_TIME  <![CDATA[<=]]>  to_date(to_char(#{form.endTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+
+            <if test="form.payMoneyStart!=null">
+                AND PAY.PAY_AMOUNT  <![CDATA[>=]]>  #{form.payMoneyStart}
+            </if>
+            <if test="form.payMoneyEnd!=null">
+                AND PAY.PAY_AMOUNT  <![CDATA[<=]]>  #{form.payMoneyEnd}
+            </if>
+            ORDER BY CRB.UPDATE_TIME DESC
+        </if>
+
+        <if test="form.documentType=='BM_BORROW_MONEY_INFO'.toString()">
+            SELECT  CRB.ID connectDocumentId,
+            CRB.DOCUMENT_NUM connectDocumentNum,
+            '借款单'  connectDocumentTypeName,
+            'BM_BORROW_MONEY_INFO' connectDocumentType,
+            CRB.MAIN_TYPE_NAME mainTypeName,
+            CRB.MAIN_TYPE_CODE mainTypeCode,
+            CRB.MAIN_TYPE_ID mainTypeId,
+            bank.UNIT_ID unitId,
+            bank.UNIT_CODE unitCode,
+            bank.UNIT_NAME unitName,
+            CRB.CREATE_TIME transactionDate,
+            CRB.CREATE_USER_NAME recieveEmpName,
+            CRB.CREATE_BY recieveId,
+            CRB.REMARK remark,
+            PAY.LINE_NUMBER connectNumber,
+            PAY.PAY_AMOUNT payAmount,
+            PAY.PAY_STATUS payStatus,
+            PAY.BANK_CODE bankCode,
+            PAY.COMMON_CREDIT_CODE commonCreditCode,
+            PAY.BANK_ACCOUNT bankAccount,
+            PAY.BANK_UNIT_ID bankId,
+            PAY.BANK_NAME bankName,
+            PAY.INTER_BRANCH_NUMBER interBranchNumber,
+            PAY.ACCOUNT_NAME  accountName,
+            PAY.EX1  ex1,
+            PAY.ID  connectDocumentIdLine
+            from BM_BORROW_MONEY_INFO CRB  LEFT JOIN  GE_EXPENSE_PAYMENT_LIST PAY  ON CRB.ID=PAY.DOCUMENT_ID
+            LEFT JOIN BASE_BANK_UNIT_INFO bank ON bank.id=PAY.BANK_UNIT_ID
+            WHERE CRB.PAY_STATUS='NO_PAY' AND  CRB.DOCUMENT_STATUS='HAS_ACCOUTED'
+            AND PAY.DOCUMENT_ID IS NOT NULL  AND (PAY.EX1 &lt;&gt; 'Y' OR  PAY.EX1 IS NULL)
+            <if test="form.documentNum!=null and form.documentNum!=''">
+                AND CRB.DOCUMENT_NUM LIKE CONCAT('%',CONCAT(#{form.documentNum},'%'))
+            </if>
+            <if test="form.mainTypeId!=null">
+                AND CRB.MAIN_TYPE_ID=#{form.mainTypeId}
+            </if>
+            <if test="form.isAfterPatch!=null">
+                AND CRB.IS_AFTER_PATCH=#{form.isAfterPatch}
+            </if>
+            <if test="form.startTime!=null">
+                AND CRB.CREATE_TIME  <![CDATA[>=]]>  to_date(to_char(#{form.startTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+            <if test="form.endTime!=null">
+                AND CRB.CREATE_TIME  <![CDATA[<=]]>  to_date(to_char(#{form.endTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+
+            <if test="form.payMoneyStart!=null">
+                AND PAY.PAY_AMOUNT  <![CDATA[>=]]>  #{form.payMoneyStart}
+            </if>
+            <if test="form.payMoneyEnd!=null">
+                AND PAY.PAY_AMOUNT  <![CDATA[<=]]>  #{form.payMoneyEnd}
+            </if>
+            ORDER BY CRB.UPDATE_TIME DESC
+        </if>
+
+    </select>
+
+    <select id="findPrivateAll"
+            resultType="com.deloitte.platform.api.fssc.pay.vo.PyPamentOverListVo">
+        <if test="form.documentType=='GE_GENERAL_EXPENSE'.toString()">
+            select
+            GE.ID connectDocumentId,
+            GE.DOCUMENT_NUM connectDocumentNum,
+            '通用报账单'  connectDocumentTypeName,
+            'GE_GENERAL_EXPENSE' connectDocumentType,
+            GE.MAIN_TYPE_NAME mainTypeName,
+            GE.MAIN_TYPE_CODE mainTypeCode,
+            GE.MAIN_TYPE_ID mainTypeId,
+            GE.CREATE_TIME transactionDate,
+            GE.UNIT_ID unitId,
+            GE.UNIT_CODE unitCode,
+            GE.UNIT_NAME unitName,
+            GE.CREATE_USER_NAME recieveEmpName,
+            GE.CREATE_BY recieveId,
+            GE.REMARK remark,
+            BM.BORROW_AMOUNT payAmount,
+            BM.CREATE_BY recieveId,
+            BM.CREATE_USER_NAME recieveEmpName,
+            BM.EMP_NO  empNo,
+            BM.BANK_NAME bankName,
+            BM.BANK_ACCOUNT bankAccount,
+            BM.PAY_STATUS payStatus,
+            BM.INTER_BRANCH_NUMBER interBranchNumber,
+            BM.LINE_NUMBER connectNumber,
+            BM.EX1  ex1,
+            BM.ID  connectDocumentIdLine
+            from GE_GENERAL_EXPENSE GE  LEFT JOIN  BM_BORROW_BANK BM  ON GE.ID=BM.DOCUMENT_ID
+            WHERE BM.GET_OR_RETURN='SALARY'  AND GE.PAY_STATUS='NO_PAY'  AND (BM.EX1 &lt;&gt; 'Y' OR  BM.EX1 IS NULL)
+            AND  GE.DOCUMENT_STATUS='HAS_ACCOUTED' AND BM.DOCUMENT_ID IS NOT NULL
+            <if test="form.documentNum!=null and form.documentNum!=''">
+                AND GE.DOCUMENT_NUM LIKE CONCAT('%',CONCAT(#{form.documentNum},'%'))
+            </if>
+            <if test="form.mainTypeId!=null">
+                AND GE.MAIN_TYPE_ID=#{form.mainTypeId}
+            </if>
+            <if test="form.isAfterPatch!=null">
+                AND GE.IS_AFTER_PATCH=#{form.isAfterPatch}
+            </if>
+            <if test="form.startTime!=null">
+                AND GE.CREATE_TIME  <![CDATA[>=]]>  to_date(to_char(#{form.startTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+            <if test="form.endTime!=null">
+                AND GE.CREATE_TIME  <![CDATA[<=]]>  to_date(to_char(#{form.endTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+
+            <if test="form.payMoneyStart!=null">
+                AND BM.BORROW_AMOUNT  <![CDATA[>=]]>  #{form.payMoneyStart}
+            </if>
+            <if test="form.payMoneyEnd!=null">
+                AND BM.BORROW_AMOUNT  <![CDATA[<=]]>  #{form.payMoneyEnd}
+            </if>
+            ORDER BY GE.UPDATE_TIME DESC
+        </if>
+
+        <if test="form.documentType=='TAS_TRAVEL_REIMBURSE'.toString()">
+            SELECT  TAS.ID connectDocumentId,
+            TAS.DOCUMENT_NUM connectDocumentNum,
+            '差旅报账单'  connectDocumentTypeName,
+            'TAS_TRAVEL_REIMBURSE' connectDocumentType,
+            TAS.MAIN_TYPE_NAME mainTypeName,
+            TAS.MAIN_TYPE_CODE mainTypeCode,
+            TAS.MAIN_TYPE_ID mainTypeId,
+            TAS.UNIT_ID unitId,
+            TAS.UNIT_CODE unitCode,
+            TAS.UNIT_NAME unitName,
+            TAS.CREATE_TIME transactionDate,
+            TAS.CREATE_USER_NAME recieveEmpName,
+            TAS.CREATE_BY recieveId,
+            TAS.REMARK remark,
+            BM.BORROW_AMOUNT payAmount,
+            BM.CREATE_BY recieveId,
+            BM.CREATE_USER_NAME recieveEmpName,
+            BM.EMP_NO  empNo,
+            BM.BANK_NAME bankName,
+            BM.BANK_ACCOUNT bankAccount,
+            BM.PAY_STATUS payStatus,
+            BM.INTER_BRANCH_NUMBER interBranchNumber,
+            BM.LINE_NUMBER connectNumber,
+            BM.EX1  ex1,
+            BM.ID  connectDocumentIdLine
+            from TAS_TRAVEL_REIMBURSE TAS  LEFT JOIN  BM_BORROW_BANK BM  ON TAS.ID=BM.DOCUMENT_ID
+            WHERE    BM.GET_OR_RETURN='SALARY' AND (BM.EX1 &lt;&gt; 'Y' OR  BM.EX1 IS NULL)
+            AND TAS.PAY_STATUS='NO_PAY' AND  TAS.DOCUMENT_STATUS='HAS_ACCOUTED'
+            AND BM.DOCUMENT_ID IS NOT NULL   AND (BM.EX1 &lt;&gt; 'Y' OR  BM.EX1 IS NULL)
+            <if test="form.documentNum!=null and form.documentNum!=''">
+                AND TAS.DOCUMENT_NUM LIKE CONCAT('%',CONCAT(#{form.documentNum},'%'))
+            </if>
+            <if test="form.mainTypeId!=null">
+                AND TAS.MAIN_TYPE_ID=#{form.mainTypeId}
+            </if>
+            <if test="form.isAfterPatch!=null">
+                AND TAS.IS_AFTER_PATCH=#{form.isAfterPatch}
+            </if>
+            <if test="form.startTime!=null">
+                AND TAS.CREATE_TIME  <![CDATA[>=]]>  to_date(to_char(#{form.startTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+            <if test="form.endTime!=null">
+                AND TAS.CREATE_TIME  <![CDATA[<=]]>  to_date(to_char(#{form.endTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+
+            <if test="form.payMoneyStart!=null">
+                BM TAS.BORROW_AMOUNT  <![CDATA[>=]]>  #{form.payMoneyStart}
+            </if>
+            <if test="form.payMoneyEnd!=null">
+                BM TAS.BORROW_AMOUNT  <![CDATA[<=]]>  #{form.payMoneyEnd}
+            </if>
+            ORDER BY TAS.UPDATE_TIME DESC
+        </if>
+
+        <if test="form.documentType=='BM_BORROW_MONEY_INFO'.toString()">
+            SELECT  BMI.ID connectDocumentId,
+            BMI.DOCUMENT_NUM connectDocumentNum,
+            '借款单'  connectDocumentTypeName,
+            'BM_BORROW_MONEY_INFO' connectDocumentType,
+            BMI.MAIN_TYPE_NAME mainTypeName,
+            BMI.MAIN_TYPE_CODE mainTypeCode,
+            BMI.MAIN_TYPE_ID mainTypeId,
+            BMI.UNIT_ID unitId,
+            BMI.UNIT_CODE unitCode,
+            BMI.UNIT_NAME unitName,
+            BMI.CREATE_TIME transactionDate,
+            BMI.CREATE_USER_NAME recieveEmpName,
+            BMI.CREATE_BY recieveId,
+            BMI.REMARK remark,
+            BM.BORROW_AMOUNT payAmount,
+            BM.CREATE_BY recieveId,
+            BM.CREATE_USER_NAME recieveEmpName,
+            BM.EMP_NO  empNo,
+            BM.BANK_NAME bankName,
+            BM.BANK_ACCOUNT bankAccount,
+            BM.PAY_STATUS payStatus,
+            BM.INTER_BRANCH_NUMBER interBranchNumber,
+            BM.LINE_NUMBER connectNumber,
+            BM.EX1  ex1,
+            BM.ID  connectDocumentIdLine
+
+            from BM_BORROW_MONEY_INFO BMI  LEFT JOIN  BM_BORROW_BANK BM  ON BMI.ID=BM.DOCUMENT_ID
+            WHERE    BM.GET_OR_RETURN='SALARY'
+            AND BMI.PAY_STATUS='NO_PAY' AND  BMI.DOCUMENT_STATUS='HAS_ACCOUTED'
+            AND BM.DOCUMENT_ID IS NOT NULL   AND (BM.EX1 &lt;&gt; 'Y' OR  BM.EX1 IS NULL)
+            <if test="form.documentNum!=null and form.documentNum!=''">
+                AND BMI.DOCUMENT_NUM LIKE CONCAT('%',CONCAT(#{form.documentNum},'%'))
+            </if>
+            <if test="form.mainTypeId!=null">
+                AND BMI.MAIN_TYPE_ID=#{form.mainTypeId}
+            </if>
+            <if test="form.isAfterPatch!=null">
+                AND BMI.IS_AFTER_PATCH=#{form.isAfterPatch}
+            </if>
+            <if test="form.startTime!=null">
+                AND BMI.CREATE_TIME  <![CDATA[>=]]>  to_date(to_char(#{form.startTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+            <if test="form.endTime!=null">
+                AND BMI.CREATE_TIME  <![CDATA[<=]]>  to_date(to_char(#{form.endTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+
+            <if test="form.payMoneyStart!=null">
+                AND BM.BORROW_AMOUNT  <![CDATA[>=]]>  #{form.payMoneyStart}
+            </if>
+            <if test="form.payMoneyEnd!=null">
+                AND BM.BORROW_AMOUNT  <![CDATA[<=]]>  #{form.payMoneyEnd}
+            </if>
+            ORDER BY BMI.UPDATE_TIME DESC
+        </if>
+
+        <if test="form.documentType=='LC_LABOR_COST'.toString()">
+            SELECT  LC.ID connectDocumentId,
+            LC.DOCUMENT_NUM connectDocumentNum,
+            '劳务费/咨询费报账单'  connectDocumentTypeName,
+            'LC_LABOR_COST' connectDocumentType,
+            LC.MAIN_TYPE_NAME mainTypeName,
+            LC.MAIN_TYPE_CODE mainTypeCode,
+            LC.MAIN_TYPE_ID mainTypeId,
+            LC.UNIT_ID unitId,
+            LC.UNIT_CODE unitCode,
+            LC.UNIT_NAME unitName,
+            LC.CREATE_USER_NAME recieveEmpName,
+            LC.CREATE_BY recieveId,
+            LC.REMARK remark,
+            GE.EX1  ex1,
+            GE.PAY_AMOUNT payAmount,
+            GE.LINE_NUMBER connectNumber,
+            GE.RECIEVE_USER_ID recieveId,
+            GE.RECIEVE_USER_NAME recieveEmpName,
+            GE.CERT_TYPE certType,
+            GE.CERT_NUM  certNum,
+            GE.BANK_CODE bankCode,
+            GE.BANK_BAME bankBame,
+            GE.BAN_ACCOUNT bankAccount,
+            GE.BANK_ID bankId,
+            GE.PAY_STATUS payStatus,
+            GE.PAY_TIME  transactionDate,
+            GE.LINE_NUMBER connectNumber,
+            GE.INTER_BRANCH_NUMBER interBranchNumber,
+            GE.ID  connectDocumentIdLine
+            from LC_LABOR_COST LC  LEFT JOIN  GE_PRIVATE_PAYMENT_LIST GE  ON LC.ID=GE.DOCUMENT_ID
+            WHERE LC.PAY_STATUS='NO_PAY' AND  LC.DOCUMENT_STATUS='HAS_ACCOUTED'
+            AND GE.DOCUMENT_ID IS NOT NULL  AND (GE.EX1 &lt;&gt; 'Y' OR  GE.EX1 IS NULL)
+            <if test="form.documentNum!=null and form.documentNum!=''">
+                AND LC.DOCUMENT_NUM LIKE CONCAT('%',CONCAT(#{form.documentNum},'%'))
+            </if>
+            <if test="form.mainTypeId!=null">
+                AND LC.MAIN_TYPE_ID=#{form.mainTypeId}
+            </if>
+            <if test="form.isAfterPatch!=null">
+                AND LC.IS_AFTER_PATCH=#{form.isAfterPatch}
+            </if>
+            <if test="form.startTime!=null">
+                AND LC.CREATE_TIME  <![CDATA[>=]]>  to_date(to_char(#{form.startTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+            <if test="form.endTime!=null">
+                AND LC.CREATE_TIME  <![CDATA[<=]]>  to_date(to_char(#{form.endTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+
+            <if test="form.payMoneyStart!=null">
+                AND GE.PAY_AMOUNT  <![CDATA[>=]]>  #{form.payMoneyStart}
+            </if>
+            <if test="form.payMoneyEnd!=null">
+                AND GE.PAY_AMOUNT  <![CDATA[<=]]>  #{form.payMoneyEnd}
+            </if>
+            ORDER BY LC.UPDATE_TIME DESC
+        </if>
+    </select>
+
+    <select id="findBussinessCardAll"
+            resultType="com.deloitte.platform.api.fssc.pay.vo.PyPamentOverListVo">
+        <if test="form.documentType=='GE_GENERAL_EXPENSE'.toString()">
+            select
+            GE.ID connectDocumentId,
+            GE.DOCUMENT_NUM connectDocumentNum,
+            '通用报账单'  connectDocumentTypeName,
+            'GE_GENERAL_EXPENSE' connectDocumentType,
+            GE.MAIN_TYPE_NAME mainTypeName,
+            GE.MAIN_TYPE_CODE mainTypeCode,
+            GE.MAIN_TYPE_ID mainTypeId,
+            GE.UNIT_ID unitId,
+            GE.UNIT_CODE unitCode,
+            GE.UNIT_NAME unitName,
+            GE.CREATE_USER_NAME recieveEmpName,
+            GE.CREATE_BY recieveId,
+            GE.REMARK remark,
+            BM.BORROW_AMOUNT payAmount,
+            BM.TRANSACTION_AMOUNT transactionAmount,
+            BM.CREATE_BY recieveId,
+            BM.CREATE_USER_NAME recieveEmpName,
+            BM.PAY_TIME transactionDate,
+            BM.EMP_NO  empNo,
+            BM.BANK_NAME bankName,
+            BM.BANK_ACCOUNT bankAccount,
+            BM.INTER_BRANCH_NUMBER interBranchNumber,
+            BM.LINE_NUMBER connectNumber,
+            BM.EX1  ex1,
+            BM.ID  connectDocumentIdLine
+            from GE_GENERAL_EXPENSE GE  LEFT JOIN  BM_BORROW_BANK BM  ON GE.ID=BM.DOCUMENT_ID
+            WHERE BM.GET_OR_RETURN='BUSINESS'
+            AND GE.PAY_STATUS='NO_PAY' AND  GE.DOCUMENT_STATUS='HAS_ACCOUTED'
+            AND BM.DOCUMENT_ID IS NOT NULL   AND (BM.EX1 &lt;&gt; 'Y' OR  BM.EX1 IS NULL)
+            <if test="form.documentNum!=null and form.documentNum!=''">
+                AND GE.DOCUMENT_NUM LIKE CONCAT('%',CONCAT(#{form.documentNum},'%'))
+            </if>
+            <if test="form.mainTypeId!=null">
+                AND GE.MAIN_TYPE_ID=#{form.mainTypeId}
+            </if>
+            <if test="form.isAfterPatch!=null">
+                AND GE.IS_AFTER_PATCH=#{form.isAfterPatch}
+            </if>
+            <if test="form.startTime!=null">
+                AND GE.CREATE_TIME  <![CDATA[>=]]>  to_date(to_char(#{form.startTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+            <if test="form.endTime!=null">
+                AND GE.CREATE_TIME  <![CDATA[<=]]>  to_date(to_char(#{form.endTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+
+            <if test="form.payMoneyStart!=null">
+                AND BM.BORROW_AMOUNT  <![CDATA[>=]]>  #{form.payMoneyStart}
+            </if>
+            <if test="form.payMoneyEnd!=null">
+                AND BM.BORROW_AMOUNT  <![CDATA[<=]]>  #{form.payMoneyEnd}
+            </if>
+            <if test="form.transactionAmountStart!=null">
+                AND BM.TRANSACTION_AMOUNT  <![CDATA[>=]]>  #{form.transactionAmountStart}
+            </if>
+            <if test="form.transactionAmountEnd!=null">
+                AND BM.TRANSACTION_AMOUNT  <![CDATA[<=]]>  #{form.transactionAmountEnd}
+            </if>
+            ORDER BY GE.UPDATE_TIME DESC
+        </if>
+
+        <if test="form.documentType=='TAS_TRAVEL_REIMBURSE'.toString()">
+            select
+            TAS.ID connectDocumentId,
+            TAS.DOCUMENT_NUM connectDocumentNum,
+            '差旅报账单'  connectDocumentTypeName,
+            'TAS_TRAVEL_REIMBURSE' connectDocumentType,
+            TAS.MAIN_TYPE_NAME mainTypeName,
+            TAS.MAIN_TYPE_CODE mainTypeCode,
+            TAS.MAIN_TYPE_ID mainTypeId,
+            TAS.UNIT_ID unitId,
+            TAS.UNIT_CODE unitCode,
+            TAS.UNIT_NAME unitName,
+            TAS.CREATE_USER_NAME recieveEmpName,
+            TAS.CREATE_BY recieveId,
+            TAS.REMARK remark,
+            BM.BORROW_AMOUNT payAmount,
+            BM.TRANSACTION_AMOUNT transactionAmount,
+            BM.CREATE_BY recieveId,
+            BM.CREATE_USER_NAME recieveEmpName,
+            BM.PAY_TIME transactionDate,
+            BM.EMP_NO  empNo,
+            BM.BANK_NAME bankName,
+            BM.BANK_ACCOUNT bankAccount,
+            BM.INTER_BRANCH_NUMBER interBranchNumber,
+            BM.PAY_STATUS payStatus,
+            BM.LINE_NUMBER connectNumber,
+            BM.EX1  ex1,
+            BM.ID  connectDocumentIdLine
+            from TAS_TRAVEL_REIMBURSE TAS  LEFT JOIN  BM_BORROW_BANK BM  ON TAS.ID=BM.DOCUMENT_ID
+            WHERE BM.GET_OR_RETURN='BUSINESS' AND (BM.EX1 &lt;&gt; 'Y' OR  BM.EX1 IS NULL)
+            AND TAS.PAY_STATUS='NO_PAY' AND  TAS.DOCUMENT_STATUS='HAS_ACCOUTED'
+            AND BM.DOCUMENT_ID IS NOT NULL  AND (BM.EX1 &lt;&gt; 'Y' OR  BM.EX1 IS NULL)
+            <if test="form.documentNum!=null and form.documentNum!=''">
+                AND TAS.DOCUMENT_NUM LIKE CONCAT('%',CONCAT(#{form.documentNum},'%'))
+            </if>
+            <if test="form.mainTypeId!=null">
+                AND TAS.MAIN_TYPE_ID=#{form.mainTypeId}
+            </if>
+            <if test="form.isAfterPatch!=null">
+                AND TAS.IS_AFTER_PATCH=#{form.isAfterPatch}
+            </if>
+            <if test="form.startTime!=null">
+                AND TAS.CREATE_TIME  <![CDATA[>=]]>  to_date(to_char(#{form.startTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+            <if test="form.endTime!=null">
+                AND TAS.CREATE_TIME  <![CDATA[<=]]>  to_date(to_char(#{form.endTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+            <if test="form.payMoneyStart!=null">
+                AND BM.BORROW_AMOUNT  <![CDATA[>=]]>  #{form.payMoneyStart}
+            </if>
+            <if test="form.payMoneyEnd!=null">
+                AND BM.BORROW_AMOUNT  <![CDATA[<=]]>  #{form.payMoneyEnd}
+            </if>
+            <if test="form.transactionAmountStart!=null">
+                AND BM.TRANSACTION_AMOUNT  <![CDATA[>=]]>  #{form.transactionAmountStart}
+            </if>
+            <if test="form.transactionAmountEnd!=null">
+                AND BM.TRANSACTION_AMOUNT  <![CDATA[<=]]>  #{form.transactionAmountEnd}
+            </if>
+            ORDER BY TAS.UPDATE_TIME DESC
+        </if>
+
+        <if test="form.documentType=='BM_BORROW_MONEY_INFO'.toString()">
+            select
+            BMI.ID connectDocumentId,
+            BMI.DOCUMENT_NUM connectDocumentNum,
+            '借款单'  connectDocumentTypeName,
+            'BM_BORROW_MONEY_INFO' connectDocumentType,
+            BMI.MAIN_TYPE_NAME mainTypeName,
+            BMI.MAIN_TYPE_CODE mainTypeCode,
+            BMI.MAIN_TYPE_ID mainTypeId,
+            BMI.UNIT_ID unitId,
+            BMI.UNIT_CODE unitCode,
+            BMI.UNIT_NAME unitName,
+            BMI.CREATE_TIME transactionDate,
+            BMI.CREATE_USER_NAME recieveEmpName,
+            BMI.CREATE_BY recieveId,
+            BMI.REMARK remark,
+            BM.BORROW_AMOUNT payAmount,
+            BM.TRANSACTION_AMOUNT transactionAmount,
+            BM.CREATE_BY recieveId,
+            BM.CREATE_USER_NAME recieveEmpName,
+            BM.PAY_TIME transactionDate,
+            BM.EMP_NO  empNo,
+            BM.BANK_NAME bankName,
+            BM.BANK_ACCOUNT bankAccount,
+            BM.INTER_BRANCH_NUMBER interBranchNumber,
+            BM.PAY_STATUS payStatus,
+            BM.LINE_NUMBER connectNumber,
+            BM.EX1  ex1,
+            BM.ID  connectDocumentIdLine
+            from BM_BORROW_MONEY_INFO BMI    LEFT JOIN  BM_BORROW_BANK BM  ON BMI.ID=BM.DOCUMENT_ID
+            WHERE BM.GET_OR_RETURN='BUSINESS'
+            AND BMI.PAY_STATUS='NO_PAY' AND  BMI.DOCUMENT_STATUS='HAS_ACCOUTED'
+            AND BM.DOCUMENT_ID IS NOT NULL  AND (BM.EX1 &lt;&gt; 'Y' OR  BM.EX1 IS NULL)
+            <if test="form.documentNum!=null and form.documentNum!=''">
+                AND BMI.DOCUMENT_NUM LIKE CONCAT('%',CONCAT(#{form.documentNum},'%'))
+            </if>
+            <if test="form.mainTypeId!=null">
+                AND BMI.MAIN_TYPE_ID=#{form.mainTypeId}
+            </if>
+            <if test="form.isAfterPatch!=null">
+                AND BMI.IS_AFTER_PATCH=#{form.isAfterPatch}
+            </if>
+            <if test="form.startTime!=null">
+                AND BMI.CREATE_TIME  <![CDATA[>=]]>  to_date(to_char(#{form.startTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+            <if test="form.endTime!=null">
+                AND BMI.CREATE_TIME  <![CDATA[<=]]>  to_date(to_char(#{form.endTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+
+            <if test="form.payMoneyStart!=null">
+                AND BM.BORROW_AMOUNT  <![CDATA[>=]]>  #{form.payMoneyStart}
+            </if>
+            <if test="form.payMoneyEnd!=null">
+                AND BM.BORROW_AMOUNT  <![CDATA[<=]]>  #{form.payMoneyEnd}
+            </if>
+            <if test="form.transactionAmountStart!=null">
+                AND BM.TRANSACTION_AMOUNT  <![CDATA[>=]]>  #{form.transactionAmountStart}
+            </if>
+            <if test="form.transactionAmountEnd!=null">
+                AND BM.TRANSACTION_AMOUNT  <![CDATA[<=]]>  #{form.transactionAmountEnd}
+            </if>
+            ORDER BY BMI.UPDATE_TIME DESC
+        </if>
+
+        <if test="form.documentType=='ADP_ADVANCE_PAYMENT_INFO'.toString()">
+            select
+            BMI.ID connectDocumentId,
+            BMI.DOCUMENT_NUM connectDocumentNum,
+            '对公预付款'  connectDocumentTypeName,
+            'ADP_ADVANCE_PAYMENT_INFO' connectDocumentType,
+            BMI.MAIN_TYPE_NAME mainTypeName,
+            BMI.MAIN_TYPE_CODE mainTypeCode,
+            BMI.MAIN_TYPE_ID mainTypeId,
+            BMI.UNIT_ID unitId,
+            BMI.UNIT_CODE unitCode,
+            BMI.UNIT_NAME unitName,
+            BMI.CREATE_USER_NAME recieveEmpName,
+            BMI.CREATE_BY recieveId,
+            BMI.REMARK remark,
+            BM.BORROW_AMOUNT payAmount,
+            BM.TRANSACTION_AMOUNT transactionAmount,
+            BM.CREATE_BY recieveId,
+            BM.CREATE_USER_NAME recieveEmpName,
+            BM.PAY_TIME transactionDate,
+            BM.EMP_NO  empNo,
+            BM.BANK_NAME bankName,
+            BM.BANK_ACCOUNT bankAccount,
+            BM.INTER_BRANCH_NUMBER interBranchNumber,
+            BM.PAY_STATUS payStatus,
+            BM.LINE_NUMBER connectNumber,
+            BM.EX1  ex1,
+            BM.ID  connectDocumentIdLine
+            from ADP_ADVANCE_PAYMENT_INFO BMI    LEFT JOIN  BM_BORROW_BANK BM  ON BMI.ID=BM.DOCUMENT_ID
+            WHERE BM.GET_OR_RETURN='BUSINESS'
+            AND BMI.PAY_STATUS='NO_PAY' AND  BMI.DOCUMENT_STATUS='HAS_ACCOUTED'
+             AND BM.DOCUMENT_ID IS NOT NULL  AND (BM.EX1 &lt;&gt; 'Y' OR  BM.EX1 IS NULL)
+            <if test="form.documentNum!=null and form.documentNum!=''">
+                AND BMI.DOCUMENT_NUM LIKE CONCAT('%',CONCAT(#{form.documentNum},'%'))
+            </if>
+            <if test="form.mainTypeId!=null">
+                AND BMI.MAIN_TYPE_ID=#{form.mainTypeId}
+            </if>
+            <if test="form.isAfterPatch!=null">
+                AND BMI.IS_AFTER_PATCH=#{form.isAfterPatch}
+            </if>
+            <if test="form.startTime!=null">
+                AND BMI.CREATE_TIME  <![CDATA[>=]]>  to_date(to_char(#{form.startTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+            <if test="form.endTime!=null">
+                AND BMI.CREATE_TIME  <![CDATA[<=]]>  to_date(to_char(#{form.endTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+
+            <if test="form.payMoneyStart!=null">
+                AND BM.BORROW_AMOUNT  <![CDATA[>=]]>  #{form.payMoneyStart}
+            </if>
+            <if test="form.payMoneyEnd!=null">
+                AND BM.BORROW_AMOUNT  <![CDATA[<=]]>  #{form.payMoneyEnd}
+            </if>
+            <if test="form.transactionAmountStart!=null">
+                AND BM.TRANSACTION_AMOUNT  <![CDATA[>=]]>  #{form.transactionAmountStart}
+            </if>
+            <if test="form.transactionAmountEnd!=null">
+                AND BM.TRANSACTION_AMOUNT  <![CDATA[<=]]>  #{form.transactionAmountEnd}
+            </if>
+            ORDER BY BMI.UPDATE_TIME DESC
+        </if>
+
+        <if test="form.documentType=='CRB_CONTRACT_REIMBURSE_BILL'.toString()">
+            select
+            BMI.ID connectDocumentId,
+            BMI.DOCUMENT_NUM connectDocumentNum,
+            '合同报账单'  connectDocumentTypeName,
+            'CRB_CONTRACT_REIMBURSE_BILL' connectDocumentType,
+            BMI.MAIN_TYPE_NAME mainTypeName,
+            BMI.MAIN_TYPE_CODE mainTypeCode,
+            BMI.MAIN_TYPE_ID mainTypeId,
+            BMI.UNIT_ID unitId,
+            BMI.UNIT_CODE unitCode,
+            BMI.UNIT_NAME unitName,
+            BMI.CREATE_USER_NAME recieveEmpName,
+            BMI.CREATE_BY recieveId,
+            BMI.REMARK remark,
+            BM.BORROW_AMOUNT payAmount,
+            BM.TRANSACTION_AMOUNT transactionAmount,
+            BM.CREATE_BY recieveId,
+            BM.CREATE_USER_NAME recieveEmpName,
+            BM.PAY_TIME transactionDate,
+            BM.EMP_NO  empNo,
+            BM.BANK_NAME bankName,
+            BM.BANK_ACCOUNT bankAccount,
+            BM.INTER_BRANCH_NUMBER interBranchNumber,
+            BM.PAY_STATUS payStatus,
+            BM.LINE_NUMBER connectNumber,
+            BM.EX1  ex1,
+            BM.ID  connectDocumentIdLine
+            from CRB_CONTRACT_REIMBURSE_BILL BMI    LEFT JOIN  BM_BORROW_BANK BM  ON BMI.ID=BM.DOCUMENT_ID
+            WHERE BM.GET_OR_RETURN='BUSINESS'
+            AND BMI.PAY_STATUS='NO_PAY' AND  BMI.DOCUMENT_STATUS='HAS_ACCOUTED'
+            AND BM.DOCUMENT_ID IS NOT NULL  AND (BM.EX1 &lt;&gt; 'Y' OR  BM.EX1 IS NULL)
+            <if test="form.documentNum!=null and form.documentNum!=''">
+                AND BMI.DOCUMENT_NUM LIKE CONCAT('%',CONCAT(#{form.documentNum},'%'))
+            </if>
+            <if test="form.mainTypeId!=null">
+                AND BMI.MAIN_TYPE_ID=#{form.mainTypeId}
+            </if>
+            <if test="form.isAfterPatch!=null">
+                AND BMI.IS_AFTER_PATCH=#{form.isAfterPatch}
+            </if>
+            <if test="form.startTime!=null">
+                AND BMI.CREATE_TIME  <![CDATA[>=]]>  to_date(to_char(#{form.startTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+            <if test="form.endTime!=null">
+                AND BMI.CREATE_TIME  <![CDATA[<=]]>  to_date(to_char(#{form.endTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+
+            <if test="form.payMoneyStart!=null">
+                AND BM.BORROW_AMOUNT  <![CDATA[>=]]>  #{form.payMoneyStart}
+            </if>
+            <if test="form.payMoneyEnd!=null">
+                AND BM.BORROW_AMOUNT  <![CDATA[<=]]>  #{form.payMoneyEnd}
+            </if>
+            <if test="form.transactionAmountStart!=null">
+                AND BM.TRANSACTION_AMOUNT  <![CDATA[>=]]>  #{form.transactionAmountStart}
+            </if>
+            <if test="form.transactionAmountEnd!=null">
+                AND BM.TRANSACTION_AMOUNT  <![CDATA[<=]]>  #{form.transactionAmountEnd}
+            </if>
+            ORDER BY BMI.UPDATE_TIME DESC
+        </if>
+
+    </select>
+
+    <select id="geExpenseAllDocument"  resultType="java.lang.Integer" >
+        select count(1)  from  (select
+            GE.ID connectDocumentId,
+            GE.DOCUMENT_NUM connectDocumentNum,
+            '通用报账单'  connectDocumentTypeName,
+            'GE_GENERAL_EXPENSE' connectDocumentType,
+            GE.MAIN_TYPE_NAME mainTypeName,
+            GE.MAIN_TYPE_CODE mainTypeCode,
+            GE.MAIN_TYPE_ID mainTypeId,
+            GE.CREATE_TIME transactionDate,
+            GE.CREATE_USER_NAME recieveEmpName,
+            GE.CREATE_BY recieveId,
+            PAY.ID  connectDocumentIdLine
+
+            from GE_GENERAL_EXPENSE GE  LEFT JOIN  GE_EXPENSE_PAYMENT_LIST PAY  ON GE.ID=PAY.DOCUMENT_ID
+            WHERE GE.PAY_STATUS='NO_PAY' AND  GE.DOCUMENT_STATUS='HAS_ACCOUTED'
+            AND PAY.DOCUMENT_ID IS NOT NULL
+            AND GE.ID=#{form.ex2}
+          union all
+          select
+            GE.ID connectDocumentId,
+            GE.DOCUMENT_NUM connectDocumentNum,
+            '通用报账单'  connectDocumentTypeName,
+            'GE_GENERAL_EXPENSE' connectDocumentType,
+            GE.MAIN_TYPE_NAME mainTypeName,
+            GE.MAIN_TYPE_CODE mainTypeCode,
+            GE.MAIN_TYPE_ID mainTypeId,
+            GE.CREATE_TIME transactionDate,
+            GE.CREATE_USER_NAME recieveEmpName,
+            GE.CREATE_BY recieveId,
+             BM.ID  connectDocumentIdLine
+
+            from GE_GENERAL_EXPENSE GE  LEFT JOIN  BM_BORROW_BANK BM  ON GE.ID=BM.DOCUMENT_ID
+            WHERE BM.GET_OR_RETURN='SALARY'  AND GE.PAY_STATUS='NO_PAY'
+            AND  GE.DOCUMENT_STATUS='HAS_ACCOUTED'   AND BM.DOCUMENT_ID IS NOT NULL
+                AND GE.ID=#{form.ex2}
+        union all
+         select
+            GE.ID connectDocumentId,
+            GE.DOCUMENT_NUM connectDocumentNum,
+            '通用报账单'  connectDocumentTypeName,
+            'GE_GENERAL_EXPENSE' connectDocumentType,
+            GE.MAIN_TYPE_NAME mainTypeName,
+            GE.MAIN_TYPE_CODE mainTypeCode,
+            GE.MAIN_TYPE_ID mainTypeId,
+            GE.CREATE_TIME transactionDate,
+            GE.CREATE_USER_NAME recieveEmpName,
+            GE.CREATE_BY recieveId,
+             BM.ID  connectDocumentIdLine
+            from GE_GENERAL_EXPENSE GE  LEFT JOIN  BM_BORROW_BANK BM  ON GE.ID=BM.DOCUMENT_ID
+            WHERE BM.GET_OR_RETURN='BUSINESS'
+            AND GE.PAY_STATUS='NO_PAY' AND  GE.DOCUMENT_STATUS='HAS_ACCOUTED' AND BM.DOCUMENT_ID IS NOT NULL
+            AND GE.ID=#{form.ex2}
+        )
+    </select>
+
+    <select id="tavelAllDocument"  resultType="java.lang.Integer"  >
+       select count(1) from ( SELECT  TAS.ID connectDocumentId,
+            TAS.DOCUMENT_NUM connectDocumentNum,
+            '差旅报账单'  connectDocumentTypeName,
+            'TAS_TRAVEL_REIMBURSE' connectDocumentType,
+            TAS.MAIN_TYPE_NAME mainTypeName,
+            TAS.MAIN_TYPE_CODE mainTypeCode,
+            TAS.MAIN_TYPE_ID mainTypeId,
+            PAY.EX1  ex1,
+            PAY.ID  connectDocumentIdLine
+            from TAS_TRAVEL_REIMBURSE TAS  LEFT JOIN  GE_EXPENSE_PAYMENT_LIST PAY  ON TAS.ID=PAY.DOCUMENT_ID
+            WHERE TAS.PAY_STATUS='NO_PAY' AND  TAS.DOCUMENT_STATUS='HAS_ACCOUTED' AND PAY.DOCUMENT_ID IS NOT NULL
+            AND TAS.ID=#{form.ex2}
+			union all
+			 SELECT  TAS.ID connectDocumentId,
+            TAS.DOCUMENT_NUM connectDocumentNum,
+            '差旅报账单'  connectDocumentTypeName,
+            'TAS_TRAVEL_REIMBURSE' connectDocumentType,
+            TAS.MAIN_TYPE_NAME mainTypeName,
+            TAS.MAIN_TYPE_CODE mainTypeCode,
+            TAS.MAIN_TYPE_ID mainTypeId,
+            BM.EX1  ex1,
+            BM.ID  connectDocumentIdLine
+            from TAS_TRAVEL_REIMBURSE TAS  LEFT JOIN  BM_BORROW_BANK BM  ON TAS.ID=BM.DOCUMENT_ID
+            WHERE    BM.GET_OR_RETURN='SALARY'
+            AND TAS.PAY_STATUS='NO_PAY' AND  TAS.DOCUMENT_STATUS='HAS_ACCOUTED'
+            AND BM.DOCUMENT_ID IS NOT NULL
+            AND TAS.ID=#{form.ex2}
+      union all
+       select
+            TAS.ID connectDocumentId,
+            TAS.DOCUMENT_NUM connectDocumentNum,
+            '差旅报账单'  connectDocumentTypeName,
+            'TAS_TRAVEL_REIMBURSE' connectDocumentType,
+            TAS.MAIN_TYPE_NAME mainTypeName,
+            TAS.MAIN_TYPE_CODE mainTypeCode,
+            TAS.MAIN_TYPE_ID mainTypeId,
+            BM.EX1  ex1,
+            BM.ID  connectDocumentIdLine
+            from TAS_TRAVEL_REIMBURSE TAS  LEFT JOIN  BM_BORROW_BANK BM  ON TAS.ID=BM.DOCUMENT_ID
+            WHERE BM.GET_OR_RETURN='BUSINESS'
+            AND TAS.PAY_STATUS='NO_PAY' AND  TAS.DOCUMENT_STATUS='HAS_ACCOUTED'
+            AND BM.DOCUMENT_ID IS NOT NULL
+             AND TAS.ID=#{form.ex2}
+            )
+    </select>
+
+    <select id="advanceAllDocument"  resultType="java.lang.Integer" >
+         select count(1) from (SELECT  ADP.ID connectDocumentId,
+            ADP.DOCUMENT_NUM connectDocumentNum,
+            '对公预付款单'  connectDocumentTypeName,
+            'ADP_ADVANCE_PAYMENT_INFO' connectDocumentType,
+            ADP.MAIN_TYPE_NAME mainTypeName,
+            ADP.MAIN_TYPE_CODE mainTypeCode,
+            ADP.MAIN_TYPE_ID mainTypeId,
+            PAY.EX1  ex1,
+            PAY.ID  connectDocumentIdLine
+            from ADP_ADVANCE_PAYMENT_INFO ADP  LEFT JOIN  GE_EXPENSE_PAYMENT_LIST PAY  ON ADP.ID=PAY.DOCUMENT_ID
+            WHERE  ADP.PAY_STATUS='NO_PAY' AND  ADP.DOCUMENT_STATUS='HAS_ACCOUTED'
+            AND PAY.DOCUMENT_ID IS NOT NULL
+             AND ADP.ID=#{form.ex2}
+            union all
+            select
+            BMI.ID connectDocumentId,
+            BMI.DOCUMENT_NUM connectDocumentNum,
+            '对公预付款'  connectDocumentTypeName,
+            'ADP_ADVANCE_PAYMENT_INFO' connectDocumentType,
+            BMI.MAIN_TYPE_NAME mainTypeName,
+            BMI.MAIN_TYPE_CODE mainTypeCode,
+            BMI.MAIN_TYPE_ID mainTypeId,
+            BM.EX1  ex1,
+            BM.ID  connectDocumentIdLine
+            from ADP_ADVANCE_PAYMENT_INFO BMI    LEFT JOIN  BM_BORROW_BANK BM  ON BMI.ID=BM.DOCUMENT_ID
+            WHERE BM.GET_OR_RETURN='BUSINESS'
+            AND BMI.PAY_STATUS='NO_PAY' AND  BMI.DOCUMENT_STATUS='HAS_ACCOUTED'
+            AND BM.DOCUMENT_ID IS NOT NULL
+            AND BMI.ID=#{form.ex2}
+            )
+    </select>
+
+    <select id="borrowAllDocument"  resultType="java.lang.Integer" >
+         select count(1) from (SELECT   CRB.ID connectDocumentId,
+            CRB.DOCUMENT_NUM connectDocumentNum,
+            '借款单'  connectDocumentTypeName,
+            'BM_BORROW_MONEY_INFO' connectDocumentType,
+            CRB.MAIN_TYPE_NAME mainTypeName,
+            CRB.MAIN_TYPE_CODE mainTypeCode,
+            CRB.MAIN_TYPE_ID mainTypeId,
+            CRB.CREATE_TIME transactionDate,
+            CRB.CREATE_USER_NAME recieveEmpName,
+            CRB.CREATE_BY recieveId,
+            CRB.REMARK remark,
+            PAY.EX1  ex1,
+            PAY.ID  connectDocumentIdLine
+            from BM_BORROW_MONEY_INFO CRB  LEFT JOIN  GE_EXPENSE_PAYMENT_LIST PAY  ON CRB.ID=PAY.DOCUMENT_ID
+            WHERE CRB.PAY_STATUS='NO_PAY' AND  CRB.DOCUMENT_STATUS='HAS_ACCOUTED'
+            AND PAY.DOCUMENT_ID IS NOT NULL
+            AND CRB.ID=#{form.ex2}
+		  union all
+			SELECT  BMI.ID connectDocumentId,
+            BMI.DOCUMENT_NUM connectDocumentNum,
+            '借款单'  connectDocumentTypeName,
+            'BM_BORROW_MONEY_INFO' connectDocumentType,
+            BMI.MAIN_TYPE_NAME mainTypeName,
+            BMI.MAIN_TYPE_CODE mainTypeCode,
+            BMI.MAIN_TYPE_ID mainTypeId,
+            BMI.CREATE_TIME transactionDate,
+            BMI.CREATE_USER_NAME recieveEmpName,
+            BMI.CREATE_BY recieveId,
+            BMI.REMARK remark,
+            BM.EX1  ex1,
+            BM.ID  connectDocumentIdLine
+
+            from BM_BORROW_MONEY_INFO BMI  LEFT JOIN  BM_BORROW_BANK BM  ON BMI.ID=BM.DOCUMENT_ID
+            WHERE    BM.GET_OR_RETURN='SALARY'
+            AND BMI.PAY_STATUS='NO_PAY' AND  BMI.DOCUMENT_STATUS='HAS_ACCOUTED'
+            AND BM.DOCUMENT_ID IS NOT NULL
+             AND BMI.ID=#{form.ex2}
+         union all
+         select
+            BMI.ID connectDocumentId,
+            BMI.DOCUMENT_NUM connectDocumentNum,
+            '借款单'  connectDocumentTypeName,
+            'BM_BORROW_MONEY_INFO' connectDocumentType,
+            BMI.MAIN_TYPE_NAME mainTypeName,
+            BMI.MAIN_TYPE_CODE mainTypeCode,
+            BMI.MAIN_TYPE_ID mainTypeId,
+            BMI.CREATE_TIME transactionDate,
+            BMI.CREATE_USER_NAME recieveEmpName,
+            BMI.CREATE_BY recieveId,
+            BMI.REMARK remark,
+            BM.EX1  ex1,
+            BM.ID  connectDocumentIdLine
+            from BM_BORROW_MONEY_INFO BMI    LEFT JOIN  BM_BORROW_BANK BM  ON BMI.ID=BM.DOCUMENT_ID
+            WHERE BM.GET_OR_RETURN='BUSINESS'
+            AND BMI.PAY_STATUS='NO_PAY' AND  BMI.DOCUMENT_STATUS='HAS_ACCOUTED' AND BM.DOCUMENT_ID IS NOT NULL
+            AND BMI.ID=#{form.ex2}
+            )
+    </select>
+
+    <select id="laborAllDocument"  resultType="java.lang.Integer" >
+        select count(1) from   (SELECT  LC.ID connectDocumentId,
+            LC.DOCUMENT_NUM connectDocumentNum,
+            '劳务费/咨询费报账单'  connectDocumentTypeName,
+            'LC_LABOR_COST' connectDocumentType,
+            LC.MAIN_TYPE_NAME mainTypeName,
+            LC.MAIN_TYPE_CODE mainTypeCode,
+            LC.MAIN_TYPE_ID mainTypeId,
+            LC.UNIT_ID unitId,
+            LC.UNIT_CODE unitCode,
+            LC.UNIT_NAME unitName,
+            LC.CREATE_USER_NAME recieveEmpName,
+            LC.CREATE_BY recieveId,
+            LC.REMARK remark,
+            GE.EX1  ex1,
+            GE.PAY_AMOUNT payAmount,
+            GE.LINE_NUMBER connectNumber,
+            GE.RECIEVE_USER_ID recieveId,
+            GE.RECIEVE_USER_NAME recieveEmpName,
+            GE.CERT_TYPE certType,
+            GE.CERT_NUM  certNum,
+            GE.BANK_CODE bankCode,
+            GE.BANK_ID bankId,
+            GE.BANK_BAME bankBame,
+            GE.BAN_ACCOUNT bankAccount,
+            GE.PAY_STATUS payStatus,
+            GE.PAY_TIME  transactionDate,
+            GE.LINE_NUMBER connectNumber,
+            GE.INTER_BRANCH_NUMBER interBranchNumber,
+
+            GE.ID  connectDocumentIdLine
+            from LC_LABOR_COST LC  LEFT JOIN  GE_PRIVATE_PAYMENT_LIST GE  ON LC.ID=GE.DOCUMENT_ID
+            WHERE LC.PAY_STATUS='NO_PAY' AND  LC.DOCUMENT_STATUS='HAS_ACCOUTED' AND GE.DOCUMENT_ID IS NOT NULL
+             AND LC.ID=#{form.ex2}
+           )
+    </select>
+
+
+    <select id="contractAllDocument"  resultType="java.lang.Integer" >
+        select count(1) from (SELECT  CRB.ID connectDocumentId,
+            CRB.DOCUMENT_NUM connectDocumentNum,
+            '合同报账单'  connectDocumentTypeName,
+            'CRB_CONTRACT_REIMBURSE_BILL' connectDocumentType,
+            CRB.MAIN_TYPE_NAME mainTypeName,
+            CRB.MAIN_TYPE_CODE mainTypeCode,
+            CRB.MAIN_TYPE_ID mainTypeId,
+            PAY.EX1  ex1,
+            PAY.ID  connectDocumentIdLine
+            from CRB_CONTRACT_REIMBURSE_BILL CRB  LEFT JOIN  GE_EXPENSE_PAYMENT_LIST PAY  ON CRB.ID=PAY.DOCUMENT_ID
+            WHERE CRB.PAY_STATUS='NO_PAY' AND  CRB.DOCUMENT_STATUS='HAS_ACCOUTED'  AND PAY.DOCUMENT_ID IS NOT NULL
+             AND CRB.ID=#{form.ex2}
+			union all
+			select
+            BMI.ID connectDocumentId,
+            BMI.DOCUMENT_NUM connectDocumentNum,
+            '合同报账单'  connectDocumentTypeName,
+            'CRB_CONTRACT_REIMBURSE_BILL' connectDocumentType,
+            BMI.MAIN_TYPE_NAME mainTypeName,
+            BMI.MAIN_TYPE_CODE mainTypeCode,
+            BMI.MAIN_TYPE_ID mainTypeId,
+            BM.EX1  ex1,
+            BM.ID  connectDocumentIdLine
+            from CRB_CONTRACT_REIMBURSE_BILL BMI    LEFT JOIN  BM_BORROW_BANK BM  ON BMI.ID=BM.DOCUMENT_ID
+            WHERE BM.GET_OR_RETURN='BUSINESS'
+            AND BMI.PAY_STATUS='NO_PAY' AND  BMI.DOCUMENT_STATUS='HAS_ACCOUTED'
+             AND BM.DOCUMENT_ID IS NOT NULL
+            AND BMI.ID=#{form.ex2}
+            )
+    </select>
+</mapper>

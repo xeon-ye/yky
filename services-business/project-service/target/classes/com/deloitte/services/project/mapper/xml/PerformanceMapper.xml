@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.project.mapper.PerformanceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.project.entity.Performance">
+        <id column="ID" property="id" />
+        <result column="PERFORMANCE_ID" property="performanceId" />
+        <result column="APPLICATION_ID" property="applicationId" />
+        <result column="PROJECT_DATE" property="projectDate" />
+        <result column="ANNUAL_PERFORMANCE_TARGET" property="annualPerformanceTarget" />
+        <result column="INDEX_TYPE" property="indexType" />
+        <result column="INDEX_1ST" property="index1st" />
+        <result column="INDEX_2ND" property="index2nd" />
+        <result column="INDEX_3ST" property="index3st" />
+        <result column="INDEX_3ST_CODE" property="index3stCode" />
+        <result column="INDEX_PER" property="indexPer" />
+        <result column="PERFORMANCE_TARGET_ID" property="performanceTargetId" />
+        <result column="REPLAY_ID" property="replayId" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CARETE_BY" property="careteBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+        <result column="ORG_ID" property="orgId" />
+        <result column="ORG_PATH" property="orgPath" />
+        <result column="PROJECT_ID" property="projectId" />
+        <result column="IDX_MAIN_CODE" property="idxMainCode" />
+        <result column="IDX_MAIN_NAME" property="idxMainName" />
+        <result column="IDX_SUB_CODE" property="idxSubCode" />
+        <result column="IDX_SUB_NAME" property="idxSubName" />
+        <result column="IDX_LIB_CODE" property="idxLibCode" />
+        <result column="IDX_LIB_NAME" property="idxLibName" />
+        <result column="INDEX_1ST_CODE" property="index1stCode" />
+        <result column="INDEX_2ND_CODE" property="index2ndCode" />
+        <result column="PER" property="per" />
+        <result column="PER_CODE" property="perCode" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, PERFORMANCE_ID, APPLICATION_ID, PROJECT_DATE, ANNUAL_PERFORMANCE_TARGET, INDEX_TYPE, INDEX_1ST, INDEX_2ND, INDEX_3ST, INDEX_3ST_CODE, INDEX_PER, PERFORMANCE_TARGET_ID, REPLAY_ID, CREATE_TIME, CARETE_BY, UPDATE_TIME, UPDATE_BY, EXT1, EXT2, EXT3, EXT4, EXT5, ORG_ID, ORG_PATH, PROJECT_ID, IDX_MAIN_CODE, IDX_MAIN_NAME, IDX_SUB_CODE, IDX_SUB_NAME, IDX_LIB_CODE, IDX_LIB_NAME, INDEX_1ST_CODE, INDEX_2ND_CODE, PER, PER_CODE
+    </sql>
+
+    <!-- 去重查询绩效类型 -->
+    <select id="getIndexTypeListWithDistinct" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT DISTINCT INDEX_TYPE, ANNUAL_PERFORMANCE_TARGET FROM PROJECT_PERFORMANCE WHERE APPLICATION_ID = #{applicationId}
+    </select>
+
+    <!-- 去重查询绩效类型 -->
+    <select id="getIndexTypeListWithDistinctByRep" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT DISTINCT INDEX_TYPE, ANNUAL_PERFORMANCE_TARGET FROM PROJECT_PERFORMANCE WHERE replay_id = #{replyId}
+    </select>
+
+</mapper>

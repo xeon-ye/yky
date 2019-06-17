@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.srpmp.outline.mapper.SrpmsOutlineAwardMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.srpmp.outline.entity.SrpmsOutlineAward">
+        <id column="ID" property="id" />
+        <result column="BASE_ID" property="baseId" />
+        <result column="PRO_CODE" property="proCode" />
+        <result column="PRO_NAME" property="proName" />
+        <result column="AWARD_RESULTS" property="awardResults" />
+        <result column="AWARD_CAT" property="awardCat" />
+        <result column="COMPLETION_ORG" property="completionOrg" />
+        <result column="COMPLETION_PERSON" property="completionPerson" />
+        <result column="AWARD_NAME" property="awardName" />
+        <result column="AWARD_LEVEL" property="awardLevel" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, BASE_ID, PRO_CODE, PRO_NAME, AWARD_RESULTS, AWARD_CAT, COMPLETION_ORG, COMPLETION_PERSON, AWARD_NAME, AWARD_LEVEL, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+    </sql>
+
+    <!--根据条件查询奖励数据-->
+    <select id="listQuery" parameterType="com.deloitte.platform.api.srpmp.outline.param.SrpmsOutlineAwardQueryForm"
+            resultType="com.deloitte.platform.api.srpmp.outline.param.SrpmsOutlineAwardQueryParam">
+        SELECT t1.*, t2.org_id, t2.year, t2.month
+        FROM
+        SRPMS_OUTLINE_AWARD t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE
+        1=1
+        <if test="orgId != null">
+            AND t2.org_id = #{orgId}
+        </if>
+        <if test="year != null and year != ''">
+            AND t2.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t2.month = #{month}
+        </if>
+        <if test="awardResults != null and awardResults != ''">
+            AND t1.award_results = #{awardResults}
+        </if>
+        <if test="awardCat != null and awardCat != ''">
+            AND t1.AWARD_CAT = #{awardCat}
+        </if>
+        <if test="proCode != null and proCode != ''">
+            AND t1.PRO_CODE = #{proCode}
+        </if>
+        <if test="proName != null and proName != ''">
+            AND t1.PRO_NAME LIKE '%'||#{proName}||'%'
+        </if>
+        <if test="completionOrg != null and completionOrg != ''">
+            AND t1.COMPLETION_ORG = #{completionOrg}
+        </if>
+        <if test="completionPerson != null and completionPerson != ''">
+            AND t1.COMPLETION_PERSON LIKE '%'||#{completionPerson}||'%'
+        </if>
+        <if test="awardName != null and awardName != ''">
+            AND t1.award_name = #{awardName}
+        </if>
+        <if test="awardLevel != null and awardLevel != ''">
+            AND t1.award_level = #{awardLevel}
+        </if>
+        <if test="createBy != null and createBy != ''">
+            AND t1.create_by = #{createBy}
+        </if>
+        ORDER by nvl(t1.create_time, TO_DATE('1900-01-01', 'YYYY-MM-DD HH24:MI:SS')) DESC
+    </select>
+
+    <!--根据条件(单位+年月+获奖名称)查询题录-奖励数据-->
+    <select id="getQueryCount" parameterType="java.util.Map"
+            resultType="int">
+        SELECT count(*)
+        FROM
+        SRPMS_OUTLINE_AWARD t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE
+        1=1
+        AND t2.org_id = #{orgId}
+        AND t2.year = #{year}
+        AND t2.month = #{month}
+        AND t1.award_name = #{awardName}
+        <if test="id != null">
+            AND t1.id &lt;&gt; #{id}
+        </if>
+    </select>
+
+    <!--查询题录-奖项统计数据-->
+    <select id="getReportCount"
+            parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.srpmp.outline.vo.SrpmsOutlineAwardReportVo">
+        select tt.orgId,
+        SUM(CASE WHEN tt.AWARD_CAT = '5001' AND tt.AWARD_NAME = '10' THEN 1 ELSE 0 END) cBestCount,
+        SUM(CASE WHEN tt.AWARD_CAT = '5001' AND tt.AWARD_NAME = '20' THEN 1 ELSE 0 END) cCooperateCount,
+        SUM(CASE WHEN tt.AWARD_CAT = '5001' AND tt.AWARD_NAME = '30' AND tt.AWARD_LEVEL = '10' THEN 1 ELSE 0 END) cNaturalFirstCount,
+        SUM(CASE WHEN tt.AWARD_CAT = '5001' AND tt.AWARD_NAME = '30' AND tt.AWARD_LEVEL = '20' THEN 1 ELSE 0 END) cNaturalSecoendCount,
+        SUM(CASE WHEN tt.AWARD_CAT = '5001' AND tt.AWARD_NAME = '40' AND tt.AWARD_LEVEL = '10' THEN 1 ELSE 0 END) cImproveFirstCount,
+        SUM(CASE WHEN tt.AWARD_CAT = '5001' AND tt.AWARD_NAME = '40' AND tt.AWARD_LEVEL = '20' THEN 1 ELSE 0 END) cImproveSecoendCount,
+        SUM(CASE WHEN tt.AWARD_CAT = '5001' AND tt.AWARD_NAME = '50' AND tt.AWARD_LEVEL = '10' THEN 1 ELSE 0 END) cInventFirstCount,
+        SUM(CASE WHEN tt.AWARD_CAT = '5001' AND tt.AWARD_NAME = '50' AND tt.AWARD_LEVEL = '20' THEN 1 ELSE 0 END) cInventSecoendCount,
+        SUM(CASE WHEN tt.AWARD_CAT = '5002' AND tt.AWARD_NAME = '60' THEN 1 ELSE 0 END) sepcialCount,
+        SUM(CASE WHEN tt.AWARD_CAT = '5002' AND tt.AWARD_NAME = '30' AND tt.AWARD_LEVEL = '10' THEN 1 ELSE 0 END) sNaturalFirstCount,
+        SUM(CASE WHEN tt.AWARD_CAT = '5002' AND tt.AWARD_NAME = '30' AND tt.AWARD_LEVEL = '20' THEN 1 ELSE 0 END) sNaturalSecoendCount,
+        SUM(CASE WHEN tt.AWARD_CAT = '5002' AND tt.AWARD_NAME = '30' AND tt.AWARD_LEVEL = '30' THEN 1 ELSE 0 END) sNaturalThreeCount,
+        SUM(CASE WHEN tt.AWARD_CAT = '5002' AND tt.AWARD_NAME = '40' AND tt.AWARD_LEVEL = '10' THEN 1 ELSE 0 END) sImproveFirstCount,
+        SUM(CASE WHEN tt.AWARD_CAT = '5002' AND tt.AWARD_NAME = '40' AND tt.AWARD_LEVEL = '20' THEN 1 ELSE 0 END) sImproveSecoendCount,
+        SUM(CASE WHEN tt.AWARD_CAT = '5002' AND tt.AWARD_NAME = '40' AND tt.AWARD_LEVEL = '30' THEN 1 ELSE 0 END) sImproveThreeCount,
+        SUM(CASE WHEN tt.AWARD_CAT = '5002' AND tt.AWARD_NAME = '50' AND tt.AWARD_LEVEL = '10' THEN 1 ELSE 0 END) sInventFirstCount,
+        SUM(CASE WHEN tt.AWARD_CAT = '5002' AND tt.AWARD_NAME = '50' AND tt.AWARD_LEVEL = '20' THEN 1 ELSE 0 END) sInventSecoendCount,
+        SUM(CASE WHEN tt.AWARD_CAT = '5002' AND tt.AWARD_NAME = '50' AND tt.AWARD_LEVEL = '30' THEN 1 ELSE 0 END) sInventThreeCount,
+        SUM(CASE WHEN tt.AWARD_CAT = '5003' AND tt.AWARD_NAME = '30' AND tt.AWARD_LEVEL = '10' THEN 1 ELSE 0 END) gNaturalFirstCount,
+        SUM(CASE WHEN tt.AWARD_CAT = '5003' AND tt.AWARD_NAME = '30' AND tt.AWARD_LEVEL = '20' THEN 1 ELSE 0 END) gNaturalSecoendCount,
+        SUM(CASE WHEN tt.AWARD_CAT = '5003' AND tt.AWARD_NAME = '40' AND tt.AWARD_LEVEL = '10' THEN 1 ELSE 0 END) gImproveFirstCount,
+        SUM(CASE WHEN tt.AWARD_CAT = '5003' AND tt.AWARD_NAME = '40' AND tt.AWARD_LEVEL = '20' THEN 1 ELSE 0 END) gImproveSecoendCount,
+        SUM(CASE WHEN tt.AWARD_CAT = '5003' AND tt.AWARD_NAME = '50' AND tt.AWARD_LEVEL = '10' THEN 1 ELSE 0 END) gInventFirstCount,
+        SUM(CASE WHEN tt.AWARD_CAT = '5003' AND tt.AWARD_NAME = '50' AND tt.AWARD_LEVEL = '20' THEN 1 ELSE 0 END) gInventSecoendCount,
+        SUM(CASE WHEN tt.AWARD_CAT = '5004' AND tt.AWARD_LEVEL = '10' THEN 1 ELSE 0 END) zFirstCount,
+        SUM(CASE WHEN tt.AWARD_CAT = '5004' AND tt.AWARD_LEVEL = '20' THEN 1 ELSE 0 END) zSecoendCount,
+        SUM(CASE WHEN tt.AWARD_CAT = '5004' AND tt.AWARD_LEVEL = '30' THEN 1 ELSE 0 END) zThreeCount,
+        SUM(CASE WHEN tt.AWARD_CAT = '5005' AND tt.AWARD_LEVEL = '10' THEN 1 ELSE 0 END) oFirstCount,
+        SUM(CASE WHEN tt.AWARD_CAT = '5005' AND tt.AWARD_LEVEL = '20' THEN 1 ELSE 0 END) oSecoendCount,
+        SUM(CASE WHEN tt.AWARD_CAT = '5005' AND tt.AWARD_LEVEL = '30' THEN 1 ELSE 0 END) oThreeCount
+        FROM
+        (SELECT t2.org_id orgId, t1.AWARD_CAT, t1.AWARD_NAME, t1.AWARD_LEVEL
+        from SRPMS_OUTLINE_AWARD t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE 1 = 1
+        <if test="year != null and year != ''">
+            AND t2.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t2.month = #{month}
+        </if>
+        <if test="orgId != null and orgId != 0">
+            AND t2.org_id = #{orgId}
+        </if>
+
+        UNION ALL
+
+        select t1.DEPT_CODE orgId, t1.AWARD_CAT, t1.AWARD_NAME, t1.AWARD_LEVEL
+        from SRPMS_RESULT_AWARD t1
+        WHERE 1 = 1
+        <if test="year != null and year != ''">
+            AND t1.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t1.month = #{month}
+        </if>
+        <if test="orgId != null and orgId != 0">
+            AND t1.DEPT_CODE = #{orgId}
+        </if>
+        ) tt
+        GROUP BY tt.orgId
+        ORDER by tt.orgId
+    </select>
+
+</mapper>

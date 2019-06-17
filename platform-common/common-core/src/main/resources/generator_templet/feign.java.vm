@@ -1,0 +1,77 @@
+package ${cfg.apiPackage}.feign;
+
+
+import ${cfg.apiPackage}.client.${entity}Client;
+import ${cfg.apiPackage}.param.${entity}QueryForm;
+import ${cfg.apiPackage}.vo.${entity}Form;
+import com.deloitte.platform.common.core.entity.vo.Result;
+import com.deloitte.platform.common.core.exception.PlatformErrorType;
+import feign.hystrix.FallbackFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.stereotype.Component;
+import javax.validation.Valid;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+
+/**
+ * @Author : ${author}
+ * @Date : Create in ${date}
+ * @Description :   ${entity} feign客户端
+ * @Modified :
+ */
+@FeignClient(name = "${table.entityPath}-service", fallbackFactory = ${entity}FeignService.Hystrix${entity}Service.class,primary = false)
+public interface ${entity}FeignService extends ${entity}Client {
+
+    @Component
+    @Slf4j
+    class Hystrix${entity}Service implements FallbackFactory<${entity}FeignService> {
+
+        @Override
+        public ${entity}FeignService create(Throwable throwable) {
+            return new ${entity}FeignService() {
+                @Override
+                public Result add(@Valid @RequestBody ${entity}Form ${table.entityPath}Form) {
+                    log.error("${entity}Service add服务不可用......");
+                    throwable.printStackTrace();
+                    return Result.fail(PlatformErrorType.GATEWAY_SERVICE_UNABLE,throwable.getMessage());
+                }
+
+                @Override
+                public Result delete(@PathVariable long id) {
+                    log.error("${entity}Service delete服务不可用......");
+                    throwable.printStackTrace();
+                    return Result.fail(PlatformErrorType.GATEWAY_SERVICE_UNABLE,throwable.getMessage());
+                }
+
+                @Override
+                public Result update(@PathVariable long id, @Valid @RequestBody ${entity}Form ${table.entityPath}Form) {
+                    log.error("${entity}Service update服务不可用......");
+                    throwable.printStackTrace();
+                    return Result.fail(PlatformErrorType.GATEWAY_SERVICE_UNABLE,throwable.getMessage());
+                }
+
+                @Override
+                public Result get(@PathVariable long id) {
+                    log.error("${entity}Service get服务不可用......");
+                    throwable.printStackTrace();
+                    return Result.fail(PlatformErrorType.GATEWAY_SERVICE_UNABLE,throwable.getMessage());
+                }
+
+                @Override
+                public Result list(@Valid @RequestBody ${entity}QueryForm ${table.entityPath}QueryForm) {
+                    log.error("${entity}Service list服务不可用......");
+                    throwable.printStackTrace();
+                    return Result.fail(PlatformErrorType.GATEWAY_SERVICE_UNABLE,throwable.getMessage());
+                }
+
+                @Override
+                public Result search(@Valid @RequestBody ${entity}QueryForm ${table.entityPath}QueryForm) {
+                    log.error("${entity}Service search服务不可用......");
+                    throwable.printStackTrace();
+                    return Result.fail(PlatformErrorType.GATEWAY_SERVICE_UNABLE,throwable.getMessage());
+                }
+            };
+        }
+    }
+}

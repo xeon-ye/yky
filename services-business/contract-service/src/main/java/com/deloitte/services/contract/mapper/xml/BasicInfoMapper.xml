@@ -1,0 +1,1388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.contract.mapper.BasicInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.contract.entity.BasicInfo">
+        <id column="ID" property="id" />
+        <result column="CONTRACT_NO" property="contractNo" />
+        <result column="CONTRACT_NAME" property="contractName" />
+        <result column="OLD_CONTRACT_NO" property="oldContractNo" />
+        <result column="OLD_CONTRACT_NAME" property="oldContractName" />
+        <result column="CONTRACT_SERIAL_NUMBER" property="contractSerialNumber" />
+        <result column="INCOME_EXPENDITURE_TYPE_CODE" property="incomeExpenditureTypeCode" />
+        <result column="INCOME_EXPENDITURE_TYPE" property="incomeExpenditureType" />
+        <result column="CONTRACT_TYPE_CODE" property="contractTypeCode" />
+        <result column="CONTRACT_TYPE" property="contractType" />
+        <result column="CONTRACT_NATURE_CODE" property="contractNatureCode" />
+        <result column="CONTRACT_NATURE" property="contractNature" />
+        <result column="TEMPLATE_ATTRIBUTE_CODE" property="templateAttributeCode" />
+        <result column="TEMPLATE_ATTRIBUTE" property="templateAttribute" />
+        <result column="TEMPLATE_ATTRIBUTE_REMARK" property="templateAttributeRemark" />
+        <result column="TEMPLATE_CODE" property="templateCode" />
+        <result column="TEMPLATE_NAME" property="templateName" />
+        <result column="CONTRACT_CURRENCY_CODE" property="contractCurrencyCode" />
+        <result column="CONTRACT_CURRENCY" property="contractCurrency" />
+        <result column="CONTRACT_CURRENCY_REMARK" property="contractCurrencyRemark" />
+        <result column="OTHER_WAY_CODE" property="otherWayCode" />
+        <result column="OTHER_WAY" property="otherWay" />
+        <result column="OTHER_WAY_REMARK" property="otherWayRemark" />
+        <result column="SOURCES_FUNDING" property="sourcesFunding" />
+        <result column="PAYMENT_WAY_CODE" property="paymentWayCode" />
+        <result column="PAYMENT_WAY" property="paymentWay" />
+        <result column="PAYMENT_WAY_REMARK" property="paymentWayRemark" />
+        <result column="BILLING_RATIO" property="billingRatio" />
+        <result column="OLD_AMOUNT_INCLUD_TAX" property="oldAmountIncludTax" />
+        <result column="OLD_TAX_RATE" property="oldTaxRate" />
+        <result column="OLD_TAX_AMOUNT" property="oldTaxAmount" />
+        <result column="OLD_AMOUNT_EXCLUD_TAX" property="oldAmountExcludTax" />
+        <result column="OLD_AMOUNT_EXCLUD_TAX_CAPITAL" property="oldAmountExcludTaxCapital" />
+        <result column="REPORTED_AMOUNT" property="reportedAmount" />
+        <result column="PAID_AMOUNT" property="paidAmount" />
+        <result column="AMOUNT_INCLUD_TAX" property="amountIncludTax" />
+        <result column="TAX_RATE" property="taxRate" />
+        <result column="TAX_RATE_REMARK" property="taxRateRemark" />
+        <result column="TAX_AMOUNT" property="taxAmount" />
+        <result column="AMOUNT_EXCLUD_TAX" property="amountExcludTax" />
+        <result column="AMOUNT_EXCLUD_TAX_CAPITAL" property="amountExcludTaxCapital" />
+        <result column="IS_PAY_DEPOSIT_CODE" property="isPayDepositCode" />
+        <result column="IS_PAY_DEPOSIT" property="isPayDeposit" />
+        <result column="CONTRACT_DEPOSIT" property="contractDeposit" />
+        <result column="PERFORMANCE_EFFECTIVE_TIME" property="performanceEffectiveTime" />
+        <result column="IS_FOREIGN_CONTRACT" property="isForeignContract" />
+        <result column="OPERATOR_CODE" property="operatorCode" />
+        <result column="OPERATOR" property="operator" />
+        <result column="OLD_OPERATOR_CODE" property="oldOperatorCode" />
+        <result column="OLD_OPERATOR" property="oldOperator" />
+        <result column="ORG_CODE" property="orgCode" />
+        <result column="ORG" property="org" />
+        <result column="CONTACT_NUM" property="contactNum" />
+        <result column="OLD_ORG_CODE" property="oldOrgCode" />
+        <result column="OLD_ORG" property="oldOrg" />
+        <result column="OLD_CONTACT_NUM" property="oldContactNum" />
+        <result column="EXECUTE_INFO_CODE" property="executeInfoCode" />
+        <result column="EXECUTE_INFO" property="executeInfo" />
+        <result column="EXECUTE_INFO_REMARK" property="executeInfoRemark" />
+        <result column="EXECUTE_CAUSE" property="executeCause" />
+        <result column="EXECUTE_START_TIME" property="executeStartTime" />
+        <result column="EXECUTE_END_TIME" property="executeEndTime" />
+        <result column="CONTRACT_BODY" property="contractBody" />
+        <result column="CONTRACT_ATTAMENT" property="contractAttament" />
+        <result column="CONTRACT_STARTUP_BASIS" property="contractStartupBasis" />
+        <result column="SURE_PERSON_CODE" property="surePersonCode" />
+        <result column="SURE_PERSON" property="surePerson" />
+        <result column="EXECUTER_CODE" property="executerCode" />
+        <result column="EXECUTER" property="executer" />
+        <result column="OLD_EXECUTE_PERSON_CODE" property="oldExecutePersonCode" />
+        <result column="OLD_EXECUTE_PERSON" property="oldExecutePerson" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="DISABLED_TIME" property="disabledTime" />
+        <result column="DISABLED_BY" property="disabledBy" />
+        <result column="STATUE" property="statue" />
+        <result column="SURE_STATUE" property="sureStatue" />
+        <result column="SIGN_STATUE" property="signStatue" />
+        <result column="EXECUTE_STATUE" property="executeStatue" />
+        <result column="FINISH_STATUE" property="finishStatue" />
+        <result column="SPARE_FIELD_1" property="spareField1" />
+        <result column="SPARE_FIELD_2" property="spareField2" />
+        <result column="SPARE_FIELD_3" property="spareField3" />
+        <result column="SPARE_FIELD_4" property="spareField4" />
+        <result column="SPARE_FIELD_5" property="spareField5" />
+        <result column="RELATION_CODE" property="relationCode" />
+        <result column="RELATION" property="relation" />
+        <result column="SURE_STATUE_TIME" property="sureStatueTime" />
+        <result column="SIGN_STATUE_TIME" property="signStatueTime" />
+        <result column="EXECUTE_STATUE_TIME" property="executeStatueTime" />
+        <result column="FINISH_STATUE_TIME" property="finishStatueTime" />
+        <result column="STATUE_TIME" property="statueTime" />
+        <result column="PERFORMANCE_TYPE_CODE" property="performanceTypeCode" />
+        <result column="PERFORMANCE_TYPE" property="performanceType" />
+        <result column="PERFORMANCE_EFFECTIVE_COND" property="performanceEffectiveCond" />
+        <result column="EXECUTE_TYPE" property="executeType" />
+        <result column="EXECUTE_TYPE_CODE" property="executeTypeCode" />
+        <result column="EXECUTE_LONG" property="executeLong" />
+        <result column="TIME_TYPE" property="timeType" />
+        <result column="ENG_COND" property="engCond" />
+        <result column="PRINT_STATUE" property="printStatue" />
+        <result column="PRINT_STATUE_TIME" property="printStatueTime" />
+        <result column="EXECUTER_ORG_ID" property="executerOrgId"/>
+        <result column="EXECUTER_ORG" property="executerOrg"/>
+        <result column="EVALUATE_STATUE" property="evaluateStatue"/>
+        <result column="VALID_TIME" property="validTime"/>
+        <result column="SUBMIT_PROCESS_KEY" property="submitPocessKey"/>
+        <result column="SOURCES_FUNDING_VALUE" property="sourcesFundingValue"/>
+        <result column="OLD_TAX_RATE_VALUE" property="oldTaxRateValue"/>
+        <result column="TAX_RATE_VALUE" property="taxRateValue"/>
+        <result column="REVIEW" property="review"/>
+        <result column="APPROVAL_TYPE" property="approvalType"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+       ID, CONTRACT_NO, CONTRACT_NAME, OLD_CONTRACT_NO, OLD_CONTRACT_NAME, CONTRACT_SERIAL_NUMBER, INCOME_EXPENDITURE_TYPE_CODE, INCOME_EXPENDITURE_TYPE, CONTRACT_TYPE_CODE, CONTRACT_TYPE, CONTRACT_NATURE_CODE, CONTRACT_NATURE, TEMPLATE_ATTRIBUTE_CODE, TEMPLATE_ATTRIBUTE, TEMPLATE_ATTRIBUTE_REMARK, TEMPLATE_CODE, TEMPLATE_NAME, CONTRACT_CURRENCY_CODE, CONTRACT_CURRENCY, CONTRACT_CURRENCY_REMARK, OTHER_WAY_CODE, OTHER_WAY, OTHER_WAY_REMARK, SOURCES_FUNDING, PAYMENT_WAY_CODE, PAYMENT_WAY, PAYMENT_WAY_REMARK, BILLING_RATIO, OLD_AMOUNT_INCLUD_TAX, OLD_TAX_RATE, OLD_TAX_AMOUNT, OLD_AMOUNT_EXCLUD_TAX, OLD_AMOUNT_EXCLUD_TAX_CAPITAL, REPORTED_AMOUNT, PAID_AMOUNT, AMOUNT_INCLUD_TAX, TAX_RATE, TAX_RATE_REMARK, TAX_AMOUNT, AMOUNT_EXCLUD_TAX, AMOUNT_EXCLUD_TAX_CAPITAL, IS_PAY_DEPOSIT_CODE, IS_PAY_DEPOSIT, CONTRACT_DEPOSIT, PERFORMANCE_EFFECTIVE_TIME, IS_FOREIGN_CONTRACT, OPERATOR_CODE, OPERATOR, OLD_OPERATOR_CODE, OLD_OPERATOR, ORG_CODE, ORG, CONTACT_NUM, OLD_ORG_CODE, OLD_ORG, OLD_CONTACT_NUM, EXECUTE_INFO_CODE, EXECUTE_INFO, EXECUTE_INFO_REMARK, EXECUTE_CAUSE, EXECUTE_START_TIME, EXECUTE_END_TIME, CONTRACT_BODY, CONTRACT_ATTAMENT, CONTRACT_STARTUP_BASIS, SURE_PERSON_CODE, SURE_PERSON, EXECUTER_CODE, EXECUTER, OLD_EXECUTE_PERSON_CODE, OLD_EXECUTE_PERSON, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, DISABLED_TIME, DISABLED_BY, STATUE, SURE_STATUE, SIGN_STATUE, EXECUTE_STATUE, FINISH_STATUE, SPARE_FIELD_1, SPARE_FIELD_2, SPARE_FIELD_3, SPARE_FIELD_4, SPARE_FIELD_5, RELATION_CODE, RELATION, SURE_STATUE_TIME, SIGN_STATUE_TIME, EXECUTE_STATUE_TIME, FINISH_STATUE_TIME, STATUE_TIME, PERFORMANCE_TYPE_CODE, PERFORMANCE_TYPE, PERFORMANCE_EFFECTIVE_COND, EXECUTE_TYPE, EXECUTE_TYPE_CODE, EXECUTE_LONG, TIME_TYPE, ENG_COND,
+        EXECUTER_ORG_ID, EXECUTER_ORG, EVALUATE_STATUE, VALID_TIME, SUBMIT_PROCESS_KEY, SOURCES_FUNDING_VALUE, OLD_TAX_RATE_VALUE, TAX_RATE_VALUE,REVIEW,APPROVAL_TYPE
+    </sql>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List1">
+         CONTRACT_NO, CONTRACT_NAME, OLD_CONTRACT_NO, OLD_CONTRACT_NAME, CONTRACT_SERIAL_NUMBER, INCOME_EXPENDITURE_TYPE_CODE, INCOME_EXPENDITURE_TYPE, CONTRACT_TYPE_CODE, CONTRACT_TYPE, CONTRACT_NATURE_CODE, CONTRACT_NATURE, TEMPLATE_ATTRIBUTE_CODE, TEMPLATE_ATTRIBUTE, TEMPLATE_ATTRIBUTE_REMARK, TEMPLATE_CODE, TEMPLATE_NAME, CONTRACT_CURRENCY_CODE, CONTRACT_CURRENCY, CONTRACT_CURRENCY_REMARK, OTHER_WAY_CODE, OTHER_WAY, OTHER_WAY_REMARK, SOURCES_FUNDING, PAYMENT_WAY_CODE, PAYMENT_WAY, PAYMENT_WAY_REMARK, BILLING_RATIO, OLD_AMOUNT_INCLUD_TAX, OLD_TAX_RATE, OLD_TAX_AMOUNT, OLD_AMOUNT_EXCLUD_TAX, OLD_AMOUNT_EXCLUD_TAX_CAPITAL, REPORTED_AMOUNT, PAID_AMOUNT, AMOUNT_INCLUD_TAX, TAX_RATE, TAX_RATE_REMARK, TAX_AMOUNT, AMOUNT_EXCLUD_TAX, AMOUNT_EXCLUD_TAX_CAPITAL, IS_PAY_DEPOSIT_CODE, IS_PAY_DEPOSIT, CONTRACT_DEPOSIT, PERFORMANCE_EFFECTIVE_TIME, IS_FOREIGN_CONTRACT, OPERATOR_CODE, OPERATOR, OLD_OPERATOR_CODE, OLD_OPERATOR, ORG_CODE, ORG, CONTACT_NUM, OLD_ORG_CODE, OLD_ORG, OLD_CONTACT_NUM, EXECUTE_INFO_CODE, EXECUTE_INFO, EXECUTE_INFO_REMARK, EXECUTE_CAUSE, EXECUTE_START_TIME, EXECUTE_END_TIME, CONTRACT_BODY, CONTRACT_ATTAMENT, CONTRACT_STARTUP_BASIS, SURE_PERSON_CODE, SURE_PERSON, EXECUTER_CODE, EXECUTER, OLD_EXECUTE_PERSON_CODE, OLD_EXECUTE_PERSON, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, DISABLED_TIME, DISABLED_BY, STATUE, SURE_STATUE, SIGN_STATUE, EXECUTE_STATUE, FINISH_STATUE, SPARE_FIELD_1, SPARE_FIELD_2, SPARE_FIELD_3, SPARE_FIELD_4, SPARE_FIELD_5, RELATION_CODE, RELATION, SURE_STATUE_TIME, SIGN_STATUE_TIME, EXECUTE_STATUE_TIME, FINISH_STATUE_TIME, STATUE_TIME, PERFORMANCE_TYPE_CODE, PERFORMANCE_TYPE, PERFORMANCE_EFFECTIVE_COND, EXECUTE_TYPE, EXECUTE_TYPE_CODE, EXECUTE_LONG, TIME_TYPE, ENG_COND,
+        EXECUTER_ORG_ID, EXECUTER_ORG, EVALUATE_STATUE, VALID_TIME, SUBMIT_PROCESS_KEY, SOURCES_FUNDING_VALUE, OLD_TAX_RATE_VALUE, TAX_RATE_VALUE,REVIEW,APPROVAL_TYPE
+    </sql>
+    <select id="selectContractInfoById" parameterType="String" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" /> FROM CONTRACT_BASIC_INFO T WHERE T.ID = #{contractId}
+    </select>
+    <select id="selectPage" resultMap="BaseResultMap" >
+        SELECT
+        base.ID ID,
+        base.CONTRACT_SERIAL_NUMBER CONTRACT_SERIAL_NUMBER,
+        base.CONTRACT_NO CONTRACT_NO,
+        base.CONTRACT_NAME CONTRACT_NAME,
+        base.INCOME_EXPENDITURE_TYPE INCOME_EXPENDITURE_TYPE,
+        base.CONTRACT_TYPE CONTRACT_TYPE,
+        base.AMOUNT_INCLUD_TAX AMOUNT_INCLUD_TAX,
+        base.OTHER_WAY OTHER_WAY,
+        base.EXECUTE_START_TIME EXECUTE_START_TIME,
+        base.EXECUTE_END_TIME EXECUTE_END_TIME,
+        base.SIGN_STATUE SIGN_STATUE,
+        base.ORG ORG,
+        base.EVALUATE_STATUE EVALUATE_STATUE,
+        base.OPERATOR OPERATOR,
+        base.CREATE_TIME CREATE_TIME,
+        BASE.STATUE STATUE,
+        BASE.STATUE_TIME STATUE_TIME,
+        BASE.SURE_STATUE SURE_STATUE,
+        base.SURE_STATUE_TIME SURE_STATUE_TIME,
+        base.SIGN_STATUE_TIME SIGN_STATUE_TIME,
+        base.VALID_TIME VALID_TIME,
+        sub.SUBJECT_NAME SPARE_FIELD_1
+        FROM
+        CONTRACT_BASIC_INFO base
+
+        LEFT JOIN (
+        SELECT
+            listagg (p.Subject_Name, ',') WITHIN GROUP (ORDER BY P.SUBJECT_ID,contract_id) SUBJECT_NAME,CONTRACT_ID
+        FROM
+            CONTRACT_BASIC_SUBJECT_MAP P
+        WHERE
+            P.TYPE = '2'
+            group by contract_id
+        ) sub on sub.CONTRACT_ID =base.ID
+        <where>
+            ${ew.sqlSegment}
+        </where>
+        order by base.create_time desc
+    </select>
+    <!--复制合同查询基本信息页面-->
+    <select id="queryCopyInfo" parameterType="java.lang.String" resultType="com.deloitte.services.contract.entity.BasicInfo">
+        select
+        <include refid="Base_Column_List1"></include>
+        from CONTRACT_BASIC_INFO
+        where 1=1
+        and ID=#{_parameter}
+    </select>
+    <select id="queryCopySubject" resultType="com.deloitte.platform.api.contract.vo.BasicSubjectMapForm" parameterType="java.lang.String">
+        select * from CONTRACT_BASIC_SUBJECT_MAP where 1=1 and CONTRACT_ID=#{_parameter}
+
+    </select>
+
+    <select id="queryCopyInfoId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"></include>
+        from CONTRACT_BASIC_INFO
+        where 1=1
+        and ID=#{_parameter}
+    </select>
+
+    <update id="updateContractFinalize" parameterType="com.deloitte.services.contract.entity.BasicInfo">
+        UPDATE CONTRACT_BASIC_INFO T
+           SET T.SURE_PERSON_CODE = #{surePersonCode},
+               T.SURE_PERSON      = #{surePerson},
+               T.SURE_STATUE      = #{sureStatue},
+               T.SURE_STATUE_TIME = #{sureStatueTime}
+         WHERE T.ID = #{id}
+    </update>
+    <!--合同基本信息通用查询-->
+    <select id="queryCurrentBasic" resultType="com.deloitte.platform.api.contract.param.BasicInfoQueryForm" parameterType="java.lang.String">
+        select <include refid="Base_Column_List"></include>,
+        ( SELECT
+        listagg (p.Subject_Name, ',') WITHIN GROUP (ORDER BY P.SUBJECT_ID,contract_id)
+        FROM
+        CONTRACT_BASIC_SUBJECT_MAP P
+        WHERE
+        P.TYPE = '2'
+        and b.id=p.contract_id
+        ) otherSubject,
+        ( SELECT
+        listagg (p.Subject_Name, ',') WITHIN GROUP (ORDER BY P.SUBJECT_ID,contract_id)
+        FROM
+        CONTRACT_BASIC_SUBJECT_MAP P
+        WHERE
+        P.TYPE = '1'
+        and b.id=p.contract_id
+        ) outSubject
+        from CONTRACT_BASIC_INFO b
+        where b.id=#{_parameter}
+    </select>
+
+    <select id="queryCorrelationBasic" resultType="com.deloitte.platform.api.contract.vo.BasicInfoVo" parameterType="java.lang.String">
+        SELECT *
+          FROM CONTRACT_BASIC_INFO T
+         WHERE 1 = 1
+         START WITH T.ID = #{_parameter}
+        CONNECT BY PRIOR T.OLD_CONTRACT_ID = T.ID
+    </select>
+
+    <select id="queryCorrelationBasicNew" resultType="com.deloitte.platform.api.contract.vo.BasicInfoVo" parameterType="java.lang.String">
+        SELECT *
+          FROM CONTRACT_BASIC_INFO T
+         WHERE 1 = 1
+         START WITH T.ID = #{_parameter}
+        CONNECT BY PRIOR T.ID = T.OLD_CONTRACT_ID
+    </select>
+
+    <update id="updateContractStatue" parameterType="java.lang.String">
+        UPDATE CONTRACT_BASIC_INFO T
+        SET
+        T.STATUE = 'EXA15000'
+        WHERE T.ID = #{_parameter}
+    </update>
+
+    <update id="updateBasicInfoRemarkById" parameterType="com.deloitte.platform.api.contract.vo.BasicInfoForm">
+        UPDATE CONTRACT_BASIC_INFO T
+        SET
+        T.REMARK = #{remark}
+        WHERE T.ID = #{id}
+    </update>
+
+    <select id="selectContractExecuteCheck" resultType="com.deloitte.platform.api.contract.vo.BasicInfoVo" parameterType="com.deloitte.platform.api.contract.param.BasicInfoQueryForm">
+        SELECT *
+        FROM (SELECT B.ID,
+        B.CONTRACT_NO,
+        B.CONTRACT_NAME,
+        B.SUBJECT_NAME,
+        B.INCOME_EXPENDITURE_TYPE,
+        B.CONTRACT_TYPE,
+        B.AMOUNT_INCLUD_TAX,
+        B.CREATE_TIME,
+        B.STATUE_TIME,
+        B.WARNING_DATE,
+        B.DEADLINE,
+        CASE
+        WHEN B.WARNING_DATE &gt; B.DEADLINE THEN
+        '0'
+        WHEN B.WARNING_DATE &lt;= B.DEADLINE AND B.WARNING_DATE &gt;= 0 THEN
+        '1'
+        WHEN B.WARNING_DATE &lt; 0 THEN
+        '2'
+        ELSE
+        ''
+        END EXECUTE_WARING
+        FROM (SELECT *
+        FROM (SELECT TMP.*, ROWNUM ROW_ID
+        FROM (SELECT BI.ID,
+        BI.CONTRACT_NO,
+        BI.CONTRACT_NAME,
+        SUB.SUBJECT_NAME,
+        BI.INCOME_EXPENDITURE_TYPE,
+        BI.CONTRACT_TYPE,
+        BI.AMOUNT_INCLUD_TAX,
+        BI.CREATE_TIME,
+        BI.STATUE_TIME,
+        CEIL(BI.EXECUTE_END_TIME - SYSDATE) WARNING_DATE,
+        EW.WARING_TIME DEADLINE
+        FROM CONTRACT_BASIC_INFO BI
+        LEFT JOIN CONTRACT_EXECUTE_WARING EW
+        ON BI.ORG_CODE = EW.ORG_CODE
+        LEFT JOIN (SELECT LISTAGG(p.SUBJECT_NAME, ',') WITHIN GROUP(ORDER BY P.SUBJECT_ID, CONTRACT_ID) SUBJECT_NAME,
+        CONTRACT_ID
+        FROM CONTRACT_BASIC_SUBJECT_MAP P
+        WHERE P.TYPE = '2'
+        GROUP BY CONTRACT_ID) SUB
+        ON SUB.CONTRACT_ID = BI.ID
+        WHERE 1 = 1
+        AND BI.EXECUTER_CODE = #{executerCode}
+        AND BI.STATUE = 'EXA6000'
+        AND BI.STATUE_LIST = 'STA7000'
+        AND BI.EXECUTE_STATUE='EXE1000'
+        <if test="userCanGet != null and userCanGet !=''">
+            AND (BI.OPERATOR_CODE = #{userCanGet} OR BI.EXECUTER_CODE = #{userCanGet}
+            <if test="processTaskList != null">
+                OR BI.ID IN
+                <foreach collection="processTaskList" index="index" item="item" open="(" separator="," close=")">
+                    #{item.contractId}
+                </foreach>
+            </if>
+            <if test="oldOrgCode != null and oldOrgCode != ''">
+                OR BI.ORG = #{oldOrgCode}
+            </if>
+            )
+        </if>
+        <if test="contractName != null and contractName !=''">
+        AND (BI.CONTRACT_NO LIKE '%' || #{contractName} || '%' OR
+        BI.CONTRACT_NAME LIKE '%' || #{contractName} || '%')
+        </if>
+        <if test="contractTypeCode != null and contractTypeCode !=''">
+        AND BI.CONTRACT_TYPE_CODE = #{contractTypeCode}
+        </if>
+        <if test="incomeExpenditureTypeCode != null and incomeExpenditureTypeCode !=''">
+        AND BI.INCOME_EXPENDITURE_TYPE_CODE = #{incomeExpenditureTypeCode}
+        </if>
+        <if test="spareField1 != null and spareField1 !=''">
+        AND SUB.SUBJECT_NAME LIKE '%' || #{spareField1} || '%'
+        </if>
+        <if test="validTimeMin != null">
+        AND BI.VALID_TIME &gt;= #{validTimeMin}
+        </if>
+        <if test="validTimeMax != null">
+        AND BI.VALID_TIME &lt;= #{validTimeMax}
+        </if>
+        ORDER BY BI.CREATE_TIME DESC) TMP
+        WHERE ROWNUM &lt;= #{maxPage})
+        WHERE ROW_ID &gt;= #{minPage}) B) BA_WAR
+        LEFT JOIN (SELECT FIN.CONTRACT_ID,
+        LISTAGG(FIN.FINANCE_WARING, ',') WITHIN GROUP(ORDER BY FIN.CONTRACT_ID) FINANCE_WARING
+        FROM (SELECT F.CONTRACT_ID,
+        F.CONTRACT_TYPE,
+        F.ACT_PAY_TIME,
+        F.PLAN_PAY_TIME,
+        F.ACT_INCOME_TIME,
+        F.PLAN_INCOME_TIME,
+        F.PAY_WARING,
+        F.INCOME_WARING,
+        F.DEADLINE,
+        CASE
+        WHEN F.CONTRACT_TYPE = 'INC1000' THEN
+        CASE
+        WHEN F.ACT_PAY_TIME IS NOT NULL THEN
+        '0'
+        ELSE
+        CASE
+        WHEN F.PAY_WARING &gt; F.DEADLINE THEN
+        '0'
+        WHEN F.PAY_WARING &lt;= F.DEADLINE AND
+        F.PAY_WARING &gt;= 0 THEN
+        '1'
+        WHEN F.PAY_WARING &lt; 0 THEN
+        '2'
+        ELSE
+        ''
+        END
+        END
+        WHEN F.CONTRACT_TYPE = 'INC2000' THEN
+        CASE
+        WHEN F.ACT_INCOME_TIME IS NOT NULL THEN
+        '0'
+        ELSE
+        CASE
+        WHEN F.INCOME_WARING &gt; F.DEADLINE THEN
+        '0'
+        WHEN F.INCOME_WARING &lt;= F.DEADLINE AND
+        F.INCOME_WARING &gt;= 0 THEN
+        '1'
+        WHEN F.INCOME_WARING &lt; 0 THEN
+        '2'
+        ELSE
+        ''
+        END
+        END
+        WHEN F.CONTRACT_TYPE = 'INC3000' THEN
+        CASE
+        WHEN F.PLAN_PAY_TIME IS NOT NULL THEN
+        CASE
+        WHEN F.ACT_PAY_TIME IS NOT NULL THEN
+        '0'
+        ELSE
+        CASE
+        WHEN F.PAY_WARING &gt; F.DEADLINE THEN
+        '0'
+        WHEN F.PAY_WARING &lt;= F.DEADLINE AND
+        F.PAY_WARING &gt;= 0 THEN
+        '1'
+        WHEN F.PAY_WARING &lt; 0 THEN
+        '2'
+        ELSE
+        ''
+        END
+        END
+        WHEN F.PLAN_INCOME_TIME IS NOT NULL THEN
+        CASE
+        WHEN F.ACT_INCOME_TIME IS NOT NULL THEN
+        '0'
+        ELSE
+        CASE
+        WHEN F.INCOME_WARING &gt; F.DEADLINE THEN
+        '0'
+        WHEN F.INCOME_WARING &lt;= F.DEADLINE AND
+        F.INCOME_WARING &gt;= 0 THEN
+        '1'
+        WHEN F.INCOME_WARING &lt; 0 THEN
+        '2'
+        ELSE
+        ''
+        END
+        END
+        ELSE
+        ''
+        END
+        ELSE
+        ''
+        END FINANCE_WARING
+        FROM (SELECT FM.CONTRACT_ID,
+        FI.CONTRACT_TYPE,
+        FI.ACT_PAY_TIME,
+        FI.PLAN_PAY_TIME,
+        FI.ACT_INCOME_TIME,
+        FI.PLAN_INCOME_TIME,
+        CEIL(FI.PLAN_PAY_TIME - SYSDATE) PAY_WARING,
+        CEIL(FI.PLAN_INCOME_TIME - SYSDATE) INCOME_WARING,
+        EW.WARING_TIME DEADLINE
+        FROM CONTRACT_BASIC_FINANCE_MAP FM
+        LEFT JOIN CONTRACT_FINANCE_INFO FI
+        ON FM.FINANCE_ID = FI.ID
+        LEFT JOIN CONTRACT_BASIC_INFO BA
+        ON FM.CONTRACT_ID = BA.ID
+        LEFT JOIN CONTRACT_EXECUTE_WARING EW
+        ON BA.ORG_CODE = EW.ORG_CODE) F) FIN
+        GROUP BY FIN.CONTRACT_ID) FIN_WAR
+        ON BA_WAR.ID = FIN_WAR.CONTRACT_ID
+        ORDER BY BA_WAR.CREATE_TIME DESC
+    </select>
+
+    <select id="selectContractExecuteCheckCount" resultType="java.math.BigDecimal" parameterType="com.deloitte.platform.api.contract.param.BasicInfoQueryForm">
+        SELECT COUNT(1) COUNT_NUMBER
+        FROM CONTRACT_BASIC_INFO BI
+        LEFT JOIN CONTRACT_EXECUTE_WARING EW
+        ON BI.ORG_CODE = EW.ORG_CODE
+        LEFT JOIN (SELECT LISTAGG(p.SUBJECT_NAME, ',') WITHIN GROUP(ORDER BY P.SUBJECT_ID, CONTRACT_ID) SUBJECT_NAME,
+        CONTRACT_ID
+        FROM CONTRACT_BASIC_SUBJECT_MAP P
+        WHERE P.TYPE = '2'
+        GROUP BY CONTRACT_ID) SUB
+        ON SUB.CONTRACT_ID = BI.ID
+        WHERE 1 = 1
+        AND BI.EXECUTER_CODE = #{executerCode}
+        AND BI.STATUE = 'EXA6000'
+        AND BI.STATUE_LIST = 'STA7000'
+        AND BI.EXECUTE_STATUE='EXE1000'
+        <if test="userCanGet != null and userCanGet !=''">
+            AND (BI.OPERATOR_CODE = #{userCanGet} OR BI.EXECUTER_CODE = #{userCanGet}
+            <if test="processTaskList != null">
+                OR BI.ID IN
+                <foreach collection="processTaskList" index="index" item="item" open="(" separator="," close=")">
+                    #{item.contractId}
+                </foreach>
+            </if>
+            <if test="oldOrgCode != null and oldOrgCode != ''">
+                OR BI.ORG = #{oldOrgCode}
+            </if>
+            )
+        </if>
+        <if test="contractName != null and contractName !=''">
+            AND (BI.CONTRACT_NO LIKE '%' || #{contractName} || '%' OR
+            BI.CONTRACT_NAME LIKE '%' || #{contractName} || '%')
+        </if>
+        <if test="contractTypeCode != null and contractTypeCode !=''">
+            AND BI.CONTRACT_TYPE_CODE = #{contractTypeCode}
+        </if>
+        <if test="incomeExpenditureTypeCode != null and incomeExpenditureTypeCode !=''">
+            AND BI.INCOME_EXPENDITURE_TYPE_CODE = #{incomeExpenditureTypeCode}
+        </if>
+        <if test="spareField1 != null and spareField1 !=''">
+            AND SUB.SUBJECT_NAME LIKE '%' || #{spareField1} || '%'
+        </if>
+        <if test="validTimeMin != null">
+            AND BI.VALID_TIME &gt;= #{validTimeMin}
+        </if>
+        <if test="validTimeMax != null">
+            AND BI.VALID_TIME &lt;= #{validTimeMax}
+        </if>
+        ORDER BY BI.CREATE_TIME DESC
+    </select>
+
+    <!-- 查询合同台账信息 -->
+    <select id="selectContractLedger" resultType="com.deloitte.platform.api.contract.vo.BasicInfoVo" parameterType="com.deloitte.platform.api.contract.param.BasicInfoQueryForm">
+        SELECT *
+        FROM (SELECT ROWNUM RN, A.*
+        FROM (SELECT BASE.ID         ID,
+        BASE.CONTRACT_NO             CONTRACT_NO,
+        BASE.CONTRACT_NAME           CONTRACT_NAME,
+        BASE.INCOME_EXPENDITURE_TYPE INCOME_EXPENDITURE_TYPE,
+        BASE.CONTRACT_TYPE           CONTRACT_TYPE,
+        BASE.AMOUNT_INCLUD_TAX       AMOUNT_INCLUD_TAX,
+        BASE.ORG                     ORG,
+        BASE.OPERATOR                OPERATOR,
+        BASE.IS_IMPRINT              IS_IMPRINT,
+        BASE.IS_FOREIGN_CONTRACT     IS_FOREIGN_CONTRACT,
+        BASE.CREATE_TIME             CREATE_TIME,
+        BASE.STATUE                  STATUE,
+        BASE.STATUE_TIME             STATUE_TIME,
+        BASE.SURE_STATUE             SURE_STATUE,
+        BASE.SURE_STATUE_TIME        SURE_STATUE_TIME,
+        BASE.SIGN_STATUE_TIME        SIGN_STATUE_TIME,
+        BASE.VALID_TIME              VALID_TIME,
+        BASE.EXECUTE_START_TIME      EXECUTE_START_TIME,
+        BASE.EXECUTE_END_TIME        EXECUTE_END_TIME,
+        SUB.SUBJECT_NAME             OTHER_SUBJECT,
+        SUB_MY.SUBJECT_NAME_MY       OUT_SUBJECT,
+        CA.IS_ARCHIVE                IS_ARCHIVE
+        FROM CONTRACT_BASIC_INFO BASE
+        LEFT JOIN CONTRACT_ARCHIVE CA
+        ON BASE.ID = CA.CONTRACT_ID
+        LEFT JOIN (SELECT LISTAGG(p.SUBJECT_NAME, ',') WITHIN GROUP(ORDER BY P.SUBJECT_ID, CONTRACT_ID) SUBJECT_NAME,
+        CONTRACT_ID
+        FROM CONTRACT_BASIC_SUBJECT_MAP P
+        WHERE P.TYPE = '2'
+        GROUP BY CONTRACT_ID) SUB
+        ON SUB.CONTRACT_ID = BASE.ID
+        LEFT JOIN (SELECT LISTAGG(p.SUBJECT_NAME, ',') WITHIN GROUP(ORDER BY P.SUBJECT_ID, CONTRACT_ID) SUBJECT_NAME_MY,
+        CONTRACT_ID
+        FROM CONTRACT_BASIC_SUBJECT_MAP P
+        WHERE P.TYPE = '1'
+        GROUP BY CONTRACT_ID) SUB_MY
+        ON SUB_MY.CONTRACT_ID = BASE.ID
+        WHERE 1 = 1
+        AND BASE.STATUE NOT IN ('EXA3000','EXA2000','EXA4000','EXA5000')
+        <if test="userCanGet != null and userCanGet !=''">
+            AND (BASE.OPERATOR_CODE = #{userCanGet} OR BASE.EXECUTER_CODE = #{userCanGet}
+            <if test="processTaskList != null">
+                OR BASE.ID IN
+                <foreach collection="processTaskList" index="index" item="item" open="(" separator="," close=")">
+                    #{item.contractId}
+                </foreach>
+            </if>
+            <if test="oldOrgCode != null and oldOrgCode != ''">
+                OR BASE.ORG = #{oldOrgCode}
+            </if>
+            )
+        </if>
+        <if test="otherSubject != null and otherSubject !=''">
+          AND SUB.SUBJECT_NAME LIKE '%' || #{otherSubject} || '%'
+        </if>
+        <if test="outSubject != null and outSubject !=''">
+          AND SUB_MY.SUBJECT_NAME_MY LIKE '%' || #{outSubject} || '%'
+        </if>
+        <if test="contractName != null and contractName !=''">
+          AND (BASE.CONTRACT_NO LIKE '%' || #{contractName} || '%' OR BASE.CONTRACT_NAME LIKE '%' || #{contractName} || '%')
+        </if>
+        <if test="incomeExpenditureTypeCode != null and incomeExpenditureTypeCode !=''">
+          AND BASE.INCOME_EXPENDITURE_TYPE_CODE = #{incomeExpenditureTypeCode}
+        </if>
+        <if test="contractTypeCode != null and contractTypeCode !=''">
+          AND BASE.CONTRACT_TYPE_CODE = #{contractTypeCode}
+        </if>
+        <if test="statue != null and statue !=''">
+          AND BASE.STATUE = #{statue}
+        </if>
+        <if test="org != null and org !=''">
+          AND BASE.ORG LIKE '%' || #{org} || '%'
+        </if>
+        <if test="operator != null and operator !=''">
+          AND BASE.OPERATOR = #{operator}
+        </if>
+        <if test="executeTypeCode != null and executeTypeCode !=''">
+            AND BASE.EXECUTE_TYPE_CODE = #{executeTypeCode}
+        </if>
+        <if test="validTimeMax != null">
+          AND BASE.VALID_TIME &lt;= #{validTimeMax}
+        </if>
+        <if test="validTimeMin != null">
+          AND BASE.VALID_TIME &gt;= #{validTimeMin}
+        </if>
+        <if test="isImprint != null and isImprint !=''">
+          AND BASE.IS_IMPRINT = #{isImprint}
+        </if>
+        <if test="isForeignContract != null and isForeignContract !=''">
+          AND BASE.IS_FOREIGN_CONTRACT = #{isForeignContract}
+        </if>
+        ORDER BY BASE.CREATE_TIME DESC) A
+        WHERE ROWNUM &lt;= #{maxPage})
+        WHERE RN &gt;= #{minPage}
+    </select>
+
+    <!-- 查询合同台账信息条数 -->
+    <select id="selectContractLedgerCount" resultType="java.math.BigDecimal" parameterType="com.deloitte.platform.api.contract.param.BasicInfoQueryForm">
+        SELECT COUNT(1) COUNT_NUMBER
+        FROM CONTRACT_BASIC_INFO BASE
+        LEFT JOIN (SELECT LISTAGG(p.SUBJECT_NAME, ',') WITHIN GROUP(ORDER BY P.SUBJECT_ID, CONTRACT_ID) SUBJECT_NAME,
+        CONTRACT_ID
+        FROM CONTRACT_BASIC_SUBJECT_MAP P
+        WHERE P.TYPE = '2'
+        GROUP BY CONTRACT_ID) SUB
+        ON SUB.CONTRACT_ID = BASE.ID
+        LEFT JOIN (SELECT LISTAGG(p.SUBJECT_NAME, ',') WITHIN GROUP(ORDER BY P.SUBJECT_ID, CONTRACT_ID) SUBJECT_NAME_MY,
+        CONTRACT_ID
+        FROM CONTRACT_BASIC_SUBJECT_MAP P
+        WHERE P.TYPE = '1'
+        GROUP BY CONTRACT_ID) SUB_MY
+        ON SUB_MY.CONTRACT_ID = BASE.ID
+        WHERE 1 = 1
+        AND BASE.STATUE NOT IN ('EXA3000','EXA2000')
+        <if test="userCanGet != null and userCanGet !=''">
+            AND (BASE.OPERATOR_CODE = #{userCanGet} OR BASE.EXECUTER_CODE = #{userCanGet}
+            <if test="processTaskList != null">
+                OR BASE.ID IN
+                <foreach collection="processTaskList" index="index" item="item" open="(" separator="," close=")">
+                    #{item.contractId}
+                </foreach>
+            </if>
+            <if test="oldOrgCode != null and oldOrgCode != ''">
+                OR BASE.ORG = #{oldOrgCode}
+            </if>
+            )
+        </if>
+        <if test="otherSubject != null and otherSubject !=''">
+            AND SUB.SUBJECT_NAME LIKE '%' || #{otherSubject} || '%'
+        </if>
+        <if test="outSubject != null and outSubject !=''">
+            AND SUB_MY.SUBJECT_NAME_MY LIKE '%' || #{outSubject} || '%'
+        </if>
+        <if test="contractName != null and contractName !=''">
+            AND (BASE.CONTRACT_NO LIKE '%' || #{contractName} || '%' OR BASE.CONTRACT_NAME LIKE '%' || #{contractName} || '%')
+        </if>
+        <if test="incomeExpenditureTypeCode != null and incomeExpenditureTypeCode !=''">
+            AND BASE.INCOME_EXPENDITURE_TYPE_CODE = #{incomeExpenditureTypeCode}
+        </if>
+        <if test="contractTypeCode != null and contractTypeCode !=''">
+            AND BASE.CONTRACT_TYPE_CODE = #{contractTypeCode}
+        </if>
+        <if test="statue != null and statue !=''">
+            AND BASE.STATUE = #{statue}
+        </if>
+        <if test="org != null and org !=''">
+            AND BASE.ORG LIKE '%' || #{org} || '%'
+        </if>
+        <if test="operator != null and operator !=''">
+            AND BASE.OPERATOR = #{operator}
+        </if>
+        <if test="executeTypeCode != null and executeTypeCode !=''">
+            AND BASE.EXECUTE_TYPE_CODE = #{executeTypeCode}
+        </if>
+        <if test="validTimeMax != null">
+            AND BASE.VALID_TIME &lt;= #{validTimeMax}
+        </if>
+        <if test="validTimeMin != null">
+            AND BASE.VALID_TIME &gt;= #{validTimeMin}
+        </if>
+        <if test="isImprint != null and isImprint !=''">
+            AND BASE.IS_IMPRINT = #{isImprint}
+        </if>
+        <if test="isForeignContract != null and isForeignContract !=''">
+            AND BASE.IS_FOREIGN_CONTRACT = #{isForeignContract}
+        </if>
+        ORDER BY BASE.CREATE_TIME DESC
+    </select>
+
+    <!-- 导出合同台账信息 -->
+    <select id="exportContractLedger" resultType="com.deloitte.platform.api.contract.vo.BasicInfoVo" parameterType="com.deloitte.platform.api.contract.param.BasicInfoQueryForm">
+        SELECT BASE.ID               ID,
+        BASE.CONTRACT_NO             CONTRACT_NO,
+        BASE.CONTRACT_NAME           CONTRACT_NAME,
+        BASE.INCOME_EXPENDITURE_TYPE INCOME_EXPENDITURE_TYPE,
+        BASE.CONTRACT_TYPE           CONTRACT_TYPE,
+        BASE.AMOUNT_INCLUD_TAX       AMOUNT_INCLUD_TAX,
+        BASE.ORG                     ORG,
+        BASE.OPERATOR                OPERATOR,
+        BASE.IS_IMPRINT              IS_IMPRINT,
+        BASE.IS_FOREIGN_CONTRACT     IS_FOREIGN_CONTRACT,
+        BASE.CREATE_TIME             CREATE_TIME,
+        SD.VALUE                     STATUE,
+        BASE.STATUE_TIME             STATUE_TIME,
+        BASE.SURE_STATUE             SURE_STATUE,
+        BASE.SURE_STATUE_TIME        SURE_STATUE_TIME,
+        BASE.SIGN_STATUE_TIME        SIGN_STATUE_TIME,
+        BASE.VALID_TIME              VALID_TIME,
+        BASE.EXECUTE_START_TIME      EXECUTE_START_TIME,
+        BASE.EXECUTE_END_TIME        EXECUTE_END_TIME,
+        SUB.SUBJECT_NAME             OTHER_SUBJECT,
+        SUB_MY.SUBJECT_NAME_MY       OUT_SUBJECT
+        FROM CONTRACT_BASIC_INFO BASE
+        LEFT JOIN SYS_DICT SD
+        ON SD.CODE = BASE.STATUE
+        AND SD.TYPE = 'EXAMINE_STATUE'
+        LEFT JOIN (SELECT LISTAGG(p.SUBJECT_NAME, ',') WITHIN GROUP(ORDER BY P.SUBJECT_ID, CONTRACT_ID) SUBJECT_NAME,
+        CONTRACT_ID
+        FROM CONTRACT_BASIC_SUBJECT_MAP P
+        WHERE P.TYPE = '2'
+        GROUP BY CONTRACT_ID) SUB
+        ON SUB.CONTRACT_ID = BASE.ID
+        LEFT JOIN (SELECT LISTAGG(p.SUBJECT_NAME, ',') WITHIN GROUP(ORDER BY P.SUBJECT_ID, CONTRACT_ID) SUBJECT_NAME_MY,
+        CONTRACT_ID
+        FROM CONTRACT_BASIC_SUBJECT_MAP P
+        WHERE P.TYPE = '1'
+        GROUP BY CONTRACT_ID) SUB_MY
+        ON SUB_MY.CONTRACT_ID = BASE.ID
+        WHERE 1 = 1
+        <if test="userCanGet != null and userCanGet !=''">
+            AND (BASE.OPERATOR_CODE = #{userCanGet} OR BASE.EXECUTER_CODE = #{userCanGet}
+            <if test="processTaskList != null">
+                OR BASE.ID IN
+                <foreach collection="processTaskList" index="index" item="item" open="(" separator="," close=")">
+                    #{item.contractId}
+                </foreach>
+            </if>
+            <if test="oldOrgCode != null and oldOrgCode != ''">
+                OR BASE.ORG = #{oldOrgCode}
+            </if>
+            )
+        </if>
+        <if test="otherSubject != null and otherSubject !=''">
+            AND SUB.SUBJECT_NAME LIKE '%' || #{otherSubject} || '%'
+        </if>
+        <if test="outSubject != null and outSubject !=''">
+            AND SUB_MY.SUBJECT_NAME_MY LIKE '%' || #{outSubject} || '%'
+        </if>
+        <if test="contractName != null and contractName !=''">
+            AND (BASE.CONTRACT_NO LIKE '%' || #{contractName} || '%' OR BASE.CONTRACT_NAME LIKE '%' || #{contractName} || '%')
+        </if>
+        <if test="incomeExpenditureTypeCode != null and incomeExpenditureTypeCode !=''">
+            AND BASE.INCOME_EXPENDITURE_TYPE_CODE = #{incomeExpenditureTypeCode}
+        </if>
+        <if test="contractTypeCode != null and contractTypeCode !=''">
+            AND BASE.CONTRACT_TYPE_CODE = #{contractTypeCode}
+        </if>
+        <if test="statue != null and statue !=''">
+            AND BASE.STATUE = #{statue}
+        </if>
+        <if test="orgCode != null and orgCode !=''">
+            AND BASE.ORG_CODE = #{orgCode}
+        </if>
+        <if test="operator != null and operator !=''">
+            AND BASE.OPERATOR = #{operator}
+        </if>
+        <if test="executeTypeCode != null and executeTypeCode !=''">
+            AND BASE.EXECUTE_TYPE_CODE = #{executeTypeCode}
+        </if>
+        <if test="validTimeMax != null">
+            AND BASE.VALID_TIME &lt;= #{validTimeMax}
+        </if>
+        <if test="validTimeMin != null">
+            AND BASE.VALID_TIME &gt;= #{validTimeMin}
+        </if>
+        <if test="isImprint != null and isImprint !=''">
+            AND BASE.IS_IMPRINT = #{isImprint}
+        </if>
+        <if test="isForeignContract != null and isForeignContract !=''">
+            AND BASE.IS_FOREIGN_CONTRACT = #{isForeignContract}
+        </if>
+        ORDER BY BASE.CREATE_TIME DESC
+    </select>
+    <!--倒签合同报表数据-->
+    <select id="selectNoBackDating" parameterType="com.deloitte.platform.api.contract.param.BasicInfoQueryForm" resultType="com.deloitte.platform.api.contract.vo.BasicInfoVo">
+        select
+        noback.org,noback.noBackDatingTotal,back.backDatingTotal
+        from
+        (select ORG org,ORG_CODE orgCode,OPERATOR_CODE operatorCode,OPERATOR operator,count(execute_info) noBackDatingTotal from Contract_Basic_Info where EXECUTE_INFO_CODE = 'EXE1000'
+        <if test="userCanGet != null and userCanGet !=''">
+            AND (OPERATOR_CODE = #{userCanGet} OR EXECUTER_CODE = #{userCanGet}
+            <if test="processTaskList != null">
+                OR ID IN
+                <foreach collection="processTaskList" index="index" item="item" open="(" separator="," close=")">
+                    #{item.contractId}
+                </foreach>
+            </if>
+            <if test="oldOrgCode != null and oldOrgCode != ''">
+                OR ORG = #{oldOrgCode}
+            </if>
+            )
+        </if>
+         <if test="operatorCode != null and operatorCode != ''">
+         	and OPERATOR_CODE=#{operatorCode}
+         </if>
+         <if test="orgCode != null and orgCode != ''">
+            and ORG_Code=#{orgCode}
+         </if>
+        group by org,ORG_CODE,OPERATOR_CODE,OPERATOR) noback left join
+        (select ORG org,ORG_CODE orgCode,OPERATOR_CODE operatorCode,OPERATOR operator,count(execute_info) backDatingTotal from Contract_Basic_Info where EXECUTE_INFO_CODE = 'EXE3000'
+        <if test="userCanGet != null and userCanGet !=''">
+            AND (OPERATOR_CODE = #{userCanGet} OR EXECUTER_CODE = #{userCanGet}
+            <if test="processTaskList != null">
+                OR ID IN
+                <foreach collection="processTaskList" index="index" item="item" open="(" separator="," close=")">
+                    #{item.contractId}
+                </foreach>
+            </if>
+            <if test="oldOrgCode != null and oldOrgCode != ''">
+                OR ORG = #{oldOrgCode}
+            </if>
+            )
+        </if>
+         <if test="operatorCode != null and operatorCode != ''">
+         	and OPERATOR_CODE=#{operatorCode}
+         </if>
+         <if test="orgCode != null and orgCode != ''">
+            and ORG_Code=#{orgCode}
+         </if>
+        group by org,ORG_CODE,OPERATOR_CODE,OPERATOR) back
+        on noback.org = back.org
+        and noback.orgCode = back.orgCode
+        <!--and noback.operatorCode = back.operatorCode-->
+        <!--and noback.operator = back.operator-->
+    </select>
+
+    <!--审签意见统计报表数据-->
+    <select id="selectOpinionBaseInfo" parameterType="com.deloitte.platform.api.contract.param.BasicInfoQueryForm" resultType="com.deloitte.platform.api.contract.vo.BasicInfoVo">
+        SELECT *
+        FROM (SELECT ROWNUM RN, A.*
+        FROM
+        (
+        SELECT
+        b.id id,
+        b.CONTRACT_NAME contractName,
+        b.CONTRACT_NO contractNo,
+        b.org org,
+        b.EXECUTE_START_TIME executeStartTime,
+        b.EXECUTE_END_TIME executeEndTime,
+        b.AMOUNT_INCLUD_TAX amountIncludTax,
+        b.OTHER_WAY otherWay,
+        ( SELECT
+        listagg (P.Subject_Name, ',') WITHIN GROUP (ORDER BY P.SUBJECT_ID,contract_id)
+        FROM
+        CONTRACT_BASIC_SUBJECT_MAP P
+        WHERE
+        P.TYPE = '2'
+        and b.id=p.contract_id
+        ) otherSubject
+        FROM
+        CONTRACT_BASIC_INFO b
+        where 1=1
+        <if test="userCanGet != null and userCanGet !=''">
+            AND (b.OPERATOR_CODE = #{userCanGet} OR b.EXECUTER_CODE = #{userCanGet}
+            <if test="processTaskList != null">
+                OR b.ID IN
+                <foreach collection="processTaskList" index="index" item="item" open="(" separator="," close=")">
+                    #{item.contractId}
+                </foreach>
+            </if>
+            <if test="oldOrgCode != null and oldOrgCode != ''">
+                OR b.ORG = #{oldOrgCode}
+            </if>
+            )
+        </if>
+        <if test="operatorCode != null and operatorCode != ''">
+            and b.OPERATOR_CODE=#{operatorCode}
+        </if>
+        <if test="orgCode != null and orgCode != ''">
+            and b.ORG_Code=#{orgCode}
+        </if>
+        )A
+        <if test="maxPage != null and maxPage != ''">
+        WHERE ROWNUM &lt;= #{maxPage}
+        </if>
+        )
+        <if test="minPage != null and minPage != ''">
+        WHERE RN &gt;= #{minPage}
+        </if>
+    </select>
+
+    <select id="selectTotal" parameterType="com.deloitte.platform.api.contract.param.BasicInfoQueryForm" resultType="com.deloitte.platform.api.contract.vo.BasicInfoVo">
+        select *  FROM
+        CONTRACT_BASIC_INFO b
+        where 1=1
+        <if test="userCanGet != null and userCanGet !=''">
+            AND (b.OPERATOR_CODE = #{userCanGet} OR b.EXECUTER_CODE = #{userCanGet}
+            <if test="processTaskList != null">
+                OR b.ID IN
+                <foreach collection="processTaskList" index="index" item="item" open="(" separator="," close=")">
+                    #{item.contractId}
+                </foreach>
+            </if>
+            <if test="oldOrgCode != null and oldOrgCode != ''">
+                OR b.ORG = #{oldOrgCode}
+            </if>
+            )
+        </if>
+        <if test="operatorCode != null and operatorCode != ''">
+            and b.OPERATOR_CODE=#{operatorCode}
+        </if>
+        <if test="orgCode != null and orgCode != ''">
+            and b.ORG_Code=#{orgCode}
+        </if>
+    </select>
+    <select id="selectOpinion" parameterType="java.lang.String" resultType="com.deloitte.platform.api.contract.vo.ApprovalOpinionVo">
+        SELECT
+        k.APPROVER_STATION approverStation,
+        k.CREATE_TIME createTime,
+        (select count(OPINION_TYPE) from CONTRACT_APPROVAL_OPINION n where n.CONTRACT_ID = b.id and n.OPINION_TYPE='APP2000')  approvalOpinion,
+        (select count(OPINION_TYPE) from CONTRACT_APPROVAL_OPINION n where n.CONTRACT_ID = b.id and n.OPINION_TYPE='APP3000')  suggestOpinion,
+        (select count(OPINION_TYPE) from CONTRACT_APPROVAL_OPINION n where n.CONTRACT_ID = b.id and n.OPINION_TYPE in ('APP3000','APP2000'))  replayOpinion
+        FROM
+        CONTRACT_BASIC_INFO b,
+        CONTRACT_APPROVAL_VOUCHER r,
+        CONTRACT_PROCESS_TASK k
+        WHERE
+        r.contract_id = b.id
+        and r.id = k.object_id
+        and b.id = #{_parameter}
+    </select>
+
+    <select id="selectExecuteRatio" parameterType="com.deloitte.platform.api.contract.param.BasicInfoQueryForm" resultType="com.deloitte.platform.api.contract.vo.BasicInfoExecuteVo">
+        SELECT B.EXE_TYPE, COUNT(B.EXE_TYPE) EXE_NUMBER
+          FROM (SELECT A.ID, MAX(A.EXECUTE_WARING) EXE_TYPE
+                  FROM (SELECT BA.*,
+                               CASE
+                                 WHEN BA.INCOME_EXPENDITURE_TYPE_CODE = 'INC4000' THEN
+                                  '0'
+                                 ELSE
+                                  CASE
+                                    WHEN FI.PLAN_PAY_TIME IS NOT NULL OR
+                                         FI.PLAN_INCOME_TIME IS NOT NULL THEN
+                                     CASE
+                                       WHEN FI.ACT_PAY_TIME IS NOT NULL OR
+                                            FI.ACT_PAY_TIME IS NOT NULL THEN
+                                        CASE
+                                          WHEN FI.APPOINT_PAY_AMOUNT - FI.ACT_PAY_RATE = 0 OR
+                                               FI.APPOINT_INCOME_AMOUNT - FI.ACT_INCOME_RATE = 0 THEN
+                                           '0'
+                                          ELSE
+                                           '1'
+                                        END
+                                       ELSE
+                                        CASE
+                                          WHEN CEIL(FI.PLAN_PAY_TIME - SYSDATE) >= 0 OR
+                                               CEIL(FI.PLAN_INCOME_TIME - SYSDATE) > 0 THEN
+                                           '0'
+                                          ELSE
+                                           '1'
+                                        END
+                                     END
+                                    ELSE
+                                     '2'
+                                  END
+                               END EXECUTE_WARING
+                          FROM CONTRACT_BASIC_INFO BA
+                          LEFT JOIN CONTRACT_BASIC_FINANCE_MAP FM
+                            ON BA.ID = FM.CONTRACT_ID
+                          LEFT JOIN CONTRACT_FINANCE_INFO FI
+                            ON FM.FINANCE_ID = FI.ID
+                         WHERE 1 = 1
+                           AND BA.STATUE = 'EXA6000'
+        <if test="userCanGet != null and userCanGet !=''">
+            AND (BA.OPERATOR_CODE = #{userCanGet} OR BA.EXECUTER_CODE = #{userCanGet}
+            <if test="processTaskList != null">
+                OR BA.ID IN
+                <foreach collection="processTaskList" index="index" item="item" open="(" separator="," close=")">
+                    #{item.contractId}
+                </foreach>
+            </if>
+            <if test="oldOrgCode != null and oldOrgCode != ''">
+                OR BA.ORG = #{oldOrgCode}
+            </if>
+            )
+        </if>
+        <if test="orgCode != null and orgCode != ''">
+                           AND BA.ORG_CODE = #{orgCode}
+        </if>
+        <if test="operatorCode != null and operatorCode != ''">
+                           AND BA.OPERATOR_CODE = #{operatorCode}
+        </if>
+                           ) A
+                 GROUP BY A.ID) B
+         GROUP BY B.EXE_TYPE
+
+    </select>
+
+    <select id="getPayDate" parameterType="com.deloitte.platform.api.contract.param.BasicInfoQueryForm" resultType="java.math.BigDecimal">
+        SELECT COUNT(1) PAY_DATE
+        FROM (SELECT CEIL(CF.PLAN_PAY_TIME - SYSDATE) PAY_DATE
+        FROM CONTRACT_FINANCE_INFO CF
+        LEFT JOIN (SELECT CBF.FINANCE_ID, MAX(CBF.CONTRACT_ID) CONTRACT_ID
+        FROM CONTRACT_BASIC_FINANCE_MAP CBF
+        GROUP BY CBF.FINANCE_ID) CG
+        ON CF.ID = CG.FINANCE_ID
+        LEFT JOIN CONTRACT_BASIC_INFO BA
+        ON CG.CONTRACT_ID = BA.ID
+        WHERE 1 = 1
+        AND CF.ACT_PAY_TIME IS NULL
+        <if test="userCanGet != null and userCanGet !=''">
+            AND (BA.OPERATOR_CODE = #{userCanGet} OR BA.EXECUTER_CODE = #{userCanGet}
+            <if test="processTaskList != null">
+                OR BA.ID IN
+                <foreach collection="processTaskList" index="index" item="item" open="(" separator="," close=")">
+                    #{item.contractId}
+                </foreach>
+            </if>
+            <if test="oldOrgCode != null and oldOrgCode != ''">
+                OR BA.ORG = #{oldOrgCode}
+            </if>
+            )
+        </if>
+        <if test="orgCode != null and orgCode != ''">
+            AND BA.ORG_CODE = #{orgCode}
+        </if>
+        <if test="operatorCode != null and operatorCode != ''">
+            AND BA.OPERATOR_CODE = #{operatorCode}
+        </if>
+        ) T
+        WHERE T.PAY_DATE &lt; 0
+    </select>
+
+    <select id="getIncomeDate" parameterType="com.deloitte.platform.api.contract.param.BasicInfoQueryForm" resultType="java.math.BigDecimal">
+        SELECT COUNT(1) INCOME_DATE
+        FROM (SELECT CEIL(CF.PLAN_INCOME_TIME - SYSDATE) INCOME_DATE
+        FROM CONTRACT_FINANCE_INFO CF
+        LEFT JOIN (SELECT CBF.FINANCE_ID, MAX(CBF.CONTRACT_ID) CONTRACT_ID
+        FROM CONTRACT_BASIC_FINANCE_MAP CBF
+        GROUP BY CBF.FINANCE_ID) CG
+        ON CF.ID = CG.FINANCE_ID
+        LEFT JOIN CONTRACT_BASIC_INFO BA
+        ON CG.CONTRACT_ID = BA.ID
+        WHERE 1 = 1
+        AND CF.ACT_INCOME_TIME IS NULL
+        <if test="userCanGet != null and userCanGet !=''">
+            AND (BA.OPERATOR_CODE = #{userCanGet} OR BA.EXECUTER_CODE = #{userCanGet}
+            <if test="processTaskList != null">
+                OR BA.ID IN
+                <foreach collection="processTaskList" index="index" item="item" open="(" separator="," close=")">
+                    #{item.contractId}
+                </foreach>
+            </if>
+            <if test="oldOrgCode != null and oldOrgCode != ''">
+                OR BA.ORG = #{oldOrgCode}
+            </if>
+            )
+        </if>
+        <if test="orgCode != null and orgCode != ''">
+            AND BA.ORG_CODE = #{orgCode}
+        </if>
+        <if test="operatorCode != null and operatorCode != ''">
+            AND BA.OPERATOR_CODE = #{operatorCode}
+        </if>
+        ) T
+        WHERE T.INCOME_DATE &lt; 0
+    </select>
+
+    <select id="getPayMoney" parameterType="com.deloitte.platform.api.contract.param.BasicInfoQueryForm" resultType="java.math.BigDecimal">
+        SELECT COUNT(1) PAY_MONEY
+          FROM (SELECT CF.APPOINT_PAY_AMOUNT - CF.ACT_PAY_RATE PAY_MONEY
+                  FROM CONTRACT_FINANCE_INFO CF
+                  LEFT JOIN (SELECT CBF.FINANCE_ID, MAX(CBF.CONTRACT_ID) CONTRACT_ID
+                              FROM CONTRACT_BASIC_FINANCE_MAP CBF
+                             GROUP BY CBF.FINANCE_ID) CG
+                    ON CF.ID = CG.FINANCE_ID
+                  LEFT JOIN CONTRACT_BASIC_INFO BA
+                    ON CG.CONTRACT_ID = BA.ID
+                 WHERE 1 = 1
+        <if test="userCanGet != null and userCanGet !=''">
+            AND (BA.OPERATOR_CODE = #{userCanGet} OR BA.EXECUTER_CODE = #{userCanGet}
+            <if test="processTaskList != null">
+                OR BA.ID IN
+                <foreach collection="processTaskList" index="index" item="item" open="(" separator="," close=")">
+                    #{item.contractId}
+                </foreach>
+            </if>
+            <if test="oldOrgCode != null and oldOrgCode != ''">
+                OR BA.ORG = #{oldOrgCode}
+            </if>
+            )
+        </if>
+        <if test="orgCode != null and orgCode != ''">
+            AND BA.ORG_CODE = #{orgCode}
+        </if>
+        <if test="operatorCode != null and operatorCode != ''">
+            AND BA.OPERATOR_CODE = #{operatorCode}
+        </if>
+                   ) T
+         WHERE T.PAY_MONEY != 0
+    </select>
+
+    <select id="getIncomeMoney" parameterType="com.deloitte.platform.api.contract.param.BasicInfoQueryForm" resultType="java.math.BigDecimal">
+        SELECT COUNT(1) INCOME_MONEY
+          FROM (SELECT CF.APPOINT_INCOME_AMOUNT - CF.ACT_INCOME_RATE INCOME_MONEY
+                  FROM CONTRACT_FINANCE_INFO CF
+                  LEFT JOIN (SELECT CBF.FINANCE_ID, MAX(CBF.CONTRACT_ID) CONTRACT_ID
+                              FROM CONTRACT_BASIC_FINANCE_MAP CBF
+                             GROUP BY CBF.FINANCE_ID) CG
+                    ON CF.ID = CG.FINANCE_ID
+                  LEFT JOIN CONTRACT_BASIC_INFO BA
+                    ON CG.CONTRACT_ID = BA.ID
+                 WHERE 1 = 1
+        <if test="userCanGet != null and userCanGet !=''">
+            AND (BA.OPERATOR_CODE = #{userCanGet} OR BA.EXECUTER_CODE = #{userCanGet}
+            <if test="processTaskList != null">
+                OR BA.ID IN
+                <foreach collection="processTaskList" index="index" item="item" open="(" separator="," close=")">
+                    #{item.contractId}
+                </foreach>
+            </if>
+            <if test="oldOrgCode != null and oldOrgCode != ''">
+                OR BA.ORG = #{oldOrgCode}
+            </if>
+            )
+        </if>
+        <if test="orgCode != null and orgCode != ''">
+            AND BA.ORG_CODE = #{orgCode}
+        </if>
+        <if test="operatorCode != null and operatorCode != ''">
+            AND BA.OPERATOR_CODE = #{operatorCode}
+        </if>
+                   ) T
+         WHERE T.INCOME_MONEY != 0
+    </select>
+
+    <select id="getMoneyAll" parameterType="com.deloitte.platform.api.contract.param.BasicInfoQueryForm" resultType="com.deloitte.platform.api.contract.vo.BasicInfoExecuteVo">
+        SELECT MM.MM_TIME,
+               A.SUM_MONEY PAY_MONEY_ALL,
+               B.SUM_MONEY INCOME_MONEY_ALL
+          FROM (SELECT SUBSTR(TO_CHAR(T.PLAN_PAY_TIME, 'YYYY-MM'), 6) MM_TIME
+                  FROM CONTRACT_FINANCE_INFO T
+                  LEFT JOIN (SELECT CBF.FINANCE_ID, MAX(CBF.CONTRACT_ID) CONTRACT_ID
+                              FROM CONTRACT_BASIC_FINANCE_MAP CBF
+                             GROUP BY CBF.FINANCE_ID) CG
+                    ON T.ID = CG.FINANCE_ID
+                  LEFT JOIN CONTRACT_BASIC_INFO BA
+                    ON CG.CONTRACT_ID = BA.ID
+                 WHERE 1 = 1
+        <if test="userCanGet != null and userCanGet !=''">
+            AND (BA.OPERATOR_CODE = #{userCanGet} OR BA.EXECUTER_CODE = #{userCanGet}
+            <if test="processTaskList != null">
+                OR BA.ID IN
+                <foreach collection="processTaskList" index="index" item="item" open="(" separator="," close=")">
+                    #{item.contractId}
+                </foreach>
+            </if>
+            <if test="oldOrgCode != null and oldOrgCode != ''">
+                OR BA.ORG = #{oldOrgCode}
+            </if>
+            )
+        </if>
+        <if test="orgCode != null and orgCode != ''">
+            AND BA.ORG_CODE = #{orgCode}
+        </if>
+        <if test="operatorCode != null and operatorCode != ''">
+            AND BA.OPERATOR_CODE = #{operatorCode}
+        </if>
+                   AND TO_CHAR(T.PLAN_PAY_TIME, 'YYYY') = TO_CHAR(SYSDATE, 'YYYY')
+                 GROUP BY TO_CHAR(T.PLAN_PAY_TIME, 'YYYY-MM')
+                UNION
+                SELECT SUBSTR(TO_CHAR(S.PLAN_INCOME_TIME, 'YYYY-MM'), 6) MM_TIME
+                  FROM CONTRACT_FINANCE_INFO S
+                  LEFT JOIN (SELECT CBF.FINANCE_ID, MAX(CBF.CONTRACT_ID) CONTRACT_ID
+                              FROM CONTRACT_BASIC_FINANCE_MAP CBF
+                             GROUP BY CBF.FINANCE_ID) CG
+                    ON S.ID = CG.FINANCE_ID
+                  LEFT JOIN CONTRACT_BASIC_INFO BA
+                    ON CG.CONTRACT_ID = BA.ID
+                 WHERE 1 = 1
+        <if test="userCanGet != null and userCanGet !=''">
+            AND (BA.OPERATOR_CODE = #{userCanGet} OR BA.EXECUTER_CODE = #{userCanGet}
+            <if test="processTaskList != null">
+                OR BA.ID IN
+                <foreach collection="processTaskList" index="index" item="item" open="(" separator="," close=")">
+                    #{item.contractId}
+                </foreach>
+            </if>
+            <if test="oldOrgCode != null and oldOrgCode != ''">
+                OR BA.ORG = #{oldOrgCode}
+            </if>
+            )
+        </if>
+        <if test="orgCode != null and orgCode != ''">
+            AND BA.ORG_CODE = #{orgCode}
+        </if>
+        <if test="operatorCode != null and operatorCode != ''">
+            AND BA.OPERATOR_CODE = #{operatorCode}
+        </if>
+                   AND TO_CHAR(S.PLAN_INCOME_TIME, 'YYYY') =
+                       TO_CHAR(SYSDATE, 'YYYY')
+                 GROUP BY TO_CHAR(S.PLAN_INCOME_TIME, 'YYYY-MM')) MM
+          LEFT JOIN (SELECT SUBSTR(TO_CHAR(T.PLAN_PAY_TIME, 'YYYY-MM'), 6) MM_TIME,
+                            SUM(T.APPOINT_PAY_AMOUNT) / 1000000 SUM_MONEY
+                       FROM CONTRACT_FINANCE_INFO T
+                       LEFT JOIN (SELECT CBF.FINANCE_ID,
+                                        MAX(CBF.CONTRACT_ID) CONTRACT_ID
+                                   FROM CONTRACT_BASIC_FINANCE_MAP CBF
+                                  GROUP BY CBF.FINANCE_ID) CG
+                         ON T.ID = CG.FINANCE_ID
+                       LEFT JOIN CONTRACT_BASIC_INFO BA
+                         ON CG.CONTRACT_ID = BA.ID
+                      WHERE 1 = 1
+        <if test="userCanGet != null and userCanGet !=''">
+            AND (BA.OPERATOR_CODE = #{userCanGet} OR BA.EXECUTER_CODE = #{userCanGet}
+            <if test="processTaskList != null">
+                OR BA.ID IN
+                <foreach collection="processTaskList" index="index" item="item" open="(" separator="," close=")">
+                    #{item.contractId}
+                </foreach>
+            </if>
+            <if test="oldOrgCode != null and oldOrgCode != ''">
+                OR BA.ORG = #{oldOrgCode}
+            </if>
+            )
+        </if>
+        <if test="orgCode != null and orgCode != ''">
+            AND BA.ORG_CODE = #{orgCode}
+        </if>
+        <if test="operatorCode != null and operatorCode != ''">
+            AND BA.OPERATOR_CODE = #{operatorCode}
+        </if>
+                        AND TO_CHAR(T.PLAN_PAY_TIME, 'YYYY') =
+                            TO_CHAR(SYSDATE, 'YYYY')
+                      GROUP BY TO_CHAR(T.PLAN_PAY_TIME, 'YYYY-MM')
+                      ORDER BY TO_CHAR(T.PLAN_PAY_TIME, 'YYYY-MM') ASC NULLS LAST) A
+            ON MM.MM_TIME = A.MM_TIME
+          LEFT JOIN (SELECT SUBSTR(TO_CHAR(S.PLAN_INCOME_TIME, 'YYYY-MM'), 6) MM_TIME,
+                            SUM(S.APPOINT_INCOME_AMOUNT) / 1000000 SUM_MONEY
+                       FROM CONTRACT_FINANCE_INFO S
+                       LEFT JOIN (SELECT CBF.FINANCE_ID,
+                                        MAX(CBF.CONTRACT_ID) CONTRACT_ID
+                                   FROM CONTRACT_BASIC_FINANCE_MAP CBF
+                                  GROUP BY CBF.FINANCE_ID) CG
+                         ON S.ID = CG.FINANCE_ID
+                       LEFT JOIN CONTRACT_BASIC_INFO BA
+                         ON CG.CONTRACT_ID = BA.ID
+                      WHERE 1 = 1
+        <if test="userCanGet != null and userCanGet !=''">
+            AND (BA.OPERATOR_CODE = #{userCanGet} OR BA.EXECUTER_CODE = #{userCanGet}
+            <if test="processTaskList != null">
+                OR BA.ID IN
+                <foreach collection="processTaskList" index="index" item="item" open="(" separator="," close=")">
+                    #{item.contractId}
+                </foreach>
+            </if>
+            <if test="oldOrgCode != null and oldOrgCode != ''">
+                OR BA.ORG = #{oldOrgCode}
+            </if>
+            )
+        </if>
+        <if test="orgCode != null and orgCode != ''">
+            AND BA.ORG_CODE = #{orgCode}
+        </if>
+        <if test="operatorCode != null and operatorCode != ''">
+            AND BA.OPERATOR_CODE = #{operatorCode}
+        </if>
+                        AND TO_CHAR(S.PLAN_INCOME_TIME, 'YYYY') =
+                            TO_CHAR(SYSDATE, 'YYYY')
+                      GROUP BY TO_CHAR(S.PLAN_INCOME_TIME, 'YYYY-MM')
+                      ORDER BY TO_CHAR(S.PLAN_INCOME_TIME, 'YYYY-MM') ASC NULLS LAST) B
+            ON MM.MM_TIME = B.MM_TIME
+         ORDER BY MM.MM_TIME ASC NULLS LAST
+    </select>
+
+    <select id="getExecuteWaringContract" resultType="com.deloitte.platform.api.contract.vo.FinanceInfoVo">
+        SELECT *
+        FROM (SELECT F.CONTRACT_ID,
+        F.CONTRACT_NAME,
+        F.EXECUTER_CODE,
+        F.CONTRACT_TYPE,
+        F.ACT_PAY_TIME,
+        F.PLAN_PAY_TIME,
+        F.ACT_INCOME_TIME,
+        F.PLAN_INCOME_TIME,
+        F.PAY_WARING,
+        F.INCOME_WARING,
+        F.DEADLINE,
+        F.FREQUENCY,
+        F.TYPE,
+        CASE
+        WHEN F.CONTRACT_TYPE = 'INC1000' THEN
+        CASE
+        WHEN F.ACT_PAY_TIME IS NOT NULL THEN
+        '0'
+        ELSE
+        CASE
+        WHEN F.PAY_WARING &gt; F.DEADLINE THEN
+        '0'
+        WHEN F.PAY_WARING &lt;= F.DEADLINE AND F.PAY_WARING &gt;= 0 THEN
+        '1'
+        WHEN F.PAY_WARING &lt; 0 THEN
+        '2'
+        ELSE
+        ''
+        END
+        END
+        WHEN F.CONTRACT_TYPE = 'INC2000' THEN
+        CASE
+        WHEN F.ACT_INCOME_TIME IS NOT NULL THEN
+        '0'
+        ELSE
+        CASE
+        WHEN F.INCOME_WARING &gt; F.DEADLINE THEN
+        '0'
+        WHEN F.INCOME_WARING &lt;= F.DEADLINE AND F.INCOME_WARING >= 0 THEN
+        '1'
+        WHEN F.INCOME_WARING &lt; 0 THEN
+        '2'
+        ELSE
+        ''
+        END
+        END
+        WHEN F.CONTRACT_TYPE = 'INC3000' THEN
+        CASE
+        WHEN F.PLAN_PAY_TIME IS NOT NULL THEN
+        CASE
+        WHEN F.ACT_PAY_TIME IS NOT NULL THEN
+        '0'
+        ELSE
+        CASE
+        WHEN F.PAY_WARING &gt; F.DEADLINE THEN
+        '0'
+        WHEN F.PAY_WARING &lt;= F.DEADLINE AND F.PAY_WARING &gt;= 0 THEN
+        '1'
+        WHEN F.PAY_WARING &lt; 0 THEN
+        '2'
+        ELSE
+        ''
+        END
+        END
+        WHEN F.PLAN_INCOME_TIME IS NOT NULL THEN
+        CASE
+        WHEN F.ACT_INCOME_TIME IS NOT NULL THEN
+        '0'
+        ELSE
+        CASE
+        WHEN F.INCOME_WARING &gt; F.DEADLINE THEN
+        '0'
+        WHEN F.INCOME_WARING &lt;= F.DEADLINE AND F.INCOME_WARING &gt;= 0 THEN
+        '1'
+        WHEN F.INCOME_WARING &lt; 0 THEN
+        '2'
+        ELSE
+        ''
+        END
+        END
+        ELSE
+        ''
+        END
+        ELSE
+        ''
+        END FINANCE_WARING
+        FROM (SELECT FM.CONTRACT_ID,
+        BA.CONTRACT_NAME,
+        BA.EXECUTER_CODE,
+        FI.CONTRACT_TYPE,
+        FI.ACT_PAY_TIME,
+        FI.PLAN_PAY_TIME,
+        FI.ACT_INCOME_TIME,
+        FI.PLAN_INCOME_TIME,
+        CEIL(FI.PLAN_PAY_TIME - SYSDATE) PAY_WARING,
+        CEIL(FI.PLAN_INCOME_TIME - SYSDATE) INCOME_WARING,
+        EW.WARING_TIME DEADLINE,
+        EW.WARING_FREQUENCY FREQUENCY,
+        FI.TYPE
+        FROM CONTRACT_BASIC_FINANCE_MAP FM
+        LEFT JOIN CONTRACT_FINANCE_INFO FI
+        ON FM.FINANCE_ID = FI.ID
+        LEFT JOIN CONTRACT_BASIC_INFO BA
+        ON FM.CONTRACT_ID = BA.ID
+        INNER JOIN CONTRACT_EXECUTE_WARING EW
+        ON BA.ORG_CODE = EW.ORG_CODE
+        WHERE BA.STATUE = 'EXA6000') F) FB
+        WHERE FB.FINANCE_WARING != 0
+    </select>
+
+    <select id="getContractWaring" resultType="com.deloitte.platform.api.contract.vo.BasicInfoVo">
+        SELECT BA.ID,
+               BA.CONTRACT_NAME,
+               BA.OPERATOR_CODE,
+               BA.EXECUTER_CODE,
+               BA.EXECUTE_END_TIME,
+               CEIL(BA.EXECUTE_END_TIME - SYSDATE) DAY_WARING,
+               EW.WARING_TIME DEADLINE,
+               EW.WARING_FREQUENCY FREQUENCY
+          FROM CONTRACT_BASIC_INFO BA
+         INNER JOIN CONTRACT_EXECUTE_WARING EW
+            ON BA.ORG_CODE = EW.ORG_CODE
+         WHERE BA.STATUE = 'EXA6000' AND BA.EXECUTE_END_TIME IS NOT NULL
+    </select>
+</mapper>

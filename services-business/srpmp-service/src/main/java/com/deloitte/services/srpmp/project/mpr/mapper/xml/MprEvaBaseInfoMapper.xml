@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.srpmp.project.mpr.mapper.MprEvaBaseInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.srpmp.project.mpr.entity.MprEvaBaseInfo">
+        <id column="ID" property="id" />
+        <result column="PROJECT_NO" property="projectNo" />
+        <result column="PROJECT_NAME" property="projectName" />
+        <result column="PROJECT_OBJECTIVES" property="projectObjectives" />
+        <result column="JOB_QUANTITY" property="jobQuantity" />
+        <result column="BUDGET" property="budget" />
+        <result column="EXECUTION_START_TIME" property="executionStartTime" />
+        <result column="EXECUTION_END_TIME" property="executionEndTime" />
+        <result column="PROJECT_CATEGORY" property="projectCategory" />
+        <result column="PROJECT_CLASSIFICATION" property="projectClassification" />
+        <result column="LEAD_UNIT" property="leadUnit" />
+        <result column="TAKE_UNIT" property="takeUnit" />
+        <result column="CHIEF_SPECIALIST" property="chiefSpecialist" />
+        <result column="JOINT_CHIEF_SPECIALIST" property="jointChiefSpecialist" />
+        <result column="PROGRESS_STATE" property="progressState" />
+        <result column="WORK_STATE" property="workState" />
+        <result column="POSTDOCTORAL_NUM" property="postdoctoralNum" />
+        <result column="DOCTORAL_NUM" property="doctoralNum" />
+        <result column="MASTER_NUM" property="masterNum" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="ANNEX_STAT" property="annexStat" />
+        <result column="PROCESS_STATUS" property="processStatus" />
+        <result column="PROJECT_TYPE" property="projectType" />
+        <result column="REPORT_TYPE" property="reportType" />
+        <result column="APPLY_DEPT_CODE" property="applyDeptCode" />
+        <result column="OTHER_CASE" property="otherCase" />
+        <result column="REPORT_ID" property="reportId" />
+        <result column="REPORT_YEAR" property="reportYear" />
+        <result column="REPORT_TITLE" property="reportTitle" />
+        <result column="REP_OTHER_TYPE" property="repOtherType" />
+        <result column="PROJECT_TYPE_CODE" property="projectTypeCode" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, PROJECT_NO, PROJECT_NAME, PROJECT_OBJECTIVES, JOB_QUANTITY, BUDGET, EXECUTION_START_TIME, EXECUTION_END_TIME, PROJECT_CATEGORY, PROJECT_CLASSIFICATION, LEAD_UNIT, TAKE_UNIT, CHIEF_SPECIALIST, JOINT_CHIEF_SPECIALIST, PROGRESS_STATE, WORK_STATE, POSTDOCTORAL_NUM, DOCTORAL_NUM, MASTER_NUM, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, ANNEX_STAT, PROCESS_STATUS, PROJECT_TYPE, REPORT_TYPE, APPLY_DEPT_CODE, OTHER_CASE, REPORT_ID, REPORT_YEAR, REPORT_TITLE, REP_OTHER_TYPE, PROJECT_TYPE_CODE
+    </sql>
+
+</mapper>

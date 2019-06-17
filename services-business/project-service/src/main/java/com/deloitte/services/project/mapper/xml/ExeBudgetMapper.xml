@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.project.mapper.ExeBudgetMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.project.entity.ExeBudget">
+        <id column="ID" property="id" />
+        <result column="PROJECT_ID" property="projectId" />
+        <result column="APPLICATION_ID" property="applicationId" />
+        <result column="EXECUTION_ID" property="executionId" />
+        <result column="BUDGET_CODE" property="budgetCode" />
+        <result column="BUDGET_NAME" property="budgetName" />
+        <result column="BUDGET_AMOUNT" property="budgetAmount" />
+        <result column="EXE_AMOUNT" property="exeAmount" />
+        <result column="BUDGET_YEAR" property="budgetYear" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, PROJECT_ID, APPLICATION_ID, EXECUTION_ID, BUDGET_CODE, BUDGET_NAME, BUDGET_AMOUNT, EXE_AMOUNT, BUDGET_YEAR, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, EXT1, EXT2, EXT3
+    </sql>
+
+</mapper>

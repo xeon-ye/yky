@@ -1,0 +1,666 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.scientific.mapper.FundViewMapper">
+    <!-- 查询映射结果 -->
+    <!--历年项目经费趋势-->
+  <resultMap id="FundViewVo" type="com.deloitte.platform.api.dss.scientific.vo.FundViewVo">
+        <result column="style" property="style" />
+        <result column="money" property="money" />
+        <result column="period"  property="period" />
+    </resultMap>
+    <!--明细经费-->
+    <resultMap id="FundDetailVo" type="com.deloitte.platform.api.dss.scientific.vo.FundDetailVo">
+        <result column="money" property="money"/>
+        <result column="total" property="total"/>
+        <result column="category" property="category"/>
+    </resultMap>
+    <!--科研成果-->
+    <resultMap id="ResultVo" type="com.deloitte.platform.api.dss.scientific.vo.ResultVo">
+        <result column="category" property="category" />
+        <result column="total" property="total" />
+    </resultMap>
+
+    <resultMap id="TotalVo" type="com.deloitte.platform.api.dss.scientific.vo.TotalVo">
+        <result column="total" property="total" />
+    </resultMap>
+    <select id="queryFund" resultMap="FundViewVo" parameterType="java.lang.Long">
+        <![CDATA[
+          select '新获项目' style,to_char(sum(e.FUNDS)/10000,'fm999999990.999999999') money,to_char(sysdate,'yyyy') period
+            from DSS_SCIENTIFIC_RECIVE e,DSS_SCIENTIFIC_PROJECT t,DSS_SCIENTIFIC_TASK task
+            where
+              t.ID = task.PRO_ID
+              and e.TASK_CODE  = task.CODE
+              and  to_char(e.RECIVE_DATE,'yyyy') =to_char(sysdate,'yyyy')
+              and   to_char(t.START_DATE,'yyyy')=to_char(sysdate,'yyyy')
+              and substr(t.PRO_TYPE,0,6)='100101'
+              and t.STATE in (200,300,400,500)
+              and e.STATUS = 'Y'
+        ]]>
+        <if test="_parameter != null">
+            and  task.LEAD_DEPT_ID=#{_parameter}
+        </if>
+        <![CDATA[
+        union
+       select '延续项目' style,to_char(sum(e.FUNDS/10000),'fm999999990.999999999') money,to_char(sysdate,'yyyy') period
+        from DSS_SCIENTIFIC_RECIVE e,DSS_SCIENTIFIC_PROJECT  t,DSS_SCIENTIFIC_TASK task
+        where
+          t.ID = task.PRO_ID
+          and  e.TASK_CODE  = task.CODE
+          and  to_char(e.RECIVE_DATE,'yyyy') =to_char(sysdate,'yyyy')
+          and to_char(t.END_DATE,'yyyy')>to_char(sysdate,'yyyy')
+          and substr(t.PRO_TYPE,0,6)='100101'
+          and to_char(t.START_DATE,'yyyy')<to_char(sysdate,'yyyy')
+          and t.STATE in (200,300,400,500)
+          and e.STATUS = 'Y'
+        ]]>
+        <if test="_parameter != null">
+            and  task.LEAD_DEPT_ID=#{_parameter}
+        </if>
+        union
+        select '新获项目' style,to_char(sum(e.FUNDS/10000),'fm999999990.999999999') money,to_char(add_months(sysdate,-12),'yyyy') period
+        from DSS_SCIENTIFIC_RECIVE e,DSS_SCIENTIFIC_PROJECT t,DSS_SCIENTIFIC_TASK task
+        where
+        t.ID = task.PRO_ID
+        and e.TASK_CODE  = task.CODE
+        and  to_char(e.RECIVE_DATE,'yyyy') =to_char(add_months(sysdate,-12),'yyyy')
+        and   to_char(t.START_DATE,'yyyy')=to_char(add_months(sysdate,-12),'yyyy')
+        and substr(t.PRO_TYPE,0,6)='100101'
+        and t.STATE in (200,300,400,500)
+        and e.STATUS = 'Y'
+        <if test="_parameter != null">
+            and  task.LEAD_DEPT_ID=#{_parameter}
+        </if>
+        <![CDATA[
+         union
+         select '延续项目' style,to_char(sum(e.FUNDS/10000),'fm999999990.999999999') money,to_char(add_months(sysdate,-12),'yyyy') period
+        from DSS_SCIENTIFIC_RECIVE e,DSS_SCIENTIFIC_PROJECT  t,DSS_SCIENTIFIC_TASK task
+        where
+          t.ID = task.PRO_ID
+          and  e.TASK_CODE  = task.CODE
+          and  to_char(e.RECIVE_DATE,'yyyy') =to_char(add_months(sysdate,-12),'yyyy')
+          and to_char(t.END_DATE,'yyyy')>to_char(add_months(sysdate,-12),'yyyy')
+          and substr(t.PRO_TYPE,0,6)='100101'
+          and to_char(t.START_DATE,'yyyy')<to_char(add_months(sysdate,-12),'yyyy')
+          and t.STATE in (200,300,400,500)
+          and e.STATUS = 'Y'
+        ]]>
+        <if test="_parameter != null">
+            and  task.LEAD_DEPT_ID=#{_parameter}
+        </if>
+        union
+        select '新获项目' style,to_char(sum(e.FUNDS/10000),'fm999999990.999999999') money,to_char(add_months(sysdate,-24),'yyyy') period
+        from DSS_SCIENTIFIC_RECIVE e,DSS_SCIENTIFIC_PROJECT t,DSS_SCIENTIFIC_TASK task
+        where
+        t.ID = task.PRO_ID
+        and e.TASK_CODE  = task.CODE
+        and  to_char(e.RECIVE_DATE,'yyyy') =to_char(add_months(sysdate,-24),'yyyy')
+        and   to_char(t.START_DATE,'yyyy')=to_char(add_months(sysdate,-24),'yyyy')
+        and substr(t.PRO_TYPE,0,6)='100101'
+        and t.STATE in (200,300,400,500)
+        and e.STATUS = 'Y'
+        <if test="_parameter != null">
+            and  task.LEAD_DEPT_ID=#{_parameter}
+        </if>
+        <![CDATA[
+        union
+        select '延续项目' style,to_char(sum(e.FUNDS/10000),'fm999999990.999999999') money,to_char(add_months(sysdate,-24),'yyyy') period
+        from DSS_SCIENTIFIC_RECIVE e,DSS_SCIENTIFIC_PROJECT  t,DSS_SCIENTIFIC_TASK task
+        where
+          t.ID = task.PRO_ID
+          and  e.TASK_CODE  = task.CODE
+          and  to_char(e.RECIVE_DATE,'yyyy') =to_char(add_months(sysdate,-24),'yyyy')
+          and to_char(t.END_DATE,'yyyy')>to_char(add_months(sysdate,-24),'yyyy')
+          and substr(t.PRO_TYPE,0,6)='100101'
+          and to_char(t.START_DATE,'yyyy')<to_char(add_months(sysdate,-24),'yyyy')
+          and t.STATE in (200,300,400,500)
+          and e.STATUS = 'Y'
+        ]]>
+        <if test="_parameter != null">
+            and  task.LEAD_DEPT_ID=#{_parameter}
+        </if>
+        union
+        select '新获项目' style,to_char(sum(e.FUNDS/10000),'fm999999990.999999999') money,to_char(add_months(sysdate,-36),'yyyy') period
+        from DSS_SCIENTIFIC_RECIVE e,DSS_SCIENTIFIC_PROJECT t,DSS_SCIENTIFIC_TASK task
+        where
+        t.ID = task.PRO_ID
+        and e.TASK_CODE  = task.CODE
+        and  to_char(e.RECIVE_DATE,'yyyy') =to_char(add_months(sysdate,-36),'yyyy')
+        and   to_char(t.START_DATE,'yyyy')=to_char(add_months(sysdate,-36),'yyyy')
+        and substr(t.PRO_TYPE,0,6)='100101'
+        and t.STATE in (200,300,400,500)
+        and e.STATUS = 'Y'
+        <if test="_parameter != null">
+            and  task.LEAD_DEPT_ID=#{_parameter}
+        </if>
+        <![CDATA[
+        union
+         select '延续项目' style,to_char(sum(e.FUNDS/10000),'fm999999990.999999999') money,to_char(add_months(sysdate,-36),'yyyy') period
+        from DSS_SCIENTIFIC_RECIVE e,DSS_SCIENTIFIC_PROJECT  t,DSS_SCIENTIFIC_TASK task
+        where
+          t.ID = task.PRO_ID
+          and  e.TASK_CODE  = task.CODE
+          and  to_char(e.RECIVE_DATE,'yyyy') =to_char(add_months(sysdate,-36),'yyyy')
+          and to_char(t.END_DATE,'yyyy')>to_char(add_months(sysdate,-36),'yyyy')
+          and substr(t.PRO_TYPE,0,6)='100101'
+          and to_char(t.START_DATE,'yyyy')<to_char(add_months(sysdate,-36),'yyyy')
+          and t.STATE in (200,300,400,500)
+          and e.STATUS = 'Y'
+    ]]>
+        <if test="_parameter != null">
+            and  task.LEAD_DEPT_ID=#{_parameter}
+        </if>
+    </select>
+    <!--博士后人才占比-->
+    <select id="queryDoctorc" resultMap="TotalVo" parameterType="java.lang.Integer">
+
+        select count(*) total
+        from DSS_SCIENTIFIC_PROJECT p,DSS_SCIENTIFIC_MAIN_MENBER j
+        where
+        p.ID = j.PRO_ID
+        AND j.CATEGROY= 3
+        and substr(p.PRO_TYPE,0,6)='100101'
+        <if test="_parameter != null">
+            and  p.LEAD_DEPT_ID=#{_parameter}
+        </if>
+
+    </select>
+    <select id="queryDoctor" resultMap="TotalVo" parameterType="java.lang.Integer">
+
+        select count(*) total
+        from DSS_SCIENTIFIC_PROJECT p,DSS_SCIENTIFIC_MAIN_MENBER j
+        where
+        p.ID = j.PRO_ID
+        AND j.CATEGROY= 3
+        <if test="_parameter != null">
+            and  p.LEAD_DEPT_ID=#{_parameter}
+        </if>
+    </select>
+
+    <!--明细经费-->
+    <select id="queryFundDetail" resultMap="FundDetailVo" parameterType="java.lang.Long">
+        select category category,to_char(sum(money)/10000,'fm999999990.999999999') money,sum(total) total from (
+        select dict.DICT_VALUE category,sum(t.FUNDS) money,0 total
+        from DSS_SCIENTIFIC_RECIVE t,DSS_SCIENTIFIC_PROJECT p,SYS_DICT  dict,DSS_SCIENTIFIC_TASK k
+        WHERE t.TASK_CODE=k.CODE
+        and substr(p.PRO_TYPE,0,6)='100101'
+        and PRO_TYPE = dict.DICT_CODE
+        and p.id=k.PRO_ID
+        and to_char(t.RECIVE_DATE,'yyyy')=to_char(SYSDATE,'yyyy')
+        and p.STATE in (200,300,400,500)
+        and t.STATUS = 'Y'
+        <if test="_parameter != null and _parameter != 1">
+            and  k.LEAD_DEPT_ID=#{_parameter}
+        </if>
+        group by dict.DICT_VALUE
+        union all
+        select
+        dict.DICT_VALUE category,0 money,count(distinct k.ID) total
+        from DSS_SCIENTIFIC_PROJECT p,SYS_DICT  dict,DSS_SCIENTIFIC_TASK k
+        WHERE
+        substr(p.PRO_TYPE,0,6)='100101'
+        and PRO_TYPE = dict.DICT_CODE
+        and p.id=k.PRO_ID
+        and p.STATE in (200,300,400,500)
+        <if test="_parameter != null and _parameter != 1">
+            and  k.LEAD_DEPT_ID=#{_parameter}
+        </if>
+        group by dict.DICT_VALUE)
+        group by category
+    </select>
+
+    <!--科研成果-->
+    <select id="queryResult1" resultMap="ResultVo" parameterType="java.lang.Long">
+
+        select '专利数量' category,sum(total) total
+        from
+        (
+        select count(t.Patent_Num) total from SRPMS_OUTLINE_PATENT t,DSS_SCIENTIFIC_PROJECT p
+        where t.pro_code=p.CODE
+        and to_char(t.AUTHORIZED_TIME,'yyyy')=to_char(sysdate,'yyyy')
+        and  p.LEAD_DEPT_ID=#{_parameter}
+        union all
+        select count(t.Patent_Num) total from SRPMS_OUTLINE_PATENT t
+        where
+        not exists(select CODE from DSS_SCIENTIFIC_PROJECT WHERE CODE = t.PRO_CODE)
+        and to_char(t.AUTHORIZED_TIME,'yyyy')=to_char(sysdate,'yyyy')
+        and  t.org_id=(select DEPT_CODE from ISUMP_DEPT where id=#{_parameter})
+        )
+        union all
+        select 'SCI数量' category,sum(total) total
+        from
+        (
+        select count(r.id) total
+        from SRPMS_OUTLINE_PAPER r,
+        DSS_SCIENTIFIC_PROJECT p
+        where p.CODE  = r.PRO_CODE
+        and r.INFLUENCE_FACTOR is not null
+        <![CDATA[
+         and r.INFLUENCE_FACTOR <> 0
+         ]]>
+        and r.year=to_char(sysdate,'yyyy')
+        and  p.LEAD_DEPT_ID=#{_parameter}
+        union all
+        select count(r.id) total from SRPMS_OUTLINE_PAPER r
+        where not exists(select CODE from DSS_SCIENTIFIC_PROJECT WHERE CODE = r.PRO_CODE)
+        and r.INFLUENCE_FACTOR is not null
+        <![CDATA[
+         and r.INFLUENCE_FACTOR <> 0
+        ]]>
+        and r.year=to_char(sysdate,'yyyy')
+        and  r.ORG_ID=(select DEPT_CODE from ISUMP_DEPT where id=#{_parameter})
+        )
+        union all
+        select '成果转化' category,sum(total) total
+        from
+        (
+        select count(*) total
+        from SRPMS_OUTLINE_RESULT_TRANS s,DSS_SCIENTIFIC_PROJECT p
+        where s.pro_code=p.CODE
+        and s.contract_signing_year=to_char(sysdate,'yyyy')
+        and  p.LEAD_DEPT_ID=#{_parameter}
+        union all
+        select count(*) total
+        from SRPMS_OUTLINE_RESULT_TRANS s
+        where not exists(select CODE from DSS_SCIENTIFIC_PROJECT WHERE CODE = s.PRO_CODE)
+        and s.contract_signing_year=to_char(sysdate,'yyyy')
+        and  s.ORG_ID=(select DEPT_CODE from ISUMP_DEPT where id=#{_parameter})
+        )
+        union all
+        select
+        '论文' category,sum(total) total
+        from
+        (
+        select count(m.id) total
+        from SRPMS_OUTLINE_PAPER m ,
+        DSS_SCIENTIFIC_PROJECT p
+        where
+        m.PRO_CODE=p.CODE
+        and m.year=to_char(sysdate,'yyyy')
+        and  p.LEAD_DEPT_ID=#{_parameter}
+        union all
+        select count(m.id) total
+        from SRPMS_OUTLINE_PAPER m
+        where
+        not exists(select CODE from DSS_SCIENTIFIC_PROJECT WHERE CODE = m.PRO_CODE)
+        and m.year=to_char(sysdate,'yyyy')
+        and  m.ORG_ID=(select DEPT_CODE from ISUMP_DEPT where id=#{_parameter})
+        )
+    </select>
+    <select id="queryHeight" resultMap="TotalVo" parameterType="java.lang.Integer">
+
+        select count(distinct  j.USER_ID) total
+        from DSS_SCIENTIFIC_PROJECT p
+        left join ISUMP_USER s on p.LEAD_PERSON_ID=s.id
+        left join DSS_SCIENTIFIC_MAIN_MENBER j on p.ID=j.PRO_ID
+        and s.position_title ='10'
+        <if test="_parameter != null">
+            and  p.LEAD_DEPT_ID=#{_parameter}
+        </if>
+
+    </select>
+    <!--高层次人才主持项目占比-->
+    <select id="queryHpersonc" resultMap="TotalVo" parameterType="java.lang.Integer">
+        <![CDATA[
+        select
+               COUNT(DISTINCT usrid) total
+        FROM (
+        select pro.LEAD_PERSON_ID  usrid,pro.LEAD_DEPT_ID from DSS_SCIENTIFIC_PROJECT  pro
+               where to_char(pro.START_DATE,'yyyy')<=to_char(sysdate,'yyyy')
+               and to_char(pro.END_DATE,'yyyy')>=to_char(sysdate,'yyyy')
+               and substr(pro.PRO_TYPE,0,6)='100101'
+        union
+        select men.USER_ID  usrid, pro.LEAD_DEPT_ID from DSS_SCIENTIFIC_MAIN_MENBER men, DSS_SCIENTIFIC_PROJECT pro
+        where men.PRO_ID = pro.ID
+          and substr(pro.PRO_TYPE,0,6)='100101'
+               and to_char(pro.START_DATE,'yyyy')<=to_char(sysdate,'yyyy')
+               and to_char(pro.END_DATE,'yyyy')>=to_char(sysdate,'yyyy')
+               ) temp,ISUMP_USER  usr
+        WHERE  temp.usrid = usr.ID
+        and  usr.HIGH_TALENT = '是'
+         ]]>
+        <if test="_parameter != null">
+            and  LEAD_DEPT_ID =#{_parameter}
+        </if>
+
+    </select>
+    <select id="queryHperson" resultMap="TotalVo" parameterType="java.lang.Integer">
+        <![CDATA[
+        select
+               COUNT(DISTINCT usrid) total
+        FROM (
+        select pro.LEAD_PERSON_ID  usrid,pro.LEAD_DEPT_ID from DSS_SCIENTIFIC_PROJECT  pro
+               where to_char(pro.START_DATE,'yyyy')<=to_char(sysdate,'yyyy')
+               and to_char(pro.END_DATE,'yyyy')>=to_char(sysdate,'yyyy')
+        union
+        select men.USER_ID  usrid, pro.LEAD_DEPT_ID from DSS_SCIENTIFIC_MAIN_MENBER men, DSS_SCIENTIFIC_PROJECT pro
+        where men.PRO_ID = pro.ID
+               and to_char(pro.START_DATE,'yyyy')<=to_char(sysdate,'yyyy')
+               and to_char(pro.END_DATE,'yyyy')>=to_char(sysdate,'yyyy')
+               ) temp,ISUMP_USER  usr
+        WHERE  temp.usrid = usr.ID
+        and  usr.HIGH_TALENT = '是'
+         ]]>
+        <if test="_parameter != null">
+            and  LEAD_DEPT_ID =#{_parameter}
+        </if>
+    </select>
+    <!--本年预算执行比-->
+    <select id="queryExecutionc" resultMap="TotalVo" parameterType="java.lang.Integer">
+
+        select sum(e.PRO_RECEIVE_OUTLAY) total from SRPMS_OUTLINE_NEW_TITLE e
+        left join SRPMS_PROJECT t on e.pro_code=t.project_num
+        left join DSS_PROJECT_TASK_PAY y on t.project_num=y.PROJECT_NUM
+        where substr(t.PROJECT_TYPE,0,6)='100101'
+        and to_char(e.PRO_START_DATE,'yyyy')=to_char(sysdate,'yyyy')
+        and to_char(y.CREATE_TIME,'yyyy')=to_char(sysdate,'yyyy')
+        <if test="_parameter != null">
+            and  t.LEAD_DEPT_ID=#{_parameter}
+        </if>
+    </select>
+    <select id="queryExecution" resultMap="TotalVo" parameterType="java.lang.Integer">
+
+        select sum(e.PRO_RECEIVE_OUTLAY) total from SRPMS_OUTLINE_NEW_TITLE e
+        left join SRPMS_PROJECT t on e.pro_code=t.project_num
+        where substr(t.PROJECT_TYPE,0,6)='100101'
+        and to_char(e.PRO_START_DATE,'yyyy')=to_char(sysdate,'yyyy')
+        <if test="_parameter != null">
+            and  t.LEAD_DEPT_ID=#{_parameter}
+        </if>
+
+    </select>
+    <!--成果物-->
+    <select id="queryResultratio" resultMap="FundViewAuditVo" parameterType="java.lang.Integer">
+
+        select
+        PRO_TYPE proType,
+        count(distinct CODE)   proResultNum
+        from  (
+        select pro.CODE,pro.LEAD_DEPT_ID,PRO_TYPE  from  SRPMS_OUTLINE_PAPER paper ,DSS_SCIENTIFIC_PROJECT  pro
+        where paper.PRO_CODE  = pro.CODE  and  substr(pro.PRO_TYPE,0,6)='100101'
+        union
+        select pro.CODE,pro.LEAD_DEPT_ID ,PRO_TYPE from  SRPMS_OUTLINE_PATENT patent ,DSS_SCIENTIFIC_PROJECT  pro
+        where patent.PRO_CODE  = pro.CODE  and  substr(pro.PRO_TYPE,0,6)='100101'
+        union
+        select pro.CODE,pro.LEAD_DEPT_ID ,PRO_TYPE from  SRPMS_OUTLINE_RESULT_TRANS result ,DSS_SCIENTIFIC_PROJECT  pro
+        where result.PRO_CODE  = pro.CODE  and  substr(pro.PRO_TYPE,0,6)='100101'
+        )  where  LEAD_DEPT_ID  = #{_parameter}   group by  PRO_TYPE
+        )
+    </select>
+    <select id="queryResultratioc" resultMap="FundViewAuditVo" parameterType="java.lang.Integer">
+      select
+       PRO_TYPE proType,
+       count(ID)   totalNum
+       from DSS_SCIENTIFIC_PROJECT  where substr(PRO_TYPE,0,6)='100101'   group by PRO_TYPE
+    </select>
+    <!--科研成果接口-->
+    <select id="queryResult" resultMap="ResultVo" parameterType="java.lang.String">
+        <choose>
+            <when test="_parameter=='100101'">
+        SELECT
+        '专利数量' category,
+        count( t.Patent_Num ) total
+        FROM
+        SRPMS_OUTLINE_PATENT t
+        LEFT JOIN DSS_SCIENTIFIC_PROJECT p ON t.pro_code = p.CODE
+        WHERE
+        to_char ( t.AUTHORIZED_TIME, 'yyyy' ) = to_char ( sysdate, 'yyyy' )
+        AND substr( p.PRO_TYPE, 0, 6 ) = '100101' UNION
+                SELECT
+                'SCI数量' category,
+                count( r.paper_title ) total
+                FROM
+                SRPMS_OUTLINE_PAPER r,
+                DSS_SCIENTIFIC_PROJECT p
+                WHERE r.INFLUENCE_FACTOR is not null
+                <![CDATA[
+                and r.INFLUENCE_FACTOR <> 0
+                ]]>
+                AND r.PRO_CODE = p.CODE
+                AND r.YEAR = to_char ( sysdate, 'yyyy' )
+                AND substr( p.PRO_TYPE, 0, 6 ) = '100101'
+                UNION
+        SELECT
+        '成果转化' category,
+        count( * ) total
+        FROM
+        SRPMS_OUTLINE_RESULT_TRANS s
+        LEFT JOIN DSS_SCIENTIFIC_PROJECT p ON s.pro_code = p.CODE
+        WHERE
+        s.contract_signing_year = to_char ( sysdate, 'yyyy' )
+        AND substr( p.PRO_TYPE, 0, 6 ) = '100101' UNION
+        SELECT
+        '论文' category,
+        count( m.paper_title ) total
+        FROM
+        SRPMS_OUTLINE_PAPER m
+        LEFT JOIN DSS_SCIENTIFIC_PROJECT p ON m.pro_code = p.CODE
+        WHERE
+        m.YEAR = to_char ( sysdate, 'yyyy' )
+        AND substr( p.PRO_TYPE, 0, 6 ) = '100101'
+            </when>
+            <otherwise>
+                SELECT
+                '专利数量' category,
+                count( t.Patent_Num ) total
+                FROM
+                SRPMS_OUTLINE_PATENT t
+                LEFT JOIN DSS_SCIENTIFIC_PROJECT p ON t.pro_code = p.CODE
+                WHERE
+                to_char ( t.AUTHORIZED_TIME, 'yyyy' ) = to_char ( sysdate, 'yyyy' )
+                AND substr( p.PRO_TYPE, 0, 4 ) in ${_parameter} UNION
+                SELECT
+                'SCI数量' category,
+                count( r.paper_title ) total
+                FROM
+                SRPMS_OUTLINE_PAPER r,
+                DSS_SCIENTIFIC_PROJECT p
+                WHERE r.INFLUENCE_FACTOR is not null
+                <![CDATA[
+                and r.INFLUENCE_FACTOR <> 0
+                ]]>
+                AND r.PRO_CODE = p.CODE
+                AND r.YEAR = to_char ( sysdate, 'yyyy' )
+                AND substr( p.PRO_TYPE, 0, 4 ) in ${_parameter} UNION
+                SELECT
+                '成果转化' category,
+                count( * ) total
+                FROM
+                SRPMS_OUTLINE_RESULT_TRANS s
+                LEFT JOIN DSS_SCIENTIFIC_PROJECT p ON s.pro_code = p.CODE
+                WHERE
+                s.contract_signing_year = to_char ( sysdate, 'yyyy' )
+                AND substr( p.PRO_TYPE, 0, 4 ) in ${_parameter} UNION
+                SELECT
+                '论文' category,
+                count( m.paper_title ) total
+                FROM
+                SRPMS_OUTLINE_PAPER m
+                LEFT JOIN DSS_SCIENTIFIC_PROJECT p ON m.pro_code = p.CODE
+                WHERE
+                m.YEAR = to_char ( sysdate, 'yyyy' )
+                AND substr( p.PRO_TYPE, 0, 4 ) in ${_parameter}
+            </otherwise>
+        </choose>
+    </select>
+
+
+
+    <!---各项目类型评审情况-->
+    <resultMap id="FundViewAuditVo" type="com.deloitte.platform.api.dss.scientific.vo.FundViewAuditVo">
+        <result column="proType" property="proType" />
+        <result column="highTalent" property="highTalent" />
+        <result column="highNum"  property="highNum" />
+        <result column="menberNum" property="menberNum" />
+        <result column="categroyNum"  property="categroyNum" />
+        <result column="reciveFunds" property="reciveFunds" />
+        <result column="payFunds"  property="payFunds" />
+        <result column="proNum" property="proNum" />
+        <result column="proResultNum"  property="proResultNum" />
+    </resultMap>
+    <select id="queryProportionData"  resultMap="FundViewAuditVo"  parameterType="java.lang.Long">
+        <![CDATA[
+             select
+                temp1.proType,
+                temp1.proNum,
+                temp2.categroyNum,
+                temp2.menberNum,
+                temp2.highNum,
+                temp2.highTalent,
+                temp3.payFunds,
+                temp3.reciveFunds,
+                temp4.proResultNum proResultNum
+                 from  (
+                    -- 各类别总项目数
+                        select
+                        PRO_TYPE proType,
+                        count(k.ID)   proNum
+                        from DSS_SCIENTIFIC_PROJECT t, DSS_SCIENTIFIC_TASK k
+						where substr(t.PRO_TYPE,0,6)='100101'
+                         and k.LEAD_DEPT_ID =#{_parameter}
+                        group by PRO_TYPE
+                        ) temp1
+                 left join
+                       (
+                         -- 各类别人数 统计
+                            select proType proType,
+							sum(menberNum) menberNum,
+							sum(categroyNum) categroyNum,
+							sum(highTalent) highTalent,
+							sum(highNum) highNum from (
+							select
+                              PRO_TYPE  proType,
+                              0 menberNum,
+                              0  highTalent,
+                              0  highNum,
+							  count(men.CATEGROY) categroyNum
+                              from DSS_SCIENTIFIC_MAIN_MENBER men, DSS_SCIENTIFIC_PROJECT pro,ISUMP_USER usr,DSS_SCIENTIFIC_TASK k
+                              where k.PRO_ID=pro.ID
+								and men.TASK_ID=k.ID
+                                and men.USER_ID  = usr.ID
+                                and substr(pro.PRO_TYPE,0,6)='100101'
+                                and to_char(pro.START_DATE,'yyyy')<=to_char(sysdate,'yyyy')
+                                and to_char(pro.END_DATE,'yyyy')>=to_char(sysdate,'yyyy')
+								and pro.STATE in (200,300,400,500)
+                                and k.LEAD_DEPT_ID  = #{_parameter}
+								and men.CATEGROY='3'
+                              group by PRO_TYPE
+							union all
+							select
+                              PRO_TYPE  proType,
+                              0 menberNum,
+                              count(usr.HIGH_TALENT)  highTalent,
+                              0  highNum,
+							  0 categroyNum
+                              from DSS_SCIENTIFIC_MAIN_MENBER men, DSS_SCIENTIFIC_PROJECT pro,ISUMP_USER usr,DSS_SCIENTIFIC_TASK k
+                              where k.PRO_ID=pro.ID
+								and men.TASK_ID=k.ID
+                                and men.USER_ID  = usr.ID
+                                and substr(pro.PRO_TYPE,0,6)='100101'
+                                and to_char(pro.START_DATE,'yyyy')<=to_char(sysdate,'yyyy')
+                                and to_char(pro.END_DATE,'yyyy')>=to_char(sysdate,'yyyy')
+								and pro.STATE in (200,300)
+                                and k.LEAD_DEPT_ID  =#{_parameter}
+								and usr.HIGH_TALENT = '是'
+                              group by PRO_TYPE
+								union all
+							select
+                              PRO_TYPE  proType,
+                              0 menberNum,
+                              0  highTalent,
+                              count(usr.position_title)  highNum,
+								0 categroyNum
+                              from DSS_SCIENTIFIC_MAIN_MENBER men, DSS_SCIENTIFIC_PROJECT pro,ISUMP_USER usr,DSS_SCIENTIFIC_TASK k
+                              where k.PRO_ID=pro.ID
+								and men.TASK_ID=k.ID
+                                and men.USER_ID  = usr.ID
+                                and substr(pro.PRO_TYPE,0,6)='100101'
+                                and to_char(pro.START_DATE,'yyyy')<=to_char(sysdate,'yyyy')
+                                and to_char(pro.END_DATE,'yyyy')>=to_char(sysdate,'yyyy')
+								and pro.STATE in (200,300)
+                                and k.LEAD_DEPT_ID  =#{_parameter}
+								and usr.position_title in ('正高级','副高级')
+                              group by PRO_TYPE
+							union all
+							select
+                              PRO_TYPE  proType,
+                              count(*) menberNum,
+                              0  highTalent,
+                              0  highNum,
+							  0 categroyNum
+                              from DSS_SCIENTIFIC_MAIN_MENBER men, DSS_SCIENTIFIC_PROJECT pro,ISUMP_USER usr,DSS_SCIENTIFIC_TASK k
+                              where k.PRO_ID=pro.ID
+							  and men.TASK_ID=k.ID
+                                and men.USER_ID  = usr.ID
+                                and substr(pro.PRO_TYPE,0,6)='100101'
+                                and to_char(pro.START_DATE,'yyyy')<=to_char(sysdate,'yyyy')
+                                and to_char(pro.END_DATE,'yyyy')>=to_char(sysdate,'yyyy')
+								and pro.STATE in (200,300,400,500)
+                                 and k.LEAD_DEPT_ID  =#{_parameter}
+								group by PRO_TYPE
+								) group by proType
+                       ) temp2 on  temp1.proType  = temp2.proType
+                left join
+                         -- 各类别到位经费支出经费
+                       (
+                              SELECT
+                              proType  proType,
+                              sum(reciveFunds) reciveFunds,
+                              sum(payFunds)/10000   payFunds
+                              FROM (
+                              select PRO_TYPE  proType,
+                              rec.FUNDS reciveFunds,
+                              0         payFunds,
+                              k.LEAD_DEPT_ID  deptID
+                              from DSS_SCIENTIFIC_BUDGET rec,
+                              DSS_SCIENTIFIC_PROJECT pro,
+							  DSS_SCIENTIFIC_TASK k
+                              where rec.TASK_ID = k.ID
+							  and k.PRO_ID=pro.id
+                              and rec.ANNUAL = to_char(sysdate, 'yyyy')
+							  and pro.STATE in (200,300,400,500)
+                              and substr(pro.PRO_TYPE, 0, 6) = '100101'
+                              union all
+                              select PRO_TYPE  proType,
+                              0         reciveFunds,
+                              pay.FUNDS payFunds,
+                              k.LEAD_DEPT_ID  deptID
+                              from DSS_SCIENTIFIC_PAY pay,
+                              DSS_SCIENTIFIC_PROJECT pro,
+							   DSS_SCIENTIFIC_TASK k
+                              where pay.TASK_CODE = k.CODE
+							  and k.PRO_ID=pro.id
+                              and substr(pay.PAY_DATE,0,4) = to_char(sysdate, 'yyyy')
+							  and pro.STATE in (200,300,400,500)
+                              and substr(pro.PRO_TYPE, 0, 6) = '100101'
+                              and pay.STATUS = 'Y'
+                              )
+								where deptID  =#{_parameter}
+								group by proType
+                       ) temp3  on temp1.proType  = temp3.proType
+                left join  (
+                      -- 各类别提交成果数
+                       select
+                              PRO_TYPE proType,
+                              count(distinct CODE)   proResultNum
+                       from  (
+                       select pro.CODE,pro.LEAD_DEPT_ID,PRO_TYPE  from  SRPMS_OUTLINE_PAPER paper ,DSS_SCIENTIFIC_PROJECT  pro
+                       where paper.PRO_CODE  = pro.CODE  and  substr(pro.PRO_TYPE,0,6)='100101'
+                       union
+                       select pro.CODE,pro.LEAD_DEPT_ID ,PRO_TYPE from  SRPMS_OUTLINE_PATENT patent ,DSS_SCIENTIFIC_PROJECT  pro
+                       where patent.PRO_CODE  = pro.CODE  and  substr(pro.PRO_TYPE,0,6)='100101'
+                       union
+                       select pro.CODE,pro.LEAD_DEPT_ID ,PRO_TYPE from  SRPMS_OUTLINE_RESULT_TRANS result ,DSS_SCIENTIFIC_PROJECT  pro
+                       where result.PRO_CODE  = pro.CODE
+						and pro.STATE in (200,300,400,500)
+						and  substr(pro.PRO_TYPE,0,6)='100101'
+                       )
+						where  LEAD_DEPT_ID  =#{_parameter}
+						group by  PRO_TYPE
+                  )  temp4  on temp1.proType = temp4.proType
+        ]]>
+    </select>
+    <!--依托单位接口查询-->
+    <select id="queryDept" resultType="com.deloitte.platform.api.dss.scientific.vo.DeptVo">
+        select t.ID deptId,t.DEPT_NAME deptName from ISUMP_DEPT t
+    </select>
+</mapper>

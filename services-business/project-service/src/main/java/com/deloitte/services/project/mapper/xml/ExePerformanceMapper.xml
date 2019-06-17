@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.project.mapper.ExePerformanceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.project.entity.ExePerformance">
+        <id column="ID" property="id" />
+        <result column="PROJECT_ID" property="projectId" />
+        <result column="REPLY_ID" property="replyId" />
+        <result column="EXECUTION_ID" property="executionId" />
+        <result column="INDICATORS1" property="indicators1" />
+        <result column="INDICATORS2" property="indicators2" />
+        <result column="INDICATORS3" property="indicators3" />
+        <result column="INDICATORS_YEAR" property="indicatorsYear" />
+        <result column="EXE_CONDITION_1AND7" property="exeCondition1and7" />
+        <result column="EXE_CONDITION_YEAR" property="exeConditionYear" />
+        <result column="FUNDING_SEC" property="fundingSec" />
+        <result column="SYSTEM_SEC" property="systemSec" />
+        <result column="PERSON_SEC" property="personSec" />
+        <result column="HARDWARE_SEC" property="hardwareSec" />
+        <result column="OTHER_SEC" property="otherSec" />
+        <result column="REASON_INSTRUCTION" property="reasonInstruction" />
+        <result column="TARGET_PLAN_CODE" property="targetPlanCode" />
+        <result column="TARGET_PLAN_NAME" property="targetPlanName" />
+        <result column="NOTE" property="note" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="ET4" property="et4" />
+        <result column="ORG_ID" property="orgId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, PROJECT_ID, REPLY_ID, EXECUTION_ID, INDICATORS1, INDICATORS2, INDICATORS3, INDICATORS_YEAR, EXE_CONDITION_1AND7, EXE_CONDITION_YEAR, FUNDING_SEC, SYSTEM_SEC, PERSON_SEC, HARDWARE_SEC, OTHER_SEC, REASON_INSTRUCTION, TARGET_PLAN_CODE, TARGET_PLAN_NAME, NOTE, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, EXT1, EXT2, EXT3, ET4, ORG_ID
+    </sql>
+
+</mapper>

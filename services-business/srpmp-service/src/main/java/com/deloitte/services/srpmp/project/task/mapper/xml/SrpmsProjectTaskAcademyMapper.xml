@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.srpmp.project.task.mapper.SrpmsProjectTaskAcademyMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.srpmp.project.task.entity.SrpmsProjectTaskAcademy">
+        <id column="ID" property="id" />
+        <result column="PROJECT_CODE" property="projectCode" />
+        <result column="PROJECT_NAME" property="projectName" />
+        <result column="APPLY_FUNDS" property="applyFunds" />
+        <result column="PROJECT_ACTION_DATE_START" property="projectActionDateStart" />
+        <result column="PROJECT_ACTION_DATE_END" property="projectActionDateEnd" />
+        <result column="PROJECT_APPLICANT_ID" property="projectApplicantId" />
+        <result column="PROJECT_ORGANIZING_UNIT" property="projectOrganizingUnit" />
+        <result column="PROJECT_COMMITMENT_UNIT" property="projectCommitmentUnit" />
+        <result column="CONTENT_TARGET_PROBLEM" property="contentTargetProblem" />
+        <result column="PROJECT_EXPECT_TARGET" property="projectExpectTarget" />
+        <result column="PROJECT_TECHNICAL_INNOVATION" property="projectTechnicalInnovation" />
+        <result column="ASSESSMENT_INDICATORS" property="assessmentIndicators" />
+        <result column="RESEARCH_YEAR_PLAN" property="researchYearPlan" />
+        <result column="PROJECT_ABSTRACT" property="projectAbstract" />
+        <result column="FUND_SOURCE_AMOUNT" property="fundSourceAmount" />
+        <result column="FUND_SOURCE_FINANCIAL" property="fundSourceFinancial" />
+        <result column="FUND_SOURCE_SELF_RAISED" property="fundSourceSelfRaised" />
+        <result column="FUND_SOURCE_OTHER" property="fundSourceOther" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="BUDGET_DESCRIPTION" property="budgetDescription" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, PROJECT_CODE, PROJECT_NAME, APPLY_FUNDS, PROJECT_ACTION_DATE_START, PROJECT_ACTION_DATE_END, PROJECT_APPLICANT_ID, PROJECT_ORGANIZING_UNIT, PROJECT_COMMITMENT_UNIT, CONTENT_TARGET_PROBLEM, PROJECT_EXPECT_TARGET, PROJECT_TECHNICAL_INNOVATION, ASSESSMENT_INDICATORS, RESEARCH_YEAR_PLAN, PROJECT_ABSTRACT, FUND_SOURCE_AMOUNT, FUND_SOURCE_FINANCIAL, FUND_SOURCE_SELF_RAISED, FUND_SOURCE_OTHER, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, BUDGET_DESCRIPTION
+
+    </sql>
+
+</mapper>

@@ -1,0 +1,101 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: config-svc
+  labels:
+    app: config-svc
+  namespace: default
+spec:
+  clusterIP: None
+  ports:
+    - port: 8102
+      protocol: TCP
+      targetPort: 8102
+  selector:
+    app: config
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: config-http
+  labels:
+    app: config-http
+  namespace: default
+spec:
+  ports:
+    - port: 8102
+      protocol: TCP
+      targetPort: 8102
+      nodePort: 30102
+  selector:
+    app: config
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-filebeat-config
+  namespace: default
+data:
+  filebeat.yml: |-
+    filebeat.prospectors:
+    - type: log
+      paths:
+        - /app-log/*.log
+      multiline:
+        pattern: '^[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))' 
+        negate:  true
+        match:   after
+    output.elasticsearch:
+      hosts: ["124.17.100.239:9200"]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: config
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: config
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: config
+    spec:
+      containers:
+        - name: config-contaner
+          image: 124.17.100.180:8084/config:vBUILD_NUMBER
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8102
+              protocol: TCP
+          volumeMounts:
+            - name: app-logs
+              mountPath: /opt/app/dtt_service/applog
+        - name: filebeat
+          image: docker.elastic.co/beats/filebeat-oss:6.5.0
+          imagePullPolicy: IfNotPresent
+          args: [
+            "-c", "/etc/filebeat.yml",
+            "-e",
+          ]
+          securityContext:
+            runAsUser: 0
+          volumeMounts:
+            - name: app-logs
+              mountPath: /app-log
+            - name: config-filebeat-config
+              mountPath: /etc/filebeat.yml
+              readOnly: true
+              subPath: filebeat.yml
+      volumes:
+        - name: app-logs
+          emptyDir: {}
+        - name: config-filebeat-config
+          configMap:
+            name: config-filebeat-config
+      imagePullSecrets:
+        - name: regsecret

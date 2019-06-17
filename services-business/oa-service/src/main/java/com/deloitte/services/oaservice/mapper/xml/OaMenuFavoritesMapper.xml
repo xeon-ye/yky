@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.oaservice.mapper.OaMenuFavoritesMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.oaservice.entity.OaMenuFavorites">
+        <id column="ID" property="id" />
+        <result column="MENU_CODE" property="menuCode" />
+        <result column="MENU_NAME" property="menuName" />
+        <result column="MENU_URL" property="menuUrl" />
+        <result column="PARENT_ID" property="parentId" />
+        <result column="MODULE_CODE" property="moduleCode" />
+        <result column="MODULE_NAME" property="moduleName" />
+        <result column="ICON" property="icon" />
+        <result column="SYSTEM_SOURCE" property="systemSource" />
+        <result column="ORDER_SORT" property="orderSort" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, MENU_CODE, MENU_NAME, MENU_URL, PARENT_ID, MODULE_CODE, MODULE_NAME, ICON, SYSTEM_SOURCE, ORDER_SORT, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME, EXT1, EXT2, EXT3, EXT4, EXT5
+    </sql>
+
+</mapper>

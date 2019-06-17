@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.project.mapper.InsandequipMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.project.entity.Insandequip">
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+        <result column="ORG_ID" property="orgId" />
+        <result column="ORG_PATH" property="orgPath" />
+        <result column="ID" property="id" />
+        <result column="INSANDEQUIP_ID" property="insandequipId" />
+        <result column="APPLICATION_ID" property="applicationId" />
+        <result column="CLASSIFIED_STATISTICS_CODE" property="classifiedStatisticsCode" />
+        <result column="CLASSIFIED_STATISTICS_NAME" property="classifiedStatisticsName" />
+        <result column="TOTAL_NUMBER" property="totalNumber" />
+        <result column="USE_NUMBER" property="useNumber" />
+        <result column="ORIGINAL_VALUE" property="originalValue" />
+        <result column="USE_ORIGINAL_VALUE" property="useOriginalValue" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, EXT1, EXT2, EXT3, EXT4, EXT5, ORG_ID, ORG_PATH, ID, INSANDEQUIP_ID, APPLICATION_ID, CLASSIFIED_STATISTICS_CODE, CLASSIFIED_STATISTICS_NAME, TOTAL_NUMBER, USE_NUMBER, ORIGINAL_VALUE, USE_ORIGINAL_VALUE
+    </sql>
+
+</mapper>

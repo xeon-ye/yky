@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.engine.manual.mapper.AvManualVoucherLineMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.engine.manual.entity.AvManualVoucherLine">
+        <id column="ID" property="id" />
+        <result column="JE_LINE_NUM" property="jeLineNum" />
+        <result column="DOCUMENT_NUM" property="documentNum" />
+        <result column="ACCOUNT_STRUCTURE" property="accountStructure" />
+        <result column="ACCOUNT_STRUCTURE_CODE" property="accountStructureCode" />
+        <result column="ACCOUNT_STRUCTURE_DESC" property="accountStructureDesc" />
+        <result column="VOUCHER_TYPE" property="voucherType" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_USER_NAME" property="createUserName" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="JE_HEADER_ID" property="jeHeaderId" />
+        <result column="LEDGER" property="ledger" />
+        <result column="PERIOD_NAME" property="periodName" />
+        <result column="EFFECTIVE_DATE" property="effectiveDate" />
+        <result column="ENTERED_DR" property="enteredDr" />
+        <result column="ENTERED_CR" property="enteredCr" />
+        <result column="ACCOUNTED_DR" property="accountedDr" />
+        <result column="ACCOUNTED_CR" property="accountedCr" />
+        <result column="DESCRIPTION" property="description" />
+        <result column="LINE_TYPE_CODE" property="lineTypeCode" />
+        <result column="STATUS" property="status" />
+        <result column="POST_STATUS" property="postStatus" />
+        <result column="SEGMENT1" property="segment1" />
+        <result column="SEGMENT2" property="segment2" />
+        <result column="SEGMENT3" property="segment3" />
+        <result column="SEGMENT4" property="segment4" />
+        <result column="SEGMENT5" property="segment5" />
+        <result column="SEGMENT6" property="segment6" />
+        <result column="SEGMENT7" property="segment7" />
+        <result column="SEGMENT8" property="segment8" />
+        <result column="SEGMENT9" property="segment9" />
+        <result column="SEGMENT10" property="segment10" />
+        <result column="SEGMENT11" property="segment11" />
+        <result column="SEGMENT12" property="segment12" />
+        <result column="SEGMENT13" property="segment13" />
+        <result column="SEGMENT14" property="segment14" />
+        <result column="SEGMENT15" property="segment15" />
+        <result column="SEGMENT16" property="segment16" />
+        <result column="SEGMENT17" property="segment17" />
+        <result column="SEGMENT18" property="segment18" />
+        <result column="SEGMENT19" property="segment19" />
+        <result column="SEGMENT20" property="segment20" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+        <result column="EXT6" property="ext6" />
+        <result column="EXT7" property="ext7" />
+        <result column="EXT8" property="ext8" />
+        <result column="EXT9" property="ext9" />
+        <result column="EXT10" property="ext10" />
+        <result column="EXT11" property="ext11" />
+        <result column="EXT12" property="ext12" />
+        <result column="EXT13" property="ext13" />
+        <result column="EXT14" property="ext14" />
+        <result column="EXT15" property="ext15" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, JE_LINE_NUM, DOCUMENT_NUM, ACCOUNT_STRUCTURE, ACCOUNT_STRUCTURE_CODE, ACCOUNT_STRUCTURE_DESC, VOUCHER_TYPE, CREATE_BY, CREATE_USER_NAME, CREATE_TIME, UPDATE_BY, UPDATE_TIME, JE_HEADER_ID, LEDGER, PERIOD_NAME, EFFECTIVE_DATE, ENTERED_DR, ENTERED_CR, ACCOUNTED_DR, ACCOUNTED_CR, DESCRIPTION, LINE_TYPE_CODE, STATUS, POST_STATUS, SEGMENT1, SEGMENT2, SEGMENT3, SEGMENT4, SEGMENT5, SEGMENT6, SEGMENT7, SEGMENT8, SEGMENT9, SEGMENT10, SEGMENT11, SEGMENT12, SEGMENT13, SEGMENT14, SEGMENT15, SEGMENT16, SEGMENT17, SEGMENT18, SEGMENT19, SEGMENT20, EXT1, EXT2, EXT3, EXT4, EXT5, EXT6, EXT7, EXT8, EXT9, EXT10, EXT11, EXT12, EXT13, EXT14, EXT15
+    </sql>
+
+    <select id="getValue" resultType="java.lang.Object">
+          SELECT ${field} FROM ${table} WHERE  ${ID} = ${documentId}
+    </select>
+
+    <select id="getMap" resultType="java.lang.Object">
+          ${map}
+    </select>
+
+    <select id="getMapByJudgement" resultType="java.util.HashMap">
+        ${map}
+    </select>
+
+    <select id="selectMapLimitOne" resultType="java.util.HashMap">
+          SELECT * FROM ${documentType} WHERE  ID =${documentId}
+    </select>
+
+    <select id="getJudgement" resultType="java.util.HashMap">
+        SELECT * FROM ${table} where ${judgement}
+    </select>
+
+    <select id="getQueryList" resultType="java.util.HashMap">
+        SELECT * FROM ${table} where DOCUMENT_TYPE='${documentType}' AND DOCUMENT_ID =${documentId}
+    </select>
+
+    <select id="getHeadQueryList" resultType="java.util.HashMap">
+        SELECT * FROM ${documentType} where ID=${documentId}
+    </select>
+
+    <select id="getQueryPayTypeList" resultType="java.util.HashMap">
+        SELECT * FROM ${table} where DOCUMENT_TYPE='${documentType}' AND DOCUMENT_ID =${documentId} AND CONNECT_DOCUMENT_TYPE = '${type}'
+    </select>
+
+
+    <select id="getPayTypeList" resultType="java.util.HashMap">
+        SELECT L.* FROM ${headTable} H
+        LEFT JOIN ${lineTable} L ON H.ID =L.DOCUMENT_ID
+        WHERE H.DOCUMENT_NUM ='${documentNum}' AND L.DOCUMENT_TYPE ='${documentType}'
+    </select>
+
+</mapper>

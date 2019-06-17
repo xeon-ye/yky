@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.scientific.mapper.DeptFundMapper">
+
+    <resultMap id="amountpay" type="com.deloitte.platform.api.dss.scientific.vo.DeptFundVo">
+        <result column="projectId" property="projectId"/>
+        <result column="projectNum" property="projectNum"/>
+        <result column="projectName" property="projectName"/>
+        <result column="deptAmount" property="deptAmount"/>
+        <result column="deptPay" property="deptPay"/>
+    </resultMap>
+
+    <resultMap id="leader" type="com.deloitte.platform.api.dss.scientific.vo.ProjectLeaderVo">
+        <result column="leaderName" property="leaderName"/>
+        <result column="projectStatus" property="projectStatus"/>
+        <result column="subjectCategory" property="subjectCategory"/>
+    </resultMap>
+
+    <resultMap id="personJoin" type="com.deloitte.platform.api.dss.scientific.vo.ProjectPersonJoinVo">
+        <result column="postDoctor" property="postDoctor"/>
+        <result column="doctor" property="doctor"/>
+        <result column="master" property="master"/>
+        <result column="underGraduate" property="underGraduate"/>
+    </resultMap>
+
+    <!--单位-项目年度预算与支出-->
+    <select id="queryDeptProAmountPay" resultMap="amountpay" parameterType="java.util.Map">
+        SELECT
+          projectId,
+          projectNum,
+          projectName,
+          sum(deptAmount) deptAmount,
+          sum(deptPay)/10000 deptPay
+        from (
+               select task.ID            projectId,
+                      task.CODE          projectNum,
+                      task.NAME          projectName,
+                      budget.FUNDS deptAmount,
+                      0                 deptPay
+               FROM DSS_SCIENTIFIC_PROJECT pro,
+                    DSS_SCIENTIFIC_BUDGET budget,
+                    ISUMP_DEPT  dept,
+                    DSS_SCIENTIFIC_TASK task
+               where
+                   pro.ID = task.PRO_ID
+                 and pro.STATE >= 200
+                 and task.ID = budget.TASK_ID
+                 and substr(pro.PRO_TYPE,0,6) = '100101'
+                 and budget.ANNUAL = to_char(sysdate, 'yyyy')
+                 and dept.ID = task.LEAD_DEPT_ID
+                 and dept.DEPT_NAME = #{deptName}
+               union all
+               select
+                 task.ID projectId,
+                 task.CODE projectNum,
+                 task.NAME projectName,
+                 0 deptAmount,
+                 pay.FUNDS deptPay
+               FROM
+                 DSS_SCIENTIFIC_PROJECT pro,
+                 DSS_SCIENTIFIC_PAY pay,
+                 ISUMP_DEPT  dept,
+                 DSS_SCIENTIFIC_TASK task
+               where
+                 pro.ID = task.PRO_ID
+                 and pro.STATE >= 200
+                 and pay.TASK_CODE  = task.CODE
+                 and substr(pro.PRO_TYPE,0,6) = '100101'
+                 and substr(pay.PAY_DATE,0,4) = to_char(sysdate, 'yyyy')
+                 and dept.ID = task.LEAD_DEPT_ID
+                 and dept.DEPT_NAME = #{deptName}
+                 and pay.STATUS = 'Y'
+             )GROUP BY projectId,projectNum,projectName
+
+    </select>
+
+    <!--单位-项目预算与支出明细-->
+    <select id="queryDeptProFundDetail" resultType="java.util.Map" parameterType="java.util.Map">
+        select p.ID  projectId,
+        p.PROJECT_NAME projectName,
+        d.BUDGET_DETAIL amountDetail,
+        s.BUDGET_DETAIL payDetail
+        from SRPMS_PROJECT_BUDGET_DETAIL d ,SRPMS_PROJECT p, DSS_PROJECT_TASK_PAY s
+        where d.PROJECT_NUM = p.PROJECT_NUM and p.PROJECT_NUM = s.PROJECT_NUM
+        and d.PROJECT_NUM = #{projectNum}
+        and d.TASK_DEPT_NAME = #{deptName} --单位名称
+        and d.BUDGET_CATEGORY in ('0111','0202','0302') --分任务预算
+        and d.BUDGET_YEAR = #{year}
+    </select>
+
+    <!-- 查询各个明细类别占比-->
+    <resultMap id="ProjectExcutePropVo" type="com.deloitte.platform.api.dss.scientific.vo.ProjectExcutePropVo">
+        <result column="phyletic" property="phyletic"/>
+        <result column="phyleticName" property="phyleticName"/>
+        <result column="budgetFunds" property="budgetFunds"/>
+        <result column="payFunds" property="payFunds"/>
+    </resultMap>
+    <select id="queryFundDetail"  resultMap="ProjectExcutePropVo"  parameterType="java.util.Map">
+        <![CDATA[
+            select
+              phyletic,
+              phyleticName,
+              sum(budgetFunds) budgetFunds,
+              sum(payFunds)/10000 payFunds
+            from (
+                     SELECT de.PHYLETIC      phyletic,
+                            de.PHYLETIC_NAME phyleticName,
+                            de.FUNDS         budgetFunds,
+                            0                payFunds
+                     FROM DSS_SCIENTIFIC_BUDGET_DETAIL de,
+                          DSS_SCIENTIFIC_PROJECT pro,
+                          ISUMP_DEPT dept,
+                          DSS_SCIENTIFIC_TASK task,
+                          DSS_SCIENTIFIC_BUDGET budget
+                       where
+                          de.BUDGET_ID = budget.ID and pro.ID = task.PRO_ID and task.LEAD_DEPT_ID = dept.ID
+                          and  task.ID = budget.TASK_ID
+                          and dept.DEPT_NAME = #{deptName} and task.CODE =  #{projectNum}  and budget.ANNUAL = to_char(sysdate, 'yyyy')
+                       union all
+                       SELECT
+                          pay.PHYLETIC phyletic,
+                          pay.PHYLETIC_NAME phyleticName,
+                          0 budgetFunds,
+                          pay.FUNDS payFunds
+                       FROM
+                          DSS_SCIENTIFIC_PAY pay,
+                          DSS_SCIENTIFIC_PROJECT pro,
+                          ISUMP_DEPT dept,
+                          DSS_SCIENTIFIC_TASK task
+                       where
+                          pay.TASK_CODE = task.CODE and task.LEAD_DEPT_ID = dept.ID
+                          and  pro.ID = task.PRO_ID
+                          and dept.DEPT_NAME = #{deptName} and task.CODE =  #{projectNum}
+                          and substr(pay.PAY_DATE,0,4) = to_char(sysdate, 'yyyy')
+                          and pay.STATUS = 'Y'
+                   )
+              group by phyletic,phyleticName
+        ]]>
+    </select>
+
+    <!--项目Pi-->
+    <select id="queryLeader" resultMap="leader" parameterType="java.lang.String">
+      select SPP.NAME leaderName,
+               SP.STATE projectStatus,
+               sub.DICT_VALUE subjectCategory
+        from ISUMP_USER SPP,DSS_SCIENTIFIC_TASK task,DSS_SCIENTIFIC_PROJECT SP
+        left join SYS_DICT sub on  SP.SRPMS_PROJECT  = sub.DICT_CODE
+        where  task.CODE=#{projectNum} AND SPP.ID=task.LEAD_PERSON_ID and  task.PRO_ID = sp.ID
+    </select>
+
+    <!--项目参与人员学位统计-->
+    <select id="queryJoinPerson" resultMap="personJoin" parameterType="java.lang.String">
+        select
+        sum(case when CATEGROY = '3' then 1 else 0 end ) postDoctor,
+        sum(case when substr(usr.DEGREE,0,2) = '博士' then 1 else 0 end  )   doctor,
+        sum(case when substr(usr.DEGREE,0,2) = '硕士' then 1 else 0 end  )  master,
+        sum(case when substr(usr.DEGREE,0,2) = '本科' then 1 else 0 end  )  underGraduate
+        from
+        DSS_SCIENTIFIC_MAIN_MENBER men ,ISUMP_USER usr,DSS_SCIENTIFIC_TASK task
+        where task.CODE = #{projectNum}
+        and  task.ID = men.TASK_ID
+        and  men.USER_ID = usr.ID
+    </select>
+
+</mapper>

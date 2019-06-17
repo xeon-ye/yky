@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.business.ito.mapper.IncomeTurnedOverMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.business.ito.entity.IncomeTurnedOver">
+        <id column="ID" property="id" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_USER_NAME" property="createUserName" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="VERSION" property="version" />
+        <result column="DOCUMENT_NUM" property="documentNum" />
+        <result column="DOCUMENT_STATUS" property="documentStatus" />
+        <result column="UNIT_ID" property="unitId" />
+        <result column="DEPT_ID" property="deptId" />
+        <result column="INCOME_TYPE_ID" property="incomeTypeId" />
+        <result column="IS_AGREED_PROMIS" property="isAgreedPromis" />
+        <result column="REMARK" property="remark" />
+        <result column="UNIT_NAME" property="unitName" />
+        <result column="DEPT_NAME" property="deptName" />
+        <result column="INCOME_TYPE_NAME" property="incomeTypeName" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+        <result column="EXT6" property="ext6" />
+        <result column="EXT7" property="ext7" />
+        <result column="EXT8" property="ext8" />
+        <result column="EXT9" property="ext9" />
+        <result column="EXT10" property="ext10" />
+        <result column="EXT11" property="ext11" />
+        <result column="EXT12" property="ext12" />
+        <result column="EXT13" property="ext13" />
+        <result column="EXT14" property="ext14" />
+        <result column="EXT15" property="ext15" />
+        <result column="UNIT_CODE" property="unitCode" />
+        <result column="DEPT_CODE" property="deptCode" />
+        <result column="INCOME_TYPE_CODE" property="incomeTypeCode" />
+        <result column="TOTAL_SUM" property="totalSum" />
+        <result column="CURRENCY_CODE" property="currencyCode" />
+        <result column="PAYMENT_CODE" property="paymentCode" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, CREATE_BY, CREATE_USER_NAME, UPDATE_BY, UPDATE_TIME, CREATE_TIME, VERSION, DOCUMENT_NUM, DOCUMENT_STATUS, UNIT_ID, DEPT_ID, INCOME_TYPE_ID, IS_AGREED_PROMIS, REMARK, UNIT_NAME, DEPT_NAME, INCOME_TYPE_NAME, EXT1, EXT2, EXT3, EXT4, EXT5, EXT6, EXT7, EXT8, EXT9, EXT10, EXT11, EXT12, EXT13, EXT14, EXT15, UNIT_CODE, DEPT_CODE, INCOME_TYPE_CODE, TOTAL_SUM, CURRENCY_CODE, PAYMENT_CODE
+    </sql>
+
+</mapper>

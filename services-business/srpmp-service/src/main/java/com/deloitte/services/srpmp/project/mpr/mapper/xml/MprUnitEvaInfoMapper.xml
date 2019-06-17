@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.srpmp.project.mpr.mapper.MprUnitEvaInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.srpmp.project.mpr.entity.MprUnitEvaInfo">
+        <id column="ID" property="id" />
+        <result column="PROJECT_NO" property="projectNo" />
+        <result column="BEARER_UNIT" property="bearerUnit" />
+        <result column="BEARER_UNIT_MANAGER" property="bearerUnitManager" />
+        <result column="REPORT_DATE" property="reportDate" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="PROCESS_STATUS" property="processStatus" />
+        <result column="ORG_MANA_INFO" property="orgManaInfo" />
+        <result column="SERVICE_SUP_INFO" property="serviceSupInfo" />
+        <result column="MONITOR_RESP_INFO" property="monitorRespInfo" />
+        <result column="RESULT_MANA_INFO" property="resultManaInfo" />
+        <result column="IMPL_EFFECT" property="implEffect" />
+        <result column="IMPL_ADVICE" property="implAdvice" />
+        <result column="DEPT_CODE" property="deptCode" />
+        <result column="DEPT_NAME" property="deptName" />
+        <result column="YEAR" property="year" />
+        <result column="FILE_INFO" property="fileInfo" />
+        <result column="AUDIT_FILE_INFO" property="auditFileInfo" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, PROJECT_NO, BEARER_UNIT, BEARER_UNIT_MANAGER, REPORT_DATE, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, PROCESS_STATUS, ORG_MANA_INFO, SERVICE_SUP_INFO, MONITOR_RESP_INFO, RESULT_MANA_INFO, IMPL_EFFECT, IMPL_ADVICE, DEPT_CODE, DEPT_NAME, YEAR, FILE_INFO, AUDIT_FILE_INFO
+    </sql>
+
+</mapper>

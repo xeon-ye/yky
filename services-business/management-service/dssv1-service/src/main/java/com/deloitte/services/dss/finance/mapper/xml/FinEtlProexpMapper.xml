@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.finance.mapper.FinEtlProexpMapper">
+
+
+    <select id="queryInfoForProExp" parameterType="java.util.Map"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          map.INDEX_CODE indexCode,
+          proexp.YEAR periodCode,
+          company.COM_CODE comCode,
+          proexp.BUD_TOTAL ytd
+        from
+          DSS_FIN_ETL_PROEXP proexp
+        inner join
+          DSS_FIN_ETL_PROEXP_MAP1 map
+        on
+          proexp.ACCOUNT_CODE = map.FIRST_CODE
+        inner join
+          DSS_FINANCE_COMPANY company
+        on
+          company.COM_DES = proexp.ENTITY_NAME
+        where
+          proexp.YEAR = #{period}
+        and
+          map.MAPPING_TYPE = '项目预算支出'
+    </select>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.dss.finance.entity.FinEtlProexp">
+        <id column="ID" property="id" />
+        <result column="YEAR" property="year" />
+        <result column="ACCOUNT_CODE" property="accountCode" />
+        <result column="ACCOUNT_NAME" property="accountName" />
+        <result column="ITEM_NAME" property="itemName" />
+        <result column="ITEM_CODE" property="itemCode" />
+        <result column="ENTITY_NAME" property="entityName" />
+        <result column="ENTITY_LV" property="entityLv" />
+        <result column="TAG" property="tag" />
+        <result column="PERIOD" property="period" />
+        <result column="BUD_TOTAL" property="budTotal" />
+        <result column="BUD_NOW" property="budNow" />
+        <result column="BUD_TRANS" property="budTrans" />
+        <result column="BUD_EDU" property="budEdu" />
+        <result column="BUD_OTHER" property="budOther" />
+        <result column="EX1" property="ex1" />
+        <result column="EX2" property="ex2" />
+        <result column="EX3" property="ex3" />
+        <result column="EX4" property="ex4" />
+        <result column="EX5" property="ex5" />
+        <result column="EX6" property="ex6" />
+        <result column="EX7" property="ex7" />
+        <result column="EX8" property="ex8" />
+        <result column="EX9" property="ex9" />
+        <result column="EX10" property="ex10" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, YEAR, ACCOUNT_CODE, ACCOUNT_NAME, ITEM_NAME, ITEM_CODE, ENTITY_NAME, ENTITY_LV, TAG, PERIOD, BUD_TOTAL, BUD_NOW, BUD_TRANS, BUD_EDU, BUD_OTHER, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME
+    </sql>
+
+</mapper>

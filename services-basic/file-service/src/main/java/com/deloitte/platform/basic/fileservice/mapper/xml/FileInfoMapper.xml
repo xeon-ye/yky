@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.platform.basic.fileservice.mapper.FileInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.platform.basic.fileservice.entity.FileInfo">
+        <id column="ID" property="id" />
+        <result column="FILE_NAME" property="fileName" />
+        <result column="FILE_PATH" property="filePath" />
+        <result column="FILE_TYPE" property="fileType" />
+        <result column="MIME_TYPE" property="mimeType" />
+        <result column="FILE_SIZE" property="fileSize" />
+        <result column="UPLOAD_TIME" property="uploadTime" />
+        <result column="FILE_MD5" property="fileMd5" />
+        <result column="FILE_OWNER" property="fileOwner" />
+        <result column="FILE_VIRTUAL_PATH" property="fileVirtualPath" />
+        <result column="FILE_STATE" property="fileState" />
+        <result column="MODIFY_TIME" property="modifyTime" />
+        <result column="FILE_DESCRIPTION" property="fileDescription" />
+        <result column="FILE_URL" property="fileUrl" />
+        <result column="DOWNLOAD_COUNT" property="downloadCount" />
+        <result column="EXT_1" property="ext1" />
+        <result column="EXT_2" property="ext2" />
+        <result column="EXT_3" property="ext3" />
+        <result column="EXT_4" property="ext4" />
+        <result column="EXT_5" property="ext5" />
+        <result column="FILE_EXT" property="fileExt" />
+        <result column="FILE_ENCRYPT" property="fileEncrypt" />
+        <result column="FILE_KEY" property="fileKey" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, FILE_NAME, FILE_PATH, FILE_TYPE, MIME_TYPE, FILE_SIZE, UPLOAD_TIME, FILE_MD5, FILE_OWNER, FILE_VIRTUAL_PATH, FILE_STATE, MODIFY_TIME, FILE_DESCRIPTION, FILE_URL, DOWNLOAD_COUNT, EXT_1, EXT_2, EXT_3, EXT_4, EXT_5, FILE_EXT, FILE_ENCRYPT, FILE_KEY
+    </sql>
+
+</mapper>

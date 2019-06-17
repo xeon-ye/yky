@@ -1,0 +1,87 @@
+eureka:
+  instance:
+    #hostname: ${server.port}
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    leaseRenewalIntervalInSeconds: 5
+    leaseExpirationDurationInSeconds: 10
+  client:
+    registryFetchIntervalSeconds: 5
+
+
+#hystrix的超时时间
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 20000
+#ribbon的超时时间
+ribbon:
+  ServerListRefreshInterval: 5000
+  ConnectTimeout: 15000
+  ReadTimeout: 15000
+  MaxAutoRetriesNextServer: 2
+  restclient:
+    enabled: true
+
+feign:
+  hystrix:
+    enabled: true
+  client:
+    config:
+      default:
+        loggerLevel: full
+        requestInterceptors:
+          - com.deloitte.platform.common.web.feign.GdcFeignInterceptor
+
+
+management:
+  #屏蔽bus安全验证
+  security:
+    enabled: false
+  context-path: /monitor
+  endpoints:
+    web:
+      exposure:
+        #加载所有的端点，默认只加载了info、health
+        #include: '*'
+        include: 'mappings'
+  endpoint:
+    health:
+      show-details: always
+    #可以关闭指定的端点
+    shutdown:
+      enabled: true
+---
+spring:
+  #消息队列服务
+  rabbitmq:
+    host: ${RABBIT_MQ_HOST:test-rabbitmq}
+    port: ${RABBIT_MQ_PORT:5672}
+    username: ${RABBIT_MQ_USERNAME:cams}
+    password: ${RABBIT_MQ_PASSWORD:cams123456}
+    publisher-confirms: true
+    virtual-host: /
+  #redis配置
+  redis:
+    host: ${REDIS_HOST:test-redis-service}
+    port: ${REDIS_PORT:6379}
+
+
+---
+spring:
+  http:
+    multipart:
+      maxFileSize: 100Mb
+      maxRequestSize: 100Mb
+---
+spring:
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true

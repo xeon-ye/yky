@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.platform.basic.bpmservice.mapper.BpmProcessTaskMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.platform.basic.bpmservice.entity.BpmProcessTask">
+        <id column="ID" property="id" />
+        <result column="PROCESS_DEFINE_KEY" property="processDefineKey" />
+        <result column="PROCESS_INSTANCE_ID" property="processInstanceId" />
+        <result column="TASK_ID" property="taskId" />
+        <result column="TASK_KEY" property="taskKey" />
+        <result column="TASK_NAME" property="taskName" />
+        <result column="TASK_TITLE" property="taskTitle" />
+        <result column="TASK_DESCRIPTION" property="taskDescription" />
+        <result column="TASK_STAUTS" property="taskStauts" />
+        <result column="APPROVER_ACOUNT" property="approverAcount" />
+        <result column="APPROVER_NAME" property="approverName" />
+        <result column="APPROVER_STATION" property="approverStation" />
+        <result column="APPROVER_DESCRIPTION" property="approverDescription" />
+        <result column="OBJECT_ID" property="objectId" />
+        <result column="OBJECT_ORDER_NUM" property="objectOrderNum" />
+        <result column="OBJECT_STAUTS" property="objectStauts" />
+        <result column="OBJECT_TYPE" property="objectType" />
+        <result column="OBJECT_URL" property="objectUrl" />
+        <result column="OBJECT_DESCRIPTION" property="objectDescription" />
+        <result column="OPINION" property="opinion" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="DURATION_TIME" property="durationTime" />
+        <result column="SUBMITTER_CODE" property="submitterCode" />
+        <result column="SUBMITTER_NAME" property="submitterName" />
+        <result column="SUBMITTER_ORG" property="submitterOrg" />
+        <result column="APPROVER_ORG" property="approverOrg" />
+        <result column="SOURCE_SYSTEM" property="sourceSystem" />
+        <result column="SUBMITTER_STATION" property="submitterStation" />
+        <result column= "OBJECT_APP_URL" property="submitterStation" />
+
+        <result column="EMERGENCY" property="emergency" />
+        <result column="SIGN_TIME" property="signTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_BY_NAME" property="createByName" />
+        <result column="CREATE_BY_ORG_ID" property="createByOrgId" />
+        <result column="PREVIOUS_TASK_ID" property="previousTaskId" />
+        <result column="PROCESS_CREATE_TIME" property="processCreateTime" />
+        <result column="AGENT_ID" property="agentId" />
+        <result column="AGENT_NAME" property="agentName" />
+
+        <result column="CUSTOM_TEXT01" property="customText01" />
+        <result column="CUSTOM_TEXT02" property="customText02" />
+        <result column="CUSTOM_TEXT03" property="customText03" />
+        <result column="CUSTOM_TEXT04" property="customText04" />
+        <result column="CUSTOM_TEXT05" property="customText05" />
+        <result column="CUSTOM_TEXT06" property="customText06" />
+        <result column="CUSTOM_TEXT07" property="customText07" />
+        <result column="CUSTOM_TEXT08" property="customText08" />
+        <result column="CUSTOM_TEXT09" property="customText09" />
+        <result column="CUSTOM_TEXT10" property="customText10" />
+        <result column="CUSTOM_NUMBER01" property="customNumber01" />
+        <result column="CUSTOM_NUMBER02" property="customNumber02" />
+        <result column="CUSTOM_DATE01" property="customDate01" />
+        <result column="CUSTOM_DATE02" property="customDate02" />
+
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, PROCESS_DEFINE_KEY, PROCESS_INSTANCE_ID, TASK_ID, TASK_KEY, TASK_NAME, TASK_TITLE, TASK_DESCRIPTION, TASK_STAUTS, APPROVER_ACOUNT, APPROVER_NAME, APPROVER_STATION, APPROVER_DESCRIPTION, OBJECT_ID, OBJECT_ORDER_NUM, OBJECT_STAUTS, OBJECT_TYPE, OBJECT_URL, OBJECT_DESCRIPTION, OPINION, CREATE_TIME, UPDATE_TIME, DURATION_TIME, SUBMITTER_CODE, SUBMITTER_NAME, SUBMITTER_ORG, APPROVER_ORG, SOURCE_SYSTEM, SUBMITTER_STATION,EMERGENCY,SIGN_TIME,CREATE_BY,CREATE_BY_NAME,CREATE_BY_ORG_ID,PREVIOUS_TASK_ID,PROCESS_CREATE_TIME,AGENT_ID,AGENT_NAME,CUSTOM_TEXT01,	CUSTOM_TEXT02,	CUSTOM_TEXT03,	CUSTOM_TEXT04,	CUSTOM_TEXT05,	CUSTOM_TEXT06,	CUSTOM_TEXT07,	CUSTOM_TEXT08,	CUSTOM_TEXT09,	CUSTOM_TEXT10,	CUSTOM_NUMBER01,	CUSTOM_NUMBER02,	CUSTOM_DATE01,	CUSTOM_DATE02
+    </sql>
+
+    <update id="updateObjectStatusByProcessId">
+            update BPM_PROCESS_TASK set OBJECT_STAUTS = #{objectStatus} where PROCESS_INSTANCE_ID = #{processId}
+    </update>
+
+    <update id="updateTaskStatusByPrevious">
+            update BPM_PROCESS_TASK set TASK_STAUTS = #{taskStatus} where PROCESS_INSTANCE_ID = #{processId} and PREVIOUS_TASK_ID = #{previousTaskId} and TASK_STAUTS != #{taskStatus}
+    </update>
+
+    <select id="findBpmProcessTask" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from BPM_PROCESS_TASK where TASK_ID = #{taskId}
+        <if test="processInstanceId != null and processInstanceId !='' ">
+          and PROCESS_INSTANCE_ID = #{processInstanceId}
+        </if>
+    </select>
+
+    <select id="countBpmProcessTask" resultType="int">
+           select count(1) from  BPM_PROCESS_TASK where PROCESS_INSTANCE_ID = #{processInstanceId}
+           and OBJECT_STAUTS = #{objectStatus}
+    </select>
+</mapper>

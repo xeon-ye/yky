@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.finance.mapper.FinEtlExpenditureMapper">
+
+    <!-- 查询支出预算 -->
+    <select id="queryInfoExpBud" parameterType="java.util.Map"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          expenditure.PERIOD periodCode,
+          map.INDEX_CODE indexCode,
+          expenditure.ENTITY comCode,
+          expenditure.BUD_YTD ytd
+        from
+          DSS_FIN_ETL_EXPENDITURE expenditure
+        inner join
+          DSS_FIN_ETL_EXP_MAP1 map
+        on
+          expenditure.ITEM = map.ITEM
+        where
+          PERIOD = #{period}
+    </select>
+
+    <!-- 查询支出 -->
+    <select id="queryInfoExp" parameterType="java.util.Map"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          expenditure.PERIOD periodCode,
+          map.INDEX_CODE indexCode,
+          expenditure.ENTITY comCode,
+          expenditure.YTD ytd,
+          expenditure.YTD ptd
+        from
+          DSS_FIN_ETL_EXPENDITURE expenditure
+        inner join
+          DSS_FIN_ETL_EXP_MAP2 map
+        on
+          expenditure.ITEM = map.ITEM
+        where
+          PERIOD = #{period}
+    </select>
+
+    <!-- 2月以后的支出数据 -->
+    <select id="queryInfoForExpEt" parameterType="java.util.Map"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+    select
+      indexCode2 indexCode,
+      comCode2 comCode,
+      period periodCode,
+      ytd2 ytd,
+      ytd2-ytd1 ptd
+    from
+        (select
+            expenditure.YTD ytd1,
+            expenditure.ITEM item1,
+            expenditure.ENTITY comCode1,
+            map.INDEX_CODE indexCode1
+          from
+            DSS_FIN_ETL_EXPENDITURE expenditure
+          inner join
+            DSS_FIN_ETL_EXP_MAP2 map
+          on
+            expenditure.ITEM = map.ITEM
+          where
+            period = #{periodBefore}
+          ) t1
+      inner join
+          (select
+            expenditure.YTD ytd2,
+            expenditure.ITEM item2,
+            map.INDEX_CODE indexCode2,
+            expenditure.ENTITY comCode2,
+            expenditure.PERIOD period
+          from
+            DSS_FIN_ETL_EXPENDITURE expenditure
+          inner join
+            DSS_FIN_ETL_EXP_MAP2 map
+          on
+            expenditure.ITEM = map.ITEM
+          where
+            period = #{periodNow}
+          ) t2
+      on
+        item1 = item2
+      and
+        indexCode1 = indexCode2
+      and
+        comCode1 = comCode2
+    </select>
+
+    <!-- 查询支出预算达成率所需数据 -->
+    <select id="queryInfoForExeExp" parameterType="java.util.Map"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+          select
+            periodCode1 periodCode,
+            indexCode1 indexCode,
+            comCode1 comCode,
+            ytd1 ytdD,
+            ytd2 ytdN
+          from
+            (select
+              expenditure.PERIOD periodCode1,
+              map.INDEX_CODE indexCode1,
+              expenditure.ENTITY comCode1,
+              map.ITEM item1,
+              expenditure.BUD_YTD ytd1
+            from
+              DSS_FIN_ETL_EXPENDITURE expenditure
+            inner join
+              DSS_FIN_ETL_EXP_MAP3 map
+            on
+              expenditure.ITEM = map.ITEM
+            where
+              PERIOD = #{period}
+            and
+              VALUE_TYPE = 'BUD_YTD') t1
+          inner join
+            (select
+              expenditure.PERIOD periodCode2,
+              map.INDEX_CODE indexCode2,
+              expenditure.ENTITY comCode2,
+              map.ITEM item2,
+              expenditure.YTD ytd2
+            from
+              DSS_FIN_ETL_EXPENDITURE expenditure
+            inner join
+              DSS_FIN_ETL_EXP_MAP3 map
+            on
+              expenditure.ITEM = map.ITEM
+            where
+              PERIOD = #{period}
+            and
+              VALUE_TYPE = 'YTD') t2
+          on
+            indexCode1 = indexCode2
+          and
+            comCode1 = comCode2
+          and
+            item1 = item2
+    </select>
+
+    <!-- 查询同比数据 -->
+    <select id="queryInfoForExpRate" parameterType="java.util.Map"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+              indexCode2 indexCode,
+              periodCode,
+              comCode2 comCode,
+              ytd2 ytdN,
+              ytd1 ytdD
+        from
+              (select
+                map.INDEX_CODE indexCode1,
+                expenditure.YTD ytd1,
+                expenditure.ITEM item1,
+                expenditure.ENTITY comCode1
+              from
+                DSS_FIN_ETL_EXPENDITURE expenditure
+              inner join
+               DSS_FIN_ETL_EXP_MAP4 map
+              on
+               expenditure.ITEM = map.ITEM
+              where
+               PERIOD = #{periodBefore}) t1
+        inner join
+              (select
+                map.INDEX_CODE indexCode2,
+                expenditure.YTD ytd2,
+                expenditure.ITEM item2,
+                expenditure.period periodCode,
+                expenditure.ENTITY comCode2
+              from
+               DSS_FIN_ETL_EXPENDITURE expenditure
+              inner join
+               DSS_FIN_ETL_EXP_MAP4 map
+              on
+               expenditure.ITEM = map.ITEM
+              where
+               PERIOD = #{periodNow}) t2
+        on
+          comCode1 = comCode2
+        and
+          item1 = item2
+        and
+          indexCode1 = indexCode2
+    </select>
+
+    <!-- 查询支出计划增长 -->
+    <select id="queryExpGrowth" parameterType="java.util.Map"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          periodCode1 periodCode,
+          indexCode2 indexCode,
+          budYtd ytdN,
+          ytd ytdD,
+          comCode2 comCode
+        from
+            (select
+              expenditure.BUD_YTD budYtd,
+              expenditure.PERIOD periodCode1,
+              expenditure.ENTITY comCode1,
+              map.INDEX_CODE indexCode1,
+              expenditure.ITEM item1
+            from
+              DSS_FIN_ETL_EXPENDITURE expenditure
+            inner join
+              DSS_FIN_ETL_EXP_MAP5 map
+            on
+              expenditure.ITEM = map.ITEM
+            where
+              expenditure.PERIOD = #{periodNow}
+            order by
+              expenditure.ENTITY,map.INDEX_CODE)t1
+        inner join
+            (select
+              expenditure.YTD ytd,
+              expenditure.PERIOD periodCode2,
+              expenditure.ENTITY comCode2,
+              map.INDEX_CODE indexCode2,
+              expenditure.ITEM item2
+            from
+              DSS_FIN_ETL_EXPENDITURE expenditure
+            inner join
+              DSS_FIN_ETL_EXP_MAP5 map
+            on
+              expenditure.ITEM = map.ITEM
+            where
+              expenditure.PERIOD = #{periodBefore}
+            order by
+              expenditure.ENTITY,map.INDEX_CODE)t2
+        on
+          item1 = item2
+        and
+          indexCode1 = indexCode2
+        and
+          comCode1 = comCode2
+    </select>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.dss.finance.entity.FinEtlExpenditure">
+        <result column="ID" property="id" />
+        <result column="PERIOD" property="period" />
+        <result column="ENTITY" property="entity" />
+        <result column="ITEM" property="item" />
+        <result column="YTD" property="ytd" />
+        <result column="BYD_YTD" property="bydYtd" />
+        <result column="EX1" property="ex1" />
+        <result column="EX2" property="ex2" />
+        <result column="EX3" property="ex3" />
+        <result column="EX4" property="ex4" />
+        <result column="EX5" property="ex5" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, PERIOD, ENTITY, ITEM, YTD, BYD_YTD, EX1, EX2, EX3, EX4, EX5
+    </sql>
+
+</mapper>

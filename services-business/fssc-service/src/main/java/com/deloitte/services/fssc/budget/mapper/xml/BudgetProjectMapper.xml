@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.budget.mapper.BudgetProjectMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.budget.entity.BudgetProject">
+        <id column="ID" property="id"/>
+        <result column="PROJECT_ID" property="projectId"/>
+        <result column="PROJECT_CODE" property="projectCode"/>
+        <result column="PROJECT_NAME" property="projectName"/>
+        <result column="PROJECT_TYPE" property="projectType"/>
+        <result column="TYPE_NAME" property="typeName"/>
+        <result column="PROJECT_BIG_TYPE" property="projectBigType"/>
+        <result column="BIG_TYPE_NAME" property="bigTypeName"/>
+        <result column="PROJECT_MIDDLE_TYPE" property="projectMiddleType"/>
+        <result column="MIDDLE_TYPE_NAME" property="middleTypeName"/>
+        <result column="PROJECT_SMALL_TYPE" property="projectSmallType"/>
+        <result column="SMALL_TYPE_NAME" property="smallTypeName"/>
+        <result column="PROJECT_DUTY" property="projectDuty"/>
+        <result column="RESPONSIBLE_UNIT_CODE" property="responsibleUnitCode"/>
+        <result column="RESPONSIBLE_UNIT_NAME" property="responsibleUnitName"/>
+        <result column="BELONG_TO_DEPART_ID" property="belongToDepartId"/>
+        <result column="PARENT_FLAG" property="parentFlag"/>
+        <result column="PARENT_ID" property="parentId"/>
+        <result column="ORG_UNIT_ID" property="orgUnitId"/>
+        <result column="ORG_UNIT_CODE" property="orgUnitCode"/>
+        <result column="ORG_UNIT_NAME" property="orgUnitName"/>
+        <result column="ORG_PATH" property="orgPath"/>
+        <result column="PROJECT_STATUS" property="projectStatus"/>
+        <result column="BUDGET_ACCOUNT_CODE" property="budgetAccountCode"/>
+        <result column="BUDGET_ACCOUNT_ID" property="budgetAccountId"/>
+        <result column="CREATE_BY" property="createBy"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="UPDATE_BY" property="updateBy"/>
+        <result column="UPDATE_TIME" property="updateTime"/>
+        <result column="EXT1" property="ext1"/>
+        <result column="EXT2" property="ext2"/>
+        <result column="EXT3" property="ext3"/>
+        <result column="EXT4" property="ext4"/>
+        <result column="EXT5" property="ext5"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, PROJECT_ID, PROJECT_CODE, PROJECT_NAME, PROJECT_TYPE, TYPE_NAME, PROJECT_BIG_TYPE, BIG_TYPE_NAME,
+        PROJECT_MIDDLE_TYPE, MIDDLE_TYPE_NAME, PROJECT_SMALL_TYPE, SMALL_TYPE_NAME, PROJECT_DUTY, RESPONSIBLE_UNIT_CODE,
+        RESPONSIBLE_UNIT_NAME, BELONG_TO_DEPART_ID, PARENT_FLAG, PARENT_ID, ORG_UNIT_ID, ORG_UNIT_CODE, ORG_UNIT_NAME,
+        ORG_PATH, PROJECT_STATUS, BUDGET_ACCOUNT_CODE, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME, EXT1, EXT2, EXT3,
+        EXT4, EXT5, BUDGET_ACCOUNT_CODE, BUDGET_ACCOUNT_ID
+    </sql>
+
+    <select id="listVo" resultType="com.deloitte.platform.api.fssc.budget.vo.BudgetProjectVo">
+      SELECT
+        PROJECT.BUDGET_ACCOUNT_CODE, PROJECT.BUDGET_ACCOUNT_ID, BUDEGET.BUDGET_ACCOUNT_NAME
+        FROM BUDGET_PROJECT PROJECT INNER JOIN BASE_BUDGET_ACCOUNT BUDGET
+        PROJECT.BUDGET_ACCOUNT_ID = BUDGET.ID
+        <where>
+            <where>
+                PROJECT.PARENT_FLAG = 'N'
+                <if test="queryForm.projectId != null and queryForm.projectId != ''">
+                    and PROJECT.PROJECT_ID = #{queryForm.projectId}
+                </if>
+                <if test="queryForm.orgUnitCode != null and queryForm.orgUnitCode != ''">
+                    and PROJECT.ORG_UNIT_CODE = #{queryForm.orgUnitCode}
+                </if>
+            </where>
+            order by PROJECT.BUDGET_ACCOUNT_CODE desc
+        </where>
+    </select>
+</mapper>

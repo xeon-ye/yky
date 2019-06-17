@@ -1,0 +1,23 @@
+${AnsiColor.BRIGHT_YELLOW}
+PPPPPPPPPPPPPPPPP   UUUUUUUU     UUUUUUUUMMMMMMMM               MMMMMMMM        CCCCCCCCCCCCC
+P::::::::::::::::P  U::::::U     U::::::UM:::::::M             M:::::::M     CCC::::::::::::C
+P::::::PPPPPP:::::P U::::::U     U::::::UM::::::::M           M::::::::M   CC:::::::::::::::C
+PP:::::P     P:::::PUU:::::U     U:::::UUM:::::::::M         M:::::::::M  C:::::CCCCCCCC::::C
+  P::::P     P:::::P U:::::U     U:::::U M::::::::::M       M::::::::::M C:::::C       CCCCCC
+  P::::P     P:::::P U:::::D     D:::::U M:::::::::::M     M:::::::::::MC:::::C
+  P::::PPPPPP:::::P  U:::::D     D:::::U M:::::::M::::M   M::::M:::::::MC:::::C
+  P:::::::::::::PP   U:::::D     D:::::U M::::::M M::::M M::::M M::::::MC:::::C
+  P::::PPPPPPPPP     U:::::D     D:::::U M::::::M  M::::M::::M  M::::::MC:::::C
+  P::::P             U:::::D     D:::::U M::::::M   M:::::::M   M::::::MC:::::C
+  P::::P             U:::::D     D:::::U M::::::M    M:::::M    M::::::MC:::::C
+  P::::P             U::::::U   U::::::U M::::::M     MMMMM     M::::::M C:::::C       CCCCCC
+PP::::::PP           U:::::::UUU:::::::U M::::::M               M::::::M  C:::::CCCCCCCC::::C
+P::::::::P            UU:::::::::::::UU  M::::::M               M::::::M   CC:::::::::::::::C
+P::::::::P              UU:::::::::UU    M::::::M               M::::::M     CCC::::::::::::C
+PPPPPPPPPP                UUUUUUUUU      MMMMMMMM               MMMMMMMM        CCCCCCCCCCCCC
+${AnsiColor.BRIGHT_BLUE}
+::: Project (version:${application.version}) :::             ＼(^O^)／    Spring-Boot ${spring-boot.version}
+
+
+
+

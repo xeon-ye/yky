@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.news.mapper.NewsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.news.entity.News">
+        <id column="NEWS_ID" property="newsId"/>
+        <result column="NEWS_TYPE_CODE" property="newsTypeCode"/>
+        <result column="NEWS_TYPE_NAME" property="newsTypeName"/>
+        <result column="NEWS_TITLE" property="newsTitle"/>
+        <result column="NEWS_THUMBNAILS_URL" property="newsThumbnailsUrl"/>
+        <result column="ISPIC_NEWS" property="ispicNews"/>
+        <result column="NEWS_HIT" property="newsHit"/>
+        <result column="NEWS_DATETIME" property="newsDatetime"/>
+        <result column="NEWS_UPDATETIME" property="newsUpdatetime"/>
+        <result column="NEWS_APPLYTIME" property="newsApplytime"/>
+        <result column="PHONE" property="phone"/>
+        <result column="NEWS_CONTRIBUTOR" property="newsContributor"/>
+        <result column="NEWS_CONTRIBUTOR_DEPT_CODE" property="newsContributorDeptCode"/>
+        <result column="NEWS_CONTENT" property="newsContent"/>
+        <result column="NEWS_IMAGE_URL" property="newsImageUrl"/>
+        <result column="NEWS_MOVIE_URL" property="newsMovieUrl"/>
+        <result column="NEWS_KEYWORD" property="newsKeyword"/>
+        <result column="NEWS_ISTOP" property="newsIstop"/>
+        <result column="NEWS_ISAPPROVAL" property="newsIsapproval"/>
+        <result column="NEWS_URGENT_LEVEL" property="newsUrgentLevel"/>
+        <result column="NEWS_CONTRIBUT_DEPT" property="newsContributDept"/>
+        <result column="NEWS_BUSINESS_LEADER" property="newsBusinessLeader"/>
+        <result column="NEWS_CONTRIBUT_PLATFORM" property="newsContributPlatform"/>
+        <result column="NEWS_CONTRIBUT_PLATFORM_CODE" property="newsContributPlatformCode"/>
+        <result column="DEL_FLAG" property="delFlag"/>
+        <result column="NEWS_STATUS" property="newsStatus"/>
+        <result column="NEWS_EDITOR" property="newsEditor"/>
+        <result column="NEWS_DELIVERY_DEPT" property="newsDeliveryDept"/>
+        <result column="NEWS_DELIVERY_DEPT_CODE" property="newsDeliveryDeptCode"/>
+        <result column="NEWS_PUBLICTIME" property="newsPublictime"/>
+        <result column="AUTHOR" property="author"/>
+        <result column="ORG_CODE" property="orgCode"/>
+        <result column="APPLY_USER_ID" property="applyUserId"/>
+        <result column="ORDER_NUM" property="orderNum"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        NEWS_ID, NEWS_TYPE_CODE, NEWS_TYPE_NAME, NEWS_TITLE, NEWS_THUMBNAILS_URL, ISPIC_NEWS, NEWS_HIT, NEWS_DATETIME, NEWS_UPDATETIME, NEWS_APPLYTIME, PHONE, NEWS_CONTRIBUTOR, NEWS_CONTENT, NEWS_IMAGE_URL, NEWS_MOVIE_URL, NEWS_KEYWORD, NEWS_ISAPPROVAL, NEWS_ISTOP, DEL_FLAG
+        , NEWS_URGENT_LEVEL, NEWS_CONTRIBUT_DEPT, NEWS_BUSINESS_LEADER, NEWS_CONTRIBUT_PLATFORM, NEWS_STATUS, NEWS_EDITOR, NEWS_DELIVERY_DEPT, NEWS_CONTRIBUT_PLATFORM_CODE, NEWS_DELIVERY_DEPT_CODE, NEWS_PUBLICTIME, NEWS_CONTRIBUTOR_DEPT_CODE, AUTHOR, ORG_CODE, ORDER_NUM, APPLY_USER_ID
+    </sql>
+
+    <select id="selectHomeList" resultType="com.deloitte.services.news.entity.News">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        (
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM OA_NEWS news WHERE news.NEWS_ISTOP = 1 AND news.NEWS_TYPE_CODE = #{newsTypeCode} AND news.NEWS_STATUS =
+        'normal' AND news.NEWS_CONTRIBUT_PLATFORM = '院校新闻网' ORDER BY news.NEWS_DATETIME DESC
+        )
+        WHERE ROWNUM &lt;= #{num}
+        UNION ALL
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM (
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM OA_NEWS news
+        WHERE news.NEWS_ISTOP &lt;&gt; 1 AND news.NEWS_TYPE_CODE = #{newsTypeCode} AND news.NEWS_STATUS = 'normal' AND
+        news.NEWS_CONTRIBUT_PLATFORM = '院校新闻网'
+        ORDER BY news.NEWS_DATETIME DESC
+        )
+        WHERE ROWNUM &lt;= (
+        SELECT #{num} - COUNT(1) FROM OA_NEWS news WHERE news.NEWS_ISTOP = 1 AND news.NEWS_TYPE_CODE = #{newsTypeCode}
+        AND news.NEWS_STATUS = 'normal' AND news.NEWS_CONTRIBUT_PLATFORM = '院校新闻网'
+        )
+    </select>
+
+    <select id="getOrderNum" resultType="java.lang.String">
+        SELECT
+          COUNT(ORDER_NUM) AS total
+        FROM
+          OA_NEWS
+        WHERE
+          ORDER_NUM LIKE #{head}
+    </select>
+
+
+    <select id="selectNewsPage" resultType="com.deloitte.services.news.entity.News">
+        SELECT * FROM OA_NEWS news WHERE 1=1
+        <if test="newsForm.newsTitle != null and newsForm.newsTitle !=''">
+            and NEWS_TITLE = #{newsForm.newsTitle}
+        </if>
+        <if test="newsForm.newsTypeCode != null and newsForm.newsTypeCode !=''">
+            and NEWS_TYPE_CODE = #{newsForm.newsTypeCode}
+        </if>
+        <if test="newsForm.newsContributPlatform != null and newsForm.newsContributPlatform !=''">
+            and NEWS_CONTRIBUT_PLATFORM = #{newsForm.newsContributPlatform}
+        </if>
+        and NEWS_CONTRIBUT_PLATFORM = '院校新闻网' AND NEWS_STATUS = 'normal'
+        ORDER BY news.NEWS_DATETIME DESC
+    </select>
+
+
+    <select id="selectManagePage" resultType="com.deloitte.services.news.entity.News">
+        SELECT * FROM OA_NEWS news WHERE 1=1
+        <if test="newsForm.newsTitle != null and newsForm.newsTitle !=''">
+            and NEWS_TITLE = #{newsForm.newsTitle}
+        </if>
+        <if test="newsForm.newsTypeCode != null and newsForm.newsTypeCode !=''">
+            and NEWS_TYPE_CODE = #{newsForm.newsTypeCode}
+        </if>
+        <if test="newsForm.newsContributPlatform != null and newsForm.newsContributPlatform !=''">
+            and NEWS_CONTRIBUT_PLATFORM = #{newsForm.newsContributPlatform}
+        </if>
+        ORDER BY news.NEWS_DATETIME DESC
+    </select>
+
+
+</mapper>

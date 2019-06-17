@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.platform.basic.bpmservice.mapper.BpmProcessTaskApproveMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.platform.basic.bpmservice.entity.BpmProcessTaskApprove">
+        <id column="ID" property="id" />
+        <result column="PROCESS_INSTANCE_ID" property="processInstanceId" />
+        <result column="PREVIOUS_TASK_ID" property="previousTaskId" />
+        <result column="TASK_KEY" property="taskKey" />
+        <result column="ACOUNT_ID" property="acountId" />
+        <result column="ACOUNT_NAME" property="acountName" />
+        <result column="AGENT_ID" property="agentId" />
+        <result column="AGENT_NAME" property="agentName" />
+        <result column="STATION_ID" property="stationId" />
+        <result column="ORG_ID" property="orgId" />
+        <result column="APPROVER_DESCRIPTION" property="approverDescription" />
+        <result column="OBJECT_URL" property="objectUrl" />
+        <result column="OBJECT_APP_URL" property="objectAppUrl" />
+        <result column="ORDER_NUM" property="orderNum" />
+        <result column="END_FLAG" property="endFlag" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, PROCESS_INSTANCE_ID, PREVIOUS_TASK_ID, TASK_KEY, ACOUNT_ID, ACOUNT_NAME, AGENT_ID, AGENT_NAME, STATION_ID, ORG_ID, APPROVER_DESCRIPTION, OBJECT_URL, OBJECT_APP_URL,ORDER_NUM ,END_FLAG
+    </sql>
+
+</mapper>

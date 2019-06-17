@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.business.carryforward.mapper.IncomeOfCarryForwardMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.business.carryforward.entity.IncomeOfCarryForward">
+        <id column="ID" property="id" />
+        <result column="MAIN_TYPE_ID" property="mainTypeId" />
+        <result column="DOCUMENT_NUM" property="documentNum" />
+        <result column="DOCUMENT_TYPE" property="documentType" />
+        <result column="PROJECT_CODE" property="projectCode" />
+        <result column="PROJECT_NAME" property="projectName" />
+        <result column="UNIT_ID" property="unitId" />
+        <result column="DEPT_ID" property="deptId" />
+        <result column="UNIT_NAME" property="unitName" />
+        <result column="DEPT_NAME" property="deptName" />
+        <result column="ENTER_DATE" property="enterDate" />
+        <result column="MONEY" property="money" />
+        <result column="STATUS" property="status" />
+        <result column="REMARK" property="remark" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="DOCUMENT_ID" property="documentId" />
+        <result column="ETX_1" property="etx1" />
+        <result column="ETX_2" property="etx2" />
+        <result column="ETX_3" property="etx3" />
+        <result column="ETX_4" property="etx4" />
+        <result column="ETX_5" property="etx5" />
+        <result column="JE_HEADER_ID" property="jeHeaderId" />
+        <result column="MAIN_TYPE_NAME" property="mainTypeName" />
+        <result column="PROJECT_ID" property="projectId" />
+        <result column="DEPT_CODE" property="deptCode" />
+        <result column="MAIN_TYPE_CODE" property="mainTypeCode" />
+        <result column="UNIT_CODE" property="unitCode" />
+        <result column="CR_ACCOUNT_CODE" property="crAccountCode" />
+        <result column="DR_ACCOUNT_CODE" property="drAccountCode" />
+        <result column="FSSC_CODE" property="fsscCode" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, MAIN_TYPE_ID, DOCUMENT_NUM, DOCUMENT_TYPE, PROJECT_CODE, PROJECT_NAME, UNIT_ID, DEPT_ID, UNIT_NAME, DEPT_NAME, ENTER_DATE, MONEY, STATUS, REMARK, CREATE_TIME, UPDATE_TIME, DOCUMENT_ID, ETX_1, ETX_2, ETX_3, ETX_4, ETX_5, JE_HEADER_ID,MAIN_TYPE_NAME,PROJECT_ID,DEPT_CODE,MAIN_TYPE_CODE,UNIT_CODE,
+        CR_ACCOUNT_CODE,DR_ACCOUNT_CODE,FSSC_CODE
+    </sql>
+
+    <select id="hasCarryId" resultType="java.lang.Integer">
+        select count(1) from INCOME_OF_CARRY_FORWARD f
+        left join AV_MANUAL_VOUCHER_HEAD h on f.ID = H.CARRY_ID
+        WHERE F.ID = #{id}
+    </select>
+    <select id="selectListByManual" resultType="com.deloitte.services.fssc.business.carryforward.entity.IncomeOfCarryForward">
+        select * from INCOME_OF_CARRY_FORWARD T
+        LEFT JOIN AV_CARRY_MANUAL_RELATION R ON T.ID = R.CARRAY_ID
+        WHERE R.ID IS  NULL
+    </select>
+
+    <select id="hasCarryByManualId" resultType="com.deloitte.services.fssc.business.carryforward.entity.IncomeOfCarryForward">
+        select * from INCOME_OF_CARRY_FORWARD T
+        INNER JOIN AV_CARRY_MANUAL_RELATION R ON T.ID = R.CARRAY_ID
+        WHERE  R.documentType = '${documentType}' AND R.documentId =${documentId} and T.status = 'Y'
+    </select>
+
+</mapper>

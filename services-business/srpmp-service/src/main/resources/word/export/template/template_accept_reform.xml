@@ -1,0 +1,867 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas"
+            xmlns:cx="http://schemas.microsoft.com/office/drawing/2014/chartex"
+            xmlns:cx1="http://schemas.microsoft.com/office/drawing/2015/9/8/chartex"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:o="urn:schemas-microsoft-com:office:office"
+            xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
+            xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml"
+            xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing"
+            xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"
+            xmlns:w10="urn:schemas-microsoft-com:office:word"
+            xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+            xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml"
+            xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml"
+            xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex"
+            xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup"
+            xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk"
+            xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml"
+            xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape"
+            mc:Ignorable="w14 w15 w16se wp14">
+    <w:body>
+        <w:p w:rsidR="00A669BA" w:rsidRDefault="00A669BA">
+            <w:pPr>
+                <w:spacing w:line="400" w:lineRule="exact"/>
+            </w:pPr>
+        </w:p>
+        <w:p w:rsidR="00A669BA" w:rsidRDefault="00A669BA"/>
+        <w:p w:rsidR="00A669BA" w:rsidRDefault="00A669BA"/>
+        <w:p w:rsidR="00A669BA" w:rsidRDefault="00A669BA"/>
+        <w:p w:rsidR="00457151" w:rsidRPr="00874113" w:rsidRDefault="00457151" w:rsidP="007E79AD">
+            <w:pPr>
+                <w:ind w:firstLineChars="700" w:firstLine="2376"/>
+                <w:rPr>
+                    <w:b/>
+                    <w:bCs/>
+                    <w:sz w:val="36"/>
+                    <w:szCs w:val="36"/>
+                </w:rPr>
+            </w:pPr>
+            <w:r w:rsidRPr="00874113">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:bCs/>
+                    <w:sz w:val="36"/>
+                    <w:szCs w:val="36"/>
+                </w:rPr>
+                <w:t>中</w:t>
+            </w:r>
+            <w:r w:rsidRPr="00874113">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:bCs/>
+                    <w:sz w:val="36"/>
+                    <w:szCs w:val="36"/>
+                </w:rPr>
+                <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r w:rsidRPr="00874113">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:bCs/>
+                    <w:sz w:val="36"/>
+                    <w:szCs w:val="36"/>
+                </w:rPr>
+                <w:t>国</w:t>
+            </w:r>
+            <w:r w:rsidRPr="00874113">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:bCs/>
+                    <w:sz w:val="36"/>
+                    <w:szCs w:val="36"/>
+                </w:rPr>
+                <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r w:rsidRPr="00874113">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:bCs/>
+                    <w:sz w:val="36"/>
+                    <w:szCs w:val="36"/>
+                </w:rPr>
+                <w:t>医</w:t>
+            </w:r>
+            <w:r w:rsidRPr="00874113">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:bCs/>
+                    <w:sz w:val="36"/>
+                    <w:szCs w:val="36"/>
+                </w:rPr>
+                <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r w:rsidRPr="00874113">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:bCs/>
+                    <w:sz w:val="36"/>
+                    <w:szCs w:val="36"/>
+                </w:rPr>
+                <w:t>学</w:t>
+            </w:r>
+            <w:r w:rsidRPr="00874113">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:bCs/>
+                    <w:sz w:val="36"/>
+                    <w:szCs w:val="36"/>
+                </w:rPr>
+                <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r w:rsidRPr="00874113">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:bCs/>
+                    <w:sz w:val="36"/>
+                    <w:szCs w:val="36"/>
+                </w:rPr>
+                <w:t>科</w:t>
+            </w:r>
+            <w:r w:rsidRPr="00874113">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:bCs/>
+                    <w:sz w:val="36"/>
+                    <w:szCs w:val="36"/>
+                </w:rPr>
+                <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r w:rsidRPr="00874113">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:bCs/>
+                    <w:sz w:val="36"/>
+                    <w:szCs w:val="36"/>
+                </w:rPr>
+                <w:t>学</w:t>
+            </w:r>
+            <w:r w:rsidRPr="00874113">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:bCs/>
+                    <w:sz w:val="36"/>
+                    <w:szCs w:val="36"/>
+                </w:rPr>
+                <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r w:rsidRPr="00874113">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:bCs/>
+                    <w:sz w:val="36"/>
+                    <w:szCs w:val="36"/>
+                </w:rPr>
+                <w:t>院</w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="00A669BA" w:rsidRPr="00857B38" w:rsidRDefault="007E79AD" w:rsidP="007E79AD">
+            <w:pPr>
+                <w:jc w:val="center"/>
+                <w:rPr>
+                    <w:rFonts w:ascii="黑体" w:eastAsia="黑体"/>
+                    <w:b/>
+                    <w:bCs/>
+                    <w:sz w:val="48"/>
+                    <w:szCs w:val="48"/>
+                </w:rPr>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="黑体" w:eastAsia="黑体" w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:bCs/>
+                    <w:sz w:val="48"/>
+                    <w:szCs w:val="48"/>
+                </w:rPr>
+                <w:t>科技体制改革</w:t>
+            </w:r>
+            <w:r w:rsidR="00457151" w:rsidRPr="00857B38">
+                <w:rPr>
+                    <w:rFonts w:ascii="黑体" w:eastAsia="黑体" w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:bCs/>
+                    <w:sz w:val="48"/>
+                    <w:szCs w:val="48"/>
+                </w:rPr>
+                <w:t>项目结题</w:t>
+            </w:r>
+            <w:r w:rsidR="00A669BA" w:rsidRPr="00857B38">
+                <w:rPr>
+                    <w:rFonts w:eastAsia="黑体" w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:sz w:val="48"/>
+                    <w:szCs w:val="48"/>
+                </w:rPr>
+                <w:t>报告</w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="00A669BA" w:rsidRDefault="00A669BA"/>
+        <w:p w:rsidR="00A669BA" w:rsidRDefault="00A669BA"/>
+        <w:p w:rsidR="00A669BA" w:rsidRDefault="00A669BA"/>
+        <w:p w:rsidR="00A669BA" w:rsidRDefault="00A669BA"/>
+        <w:p w:rsidR="00A669BA" w:rsidRDefault="00A669BA"/>
+        <w:p w:rsidR="00A669BA" w:rsidRDefault="00A669BA"/>
+        <w:p w:rsidR="00A669BA" w:rsidRDefault="00A669BA"/>
+        <w:p w:rsidR="00A669BA" w:rsidRDefault="00A669BA"/>
+        <w:p w:rsidR="00A669BA" w:rsidRDefault="00A669BA"/>
+        <w:p w:rsidR="00303B15" w:rsidRDefault="00A669BA" w:rsidP="00303B15">
+            <w:pPr>
+                <w:rPr>
+                    <w:sz w:val="28"/>
+                </w:rPr>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:sz w:val="28"/>
+                </w:rPr>
+                <w:t xml:space="preserve">          </w:t>
+            </w:r>
+            <w:r w:rsidR="00303B15">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:sz w:val="28"/>
+                </w:rPr>
+                <w:t>项目编号：</w:t>
+            </w:r>
+            <w:r w:rsidR="00303B15" w:rsidRPr="004E1E63">
+                <w:rPr>
+                    <w:sz w:val="28"/>
+                </w:rPr>
+                <w:t>${(data.projectNum?html)!""}</w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00303B15">
+            <w:pPr>
+                <w:rPr>
+                    <w:sz w:val="30"/>
+                </w:rPr>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:sz w:val="28"/>
+                </w:rPr>
+                <w:t xml:space="preserve">          </w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:sz w:val="28"/>
+                </w:rPr>
+                <w:t>项目名称：</w:t>
+            </w:r>
+            <w:r w:rsidRPr="004E1E63">
+                <w:rPr>
+                    <w:sz w:val="28"/>
+                </w:rPr>
+                <w:t>${(data.projectName?html))!""}</w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00303B15">
+            <w:pPr>
+                <w:ind w:left="850" w:firstLine="425"/>
+                <w:rPr>
+                    <w:sz w:val="30"/>
+                </w:rPr>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:sz w:val="28"/>
+                </w:rPr>
+                <w:t>项目负责人：</w:t>
+            </w:r>
+            <w:r w:rsidRPr="004E1E63">
+                <w:rPr>
+                    <w:sz w:val="28"/>
+                </w:rPr>
+                <w:t>${(leader.name)!""}</w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="00366AEC" w:rsidRDefault="00303B15" w:rsidP="00303B15">
+            <w:pPr>
+                <w:rPr>
+                    <w:sz w:val="30"/>
+                </w:rPr>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:sz w:val="28"/>
+                </w:rPr>
+                <w:t xml:space="preserve">          </w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:sz w:val="28"/>
+                </w:rPr>
+                <w:t>项目执行期限：</w:t>
+            </w:r>
+            <w:r w:rsidR="00366AEC" w:rsidRPr="00366AEC">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:sz w:val="30"/>
+                </w:rPr>
+                <w:t xml:space="preserve">${(projectActionDateStart)!""} </w:t>
+            </w:r>
+            <w:r w:rsidR="00366AEC" w:rsidRPr="00366AEC">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:sz w:val="30"/>
+                </w:rPr>
+                <w:t>至</w:t>
+            </w:r>
+            <w:r w:rsidR="00366AEC" w:rsidRPr="00366AEC">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:sz w:val="30"/>
+                </w:rPr>
+                <w:t xml:space="preserve"> ${(projectActionDateEnd)!""}</w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="00A669BA" w:rsidRDefault="00303B15" w:rsidP="00303B15">
+            <w:pPr>
+                <w:rPr>
+                    <w:sz w:val="28"/>
+                </w:rPr>
+            </w:pPr>
+            <w:bookmarkStart w:id="0" w:name="_GoBack"/>
+            <w:bookmarkEnd w:id="0"/>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:sz w:val="28"/>
+                </w:rPr>
+                <w:t xml:space="preserve">          </w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:sz w:val="28"/>
+                </w:rPr>
+                <w:t>项目承担单位：</w:t>
+            </w:r>
+            <w:r w:rsidRPr="004E1E63">
+                <w:rPr>
+                    <w:sz w:val="28"/>
+                </w:rPr>
+                <w:t>${(dept.deptName)!""}</w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="00A669BA" w:rsidRDefault="00A669BA"/>
+        <w:p w:rsidR="00A669BA" w:rsidRDefault="00A669BA"/>
+        <w:p w:rsidR="004A32F8" w:rsidRDefault="004A32F8"/>
+        <w:p w:rsidR="004A32F8" w:rsidRDefault="004A32F8"/>
+        <w:p w:rsidR="004A32F8" w:rsidRDefault="004A32F8"/>
+        <w:p w:rsidR="004A32F8" w:rsidRDefault="004A32F8"/>
+        <w:p w:rsidR="004A32F8" w:rsidRDefault="004A32F8"/>
+        <w:p w:rsidR="00303B15" w:rsidRDefault="004A32F8" w:rsidP="004A32F8">
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                </w:rPr>
+                <w:t xml:space="preserve">                         </w:t>
+            </w:r>
+            <w:r w:rsidR="00C2131C">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                </w:rPr>
+                <w:t xml:space="preserve">     </w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="004A32F8"/>
+        <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00303B15">
+            <w:pPr>
+                <w:ind w:left="2975" w:firstLine="425"/>
+                <w:rPr>
+                    <w:sz w:val="28"/>
+                    <w:szCs w:val="28"/>
+                </w:rPr>
+            </w:pPr>
+        </w:p>
+        <w:p w:rsidR="00303B15" w:rsidRDefault="004A32F8" w:rsidP="00303B15">
+            <w:pPr>
+                <w:ind w:left="2975" w:firstLine="425"/>
+                <w:rPr>
+                    <w:sz w:val="28"/>
+                    <w:szCs w:val="28"/>
+                </w:rPr>
+            </w:pPr>
+            <w:r w:rsidRPr="00E47051">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:sz w:val="28"/>
+                    <w:szCs w:val="28"/>
+                </w:rPr>
+                <w:t>中国医学科学院</w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="00A669BA" w:rsidRPr="004A32F8" w:rsidRDefault="00303B15" w:rsidP="004A32F8">
+            <w:pPr>
+                <w:ind w:firstLineChars="1100" w:firstLine="2839"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:sz w:val="28"/>
+                </w:rPr>
+                <w:lastRenderedPageBreak/>
+                <w:t xml:space="preserve">   </w:t>
+            </w:r>
+            <w:r w:rsidRPr="00FA0CF8">
+                <w:rPr>
+                    <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia"
+                              w:hAnsiTheme="minorEastAsia"/>
+                    <w:sz w:val="30"/>
+                    <w:szCs w:val="30"/>
+                </w:rPr>
+                <w:t>${nowDate!""}</w:t>
+            </w:r>
+            <w:r w:rsidR="00A669BA">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:sz w:val="28"/>
+                </w:rPr>
+                <w:t xml:space="preserve">   </w:t>
+            </w:r>
+            <w:r w:rsidR="00836EC0">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:sz w:val="28"/>
+                </w:rPr>
+                <w:t xml:space="preserve">  </w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="00303B15" w:rsidRPr="005E5FA0" w:rsidRDefault="00303B15" w:rsidP="00303B15">
+            <w:pPr>
+                <w:spacing w:before="120"/>
+                <w:rPr>
+                    <w:b/>
+                </w:rPr>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:eastAsia="黑体" w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:sz w:val="28"/>
+                </w:rPr>
+                <w:t>一、</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="黑体" w:eastAsia="黑体" w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:sz w:val="28"/>
+                </w:rPr>
+                <w:t>项目任务书中的“项目考核指标”</w:t>
+            </w:r>
+        </w:p>
+        <w:tbl>
+            <w:tblPr>
+                <w:tblW w:w="0" w:type="auto"/>
+                <w:tblInd w:w="108" w:type="dxa"/>
+                <w:tblBorders>
+                    <w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+                    <w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+                    <w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+                    <w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+                    <w:insideH w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+                    <w:insideV w:val="single" w:sz="4" w:space="0" w:color="auto"/>
+                </w:tblBorders>
+                <w:tblLayout w:type="fixed"/>
+                <w:tblLook w:val="0000" w:firstRow="0" w:lastRow="0" w:firstColumn="0" w:lastColumn="0" w:noHBand="0"
+                           w:noVBand="0"/>
+            </w:tblPr>
+            <w:tblGrid>
+                <w:gridCol w:w="8511"/>
+            </w:tblGrid>
+            <w:tr w:rsidR="00303B15" w:rsidTr="00A117B5">
+                <w:trPr>
+                    <w:trHeight w:val="12180"/>
+                </w:trPr>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="8511" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="00303B15" w:rsidRPr="005C5731" w:rsidRDefault="00303B15" w:rsidP="00A117B5">
+                        <w:r w:rsidRPr="00EF4A94">
+                            <w:t>${(assessmentIndicators?html)!""}</w:t>
+                        </w:r>
+                    </w:p>
+                </w:tc>
+            </w:tr>
+        </w:tbl>
+        <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00303B15">
+            <w:pPr>
+                <w:spacing w:before="120"/>
+                <w:rPr>
+                    <w:rFonts w:eastAsia="黑体"/>
+                    <w:b/>
+                    <w:sz w:val="28"/>
+                </w:rPr>
+            </w:pPr>
+        </w:p>
+        <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00303B15">
+            <w:pPr>
+                <w:spacing w:before="120"/>
+                <w:rPr>
+                    <w:rFonts w:eastAsia="黑体"/>
+                    <w:b/>
+                    <w:sz w:val="28"/>
+                </w:rPr>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:eastAsia="黑体" w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:sz w:val="28"/>
+                </w:rPr>
+                <w:t>二、项目总结</w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="00303B15" w:rsidRPr="00C20BF5" w:rsidRDefault="00303B15" w:rsidP="00303B15">
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia"
+                              w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:sz w:val="28"/>
+                    <w:szCs w:val="28"/>
+                </w:rPr>
+                <w:t>1.</w:t>
+            </w:r>
+            <w:r w:rsidRPr="007B3A27">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                </w:rPr>
+                <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r w:rsidRPr="007B3A27">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:b/>
+                </w:rPr>
+                <w:t>研究内容及考核指标完成情况，项目取得的成绩或成果</w:t>
+            </w:r>
+            <w:r w:rsidRPr="007B3A27">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:b/>
+                </w:rPr>
+                <w:t xml:space="preserve">( </w:t>
+            </w:r>
+            <w:r w:rsidRPr="007B3A27">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:b/>
+                </w:rPr>
+                <w:t>含论文、专著、申请或授权专利、提供的技术咨询与服务、临床诊治技术或标准、人才培养等</w:t>
+            </w:r>
+            <w:r w:rsidRPr="007B3A27">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:b/>
+                </w:rPr>
+                <w:t xml:space="preserve"> )</w:t>
+            </w:r>
+            <w:r w:rsidRPr="007B3A27">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:b/>
+                </w:rPr>
+                <w:t>（请列出具体成果及其达到的水平）</w:t>
+            </w:r>
+        </w:p>
+        <w:tbl>
+            <w:tblPr>
+                <w:tblStyle w:val="a7"/>
+                <w:tblW w:w="0" w:type="auto"/>
+                <w:tblLook w:val="04A0" w:firstRow="1" w:lastRow="0" w:firstColumn="1" w:lastColumn="0" w:noHBand="0"
+                           w:noVBand="1"/>
+            </w:tblPr>
+            <w:tblGrid>
+                <w:gridCol w:w="8494"/>
+            </w:tblGrid>
+            <w:tr w:rsidR="00303B15" w:rsidTr="00A117B5">
+                <w:trPr>
+                    <w:trHeight w:val="4241"/>
+                </w:trPr>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="8494" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00A117B5">
+                        <w:r w:rsidRPr="00A65E0B">
+                            <w:t>${(projectCompletionCase?html)!""}</w:t>
+                        </w:r>
+                    </w:p>
+                    <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00A117B5"/>
+                    <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00A117B5"/>
+                    <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00A117B5"/>
+                    <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00A117B5"/>
+                    <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00A117B5"/>
+                    <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00A117B5"/>
+                    <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00A117B5"/>
+                    <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00A117B5"/>
+                </w:tc>
+            </w:tr>
+        </w:tbl>
+        <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00303B15">
+            <w:pPr>
+                <w:rPr>
+                    <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia"
+                              w:hAnsiTheme="minorEastAsia"/>
+                    <w:b/>
+                    <w:sz w:val="28"/>
+                    <w:szCs w:val="28"/>
+                </w:rPr>
+            </w:pPr>
+        </w:p>
+        <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00303B15">
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia"
+                              w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:sz w:val="28"/>
+                    <w:szCs w:val="28"/>
+                </w:rPr>
+                <w:t>2.</w:t>
+            </w:r>
+            <w:r w:rsidRPr="000E575E">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:b/>
+                </w:rPr>
+                <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:b/>
+                </w:rPr>
+                <w:t>分析超过或未达到预期内容与考核指标原因</w:t>
+            </w:r>
+        </w:p>
+        <w:tbl>
+            <w:tblPr>
+                <w:tblStyle w:val="a7"/>
+                <w:tblW w:w="0" w:type="auto"/>
+                <w:tblLook w:val="04A0" w:firstRow="1" w:lastRow="0" w:firstColumn="1" w:lastColumn="0" w:noHBand="0"
+                           w:noVBand="1"/>
+            </w:tblPr>
+            <w:tblGrid>
+                <w:gridCol w:w="8522"/>
+            </w:tblGrid>
+            <w:tr w:rsidR="00303B15" w:rsidTr="00A117B5">
+                <w:trPr>
+                    <w:trHeight w:val="5199"/>
+                </w:trPr>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="8522" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00A117B5">
+                        <w:r w:rsidRPr="00A65E0B">
+                            <w:t>${(projectUnfinishReason?html)!""}</w:t>
+                        </w:r>
+                    </w:p>
+                    <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00A117B5"/>
+                    <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00A117B5"/>
+                    <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00A117B5"/>
+                    <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00A117B5"/>
+                    <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00A117B5"/>
+                    <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00A117B5"/>
+                    <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00A117B5"/>
+                    <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00A117B5"/>
+                    <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00A117B5"/>
+                    <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00A117B5"/>
+                    <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00A117B5"/>
+                    <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00A117B5"/>
+                </w:tc>
+            </w:tr>
+        </w:tbl>
+        <w:p w:rsidR="00303B15" w:rsidRPr="007E79AD" w:rsidRDefault="00303B15" w:rsidP="00303B15">
+            <w:pPr>
+                <w:spacing w:before="120"/>
+                <w:rPr>
+                    <w:rFonts w:eastAsia="黑体"/>
+                    <w:b/>
+                    <w:sz w:val="28"/>
+                </w:rPr>
+            </w:pPr>
+        </w:p>
+        <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00303B15">
+            <w:pPr>
+                <w:rPr>
+                    <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia"
+                              w:hAnsiTheme="minorEastAsia"/>
+                    <w:b/>
+                    <w:sz w:val="28"/>
+                    <w:szCs w:val="28"/>
+                </w:rPr>
+            </w:pPr>
+        </w:p>
+        <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00303B15">
+            <w:r w:rsidRPr="002E7CDE">
+                <w:rPr>
+                    <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia"
+                              w:hint="eastAsia"/>
+                    <w:b/>
+                    <w:sz w:val="28"/>
+                    <w:szCs w:val="28"/>
+                </w:rPr>
+                <w:t>3.</w:t>
+            </w:r>
+            <w:r w:rsidRPr="000E575E">
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:b/>
+                </w:rPr>
+                <w:t xml:space="preserve"> </w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                    <w:b/>
+                </w:rPr>
+                <w:t>本单位在项目实施和管理方面的经验，问题及改进建议</w:t>
+            </w:r>
+        </w:p>
+        <w:tbl>
+            <w:tblPr>
+                <w:tblStyle w:val="a7"/>
+                <w:tblW w:w="0" w:type="auto"/>
+                <w:tblLook w:val="04A0" w:firstRow="1" w:lastRow="0" w:firstColumn="1" w:lastColumn="0" w:noHBand="0"
+                           w:noVBand="1"/>
+            </w:tblPr>
+            <w:tblGrid>
+                <w:gridCol w:w="8522"/>
+            </w:tblGrid>
+            <w:tr w:rsidR="00303B15" w:rsidTr="00A117B5">
+                <w:trPr>
+                    <w:trHeight w:val="10591"/>
+                </w:trPr>
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="8522" w:type="dxa"/>
+                    </w:tcPr>
+                    <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00A117B5">
+                        <w:r w:rsidRPr="00A65E0B">
+                            <w:t>${(projectImplementExperience?html)!""}</w:t>
+                        </w:r>
+                    </w:p>
+                    <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00A117B5"/>
+                    <w:p w:rsidR="00303B15" w:rsidRPr="005B0E09" w:rsidRDefault="00303B15" w:rsidP="00A117B5"/>
+                </w:tc>
+            </w:tr>
+        </w:tbl>
+        <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00303B15"/>
+        <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00303B15">
+            <w:pPr>
+                <w:ind w:left="5525"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                </w:rPr>
+                <w:t>项目负责人</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                </w:rPr>
+                <w:t>(</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                </w:rPr>
+                <w:t>签章</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                </w:rPr>
+                <w:t>)</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                </w:rPr>
+                <w:t>：</w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00303B15">
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                </w:rPr>
+                <w:t xml:space="preserve">      </w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="00303B15" w:rsidRDefault="00303B15" w:rsidP="00303B15">
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                </w:rPr>
+                <w:t xml:space="preserve">                                                      </w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                </w:rPr>
+                <w:t>年</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                </w:rPr>
+                <w:t xml:space="preserve">    </w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                </w:rPr>
+                <w:t>月</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                </w:rPr>
+                <w:t xml:space="preserve">    </w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:hint="eastAsia"/>
+                </w:rPr>
+                <w:t>日</w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="00A669BA" w:rsidRDefault="00A669BA"/>
+        <w:sectPr w:rsidR="00A669BA">
+            <w:footerReference w:type="even" r:id="rId7"/>
+            <w:pgSz w:w="11906" w:h="16838" w:code="9"/>
+            <w:pgMar w:top="1531" w:right="1701" w:bottom="1531" w:left="1701" w:header="851" w:footer="1418"
+                     w:gutter="0"/>
+            <w:pgNumType w:start="1"/>
+            <w:cols w:space="425"/>
+            <w:docGrid w:type="linesAndChars" w:linePitch="327" w:charSpace="-4496"/>
+        </w:sectPr>
+    </w:body>
+</w:document>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.contract.mapper.SysSignSubjectInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.contract.entity.SysSignSubjectInfo">
+        <id column="ID" property="id" />
+        <result column="SUBJECT_CODE" property="subjectCode" />
+        <result column="SUBJECT_NAME" property="subjectName" />
+        <result column="TAX_NUM" property="taxNum" />
+        <result column="TAX_PAY_TYPE" property="taxPayType" />
+        <result column="SUBJECT_ADDRESS" property="subjectAddress" />
+        <result column="STATUE" property="statue" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="IS_USED" property="isUsed" />
+        <result column="SPARE_FIELD_1" property="spareField1" />
+        <result column="SPARE_FIELD_2" property="spareField2" />
+        <result column="SPARE_FIELD_3" property="spareField3" />
+        <result column="SPARE_FIELD_4" property="spareField4" />
+        <result column="SPARE_FIELD_5" property="spareField5" />
+        <result column="ACCOUNT_BANK" property="accountBank" />
+        <result column="ACCOUNT_NAME" property="accountName" />
+        <result column="BANK_NAME" property="bankName" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, SUBJECT_CODE, SUBJECT_NAME, TAX_NUM, TAX_PAY_TYPE, SUBJECT_ADDRESS, STATUE, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, IS_USED, SPARE_FIELD_1, SPARE_FIELD_2, SPARE_FIELD_3, SPARE_FIELD_4, SPARE_FIELD_5, ACCOUNT_BANK, ACCOUNT_NAME, BANK_NAME
+    </sql>
+    <select id="queryCopyInfo" resultType="com.deloitte.platform.api.contract.vo.SysSignSubjectInfoForm" parameterType="java.lang.String">
+        SELECT
+        p.TYPE spareField1,
+        p.SUBJECT_NAME subjectName
+        FROM
+        CONTRACT_BASIC_SUBJECT_MAP p
+        WHERE
+        1=1
+        AND p.CONTRACT_ID=#{_parameter}
+    </select>
+
+</mapper>

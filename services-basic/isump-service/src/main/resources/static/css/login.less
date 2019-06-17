@@ -1,0 +1,126 @@
+// @media screen and (min-width: 1600px) {
+html {
+  height: 100%;
+}
+
+body {
+  background-image: url("../images/bg.png");
+  background-repeat: no-repeat;
+  background-size: 100%;
+  position: relative;
+  height: 100%;
+}
+
+//logo
+.logo {
+  position: absolute;
+  top: 50%;
+  margin-top: -54px;
+  left: 150px;
+  width: 49%;
+}
+
+.logo img {
+  width: 70%;
+}
+
+// 登录模块
+.login {
+  position: absolute;
+  top: 25%;
+  right: 16%;
+  width: 28%;
+  // height: 440px;
+  background-color: #fff;
+  border-radius: 22px;
+  padding-top: 34px;
+  padding-left: 4%;
+  padding-right: 4%;
+  box-sizing: border-box;
+
+  .title {
+    margin-bottom: 44px;
+
+    .p1 {
+      font-size: 34px;
+      color: #5aae49;
+      margin-bottom: 4px;
+      letter-spacing: 4px;
+    }
+
+    .p2 {
+      font-size: 20px;
+      color: #5aae49;
+    }
+  }
+
+  //   表单
+  li {
+    position: relative;
+  }
+
+  input {
+    border: 1px solid #c4bfbf;
+    border-radius: 6px;
+    height: 44px;
+    width: 100%;
+    padding-left: 50px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+
+  //   对号叉号
+  .right,
+  .wrong {
+    position: absolute;
+    right: -30px;
+    top: 12px;
+  }
+
+  .user-img,
+  .psd-img {
+    position: absolute;
+    left: 16px;
+    top: 10px;
+    width: 5%;
+  }
+
+  .psd-img {}
+
+  .user {
+    margin-bottom: 20px;
+  }
+
+  .psd {
+    margin-bottom: 14px;
+  }
+
+  .forget,
+  .reset-p {
+    color: #777;
+  }
+
+  .login-btn {
+    border: 1px solid transparent; //自定义边框
+    outline: none; //消除默认点击蓝色边框效果
+    line-height: 44px;
+    text-align: center;
+    background-color: #ecf5ff;
+    height: 44px;
+    margin-top: 48px;
+    margin-bottom: 48px;
+    width: 100%;
+    font-size: 18px;
+    color: #409eff;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .login-btn:hover {
+    background-color: #409eff;
+    color: #fff;
+  }
+}
+
+// }

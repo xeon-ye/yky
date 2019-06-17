@@ -1,0 +1,40 @@
+UPDATE SRPMP.SRPMS_PROJECT_PERSON_JOIN T1
+SET T1.DEPT_CODE =
+  (SELECT dept
+  FROM ISUMP.ISUMP_USER T2
+  WHERE T1.person_name = T2.name
+  AND T1.BIRTH_DATE    = T2.BIRTH_DATE
+  )
+WHERE T1.join_way != '02'
+AND T1.BIRTH_DATE IS NOT NULL;
+
+
+UPDATE SRPMP.SRPMS_PROJECT_PERSON_JOIN T1
+SET T1.DEPT_CODE =
+  (SELECT dept
+  FROM ISUMP.ISUMP_USER T2
+  WHERE T1.person_name = T2.name
+  AND  T2.BIRTH_DATE is null
+  )
+WHERE T1.join_way != '02'
+AND T1.BIRTH_DATE IS NULL;
+
+UPDATE SRPMP.SRPMS_PROJECT_PERSON_JOIN T1
+SET T1.DEPT_NAME =
+  (SELECT DEPT_NAME from ISUMP.ISUMP_DEPT T2
+  WHERE T1.DEPT_CODE = T2.DEPT_CODE
+  )
+WHERE T1.join_way != '02';
+
+UPDATE SRPMS_PROJECT_TASK T1
+SET T1.dept_name        = (
+select dept_name from SRPMS_project_person_join T2 where 
+T1.project_id = T2.project_id
+AND T1.lead_person = T2.person_id
+and T2.join_way ='11'
+ANd t1.TASK_CATEGORY = '12'
+)
+WHERE T1.TASK_CATEGORY = '12'
+AND T1.dept_name       IS NULL;
+
+此外，纪凯华的数据手动更新了。

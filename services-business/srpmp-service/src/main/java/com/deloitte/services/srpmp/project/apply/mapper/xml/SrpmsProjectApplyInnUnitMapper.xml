@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.srpmp.project.apply.mapper.SrpmsProjectApplyInnUnitMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.srpmp.project.apply.entity.SrpmsProjectApplyInnUnit">
+        <id column="ID" property="id" />
+        <result column="PROJECT_NAME" property="projectName" />
+        <result column="PROJECT_EG_NAME" property="projectEgName" />
+        <result column="SUBJECT_CATEGORY" property="subjectCategory" />
+        <result column="SUBJECT_NAME" property="subjectName" />
+        <result column="ACHIEVEMENT_TYPE" property="achievementType" />
+        <result column="LEAD_PERSON_EDUCATION_EXP" property="leadPersonEducationExp" />
+        <result column="LEAD_PERSON_RESEARCH_EXP" property="leadPersonResearchExp" />
+        <result column="LEAD_PERSON_INTRO" property="leadPersonIntro" />
+        <result column="PROJECT_TARGET" property="projectTarget" />
+        <result column="SITUATION_AND_BENIFIT" property="situationAndBenifit" />
+        <result column="DOMAIN_SITUATION" property="domainSituation" />
+        <result column="BENCH_MARKING" property="benchMarking" />
+        <result column="PROSPECT" property="prospect" />
+        <result column="TEAM_DIRECTION" property="teamDirection" />
+        <result column="DEVELOPMENT_GOAL" property="developmentGoal" />
+        <result column="BUDGET_PLAN" property="budgetPlan" />
+        <result column="CURRENT_CONDITIONS" property="currentConditions" />
+        <result column="FUTURE_CONDITIONS" property="futureConditions" />
+        <result column="TEAM_INTRO" property="teamIntro" />
+        <result column="OTHER_PROJECT_AMOUT" property="otherProjectAmout" />
+        <result column="OTHER_BUDGET_AMOUT" property="otherBudgetAmout" />
+        <result column="OTHER_YEAR_BUDGET" property="otherYearBudget" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, PROJECT_NAME, PROJECT_EG_NAME, SUBJECT_CATEGORY, SUBJECT_NAME, ACHIEVEMENT_TYPE, LEAD_PERSON_EDUCATION_EXP, LEAD_PERSON_RESEARCH_EXP, LEAD_PERSON_INTRO, PROJECT_TARGET, SITUATION_AND_BENIFIT, DOMAIN_SITUATION, BENCH_MARKING, PROSPECT, TEAM_DIRECTION, DEVELOPMENT_GOAL, BUDGET_PLAN, CURRENT_CONDITIONS, FUTURE_CONDITIONS, TEAM_INTRO, OTHER_PROJECT_AMOUT, OTHER_BUDGET_AMOUT, OTHER_YEAR_BUDGET, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+    </sql>
+
+</mapper>

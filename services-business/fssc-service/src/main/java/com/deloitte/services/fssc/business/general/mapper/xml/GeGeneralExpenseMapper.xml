@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.business.general.mapper.GeGeneralExpenseMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.business.general.entity.GeGeneralExpense">
+        <id column="ID" property="id"/>
+        <result column="CREATE_BY" property="createBy"/>
+        <result column="CREATE_USER_NAME" property="createUserName"/>
+        <result column="UPDATE_BY" property="updateBy"/>
+        <result column="UPDATE_TIME" property="updateTime"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="VERSION" property="version"/>
+        <result column="DOCUMENT_NUM" property="documentNum"/>
+        <result column="DOCUMENT_STATUS" property="documentStatus"/>
+        <result column="PAY_STATUS" property="payStatus"/>
+        <result column="UNIT_ID" property="unitId"/>
+        <result column="DEPT_ID" property="deptId"/>
+        <result column="UNIT_NAME" property="unitName"/>
+        <result column="DEPT_NAME" property="deptName"/>
+        <result column="PAYMENT_TYPE" property="paymentType"/>
+        <result column="PROJECT_NAME" property="projectName"/>
+        <result column="PROJECT_ID" property="projectId"/>
+        <result column="APPLY_FOR_ID" property="applyForId"/>
+        <result column="APPLY_FOR_NAME" property="applyForName"/>
+        <result column="MAIN_TYPE_NAME" property="mainTypeName"/>
+        <result column="MAIN_TYPE_ID" property="mainTypeId"/>
+        <result column="REMARK" property="remark"/>
+        <result column="CURRENCY_CODE" property="currencyCode"/>
+        <result column="COST" property="cost"/>
+        <result column="ATTACH_COUNT" property="attachCount"/>
+        <result column="TOTAL_AMOUNT" property="totalAmount"/>
+        <result column="EXPENSE_AMOUNT" property="expenseAmount"/>
+        <result column="VERIFICATION_AMOUNT" property="verificationAmount"/>
+        <result column="PAY_SALARY_AMOUNT" property="paySalaryAmount"/>
+        <result column="BUSINUSS_AMOUNT" property="businussAmount"/>
+        <result column="PAY_COMPANY_AMOUNT" property="payCompanyAmount"/>
+        <result column="EX1" property="ex1"/>
+        <result column="EX2" property="ex2"/>
+        <result column="EX3" property="ex3"/>
+        <result column="EX4" property="ex4"/>
+        <result column="EX5" property="ex5"/>
+        <result column="EX6" property="ex6"/>
+        <result column="EX7" property="ex7"/>
+        <result column="EX8" property="ex8"/>
+        <result column="EX9" property="ex9"/>
+        <result column="EX10" property="ex10"/>
+        <result column="EX11" property="ex11"/>
+        <result column="EX12" property="ex12"/>
+        <result column="EX13" property="ex13"/>
+        <result column="EX14" property="ex14"/>
+        <result column="EX15" property="ex15"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, CREATE_BY, CREATE_USER_NAME, UPDATE_BY, UPDATE_TIME, CREATE_TIME, VERSION, DOCUMENT_NUM, DOCUMENT_STATUS,
+        PAY_STATUS, UNIT_ID, DEPT_ID, UNIT_NAME, DEPT_NAME, PAYMENT_TYPE, PROJECT_NAME, PROJECT_ID, APPLY_FOR_ID,
+        APPLY_FOR_NAME, MAIN_TYPE_NAME, MAIN_TYPE_ID, REMARK, CURRENCY_CODE, COST, ATTACH_COUNT, TOTAL_AMOUNT,
+        EXPENSE_AMOUNT, VERIFICATION_AMOUNT, PAY_SALARY_AMOUNT, BUSINUSS_AMOUNT, PAY_COMPANY_AMOUNT, EX1, EX2, EX3, EX4,
+        EX5, EX6, EX7, EX8, EX9, EX10, EX11, EX12, EX13, EX14, EX15
+    </sql>
+
+    <select id="countByExpenseMainTypeIds" resultType="java.lang.Long">
+        select count(ID) from ge_general_expense where MAIN_TYPE_ID in
+        <foreach collection="idList" separator="," item="item" open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="findBorrowPrepayList"
+            resultType="com.deloitte.platform.api.fssc.general.vo.BorrowPrepayListVo">
+        <if test="form.documentType=='BM_BORROW_MONEY_INFO'.toString()">
+            SELECT
+            BB."ID" borrowOrPrepayId,
+            BB.DOCUMENT_NUM connectDocumentNum,
+            '借款单' connectDocumentTypeName,
+            'BM_BORROW_MONEY_INFO' connectDocumentType,
+            BB.MAIN_TYPE_NAME mainTypeName,
+            BB.MAIN_TYPE_CODE mainTypeCode,
+            BB.MAIN_TYPE_ID mainTypeId,
+            BL.LINE_NUMBER lineNumber,
+            BL.SUB_TYPE_CODE subTypeCode,
+            BL.SUB_TYPE_ID subTypeId,
+            BL.SUB_TYPE_NAME subTypeName,
+            BL.ACCOUNT_CODE accountCode,
+            BL.BUDGET_ACCOUNT_CODE budgetAccountCode,
+            BL.BORROW_AMOUNT bpAmount,
+            BL.HAS_VER_AMOUNT verficatedAmount,
+            BL.NO_VER_AMOUNT noVerAmount,
+            BL.REMARK remark,
+            BL.PAYMENT_TYPE,
+            BL.ID lineId
+            FROM
+            BM_BORROW_MONEY_INFO BB LEFT JOIN BM_BORROW_MONEY_LINE BL ON BB.ID=BL.DOCUMENT_ID
+            WHERE
+            <!--BB.DEPT_ID=#{form.deptId} AND-->
+            BB.UNIT_ID=#{form.unitId}
+            AND BB.CREATE_BY=#{form.createBy} AND BL.IS_ASSOCIATED != 'Y' AND BL.NO_VER_AMOUNT >0
+            AND BB.DOCUMENT_STATUS='HAS_ACCOUTED' AND BB.PAY_STATUS='PAYED'
+            <if test="form.projectId!=null">
+                AND BB.PROJECT_ID=#{form.projectId}
+            </if>
+            <if test="form.applyForId!=null">
+                AND BB.APPLY_FOR_ID=#{form.applyForId}
+            </if>
+            <if test="form.mainTypeId!=null">
+                AND BB.MAIN_TYPE_ID=#{form.mainTypeId}
+            </if>
+            AND BB.CURRENCY_CODE=#{form.currencyCode}
+            <if test="form.documentNum!=null and form.documentNum!=''">
+                AND BB.DOCUMENT_NUM LIKE CONCAT('%',CONCAT(#{form.documentNum},'%'))
+            </if>
+
+
+            AND BL.PAYMENT_TYPE IN
+            <foreach collection="form.paymentTypeList" item="iii"
+                     index="index" open="(" close=")" separator=",">
+                #{iii}
+            </foreach>
+
+
+            ORDER BY BB.UPDATE_TIME DESC
+        </if>
+
+        <if test="form.documentType=='ADP_ADVANCE_PAYMENT_INFO'.toString()">
+            SELECT
+            INFO.ID borrowOrPrepayId,
+            INFO.DOCUMENT_NUM connectDocumentNum,
+            '预付款单' connectDocumentTypeName,
+            'ADP_ADVANCE_PAYMENT_INFO' connectDocumentType,
+            INFO.MAIN_TYPE_ID mainTypeId,
+            INFO.MAIN_TYPE_CODE mainTypeCode,
+            INFO.MAIN_TYPE_NAME mainTypeName,
+            LINE.LINE_NUMBER lineNumber,
+            LINE.SUB_TYPE_ID subTypeId,
+            LINE.SUB_TYPE_NAME subTypeName,
+            LINE.SUB_TYPE_CODE subTypeCode,
+            LINE.HAS_VER_AMOUNT verficatedAmount,
+            LINE.NO_VER_AMOUNT noVerAmount,
+            LINE.REMARK remark,
+            LINE.PREPAID_AMOUNT bpAmount
+            FROM ADP_ADVANCE_PAYMENT_INFO INFO
+            LEFT JOIN ADP_ADVANCE_PAYMENT_LINE LINE ON INFO.ID=LINE.DOCUMENT_ID
+            WHERE
+            <!--INFO.DEPT_ID=#{form.deptId} AND -->
+            INFO.UNIT_ID=#{form.unitId}
+            AND INFO.CREATE_BY=#{form.createBy} AND LINE.IS_ASSOCIATED != 'Y' AND LINE.NO_VER_AMOUNT >0
+            AND INFO.DOCUMENT_STATUS='HAS_ACCOUTED' AND INFO.PAY_STATUS='PAYED'
+            <if test="form.projectId!=null">
+                AND INFO.PROJECT_ID=#{form.projectId}
+            </if>
+            AND INFO.MAIN_TYPE_ID=#{form.mainTypeId} AND INFO.CURRENCY_CODE=#{form.currencyCode}
+            <if test="form.documentNum!=null and form.documentNum!=''">
+                AND INFO.DOCUMENT_NUM LIKE CONCAT('%',CONCAT(#{form.documentNum},'%'))
+            </if>
+            ORDER BY INFO.UPDATE_TIME DESC
+
+
+        </if>
+
+
+    </select>
+
+</mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.meeting.mapper.OaMeetingMembersMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.meeting.entity.OaMeetingMembers">
+        <id column="ID" property="id" />
+        <result column="MEETING_ID" property="meetingId" />
+        <result column="USER_ID" property="userId" />
+        <result column="USER_NAME" property="userName" />
+        <result column="DEPT_ID" property="deptId" />
+        <result column="DEPT_NAME" property="deptName" />
+        <result column="TELPHONE" property="telphone" />
+        <result column="EMAIL" property="email" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, MEETING_ID, USER_ID, USER_NAME, DEPT_ID, DEPT_NAME, TELPHONE, EMAIL, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME, EXT1, EXT2, EXT3, EXT4, EXT5
+    </sql>
+
+</mapper>

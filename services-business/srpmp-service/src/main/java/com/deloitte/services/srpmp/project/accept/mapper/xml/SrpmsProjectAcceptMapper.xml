@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.srpmp.project.accept.mapper.SrpmsProjectAcceptMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.srpmp.project.accept.entity.SrpmsProjectAccept">
+        <id column="ID" property="id" />
+        <result column="PROJECT_ID" property="projectId" />
+        <result column="PROJECT_NUM" property="projectNum" />
+        <result column="PROJECT_NAME" property="projectName" />
+        <result column="PROJECT_TYPE" property="projectType" />
+        <result column="PROJECT_FLAG" property="projectFlag" />
+        <result column="DEPT_NAME" property="deptName" />
+        <result column="PROJECT_ACTION_DATE_START" property="projectActionDateStart" />
+        <result column="PROJECT_ACTION_DATE_END" property="projectActionDateEnd" />
+        <result column="STATUS" property="status" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, PROJECT_ID, PROJECT_NUM, PROJECT_NAME, PROJECT_TYPE, PROJECT_FLAG, DEPT_NAME, PROJECT_ACTION_DATE_START, PROJECT_ACTION_DATE_END, STATUS, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+    </sql>
+
+</mapper>

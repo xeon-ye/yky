@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.finance.mapper.FinTabsMapper">
+
+    <select id="selectTabs" parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.dss.finance.vo.TabsVo">
+        select
+          DES des,
+          COLOR color
+        from
+        DSS_FIN_ETL_TABS
+        where
+          INDEX_CODE = #{indexCode}
+          and
+          TYPE = #{type}
+    </select>
+
+</mapper>

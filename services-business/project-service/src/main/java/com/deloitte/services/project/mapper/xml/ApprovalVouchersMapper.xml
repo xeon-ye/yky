@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.project.mapper.ApprovalVouchersMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.project.entity.ApprovalVouchers">
+        <id column="ID" property="id" />
+        <result column="BIZ_NUMBER" property="bizNumber" />
+        <result column="VOUCHER_NAME" property="voucherName" />
+        <result column="VOUCHER_TYPE" property="voucherType" />
+        <result column="VOUCHER_STATUS" property="voucherStatus" />
+        <result column="USER_ID" property="userId" />
+        <result column="USER_NAME" property="userName" />
+        <result column="START_TIME" property="startTime" />
+        <result column="END_TIME" property="endTime" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="ORG_CODE" property="orgCode" />
+        <result column="BUSINESS_ID" property="businessId" />
+        <result column="BUSINESS_NAME" property="businessName" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, BIZ_NUMBER, VOUCHER_NAME, VOUCHER_TYPE, VOUCHER_STATUS, USER_ID, USER_NAME, START_TIME, END_TIME, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, ORG_CODE, BUSINESS_ID, BUSINESS_NAME
+    </sql>
+
+</mapper>

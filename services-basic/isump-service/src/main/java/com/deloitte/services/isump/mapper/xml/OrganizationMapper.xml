@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.isump.mapper.OrganizationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.isump.entity.Organization">
+        <id column="ID" property="id" />
+        <result column="NAME" property="name" />
+        <result column="PARENT_ID" property="parentId" />
+        <result column="TYPE" property="type" />
+        <result column="STATE" property="state" />
+        <result column="SORT" property="sort" />
+        <result column="REMARK" property="remark" />
+        <result column="RESERVE" property="reserve" />
+        <result column="VERSION" property="version" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="CODE" property="code" />
+        <result column="PARENT_CODE" property="parentCode" />
+        <result column="path" property="path" />
+        <result column="COMMON_CREDIT_CODE" property="commonCreditCode" />
+        <result column="GROUP_TYPE" property="groupType" />
+        <result column="DUTYPERSON" property="dutyperson" />
+        <result column="LEADER" property="leader" />
+        <result column="SIMPLE_NAME" property="simpleName" />
+        <result column="ORG_LEVEL" property="orgLevel" />
+    </resultMap>
+
+    <resultMap id="OrganizationVoResultMap" type="com.deloitte.platform.api.isump.vo.OrganizationVo">
+        <id column="ID" property="id" />
+        <result column="NAME" property="name" />
+        <result column="PARENT_ID" property="parentId" />
+        <result column="TYPE" property="type" />
+        <result column="STATE" property="state" />
+        <result column="SORT" property="sort" />
+        <result column="REMARK" property="remark" />
+        <result column="RESERVE" property="reserve" />
+        <result column="VERSION" property="version" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="CODE" property="code" />
+        <result column="PARENT_CODE" property="parentCode" />
+        <result column="path" property="path" />
+        <result column="COMMON_CREDIT_CODE" property="commonCreditCode" />
+        <result column="GROUP_TYPE" property="groupType" />
+        <result column="DUTYPERSON" property="dutyperson" />
+        <result column="LEADER" property="leader" />
+        <result column="SIMPLE_NAME" property="simpleName" />
+        <result column="ORG_LEVEL" property="orgLevel" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, NAME, PARENT_ID, TYPE, STATE, SORT, REMARK, RESERVE, VERSION, CREATE_TIME, CREATE_BY, UPDATE_TIME,
+        UPDATE_BY, CODE, PARENT_CODE, PATH, COMMON_CREDIT_CODE, GROUP_TYPE, DUTYPERSON, LEADER, SIMPLE_NAME, ORG_LEVEL
+    </sql>
+
+    <select id="getByCode" resultMap="OrganizationVoResultMap">
+        select <include refid="Base_Column_List"/>
+        from ISUMP_ORGANIZATION
+        where code = #{code}
+        and rownum=1
+    </select>
+
+    <!-- 通过组织ID查询组织信息 -->
+    <select id="getByID" resultType="com.deloitte.platform.api.isump.vo.OrganizationVo">
+        select <include refid="Base_Column_List"/>
+        from ISUMP_ORGANIZATION
+        where id = #{id}
+    </select>
+
+    <!-- 通过组织ID查询组织信息 -->
+    <select id="getByListID" resultType="com.deloitte.services.isump.entity.Organization">
+        select <include refid="Base_Column_List"/>
+        from ISUMP_ORGANIZATION
+        <where>
+            and id in
+            <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+                #{item.orgId}
+            </foreach>
+        </where>
+    </select>
+
+    <!-- 组织编码查询下级组织 -->
+    <select id="getOrgTreeByCode" resultType="com.deloitte.platform.api.isump.vo.OrganizationVo">
+        select
+          t.*,
+          case when (select count(*) from isump_organization where parent_code= t.code)='0' then '0' ELSE '1' END ISN
+        from isump_organization t
+         <where>
+             t.parent_code= #{code}
+         </where>
+    </select>
+
+    <!-- 组织编码查询下级虚拟组织 -->
+    <select id="getOrgFinctionByCode" resultType="com.deloitte.services.isump.entity.Organization">
+      select
+        org.*
+      from ISUMP_ORGANIZATION org
+      <where>
+          org.parent_code= #{code}
+          and group_type='fiction'
+      </where>
+    </select>
+
+    <!-- 根据组织code查询下级所有部门 -->
+    <select id="getOrgDeptByCode" resultType="com.deloitte.services.isump.entity.Organization">
+      select
+        org.*
+      from ISUMP_ORGANIZATION org
+      <where>
+          type='dept'
+          and code like concat(#{code}, '%')
+      </where>
+    </select>
+
+    <!-- 根据组织ID和组织类型查询 -->
+    <select id="getOrgByIdOrType" resultType="com.deloitte.services.isump.entity.Organization">
+        select * from ISUMP_ORGANIZATION org
+        <where>
+            org.id = #{id}
+            and org.type = #{type}
+        </where>
+    </select>
+    <select id="getByName" resultType="com.deloitte.platform.api.isump.vo.OrganizationVo">
+        select * from ISUMP_ORGANIZATION where name = #{name}
+    </select>
+</mapper>

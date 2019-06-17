@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.scientific.mapper.PersonnelMapper">
+    <!-- 查询映射结果 -->
+  <resultMap id="PersonnelVo" type="com.deloitte.platform.api.dss.scientific.vo.PersonnelVo">
+        <result column="positionTitle" property="positionTitle" />
+        <result column="totalNum" property="totalNum" />
+    </resultMap>
+
+    <!-- 柱状图数据vo-->
+    <resultMap id="PersonneColumnarlVo" type="com.deloitte.platform.api.dss.scientific.vo.PersonnelColumnarVo">
+        <result column="deptName" property="deptName" />
+        <result column="totalNum" property="totalNum" />
+        <result column="highLever" property="highLever" />
+        <result column="midLever" property="midLever" />
+        <result column="lowLever" property="lowLever" />
+        <result column="postdoctor" property="postdoctor" />
+    </resultMap>
+
+
+    <select id="queryPersonNum"  resultType="java.util.Map">
+        <![CDATA[
+            select
+                   position_title  positionTitle,
+                   count(*) totalNum
+            from (
+                        select
+                              distinct usr.ID,
+                               usr.NAME name,
+                               usr.id_card,
+                               usr.DEPT,
+                               TRUNC(months_between(sysdate, usr.birth_date) / 12) AS age,
+                               usr.position_title
+                        from DSS_SCIENTIFIC_PROJECT pro,
+                             DSS_SCIENTIFIC_MAIN_MENBER menber,
+                             ISUMP_USER usr
+                        where pro.STATE in (300,400,500)
+                          and pro.ID = menber.PRO_ID
+                          and menber.USER_ID = usr.ID
+                          and to_char(pro.START_DATE, 'yyyy') <=
+                              to_char(sysdate, 'yyyy')
+                          and to_char(pro.END_DATE, 'yyyy') >=
+                              to_char(sysdate, 'yyyy')
+                 ) temp
+            group by position_title
+         ]]>
+    </select>
+
+    <!-- 各职级本年度45岁占比 -->
+    <select id="queryAgeProp"  resultMap="PersonnelVo"  parameterType="java.util.Map">
+        <![CDATA[
+            select position_title positionTitle, count(*) totalNum,sum(case when age > 45 then 1 else 0 end) over45Num
+                from (
+                      select
+                             distinct usr.ID,
+                             usr.NAME,
+                             usr.id_card,
+                             usr.DEPT,
+                             TRUNC(months_between(sysdate, usr.birth_date) / 12) AS age,
+							(case when usr.position_title in ('初级','初初级','初高级') then '初级'
+							when usr.position_title in ('正高级','副高级') then '高级'
+							when usr.position_title in ('中级') then '中级'
+							else '其他' end
+							) position_title
+                      from DSS_SCIENTIFIC_PROJECT pro, DSS_SCIENTIFIC_MAIN_MENBER menber,ISUMP_USER  usr
+                      where pro.STATE in (200,300,400,500)
+                        and pro.id = menber.PRO_ID
+                        and menber.USER_ID = usr.id
+                        and to_char(pro.START_DATE, 'yyyy') <=
+                            to_char(sysdate, 'yyyy')
+                        and to_char(pro.END_DATE, 'yyyy') >=
+                            to_char(sysdate, 'yyyy')) temp
+                group by position_title
+        ]]>
+    </select>
+
+
+    <!-- 查询科研人才柱状数据-->
+    <select id="queryColumnarData"  resultMap="PersonneColumnarlVo"  parameterType="java.util.Map">
+         <![CDATA[
+          select
+               dept.DEPT_NAME deptName,
+               count(*) totalNum,
+               sum(case when position_title in ('正高级','副高级') then 1 else 0 end) highLever,
+               sum(case when position_title in ('中级') then 1 else 0 end) midLever,
+               sum(case when position_title in ('初级','初初级','初高级') then 1 else 0 end) lowLever,
+               sum(case when position_title not in  ('初级','初初级','初高级','正高级','副高级','中级') or position_title is null then 1 else 0 end) postdoctor
+        from
+               (
+                      select
+                             distinct usr.ID,
+                             usr.name,
+                             usr.id_card,
+                             usr.DEPT deptCode,
+                             TRUNC(months_between(sysdate, usr.birth_date) / 12) AS age,
+                             usr.position_title
+                      from DSS_SCIENTIFIC_PROJECT pro, DSS_SCIENTIFIC_MAIN_MENBER menber,ISUMP_USER usr
+                      where pro.STATE in (200,300)
+                        and pro.id = menber.PRO_ID
+                        and  menber.USER_ID = usr.ID
+                        and to_char(pro.START_DATE, 'yyyy') <=
+                            to_char(sysdate, 'yyyy')
+                        and to_char(pro.END_DATE, 'yyyy') >=
+                            to_char(sysdate, 'yyyy')
+               ) temp1 ,ISUMP_DEPT dept where temp1.deptCode = dept.DEPT_CODE  group by dept.DEPT_NAME
+          ]]>
+    </select>
+</mapper>

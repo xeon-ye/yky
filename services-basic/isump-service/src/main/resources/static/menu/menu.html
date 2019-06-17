@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>菜单</title>
+    <script type="text/javascript" src="/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="/lib/js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/lib/js/template.js"></script>
+    <script type="text/javascript" src="/lib/jsTree/jstree.min.js"></script>
+    <script type="text/javascript" src="/lib/js/json3.js"></script>
+    <script type="text/javascript" src="/js/ajax-util.js"></script>
+    <link rel="stylesheet" href="/lib/jsTree/themes/default/style.min.css" />
+    <style type="text/css">
+        .head{
+            min-height:40px;
+            margin:0;
+            font-weight: bolder;
+        }
+        .content{
+            margin:0;
+            min-height: 500px;
+        }
+        .left{
+            width:20%;
+            float:left;
+            margin:0;
+        }
+        .c{
+            width:50%;
+            margin:0;
+            float:left;
+        }
+        .right{
+            width:30%;
+            float:right;
+            margin:0;
+        }
+        input{
+            padding-left: 5px;
+        }
+        select{
+
+        }
+        table {
+            border-collapse: collapse;
+            width:100%;
+            border: 1px solid #fff;
+        }
+        table th {
+            border: 1px solid #E5E5E5;
+            white-space: nowrap;
+        }
+        table td {
+            border: 1px solid #E5E5E5;
+            white-space: normal;
+        }
+
+    </style>
+</head>
+<body>
+<div class="content">
+    <div class="head">菜单配置</div>
+    <div class="left">
+        <div>菜单明细</div>
+        <div>
+            <button onclick="addMenu()">新增菜单</button>
+        </div>
+        <div id="menu"></div>
+    </div>
+    <div class="c">
+        <div>菜单明细:--><button onclick="viewMenuRole()">查看菜单权限明细</button></div>
+        <form id="form1" name="form1">
+            <script id="menuContent"  type="text/html">
+                <input type="hidden" id="id" name="id" value="{{id}}">
+                <table id="menuTable">
+                    <tr>
+                        <td>所属系统</td><td><input type="text" id="sysCode" name="sysCode" value="{{sysCode}}"></td>
+                        <td>菜单类型</td>
+						<td>
+							<select name="type">
+                                <option value="menu" {{type == "menu" ? "selected":""}}>menu</option>
+                                <option value="module"{{type == "module" ? "selected":""}}>module</option>
+                                <option value="system" {{type == "system" ? "selected":""}}>system</option>
+								<option value="function" {{type == "function" ? "selected":""}}>function</option>
+							</select>
+						</td>
+                    </tr>
+                    <tr>
+                        <td>菜单编码</td><td><input type="text" name="code" value="{{code}}"></td>
+                        <td>菜单名称</td><td><input type="text" name="name" value="{{name}}"></td>
+                    </tr>
+                    <tr>
+                    <td>菜单地址</td><td colspan="3"><input style="width: 90%" type="text" name="uri" value="{{uri}}"></td>
+                    </tr>
+                    <tr>
+                        <td>菜单排序</td><td><input type="text" name="sort" value="{{sort}}"></td>
+                        <td>上级菜单ID</td><td><input type="text" name="parentId" value="{{parentId}}"></td>
+                    </tr>
+                    <tr>
+                        <td>菜单图标地址</td><td><input type="text" name="icon" value="{{icon}}"></td>
+                        <td>层级</td><td><input type="text" name="levels" value="{{levels}}"></td>
+                    </tr>
+                    <tr>
+                        <td>是否叶子节点</td>
+                        <td>
+                            <select type="text" name="leaf">
+                                <option value="0" {{leaf == "0" ? "selected":""}}>否</option>
+                                <option value="1" {{leaf == "1" ? "selected":""}}>是</option>
+                            </select>
+                        </td>
+                        <td>状态</td>
+                        <td>
+                            <select type="text" name="state" value="{{state}}">
+                                <option value="0" {{state == "0" ? "selected":""}}>生效</option>
+                                <option value="1" {{state == "1" ? "selected":""}}>失效</option>
+                            </select>
+                        </td>
+                    </tr>
+					<tr>
+						<td>权限字符串</td><td><input type="text" name="perms" value="{{perms}}"></td>
+                        <td>备用字段</td>
+						<td><input type="text" name="reserve" value="{{reserve}}"></td>
+                    </tr>
+                </table>
+                <div style="text-align: center">
+                    <button onclick="save('{{id}}')">保存</button>
+                    <button onclick="del('{{id}}')">删除</button>
+                </div>
+            </script>
+        </form>
+    </div>
+    <div class="right">
+        <div>已分配权限</div>
+        <div id="menuRole">
+            <script id="menuRoleTemplate" type="text/html">
+                <table>
+                    <tr>
+                        <th>角色编号</th>
+                        <th>角色类型</th>
+                        <th>角色名称</th>
+                        <th>操作</th>
+                    </tr>
+                    {{each}}
+                    <tr>
+                        <td>{{$value.code}}</td>
+                        <td>{{$value.type}}</td>
+                        <td>{{$value.roleName}}</td>
+                        <td><a onclick="delMenuRole('{{$value.id}}',this);" href="javascript:void(0);">删除</a></td>
+                    </tr>
+                    {{/each}}
+                </table>
+            </script>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+
+    function loadMenu(){
+        var param = {
+            type:"root"
+        };
+
+        AJAX.POST_JSON('/isump/resource/list/conditions',JSON.stringify(param),
+            function(res){
+                var treeData = [];
+                for(var i=0;i<res.length;i++){
+                    var menu = {};
+                    menu.text = res[i].name;
+                    menu.id = res[i].id;
+                    menu.children = true;
+                    treeData.push(menu);
+                }
+                loadTree(treeData);
+        });
+
+    }
+    function loadTree(data){
+        $('#menu').jstree({
+            'core' : {
+                'data' : function (node, cb) {
+                    if(node.id === "#") {
+                        cb(data);
+                    }
+                    else {
+                        var param = {
+                            parentId: node.id
+                        };
+                        AJAX.POST_JSON('/isump/resource/list/conditions',JSON.stringify(param),
+                            function(res){
+                                var treeData = [];
+                                for(var i=0;i<res.length;i++){
+                                    var menu = {};
+                                    menu.text = res[i].name;
+                                    menu.id = res[i].id;
+                                    if(res[i].leaf == "0"){
+                                        menu.children = true;
+                                    }else{
+                                        menu.children = false;
+                                    }
+                                    treeData.push(menu);
+                                }
+                                cb(treeData);
+                            });
+                    }
+                }
+            }
+        });
+    }
+
+    function save(id){
+        var sysCode = $("#sysCode").val();
+        if(sysCode == ""){
+            alert("请输入所属系统！");
+            $("#sysCode").focus();
+            return;
+        }
+        var param = $("#form1").serializeObject();
+        if(typeof(id)!="undefined"&&id!=null&&id!=""){
+            //更新
+            AJAX.PATCH("/isump/resource/"+id,JSON.stringify(param),function(){
+                alert("保存成功");
+            });
+        }else{
+            //保存
+            AJAX.POST_JSON("/isump/resource",JSON.stringify(param),function(){
+                alert("保存成功");
+            });
+        }
+    }
+
+    function del(id){
+        AJAX.DELETE("/isump/resource/"+id,{},function(){
+            alert("删除成功");
+        });
+    }
+
+    function addMenu(){
+        var instance = $('#menu').jstree(true);
+        var selectNode = instance.get_selected(true);
+        if(selectNode.length==0){
+            alert("请选择需要菜单节点。");
+            return;
+        }else{
+            var id = selectNode[0].id;
+            AJAX.GET("/isump/resource/" + id, "", function (res) {
+                var data = {...res};
+                data.name = "";
+                data.id = "";
+                data.uri="";
+                data.leaf = 1;
+                data.levels = parseInt(data.levels) + 1;
+                data.parentId = id;
+                if(data.levels == 2){
+                    data.type = "system";
+                }else{
+                    data.type = "menu";
+                }
+                $("#form1").html(template("menuContent", data));
+            });
+        }
+    }
+
+    function viewMenuRole(){
+        var id = $("#id").val();
+        if(id == "" || id == null){
+            alert("请选择菜单");
+            return ;
+        }
+        var param = {};
+        param.resourceId = id;
+        var menuRoleList = [];
+        AJAX.POST_JSON("/isump/role-resource/list/conditions",JSON.stringify(param),function(res){
+            console.log(res)
+            for(var i=0;i<res.length;i++){
+                var menuRole = {};
+                menuRole.resourceId = res[i].resourceId
+                menuRole.id = res[i].id;
+                menuRole.roleId = res[i].roleId;
+                var settings = {
+                    "async": false,
+                    "crossDomain": true,
+                    "url": "/isump/role/"+res[i].roleId,
+                    "method": "GET",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "cache-control": "no-cache"
+                    },
+                    "processData": false,
+                    "data": ""
+                }
+                //console.log(param)
+                $.ajax(settings).done(function (roleData) {
+                    if(roleData.code == "000000"){
+                        menuRole.roleName = roleData.data.name;
+                        menuRole.code = roleData.data.code;
+                        menuRole.type = roleData.data.type;
+                        menuRoleList.push(menuRole);
+                    }else{
+                        console.log(roleData);
+                        alert(roleData.data);
+                    }
+                });
+                $("#menuRole").html(template("menuRoleTemplate", menuRoleList));
+            }
+        });
+
+    }
+
+    function delMenuRole(id,obj){
+        AJAX.DELETE("/isump/role-resource/"+id,{},function(){
+            alert("删除成功");
+            $(obj).parent().parent().remove();
+        });
+    }
+
+    $(document).ready(function () {
+        loadMenu();
+        $("#form1").html(template("menuContent", {type:"root",parentId:"0",levels:1}));
+        $('#menu').on("changed.jstree", function (e, data) {
+            if (data.selected.length) {
+                var id = data.instance.get_node(data.selected[0]).id;
+                AJAX.GET("/isump/resource/" + id, "", function (res) {
+                    $("#form1").html(template("menuContent", res));
+                });
+            }
+        });
+    });
+
+
+</script>
+</html>

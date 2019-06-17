@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.scientific.mapper.SRFundMapper">
+
+    <!--结果映射-->
+    <resultMap id="SRFundVo" type="com.deloitte.platform.api.dss.scientific.vo.SRFundVo">
+        <result column="projectType" property="projectType"/>
+        <result column="projectNum" property="projectNum"/>
+        <result column="totalFund" property="totalFund"/>
+        <result column="receiveFund" property="receiveFund"/>
+        <result column="expendFund" property="expendFund"/>
+    </resultMap>
+
+
+    <!--国家级&省部级&横向&其他，项目数量，当年所获经费，到位经费-->
+    <select id="queryOutlineFund" resultMap="SRFundVo" parameterType="java.lang.Integer">
+        select t.pro_category projectType,
+        count(t.PRO_CODE) projectNum ,
+        avg(t.pro_total_outlay)*count(t.PRO_CODE)  totalFund,
+        sum(t.pro_receive_outlay) receiveFund
+        from SRPMS_OUTLINE_NEW_TITLE t
+        where Extract(year from t.pro_start_date) = #{year}
+        and Extract(year from t.PRO_START_DATE) = #{year}
+        group by  t.pro_category
+    </select>
+
+
+    <!--院校级-创新工程-->
+    <select id="queryInnFund" resultMap="SRFundVo" parameterType="java.lang.Integer">
+      select b.BUDGET_CATEGORY projectType,
+      count(b.PROJECT_NUM)  projectNum,
+      sum(b.BUDGET_AMOUNT) totalFund
+      from
+	    SRPMS_PROJECT_BUDGET_DETAIL b INNER JOIN
+	    SRPMS_PROJECT p
+      on b.PROJECT_ID = p.ID
+	    where p.STATUS in (50) --项目状态为立项及后续，并且未取消
+	    and Extract(year from p.PROJECT_ACTION_DATE_START) = #{year} --项目开始时间为当前年度
+	    and b.BUDGET_YEAR = #{year} --预算年度为当前年度
+	    group by b.BUDGET_CATEGORY
+        having b.BUDGET_CATEGORY in ('0101','0301')  --预算类型为年度预算
+    </select>
+
+
+    <!--院校级基科费-->
+    <select id="queryBaseFund" resultMap="SRFundVo" parameterType="java.lang.Integer">
+          SELECT
+             p.PROJECT_CATEGORY projectType,
+             count(p.PROJECT_NUM) projectNum,
+             sum(acad.APPLY_FUNDS) totalFund
+          FROM
+            SRPMS_PROJECT p INNER JOIN
+            SRPMS_PROJECT_APPLY_ACADEMY acad ON p.ID = acad.ID
+          WHERE Extract(YEAR FROM p.PROJECT_ACTION_DATE_START) = #{year}
+                AND p.STATUS IN (50)
+            group by p.PROJECT_CATEGORY
+        union all
+          SELECT
+            p.PROJECT_CATEGORY,count(p.PROJECT_NUM),sum(t.APPLY_FUNDS)
+         FROM
+           SRPMS_PROJECT p INNER JOIN
+           SRPMS_PROJECT_APPLY_SCH_TEACH t ON p.ID = t.ID
+         WHERE Extract(YEAR FROM p.PROJECT_ACTION_DATE_START) = #{year}
+               AND p.STATUS IN (50)
+         group by p.PROJECT_CATEGORY
+        union all
+          SELECT
+            p.PROJECT_CATEGORY,count(p.PROJECT_NUM),sum(s.APPLY_FUNDS)
+          FROM
+            SRPMS_PROJECT p INNER JOIN
+            SRPMS_PROJECT_APPLY_SCH_STU s ON p.ID = s.ID
+          WHERE Extract(YEAR FROM p.PROJECT_ACTION_DATE_START) = #{year}
+                AND p.STATUS IN (50)
+          group by p.PROJECT_CATEGORY
+
+    </select>
+
+
+
+    <!-- 修改版 v20190305-->
+    <resultMap id="FundBaseVo" type="com.deloitte.platform.api.dss.scientific.vo.FundBaseVo">
+        <result column="amount" property="amount"/>
+        <result column="reciveAmount" property="reciveAmount"/>
+        <result column="payAmount" property="payAmount"/>
+    </resultMap>
+
+    <resultMap id="FundColumnarVo" type="com.deloitte.platform.api.dss.scientific.vo.FundColumnarVo">
+        <result column="yaerValue" property="yaerValue"/>
+        <result column="totalMoeny" property="totalMoeny"/>
+        <result column="academy" property="academy"/>
+        <result column="national" property="national"/>
+        <result column="provincial" property="provincial"/>
+        <result column="transverse" property="transverse"/>
+        <result column="other" property="other"/>
+    </resultMap>
+
+    <select id="queryTotalMoney"  resultMap="FundBaseVo"  parameterType="java.util.Map">
+        <!-- 查询本年度总经费 和到位经费-->
+        <![CDATA[
+              select sum(amount) amount,sum(reciveAmount) reciveAmount from
+              (
+                select
+                  nt.PRO_CODE                   proCode,
+                  max(nt.PRO_TOTAL_OUTLAY)           amount,
+                  sum(nt.PRO_RECEIVE_OUTLAY)     reciveAmount
+                from SRPMS_OUTLINE_NEW_TITLE nt
+                where to_char(nt.PRO_START_DATE, 'yyyy') = to_char(sysdate, 'yyyy')
+                  and to_char(nt.PRO_END_DATE, 'yyyy') >= to_char(sysdate, 'yyyy')
+                group by nt.PRO_CODE
+                union all
+                select  pro.PROJECT_NUM                    proCode,
+                        max(budget.BUDGET_AMOUNT)               amount,
+                        sum(revice.PRD_RECEIVE_OUTLAY)  reciveAmount
+                from
+                     SRPMS_PROJECT_BUDGET_DETAIL budget,
+                     SRPMS_PROJECT pro
+               left join  DSS_PRD_RECEIVE_OUTLAY_ACADEMY  revice on pro.PROJECT_NUM = revice.PRO_CODE and revice.PERIOD_RECEIVE >=concat(TO_CHAR(SYSDATE,'yyyy'),'01')
+                where
+                    pro.status = 50
+                AND budget.BUDGET_CATEGORY='0101'
+                AND    pro.ID = budget.PROJECT_ID
+                  and to_char(pro.project_action_date_start, 'yyyy') =
+                      to_char(sysdate, 'yyyy')
+                  and to_char(pro.project_action_date_end, 'yyyy') >=
+                      to_char(sysdate, 'yyyy')
+                  and budget.BUDGET_YEAR = TO_NUMBER(to_char(sysdate, 'yyyy'))
+                GROUP BY  pro.PROJECT_NUM
+              ) temp
+        ]]>
+    </select>
+
+    <select id="queryPayMoney"  resultMap="FundBaseVo"  parameterType="java.util.Map">
+        <!-- 查询本年创新工程支出总计-->
+        <![CDATA[
+            select  sum(pay.BUDGET_AMOUNT) payAmount from  DSS_PROJECT_TASK_PAY  pay,SRPMS_PROJECT  pro
+            where pay.PROJECT_NUM = pro.PROJECT_NUM  and  BUDGET_YEAR  = to_char(sysdate, 'yyyy')
+            and to_char(pro.project_action_date_start, 'yyyy') = to_char(sysdate, 'yyyy')
+        ]]>
+    </select>
+
+
+    <select id="queryColumnalData"  resultMap="FundColumnarVo"  parameterType="java.util.Map">
+        <!-- 查询年度柱状图数据-->
+        <![CDATA[
+            select
+              temp.yaerValue,
+              sum(reviceMoney) totalMoeny,
+              sum(case when category = '1001' then reviceMoney else 0 end  )  academy,
+              sum(case when category = '1002' then reviceMoney else 0 end  )  national,
+              sum(case when category = '1003' then reviceMoney else 0 end  )  provincial,
+              sum(case when category = '1005' then reviceMoney else 0 end  )  transverse,
+              sum(case when category = '1004' then reviceMoney else 0 end  )  other
+            from (
+                   select nt.ID,
+                          substr(nt.PRO_CATEGORY, 0, 4) category,
+                          base.YEAR                     yaerValue,
+                          nt.PRO_RECEIVE_OUTLAY         reviceMoney,
+                          nt.PRO_CODE                   proCode
+                   from SRPMS_OUTLINE_NEW_TITLE nt,
+                        SRPMS_OUTLINE_BASE base
+                   where nt.BASE_ID = base.ID
+                     and base.YEAR >= to_char(add_months(sysdate, -36), 'yyyy')
+                   union
+                   select outlay.ID,
+                          TRANSLATE('1001' USING NCHAR_CS )    category,
+                          SUBSTR(outlay.PERIOD_RECEIVE, 0, 4) yaerValue,
+                          outlay.PRD_RECEIVE_OUTLAY           reviceMoney,
+                          outlay.PRO_CODE                     proCode
+                   from DSS_PRD_RECEIVE_OUTLAY_ACADEMY outlay
+                   WHERE SUBSTR(outlay.PERIOD_RECEIVE, 0, 4) >= to_char(add_months(sysdate, -36), 'yyyy')
+                 ) temp group by  temp.yaerValue
+        ]]>
+    </select>
+    <!-- 修改版 v20190305-->
+
+</mapper>

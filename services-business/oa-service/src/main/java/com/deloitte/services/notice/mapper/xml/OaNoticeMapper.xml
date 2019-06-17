@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.notice.mapper.OaNoticeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.notice.entity.OaNotice">
+        <id column="ID" property="id" />
+        <result column="TITLE" property="title" />
+        <result column="URGENT_LEVEL" property="urgentLevel" />
+        <result column="NOTICE_TYPE_CODE" property="noticeTypeCode" />
+        <result column="NOTICE_TYPE_NAME" property="noticeTypeName" />
+        <result column="APPLY_ORG_CODE" property="applyOrgCode" />
+        <result column="APPLY_ORG_NAME" property="applyOrgName" />
+        <result column="APPLY_USER_ID" property="applyUserId" />
+        <result column="APPLY_USER_NAME" property="applyUserName" />
+        <result column="APPLY_DATETIME" property="applyDatetime" />
+        <result column="NOTICE_SORT_CODE" property="noticeSortCode" />
+        <result column="NOTICE_SORT_NAME" property="noticeSortName" />
+        <result column="NOTICE_HIT" property="noticeHit" />
+        <result column="NOTICE_CONTENT" property="noticeContent" />
+        <result column="DEL_FLAG" property="delFlag" />
+        <result column="APPROVAL_STATUS" property="approvalStatus" />
+        <result column="ISNEED_BUSSINESS" property="isneedBussiness" />
+        <result column="UPDATE_DATETIME" property="updateDatetime" />
+        <result column="UPDATE_USER_NAME" property="updateUserName" />
+        <result column="UPDATE_USER_ID" property="updateUserId"/>
+        <result column="ORDER_NUM" property="orderNum" />
+        <result column="APPLY_DEPT_CODE" property="applyDeptCode" />
+        <result column="DEPT_PER" property="deptPer" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, TITLE, URGENT_LEVEL, NOTICE_TYPE_CODE, NOTICE_TYPE_NAME, APPLY_ORG_CODE, APPLY_ORG_NAME, APPLY_USER_ID, APPLY_USER_NAME, APPLY_DATETIME, NOTICE_SORT_CODE, NOTICE_SORT_NAME, NOTICE_HIT, NOTICE_CONTENT, DEL_FLAG, APPROVAL_STATUS, ISNEED_BUSSINESS, UPDATE_DATETIME, UPDATE_USER_NAME, UPDATE_USER_ID, ORDER_NUM, APPLY_DEPT_CODE, DEPT_PER
+    </sql>
+
+    <select id="getHomeList" resultMap="BaseResultMap">
+        SELECT
+          <include refid="Base_Column_List" />
+        FROM
+        (
+            SELECT
+              <include refid="Base_Column_List"/>
+            FROM OA_SELF.OA_NOTICE
+            WHERE
+              NOTICE_TYPE_CODE = #{noticeTypeCode }
+              AND APPROVAL_STATUS = 'normal'
+              <if test="deptCode != null">
+                  AND APPLY_DEPT_CODE = #{deptCode }
+              </if>
+            ORDER BY APPLY_DATETIME DESC
+        )
+        WHERE
+          ROWNUM &lt;= #{num }
+    </select>
+
+    <select id="getOrderNum" resultType="java.lang.String">
+        SELECT
+          COUNT(ORDER_NUM) AS total
+        FROM
+        (
+          SELECT ORDER_NUM FROM OA_SELF.OA_NOTICE WHERE ORDER_NUM LIKE #{head}
+          UNION ALL
+          SELECT ORDER_NUM FROM OA_SELF.OA_NOTICE_OTHER WHERE ORDER_NUM LIKE #{head}
+          UNION ALL
+          SELECT ORDER_NUM FROM OA_SELF.OA_RULE_SYSTEM WHERE ORDER_NUM LIKE #{head}
+        )
+    </select>
+
+    <select id="getOrgPerList" resultMap="BaseResultMap">
+        SELECT DISTINCT
+            b.ID, b.TITLE, b.URGENT_LEVEL, b.NOTICE_TYPE_CODE, b.NOTICE_TYPE_NAME,
+            b.APPLY_ORG_CODE, b.APPLY_ORG_NAME, b.APPLY_USER_ID, b.APPLY_USER_NAME,
+            b.APPLY_DATETIME, b.NOTICE_SORT_CODE, b.NOTICE_SORT_NAME,
+            b.NOTICE_HIT, '' AS NOTICE_CONTENT, b.DEL_FLAG, b.APPROVAL_STATUS,
+            b.ISNEED_BUSSINESS, b.UPDATE_DATETIME, b.UPDATE_USER_NAME,
+            b.UPDATE_USER_ID, b.ORDER_NUM, b.APPLY_DEPT_CODE, b.DEPT_PER
+        FROM oa_notice_permission a
+        JOIN oa_notice b ON a.OBJECT_ID = b.ID
+        WHERE
+        (
+            a.ORG_CODE = #{orgCode} OR
+            a.DEPT_CODE = #{deptCode } OR
+            b.APPLY_USER_ID = #{userId }
+        )
+        AND b.APPROVAL_STATUS = 'normal'
+        <if test="curOrgCode != null and curOrgCode != ''">
+            AND b.APPLY_ORG_CODE = #{curOrgCode }
+        </if>
+        <if test="typeCode != null and typeCode !='' ">
+            AND b.NOTICE_TYPE_CODE = #{typeCode }
+        </if>
+        <if test="sortCode != null and sortCode !='' ">
+            AND b.NOTICE_SORT_CODE = #{sortCode }
+        </if>
+        ORDER BY b.APPLY_DATETIME DESC
+    </select>
+
+</mapper>

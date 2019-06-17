@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.portal.mapper.NoticeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.portal.entity.Notice">
+        <result column="NOTICE_ID" property="noticeId" />
+        <result column="NOTICE_TITLE" property="noticeTitle" />
+        <result column="NOTICE_HIT" property="noticeHit" />
+        <result column="NOTICE_DATETIME" property="noticeDatetime" />
+        <result column="NOTICE_UPDATETIME" property="noticeUpdatetime" />
+        <result column="NOTICE_AUTHOR" property="noticeAuthor" />
+        <result column="NOTICE_CONTENT" property="noticeContent" />
+        <result column="DEL_FLG" property="delFlg" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        NOTICE_ID, NOTICE_TITLE, NOTICE_HIT, NOTICE_DATETIME, NOTICE_UPDATETIME, NOTICE_AUTHOR, NOTICE_CONTENT, DEL_FLG
+    </sql>
+
+    <select id="getHomeList" parameterType="int" resultType="com.deloitte.services.portal.entity.Notice">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        (SELECT
+        <include refid="Base_Column_List"/>
+        FROM NOTICE ORDER BY NOTICE_DATETIME DESC)
+        WHERE rownum &lt;= #{num} AND DEL_FLG = 0
+    </select>
+
+</mapper>

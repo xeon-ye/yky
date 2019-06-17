@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.business.pe.mapper.PerSelfTargetMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.business.pe.entity.PerSelfTarget">
+        <id column="ID" property="id" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="FIRST_PER" property="firstPer" />
+        <result column="SECOND_PER" property="secondPer" />
+        <result column="THIRED_PER" property="thiredPer" />
+        <result column="THIRED_UNIT_ID" property="thiredUnitId" />
+        <result column="THIRED_UNIT_CODE" property="thiredUnitCode" />
+        <result column="THIRED_UNIT_NAME" property="thiredUnitName" />
+        <result column="YEAR_PER_VALUE" property="yearPerValue" />
+        <result column="REAL_COMPLETE_VALUE" property="realCompleteValue" />
+        <result column="SCORE_VALUE" property="scoreValue" />
+        <result column="SCORED" property="scored" />
+        <result column="REASON" property="reason" />
+        <result column="DOCUMENT_ID" property="documentId" />
+        <result column="DOCUMENT_TYPE" property="documentType" />
+        <result column="VERSION" property="version" />
+        <result column="EX1" property="ex1" />
+        <result column="EX2" property="ex2" />
+        <result column="EX3" property="ex3" />
+        <result column="EX4" property="ex4" />
+        <result column="EX5" property="ex5" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, UPDATE_BY, UPDATE_TIME, CREATE_TIME, FIRST_PER, SECOND_PER, THIRED_PER, THIRED_UNIT_ID, THIRED_UNIT_CODE, THIRED_UNIT_NAME, YEAR_PER_VALUE, REAL_COMPLETE_VALUE, SCORE_VALUE, SCORED, REASON, DOCUMENT_ID, DOCUMENT_TYPE, VERSION, EX1, EX2, EX3, EX4, EX5
+    </sql>
+
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.project.mapper.ApprovalProcessMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.project.entity.ApprovalProcess">
+        <id column="ID" property="id" />
+        <result column="ORG_CODE" property="orgCode" />
+        <result column="PROCESS_TYPE" property="processType" />
+        <result column="PROCESS_DEFINE_KEY" property="processDefineKey" />
+        <result column="PROCESS_DEFINE_NAME" property="processDefineName" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="IS_USED" property="isUsed" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, ORG_CODE, PROCESS_TYPE, PROCESS_DEFINE_KEY, PROCESS_DEFINE_NAME, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, IS_USED, EXT1, EXT2, EXT3, EXT4, EXT5
+    </sql>
+
+</mapper>

@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.srpmp.outline.mapper.SrpmsOutlineNewTitleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.srpmp.outline.entity.SrpmsOutlineNewTitle">
+        <id column="ID" property="id"/>
+        <result column="BASE_ID" property="baseId"/>
+        <result column="PRO_CODE" property="proCode"/>
+        <result column="PRO_NAME" property="proName"/>
+        <result column="PRO_CATEGORY" property="proCategory"/>
+        <result column="PRO_SOURCE_ORG" property="proSourceOrg"/>
+        <result column="PRO_ENTER_TYPE" property="proEnterType"/>
+        <result column="PRO_IN_CHARGE" property="proInCharge"/>
+        <result column="PRO_START_DATE" property="proStartDate"/>
+        <result column="PRO_END_DATE" property="proEndDate"/>
+        <result column="PRO_STATE" property="proState"/>
+        <result column="PRO_TOTAL_OUTLAY" property="proTotalOutlay"/>
+        <result column="PRO_RECEIVE_OUTLAY" property="proReceiveOutlay"/>
+        <result column="REMARKS" property="remarks"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="CREATE_BY" property="createBy"/>
+        <result column="UPDATE_TIME" property="updateTime"/>
+        <result column="UPDATE_BY" property="updateBy"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, BASE_ID, PRO_CODE, PRO_NAME, PRO_CATEGORY, PRO_SOURCE_ORG, PRO_ENTER_TYPE, PRO_IN_CHARGE, PRO_START_DATE, PRO_END_DATE, PRO_STATE, PRO_TOTAL_OUTLAY, PRO_RECEIVE_OUTLAY, REMARKS, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+    </sql>
+
+    <!--根据条件查询新获项目数据-->
+    <select id="listQuery" parameterType="com.deloitte.platform.api.srpmp.outline.param.SrpmsOutlineNewTitleQueryForm"
+            resultType="com.deloitte.platform.api.srpmp.outline.param.SrpmsOutlineNewTitleQueryParam">
+        SELECT t1.*, t2.org_id, t2.year, t2.month
+        FROM
+        SRPMS_OUTLINE_NEW_TITLE t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE
+        1=1
+        <if test="orgId != null">
+            AND t2.org_id = #{orgId}
+        </if>
+        <if test="year != null and year != ''">
+            AND t2.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t2.month = #{month}
+        </if>
+        <if test="proCode != null and proCode != ''">
+            AND t1.PRO_CODE = #{proCode}
+        </if>
+        <if test="proName != null and proName != ''">
+            AND t1.PRO_NAME LIKE '%'||#{proName}||'%'
+        </if>
+        <if test="proInCharge != null and proInCharge != ''">
+            AND t1.PRO_IN_CHARGE = #{proInCharge}
+        </if>
+        <if test="proState != null and proState != ''">
+            AND t1.pro_state = #{proState}
+        </if>
+        <if test="proSourceOrg != null and proSourceOrg != ''">
+            AND t1.pro_source_org = #{proSourceOrg}
+        </if>
+        <if test="proCategory != null and proCategory != ''">
+            AND t1.pro_category = #{proCategory}
+        </if>
+        <if test="proEnterType != null and proEnterType != ''">
+            AND t1.pro_enter_type = #{proEnterType}
+        </if>
+        <if test="createBy != null and createBy != ''">
+            AND t1.create_by = #{createBy}
+        </if>
+        ORDER by nvl(t1.create_time, TO_DATE('1900-01-01', 'YYYY-MM-DD HH24:MI:SS')) DESC
+    </select>
+
+    <!--根据条件(单位+项目编号)查询题录-新获项目数据-->
+    <select id="getQueryCount" parameterType="java.util.Map"
+            resultType="int">
+        SELECT count(*)
+        FROM
+        SRPMS_OUTLINE_NEW_TITLE t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE
+        1=1
+        AND t2.org_id = #{orgId}
+        AND t1.PRO_CODE = #{proCode}
+        <if test="id != null">
+            AND t1.id &lt;&gt; #{id}
+        </if>
+    </select>
+
+    <!--查询题录-新获项目-数量统计数据-->
+    <select id="getReportCount"
+            parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.srpmp.outline.vo.SrpmsOutlineNewTitleReportCountVo">
+
+        select tt.orgId,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10020101' AND tt.PRO_ENTER_TYPE = '10' THEN 1 ELSE 0 END) gxProjectCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10020101' AND tt.PRO_ENTER_TYPE = '20' THEN 1 ELSE 0 END) gxTopicCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10020101' AND tt.PRO_ENTER_TYPE = '30' THEN 1 ELSE 0 END) gxTaskCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10020102' AND tt.PRO_ENTER_TYPE = '10' THEN 1 ELSE 0 END) gcProjectCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10020102' AND tt.PRO_ENTER_TYPE = '20' THEN 1 ELSE 0 END) gcTopicCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10020102' AND tt.PRO_ENTER_TYPE = '30' THEN 1 ELSE 0 END) gcTaskCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100202' AND tt.PRO_ENTER_TYPE = '10' THEN 1 ELSE 0 END) gProjectCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100202' AND tt.PRO_ENTER_TYPE = '20' THEN 1 ELSE 0 END) gTopicCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100202' AND tt.PRO_ENTER_TYPE = '30' THEN 1 ELSE 0 END) gTaskCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100203' THEN 1 ELSE 0 END) makeCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100208' THEN 1 ELSE 0 END) specialCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100209' AND tt.PRO_ENTER_TYPE = '10' THEN 1 ELSE 0 END) headCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100209' AND (tt.PRO_ENTER_TYPE = '20' OR tt.PRO_ENTER_TYPE = '30') THEN 1 ELSE
+        0 END) joinCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100210' THEN 1 ELSE 0 END) cooperateProjectCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100211' THEN 1 ELSE 0 END) otherPlanCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021201' THEN 1 ELSE 0 END) overallCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021202' AND tt.PRO_ENTER_TYPE = '10' THEN 1 ELSE 0 END) pointProjectCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021202' AND (tt.PRO_ENTER_TYPE = '20' OR tt.PRO_ENTER_TYPE = '30') THEN 1
+        ELSE 0 END) pointTopicCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021203' AND tt.PRO_ENTER_TYPE = '10' THEN 1 ELSE 0 END) bigProjectCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021203' AND (tt.PRO_ENTER_TYPE = '20' OR tt.PRO_ENTER_TYPE = '30') THEN 1
+        ELSE 0 END) bigTopicCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021204' AND tt.PRO_ENTER_TYPE = '10' THEN 1 ELSE 0 END) planProjectCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021204' AND (tt.PRO_ENTER_TYPE = '20' OR tt.PRO_ENTER_TYPE = '30') THEN 1
+        ELSE 0 END) planTopicCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021205' THEN 1 ELSE 0 END) projectFirstCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021206' THEN 1 ELSE 0 END) projectSecoendCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021207' THEN 1 ELSE 0 END) projectThreeCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021208' THEN 1 ELSE 0 END) projectFourCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021209' THEN 1 ELSE 0 END) projectFiveCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021210' THEN 1 ELSE 0 END) projectSixCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021211' THEN 1 ELSE 0 END) projectSevenCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021212' THEN 1 ELSE 0 END) projectEightCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021213' THEN 1 ELSE 0 END) projectNineCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021214' THEN 1 ELSE 0 END) projectTenCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10030101' THEN 1 ELSE 0 END) guildCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10030102' THEN 1 ELSE 0 END) otherCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10030201' THEN 1 ELSE 0 END) moeProjectCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10030202' THEN 1 ELSE 0 END) moeMakeCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100303' THEN 1 ELSE 0 END) ndrcCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100304' THEN 1 ELSE 0 END) sfdaCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100305' THEN 1 ELSE 0 END) satcmCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100310' THEN 1 ELSE 0 END) otherMacCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10040101' THEN 1 ELSE 0 END) placeCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10040102' THEN 1 ELSE 0 END) natunalCount,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100501' THEN 1 ELSE 0 END) enterCooCount
+        FROM
+        (SELECT t2.org_id orgId, t1.PRO_CATEGORY, t1.PRO_ENTER_TYPE FROM
+        SRPMS_OUTLINE_NEW_TITLE t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE 1 = 1
+        <if test="year != null and year != ''">
+            AND t2.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t2.month = #{month}
+        </if>
+        <if test="orgId != null and orgId != 0">
+            AND t2.org_id = #{orgId}
+        </if>
+
+        UNION ALL
+
+        SELECT t1.DEPT_CODE orgId, t1.PRO_CATEGORY, t1.PRO_ENTER_TYPE FROM
+        SRPMS_RESULT_NEW_TITLE t1
+        WHERE 1 = 1
+        <if test="year != null and year != ''">
+            AND t1.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t1.month = #{month}
+        </if>
+        <if test="orgId != null and orgId != 0">
+            AND t1.DEPT_CODE = #{orgId}
+        </if>
+
+        ) tt
+
+        GROUP BY tt.orgId
+        ORDER by tt.orgId
+    </select>
+
+    <!--查询题录-新获项目-总经费统计数据-->
+    <select id="getReportTotalOutlay"
+            parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.srpmp.outline.vo.SrpmsOutlineNewTitleReportOutlayVo">
+
+        select tt.orgId,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10020101' OR tt.PRO_CATEGORY = '10020102' THEN tt.PRO_TOTAL_OUTLAY ELSE 0 END)
+        gxProjectOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100202' THEN tt.PRO_TOTAL_OUTLAY ELSE 0 END) gProjectOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100203' THEN tt.PRO_TOTAL_OUTLAY ELSE 0 END) makeOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100208' THEN tt.PRO_TOTAL_OUTLAY ELSE 0 END) specialOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100209' THEN tt.PRO_TOTAL_OUTLAY ELSE 0 END) headOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100210' THEN tt.PRO_TOTAL_OUTLAY ELSE 0 END) cooperateProjectOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100211' THEN tt.PRO_TOTAL_OUTLAY ELSE 0 END) otherPlanOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021201' THEN tt.PRO_TOTAL_OUTLAY ELSE 0 END) overallOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021202' THEN tt.PRO_TOTAL_OUTLAY ELSE 0 END) pointProjectOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021203' THEN tt.PRO_TOTAL_OUTLAY ELSE 0 END) bigProjectOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021204' THEN tt.PRO_TOTAL_OUTLAY ELSE 0 END) planProjectOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021205' THEN tt.PRO_TOTAL_OUTLAY ELSE 0 END) projectFirstOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021206' THEN tt.PRO_TOTAL_OUTLAY ELSE 0 END) projectSecoendOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021207' THEN tt.PRO_TOTAL_OUTLAY ELSE 0 END) projectThreeOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021208' THEN tt.PRO_TOTAL_OUTLAY ELSE 0 END) projectFourOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021209' THEN tt.PRO_TOTAL_OUTLAY ELSE 0 END) projectFiveOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021210' THEN tt.PRO_TOTAL_OUTLAY ELSE 0 END) projectSixOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021211' THEN tt.PRO_TOTAL_OUTLAY ELSE 0 END) projectSevenOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021212' THEN tt.PRO_TOTAL_OUTLAY ELSE 0 END) projectEightOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021213' THEN tt.PRO_TOTAL_OUTLAY ELSE 0 END) projectNineOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021214' THEN tt.PRO_TOTAL_OUTLAY ELSE 0 END) projectTenOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10030101' OR tt.PRO_CATEGORY = '10030102' THEN tt.PRO_TOTAL_OUTLAY ELSE 0 END)
+        guildOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10030201' OR tt.PRO_CATEGORY = '10030202' THEN tt.PRO_TOTAL_OUTLAY ELSE 0 END)
+        moeProjectOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100303' THEN tt.PRO_TOTAL_OUTLAY ELSE 0 END) ndrcOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100304' THEN tt.PRO_TOTAL_OUTLAY ELSE 0 END) sfdaOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100305' THEN tt.PRO_TOTAL_OUTLAY ELSE 0 END) satcmOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100310' THEN tt.PRO_TOTAL_OUTLAY ELSE 0 END) otherMacOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10040101' THEN tt.PRO_TOTAL_OUTLAY ELSE 0 END) placeOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10040102'THEN tt.PRO_TOTAL_OUTLAY ELSE 0 END) natunalOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100501' THEN tt.PRO_TOTAL_OUTLAY ELSE 0 END) enterCooOutlay
+        FROM
+        (SELECT t2.org_id orgId, t1.PRO_CATEGORY, t1.PRO_TOTAL_OUTLAY FROM
+        SRPMS_OUTLINE_NEW_TITLE t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE 1 = 1
+        <if test="year != null and year != ''">
+            AND t2.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t2.month = #{month}
+        </if>
+        <if test="orgId != null and orgId != 0">
+            AND t2.org_id = #{orgId}
+        </if>
+
+        UNION ALL
+
+        SELECT t1.DEPT_CODE orgId, t1.PRO_CATEGORY, t1.PRO_TOTAL_OUTLAY FROM
+        SRPMS_RESULT_NEW_TITLE t1
+        WHERE 1 = 1
+        <if test="year != null and year != ''">
+            AND t1.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t1.month = #{month}
+        </if>
+        <if test="orgId != null and orgId != 0">
+            AND t1.DEPT_CODE = #{orgId}
+        </if>
+
+        ) tt
+
+        GROUP BY tt.orgId
+        ORDER by tt.orgId
+    </select>
+
+    <!--查询题录-新获项目-到位经费统计数据-->
+    <select id="getReportReceiveOutlay"
+            parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.srpmp.outline.vo.SrpmsOutlineNewTitleReportOutlayVo">
+        select tt.orgId,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10020101' OR tt.PRO_CATEGORY = '10020102' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0
+        END) gxProjectOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100202' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) gProjectOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100203' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) makeOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100208' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) specialOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100204' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) bigTechOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100205' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) techBraceOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100206' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) planFirstOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100207' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) planSecoendOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100209' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) headOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100210' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) cooperateProjectOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100211' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) otherPlanOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021201' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) overallOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021202' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) pointProjectOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021203' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) bigProjectOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021204' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) planProjectOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021205' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) projectFirstOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021206' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) projectSecoendOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021207' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) projectThreeOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021208' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) projectFourOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021209' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) projectFiveOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021210' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) projectSixOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021211' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) projectSevenOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021212' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) projectEightOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021213' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) projectNineOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10021214' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) projectTenOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10030101' OR tt.PRO_CATEGORY = '10030102' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0
+        END) guildOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10030201' OR tt.PRO_CATEGORY = '10030202' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0
+        END) moeProjectOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100303' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) ndrcOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100304' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) sfdaOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100305' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) satcmOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100310' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) otherMacOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10040101' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) placeOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '10040102' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) natunalOutlay,
+        SUM(CASE WHEN tt.PRO_CATEGORY = '100501' THEN tt.PRO_RECEIVE_OUTLAY ELSE 0 END) enterCooOutlay
+        FROM
+        (SELECT t2.org_id orgId, t1.PRO_CATEGORY, t1.PRO_RECEIVE_OUTLAY FROM
+        SRPMS_OUTLINE_NEW_TITLE t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE 1 = 1
+        <if test="year != null and year != ''">
+            AND t2.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t2.month = #{month}
+        </if>
+        <if test="orgId != null and orgId != 0">
+            AND t2.org_id = #{orgId}
+        </if>
+
+        UNION ALL
+
+        SELECT t1.DEPT_CODE orgId, t1.PRO_CATEGORY, t1.PRO_RECEIVE_OUTLAY FROM
+        SRPMS_RESULT_NEW_TITLE t1
+        WHERE 1 = 1
+        <if test="year != null and year != ''">
+            AND t1.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t1.month = #{month}
+        </if>
+        <if test="orgId != null and orgId != 0">
+            AND t1.DEPT_CODE = #{orgId}
+        </if>
+
+        ) tt
+
+        GROUP BY tt.orgId
+        ORDER by tt.orgId
+    </select>
+
+    <!--查询题录-新获项目-科技项目执行情况统计表-->
+    <select id="getReportStateCount"
+            parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.srpmp.outline.vo.SrpmsOutlineNewTitleStateCountVo">
+        SELECT xx.orgId, SUM(newCount) newCount, SUM(researchCount) researchCount, SUM(endCount) endCount,
+        SUM(terminationCount) terminationCount, SUM(cancelCount) cancelCount, SUM(delayCount) delayCount FROM
+        (SELECT tt.org_id orgId, NVL(tt.newCount-tt.newFirstCount-tt.newSecondCount-tt.newThreeCount,0) newCount,
+        NVL(tt.researchCount-tt.researchFirstCount-tt.researchSecondCount-tt.researchThreeCount,0) researchCount,
+        NVL(tt.endCount-tt.endFirstCount-tt.endSecondCount-tt.endThreeCount,0) endCount, tt.terminationCount,
+        tt.cancelCount, tt.delayCount
+        FROM
+        (SELECT t2.org_id,
+        SUM(CASE WHEN to_char(sysdate,'yyyymm') = to_char(t1.PRO_START_DATE,'yyyymm') THEN 1 ELSE 0 END) newCount,
+        SUM(CASE WHEN to_char(sysdate,'yyyymm') = to_char(t1.PRO_START_DATE,'yyyymm') AND t1.PRO_STATE = '40' THEN 1
+        ELSE 0 END) newFirstCount,
+        SUM(CASE WHEN to_char(sysdate,'yyyymm') = to_char(t1.PRO_START_DATE,'yyyymm') AND t1.PRO_STATE = '50' THEN 1
+        ELSE 0 END) newSecondCount,
+        SUM(CASE WHEN to_char(sysdate,'yyyymm') = to_char(t1.PRO_START_DATE,'yyyymm') AND t1.PRO_STATE = '60' THEN 1
+        ELSE 0 END) newThreeCount,
+        SUM(CASE WHEN to_char(sysdate,'yyyymm') > to_char(t1.PRO_START_DATE,'yyyymm') AND sysdate &lt;= t1.PRO_END_DATE
+        THEN 1 ELSE 0 END) researchCount,
+        SUM(CASE WHEN to_char(sysdate,'yyyymm') > to_char(t1.PRO_START_DATE,'yyyymm') AND sysdate &lt;= t1.PRO_END_DATE
+        AND t1.PRO_STATE = '40' THEN 1 ELSE 0 END) researchFirstCount,
+        SUM(CASE WHEN to_char(sysdate,'yyyymm') > to_char(t1.PRO_START_DATE,'yyyymm') AND sysdate &lt;= t1.PRO_END_DATE
+        AND t1.PRO_STATE = '50' THEN 1 ELSE 0 END) researchSecondCount,
+        SUM(CASE WHEN to_char(sysdate,'yyyymm') > to_char(t1.PRO_START_DATE,'yyyymm') AND sysdate &lt;= t1.PRO_END_DATE
+        AND t1.PRO_STATE = '60' THEN 1 ELSE 0 END) researchThreeCount,
+        SUM(CASE WHEN sysdate > t1.PRO_END_DATE THEN 1 ELSE 0 END) endCount,
+        SUM(CASE WHEN sysdate > t1.PRO_END_DATE AND t1.PRO_STATE = '40' THEN 1 ELSE 0 END) endFirstCount,
+        SUM(CASE WHEN sysdate > t1.PRO_END_DATE AND t1.PRO_STATE = '50' THEN 1 ELSE 0 END) endSecondCount,
+        SUM(CASE WHEN sysdate > t1.PRO_END_DATE AND t1.PRO_STATE = '60' THEN 1 ELSE 0 END) endThreeCount,
+        SUM(CASE WHEN t1.PRO_STATE = '40' THEN 1 ELSE 0 END) terminationCount,
+        SUM(CASE WHEN t1.PRO_STATE = '50' THEN 1 ELSE 0 END) cancelCount,
+        SUM(CASE WHEN t1.PRO_STATE = '60' THEN 1 ELSE 0 END) delayCount
+        FROM
+        SRPMS_OUTLINE_NEW_TITLE t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE 1 = 1
+        <if test="year != null and year != ''">
+            AND t2.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t2.month = #{month}
+        </if>
+        <if test="orgId != null and orgId != 0">
+            AND t2.org_id = #{orgId}
+        </if>
+        GROUP BY t2.org_id
+        ORDER by t2.org_id) tt
+
+        UNION ALL
+
+        SELECT tr.orgId, NVL(tr.newCount,0) newCount,
+        NVL(tr.researchCount,0) researchCount,
+        NVL(tr.endCount,0) endCount, tr.terminationCount,
+        tr.cancelCount, tr.delayCount FROM
+        (select t1.DEPT_CODE orgId,0 newCount,
+        SUM(CASE WHEN t1.PRO_STATE = '20' THEN 1 ELSE 0 END) researchCount,
+        SUM(CASE WHEN t1.PRO_STATE = '30' THEN 1 ELSE 0 END) endCount,
+        SUM(CASE WHEN t1.PRO_STATE = '40' THEN 1 ELSE 0 END) terminationCount,0 cancelCount,0 delayCount
+        from SRPMS_RESULT_NEW_TITLE t1
+        WHERE 1 = 1
+        <if test="year != null and year != ''">
+            AND t1.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t1.month = #{month}
+        </if>
+        <if test="orgId != null and orgId != 0">
+            AND t1.DEPT_CODE = #{orgId}
+        </if>
+        GROUP BY t1.DEPT_CODE
+        ORDER by t1.DEPT_CODE) tr ) xx
+
+        GROUP BY xx.orgId
+        ORDER by xx.orgId
+    </select>
+
+    <!--查询题录-新获项目-各单位经费统计表-->
+    <select id="getReportProportionByOrg"
+            parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.srpmp.outline.vo.SrpmsOutlineNewTitleOutlayProportionVo">
+        select t2.org_id,
+        SUM(t1.PRO_TOTAL_OUTLAY) totalOutlay,
+        SUM(t1.PRO_RECEIVE_OUTLAY) receiveOutlay
+        FROM
+        SRPMS_OUTLINE_NEW_TITLE t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE 1 = 1
+        <if test="year != null and year != ''">
+            AND t2.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t2.month = #{month}
+        </if>
+        GROUP BY t2.org_id
+        ORDER by t2.org_id
+    </select>
+    <!--查询题录-新获项目-各单位经费求和-->
+    <select id="getReportProportionSumByOrg"
+            parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.srpmp.outline.vo.SrpmsOutlineNewTitleOutlayProportionVo">
+        select
+        SUM(t1.PRO_TOTAL_OUTLAY) sumTotalOutlay,
+        SUM(t1.PRO_RECEIVE_OUTLAY) sumReceiveOutlay
+        FROM
+        SRPMS_OUTLINE_NEW_TITLE t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE 1 = 1
+        <if test="year != null and year != ''">
+            AND t2.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t2.month = #{month}
+        </if>
+        ORDER by t2.org_id
+    </select>
+
+    <!--查询题录-新获项目-各项目经费统计表-->
+    <select id="getReportProportionByProject"
+            parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.srpmp.outline.vo.SrpmsOutlineNewTitleOutlayProportionVo">
+        select t2.PRO_CODE, t2.PRO_NAME,
+        SUM(t1.PRO_TOTAL_OUTLAY) totalOutlay,
+        SUM(t1.PRO_RECEIVE_OUTLAY) receiveOutlay
+        FROM
+        SRPMS_OUTLINE_NEW_TITLE t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE 1 = 1
+        <if test="year != null and year != ''">
+            AND t2.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t2.month = #{month}
+        </if>
+        GROUP BY t2.PRO_CODE, t2.PRO_NAME
+        ORDER by t2.PRO_CODE
+    </select>
+
+</mapper>

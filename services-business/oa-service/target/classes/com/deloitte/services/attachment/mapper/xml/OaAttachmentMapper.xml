@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.attachment.mapper.OaAttachmentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.attachment.entity.OaAttachment">
+        <id column="ID" property="id" />
+        <result column="BUSICESS_ID" property="busicessId" />
+        <result column="BUSICESS_NAME" property="busicessName" />
+        <result column="ATTACH_NAME" property="attachName" />
+        <result column="ATTACH_URL" property="attachUrl" />
+        <result column="DEL_FLAG" property="delFlag" />
+        <result column="ATTACH_PATH" property="attachPath" />
+        <result column="APPLY_DATETIME" property="applyDatetime" />
+        <result column="FILE_ID" property="fileId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, BUSICESS_ID, BUSICESS_NAME, ATTACH_NAME, ATTACH_URL, DEL_FLAG, ATTACH_PATH, APPLY_DATETIME, FILE_ID
+    </sql>
+
+    <select id="getHomeList" resultMap="BaseResultMap">
+        SELECT
+          <include refid="Base_Column_List" />
+        FROM (
+            SELECT
+              <include refid="Base_Column_List"/>
+            FROM OA_SELF.OA_ATTACHMENT
+            <if test="busicessName != null and busicessName != ''">
+                WHERE BUSICESS_NAME=#{busicessName}
+            </if>
+            ORDER BY APPLY_DATETIME DESC
+        ) WHERE ROWNUM &lt;= #{num }
+    </select>
+
+    <delete id="deleteByBusinessId" >
+        DELETE
+        FROM OA_SELF.OA_ATTACHMENT
+        WHERE
+          busicess_id = #{businessId }
+    </delete>
+
+</mapper>

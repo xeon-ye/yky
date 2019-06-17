@@ -1,0 +1,32 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.deloitte.services.demomybatiesauto.constant.DemoPropertis",
+      "name": "demo-service",
+      "type": "com.deloitte.services.demomybatiesauto.constant.DemoPropertis"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.deloitte.services.demomybatiesauto.constant.DemoPropertis",
+      "name": "demo-service.test1",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.deloitte.services.demomybatiesauto.constant.DemoPropertis",
+      "name": "demo-service.test2",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.deloitte.services.demomybatiesauto.constant.DemoPropertis",
+      "name": "demo-service.test3",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.deloitte.services.demomybatiesauto.constant.DemoPropertis",
+      "name": "demo-service.test4",
+      "type": "java.lang.String"
+    }
+  ]
+}

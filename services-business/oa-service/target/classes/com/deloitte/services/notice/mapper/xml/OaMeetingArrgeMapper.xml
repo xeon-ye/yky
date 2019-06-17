@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.notice.mapper.OaMeetingArrgeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.notice.entity.OaMeetingArrge">
+        <id column="ID" property="id" />
+        <result column="TITLE" property="title" />
+        <result column="APPLY_DEPT_ID" property="applyDeptId" />
+        <result column="APPLY_DEPT_NAME" property="applyDeptName" />
+        <result column="APPLY_USER_ID" property="applyUserId" />
+        <result column="APPLY_USER_NAME" property="applyUserName" />
+        <result column="APPLY_DATETIME" property="applyDatetime" />
+        <result column="URGENT_LEVEL" property="urgentLevel" />
+        <result column="DEL_FLAG" property="delFlag" />
+        <result column="APPROVAL_STATUS" property="approvalStatus" />
+        <result column="ISNEED_BUSSINESS" property="isneedBussiness" />
+        <result column="UPDATE_DATETIME" property="updateDatetime" />
+        <result column="UPDATE_USER_NAME" property="updateUserName" />
+        <result column="UPDATE_USER_ID" property="updateUserId"/>
+        <result column="ORDER_NUM" property="orderNum" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, TITLE, APPLY_DEPT_ID, APPLY_DEPT_NAME, APPLY_USER_ID, APPLY_USER_NAME, APPLY_DATETIME, URGENT_LEVEL, DEL_FLAG, APPROVAL_STATUS, ISNEED_BUSSINESS, UPDATE_DATETIME, UPDATE_USER_NAME, UPDATE_USER_ID, ORDER_NUM
+    </sql>
+
+    <select id="getHomeList" resultMap="BaseResultMap">
+        SELECT
+          <include refid="Base_Column_List" />
+        FROM
+        (
+            SELECT
+              <include refid="Base_Column_List"/>
+            FROM
+              OA_SELF.OA_MEETING_ARRGE
+            WHERE
+              APPROVAL_STATUS = 'normal'
+            ORDER BY APPLY_DATETIME DESC
+        )
+        WHERE
+          ROWNUM &lt;= #{num }
+    </select>
+
+</mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.budget.mapper.BudgetBasicBudgetMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.budget.entity.BudgetBasicBudget">
+        <id column="ID" property="id" />
+        <result column="ORG_UNIT_ID" property="orgUnitId" />
+        <result column="ORG_UNIT_CODE" property="orgUnitCode" />
+        <result column="ORG_PATH" property="orgPath" />
+        <result column="LEVEL1_OFFICE_CODE" property="level1OfficeCode" />
+        <result column="LEVEL2_OFFICE_CODE" property="level2OfficeCode" />
+        <result column="BUDGET_ACCOUNT_CODE" property="budgetAccountCode" />
+        <result column="BUDGET_PERIOD" property="budgetPeriod" />
+        <result column="BUDGET_AMOUNT" property="budgetAmount" />
+        <result column="BUDGET_ANNUAL" property="budgetAnnual" />
+        <result column="BUDGET_REMAIN_AMOUNT" property="budgetRemainAmount" />
+        <result column="BUDGET_OCCUPY_AMOUNT" property="budgetOccupyAmount" />
+        <result column="BUDGET_USABLE_AMOUNT" property="budgetUsableAmount" />
+        <result column="APPLY_FOR_PERSON" property="applyForPerson" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, ORG_UNIT_ID, ORG_UNIT_CODE, ORG_PATH, LEVEL1_OFFICE_CODE, LEVEL2_OFFICE_CODE, BUDGET_ACCOUNT_CODE, BUDGET_PERIOD,
+         BUDGET_AMOUNT, BUDGET_ANNUAL, BUDGET_REMAIN_AMOUNT, BUDGET_OCCUPY_AMOUNT, BUDGET_USABLE_AMOUNT, APPLY_FOR_PERSON,
+          CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME, EXT1, EXT2, EXT3, EXT4, EXT5
+    </sql>
+
+
+    <select id="selectByUnitOffice" resultMap="BaseResultMap">
+        SELECT
+          SUM(BUDGET_AMOUNT) as BUDGET_AMOUNT,SUM(BUDGET_REMAIN_AMOUNT) as BUDGET_REMAIN_AMOUNT,
+          SUM(BUDGET_OCCUPY_AMOUNT) as BUDGET_OCCUPY_AMOUNT,SUM(BUDGET_USABLE_AMOUNT) as BUDGET_USABLE_AMOUNT
+        FROM BUDGET_BASIC_BUDGET
+        <where>
+            TOTAL_FLAG='Y'
+            AND ORG_UNIT_CODE=#{unitCode}
+            AND LEVEL2_OFFICE_CODE=#{officeCode}
+            AND BUDGET_ANNUAL=#{budgetAnnual}
+        </where>
+
+    </select>
+</mapper>

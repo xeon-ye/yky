@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.business.labor.mapper.GePrivatePaymentListMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.business.labor.entity.GePrivatePaymentList">
+        <id column="ID" property="id"/>
+        <result column="CREATE_BY" property="createBy"/>
+        <result column="CREATE_USER_NAME" property="createUserName"/>
+        <result column="UPDATE_BY" property="updateBy"/>
+        <result column="UPDATE_TIME" property="updateTime"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="VERSION" property="version"/>
+        <result column="DOCUMENT_ID" property="documentId"/>
+        <result column="DOCUMENT_TYPE" property="documentType"/>
+        <result column="PAY_AMOUNT" property="payAmount"/>
+        <result column="RECIEVE_USER_NAME" property="recieveUserName"/>
+        <result column="CERT_TYPE" property="certType"/>
+        <result column="CERT_NUM" property="certNum"/>
+        <result column="BANK_CODE" property="bankCode"/>
+        <result column="BANK_ID" property="bankId"/>
+        <result column="BANK_BAME" property="bankBame"/>
+        <result column="BAN_ACCOUNT" property="banAccount"/>
+        <result column="INTER_BRANCH_NUMBER" property="interBranchNumber"/>
+        <result column="PAY_TIME" property="payTime"/>
+        <result column="PAY_STATUS" property="payStatus"/>
+        <result column="REMARK" property="remark"/>
+        <result column="EX1" property="ex1"/>
+        <result column="EX2" property="ex2"/>
+        <result column="EX3" property="ex3"/>
+        <result column="EX4" property="ex4"/>
+        <result column="EX5" property="ex5"/>
+        <result column="EX6" property="ex6"/>
+        <result column="EX7" property="ex7"/>
+        <result column="EX8" property="ex8"/>
+        <result column="EX9" property="ex9"/>
+        <result column="EX10" property="ex10"/>
+        <result column="EX11" property="ex11"/>
+        <result column="EX12" property="ex12"/>
+        <result column="EX13" property="ex13"/>
+        <result column="EX14" property="ex14"/>
+        <result column="EX15" property="ex15"/>
+        <result column="LINE_NUMBER" property="lineNumber"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, CREATE_BY, CREATE_USER_NAME, UPDATE_BY, UPDATE_TIME, CREATE_TIME, VERSION, DOCUMENT_ID, DOCUMENT_TYPE, PAY_AMOUNT, RECIEVE_USER_NAME, CERT_TYPE, CERT_NUM, BANK_CODE, BANK_ID, BANK_BAME, BAN_ACCOUNT, INTER_BRANCH_NUMBER, PAY_TIME, PAY_STATUS, REMARK, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10, EX11, EX12, EX13, EX14, EX15, LINE_NUMBER
+    </sql>
+    <select id="findPrivatePayList"
+            resultType="com.deloitte.platform.api.fssc.labor.vo.LcLaborCostLineChinaAndForeignVo">
+        SELECT
+        distinct
+        LC.CREATE_TIME createTime,
+        LCT.ID documentId,
+        LCT.DOCUMENT_NUM documentNum,
+        LC.RECIEVE_USER_NAME recieveUserName,
+        LC.RECIEVE_USER_ID recieveUserId,
+        LCT.UNIT_NAME payUnitName,
+        LCT.DEPT_NAME payDeptName,
+        LC.CERT_TYPE certType,
+        LCT.PROJECT_NAME projectName,
+        LC.CERT_NUM certNum,
+        LC.SHOULD_GIVE_AMOUNT shouldGiveAmount,
+        LC.DEDUCTED_AMOUNT deductedAmount,
+        LC.REAL_GIVE_AMOUNT realGiveAmount,
+        GPL.PAY_STATUS payStatus,
+        LCT.PAYMENT_ID paymentId
+        FROM
+        <if test="queryForm.isForeign=='Y'.toString()">
+            LC_LABOR_COST_LINE_FOREIGN LC
+        </if>
+        <if test="queryForm.isForeign=='N'.toString()">
+            LC_LABOR_COST_LINE_CHINA LC
+        </if>
+        LEFT JOIN LC_LABOR_COST LCT ON LC.DOCUMENT_ID = LCT.ID
+        LEFT JOIN GE_PRIVATE_PAYMENT_LIST GPL ON GPL.DOCUMENT_ID = LCT.ID
+        AND GPL.DOCUMENT_TYPE = 'LC_LABOR_COST'
+        <where>
+            <if test="queryForm.recieveUserName!='' and queryForm.recieveUserName!=null">
+                AND LC.RECIEVE_USER_NAME LIKE CONCAT(CONCAT('%',#{queryForm.recieveUserName}),'%')
+            </if>
+            <if test="queryForm.payUnitName!='' and queryForm.payUnitName!=null">
+                AND LCT.UNIT_NAME LIKE CONCAT(CONCAT('%',#{queryForm.payUnitName}),'%')
+            </if>
+            <if test="queryForm.payDeptName!='' and queryForm.payDeptName!=null">
+                AND LCT.DEPT_NAME LIKE CONCAT(CONCAT('%',#{queryForm.payDeptName}),'%')
+            </if>
+            <if test="queryForm.projectName!='' and queryForm.projectName!=null">
+                AND LCT.PROJECT_NAME LIKE CONCAT(CONCAT('%',#{queryForm.projectName}),'%')
+            </if>
+            <if test="queryForm.documentNum!='' and queryForm.documentNum!=null">
+                AND LCT.DOCUMENT_NUM LIKE CONCAT(CONCAT('%',#{queryForm.documentNum}),'%')
+            </if>
+            <if test="queryForm.payStatus!='' and queryForm.payStatus!=null">
+                AND GPL.PAY_STATUS = #{queryForm.payStatus}
+            </if>
+            <if test="queryForm.startTime!=null">
+                AND LC.CREATE_TIME  <![CDATA[>=]]>  to_date(to_char(#{queryForm.startTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+            <if test="queryForm.endTime!=null">
+                AND LC.CREATE_TIME  <![CDATA[<=]]>  to_date(to_char(#{queryForm.endTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+            <if test="queryForm.startAmount!=null">
+                AND LC.SHOULD_GIVE_AMOUNT <![CDATA[>=]]> #{queryForm.startAmount}
+            </if>
+            <if test="queryForm.endAmount!=null">
+                AND LC.SHOULD_GIVE_AMOUNT <![CDATA[<=]]> #{queryForm.endAmount}
+            </if>
+              AND LCT.IS_DEDUTED='Y'
+
+        </where>
+        ORDER BY LC.CREATE_TIME DESC
+
+
+    </select>
+
+</mapper>

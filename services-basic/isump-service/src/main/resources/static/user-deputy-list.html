@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户副账号管理</title>
+    <style type="text/css">
+        table {
+            border-collapse: collapse;
+            width:100%;
+            border: 1px solid #fff;
+        }
+        table td,th {
+            border: 1px solid #E5E5E5;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+<div id="top">
+</div>
+<h2>用户副账号管理</h2>
+<table border="1" id="query">
+    <tr>
+        <td>用户ID</td><td><input type="text" id="modelId" name="modelId" value=""></td>
+        <td>名称</td>
+        <td><input type="text" id="modelName" name="modelName" value="">&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="queryList('');">查询</button></td>
+    </tr>
+</table>
+<hr>
+<table border="1" id="model-list">
+    <tr>
+        <td>副账号ID</td>
+        <td>名称</td>
+        <td>用户ID</td>
+        <td>组织架构ID</td>
+        <td>状态</td>
+        <td>创建时间</td>
+        <td>操作</td>
+    </tr>
+    <script id="models" type="text/html">
+        <tr>
+            <td>副账号ID</td>
+            <td>名称</td>
+            <td>用户ID</td>
+            <td>组织架构ID</td>
+            <td>状态</td>
+            <td>创建时间</td>
+            <td>操作</td>
+        </tr>
+        {{each records}}
+        <tr>
+            <td>{{$value.id}}</td>
+            <td>{{$value.name}}</td>
+            <td>{{$value.userId}}</td>
+            <td>{{$value.orgId}}</td>
+            <td>{{$value.state}}</td>
+            <td>{{$value.createTime}}</td>
+            <td>
+                <a href="javascript:void(0)" onclick="showRoleList('{{$value.id}}');">角色列表</a>
+            </td>
+        </tr>
+        {{/each}}
+    </script>
+</table>
+<hr>
+<div id="query-page">
+
+    每页<select id="rowSize" name="rowSize" onchange="setPageSize(this.value)" style="width: 40px;">
+    <option value="10" selected="selected">10</option>
+    <option value="20">20</option>
+    <option value="30">30</option>
+    <option value="40">40</option>
+    <option value="50">50</option>
+</select>条，当前<input type="text" id="page" name="page" value="1" style="width: 20px;"/>页，总<span id="totalRowsSpan"></span>记录
+    <button style="cursor: pointer;" onclick="queryList('prev');">上一页</button>
+    <input type="hidden" id="totalRows" name="totalRows" value="" style="width: 20px;"/>
+    <button style="cursor: pointer;" onclick="queryList('next');">下一页</button>
+</div>
+<hr>
+<h2>角色列表</h2>
+<hr>
+<input type="hidden" id="rolelist_deputyId" name="rolelist_deputyId" value="" style="width: 20px;"/>
+<table border="1" id="modelRole-list">
+    <tr>
+        <td>角色ID</td>
+        <td>角色名称</td>
+        <td>角色类型</td>
+        <td>系统来源</td>
+    </tr>
+    <script id="modelsRole" type="text/html">
+        <tr>
+            <td>角色ID</td>
+            <td>角色名称</td>
+            <td>角色类型</td>
+            <td>系统来源</td>
+            <td>操作</td>
+        </tr>
+        {{each}}
+        <tr>
+            <td>{{$value.id}}</td>
+            <td>{{$value.name}}</td>
+            <td>{{$value.type}}</td>
+            <td>{{$value.service}}</td>
+            <td>
+                <a href="javascript:void(0)" onclick="delRole('{{$value.deputyRoleId}}');">移除</a>
+            </td>
+        </tr>
+        {{/each}}
+    </script>
+</table>
+<hr>
+<button onclick="addRole();">增加新的角色</button>
+
+
+<div id="dialog" title="新增角色">
+    <table border="1" id="query_role">
+        <tr>
+            <td>所属系统</td>
+            <td><input type="text" id="sysCode" name="sysCode"/></td>
+            <td>名称</td>
+            <td><input type="text" id="roleName" name="roleName" value=""></td>
+        </tr>
+        <tr>
+            <td>角色类型</td>
+            <td><select type="text" id="roleType" name="roleType">
+                <option value="function">function</option>
+                <option value="data">data</option>
+                <option value="approval">approval</option></select>
+            </td>
+            <td colspan="2">
+                <button onclick="roleSearch('');">查询</button>
+            </td>
+        </tr>
+    </table>
+    <form id="dialog-form">
+        <fieldset>
+            <table border="1" id="modelsNewRole-list">
+                <tr>
+                    <td></td>
+                    <td>角色ID</td>
+                    <td>角色名称</td>
+                    <td>角色类型</td>
+                    <td>系统来源</td>
+                </tr>
+                <script id="modelsNewRole" type="text/html">
+                    <tr>
+                        <td></td>
+                        <td>角色ID</td>
+                        <td>角色名称</td>
+                        <td>角色类型</td>
+                        <td>系统来源</td>
+                    </tr>
+                    {{each}}
+                    <tr>
+                        <td><input type="checkbox"  value="{{$value.id}}" name="role_checkbox"/></td>
+                        <td>{{$value.id}}</td>
+                        <td>{{$value.name}}</td>
+                        <td>{{$value.type}}</td>
+                        <td>{{$value.service}}</td>
+                    </tr>
+                    {{/each}}
+                </script>
+            </table>
+        </fieldset>
+    </form>
+</div>
+
+
+<script type="text/javascript" src="jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui.js"></script>
+<script src="/lib/js/jquery.cookie.js"></script>
+<script src="/js/ajax-util.js"></script>
+<script src="/lib/js/template.js"></script>
+<link href="/css/jquery-ui.css" rel="stylesheet">
+
+<script>
+    $(function() {
+        queryList("");
+
+        $( "#dialog" ).dialog({
+            autoOpen: false,
+            width: 650,
+            height:600,
+            buttons: [
+                {
+                    text: "submit",
+                    click: function() {
+                        var deputyId = $("#rolelist_deputyId").val();
+                        var checkBoxs = $("#modelsNewRole-list").find("input[type='checkbox']");
+                        for (var i=0;i<checkBoxs.length;i++) {
+                            var checkBox = checkBoxs[i];
+                            if (checkBox.checked) {
+                                var url = "/isump/deputy-account-role";
+                                var param = {
+                                    "roleId":checkBox.value,
+                                    "deputyAccountId":deputyId
+                                }
+
+                                var p_json = JSON.stringify(param)
+                                AJAX.POST_JSON(url, p_json
+                                    , function (result) {
+                                        showRoleList(deputyId);
+                                    });
+                            }
+                        }
+                        $( this ).dialog( "close" );
+                    }
+                },
+                {
+                    text: "Cancel",
+                    click: function() {
+                        $( this ).dialog( "close" );
+                    }
+                }
+            ]
+        });
+    });
+
+    function showRoleList(val){
+        $("#rolelist_deputyId").val(val);
+        console.log(val);
+        getRoleInfo(val,'exist','{}');
+    }
+    function roleSearch() {
+        var userId = $("#rolelist_deputyId").val();
+        var roleNameSearch = $("#roleNameSearch").val();
+        var sysCode = $("#sysCode").val();
+        var roleType = $("#roleType").val();
+        var roleName = $("#roleName").val();
+        var param = {
+            name:roleName,
+            service: sysCode,
+            type: roleType
+        }
+        var p_json = JSON.stringify(param)
+        getRoleInfo(userId,'notExist',p_json)
+    }
+
+    function getRoleInfo(id,key,roleParam) {
+        //key 为 exist 的时候是查询该副账号存在的角色
+        //key 为 notExist 的时候是查询该副账号没有的角色
+        var deputy_role;
+        var role_list;
+        var true_list = [];
+        var url = "/isump/deputy-account-role/list/conditions";
+        var param = {
+            "deputyAccountId":id
+        }
+        var p_json = JSON.stringify(param)
+        AJAX.POST_JSON(url, p_json
+            , function (result) {
+                //console.log(result);
+                deputy_role = result;
+                var url = "/isump/role/list/conditions";
+                AJAX.POST_JSON(url, roleParam
+                    , function (result1) {
+                        //console.log(result1);
+                        role_list = result1;
+                        if(key=='exist'){
+                            for (var i=0;i<role_list.length;i++){
+                                for (var j=0;j<deputy_role.length;j++){
+                                    if (role_list[i].id == deputy_role[j].roleId){
+                                        role_list[i].deputyRoleId = deputy_role[j].id
+                                        true_list.push(role_list[i]);
+                                    }
+                                }
+                            }
+                            if (true_list!=null && typeof true_list !="undefined" && true_list.length>0) {
+                                var html = template("modelsRole", true_list);
+                                $("#modelRole-list").html(html);
+                            }
+                        }else if (key=="notExist") {
+                            for (var i = 0; i < role_list.length; i++) {
+                                var flag =false;
+                                for (var j = 0; j < deputy_role.length; j++) {
+                                    if (role_list[i].id == deputy_role[j].roleId) {
+                                        //role_list[i].deputyRoleId = deputy_role[j].id;
+                                        flag = true;
+                                    }
+                                }
+                                if(!flag){
+                                    true_list.push(role_list[i]);
+                                }
+                            }
+                            if (true_list!=null && typeof true_list !="undefined" && true_list.length>0) {
+                                var html = template("modelsNewRole", true_list);
+                                $("#modelsNewRole-list").html(html);
+                            }
+                        }
+
+                    });
+
+            });
+    }
+    function delRole(id){
+        console.log(id);
+        var url = "/isump/deputy-account-role/"+id;
+        var deputyId = $("#rolelist_deputyId").val();
+        /*var deputy_role_id;
+        var deputyId = $("#rolelist_deputyId").val();
+        console.log(deputyId);
+        var url = "/isump/deputy-account-role/list/conditions";
+        var param = {
+            "roleId":id,
+            "deputyAccountId":deputyId
+        }
+
+        var p_json = JSON.stringify(param)
+        AJAX.POST_JSON(url, p_json
+            , function (result) {
+
+                deputy_role_id = result[0].id;
+                console.log(deputy_role_id);
+                var url = "/isump/deputy-account-role/"+deputy_role_id;
+                return;*/
+        AJAX.DELETE(url, {}
+            , function (result1) {
+                showRoleList(deputyId);
+            });
+        //});
+
+    }
+
+    function addRole() {
+        var userId = $("#rolelist_deputyId").val();
+        $("#userId").val(userId);
+        if (userId=="" || userId==null){
+            alert("先选择一个副账号再进行添加角色操作")
+            return;
+        }else{
+            getRoleInfo(userId,'notExist','{}');
+            $( "#dialog" ).dialog( "open" );
+
+        }
+    }
+
+    function queryList(option){
+        var rowSize = $("#rowSize").val();
+        var page = $("#page").val();
+        if(option === "prev"){
+            page = parseInt(page);
+            if(page <= 1){
+                page = 1;
+                return;
+            }else{
+                page--;
+            }
+        }else if(option === "next"){
+            page = parseInt(page);
+            page++;
+            var total = parseInt($("#totalRows").val());
+            var totalPage = Math.ceil(total/rowSize);
+            if(totalPage<page){
+                return;
+            }
+        }else{
+            page = 1;
+        }
+        var modelName = $("#modelName").val();
+        var modelId = $("#modelId").val();
+        var url = "/isump/deputy-account/page/conditions";
+        var param = {
+            "pageSize":rowSize,
+            "currentPage":page,
+            "name":modelName,
+            "userId":modelId
+
+        }
+        var p_json = JSON.stringify(param)
+        AJAX.POST_JSON(url, p_json
+            , function (result) {
+                console.log(result);
+                $("#page").val(result.current);
+                $("#totalRows").val(result.total);
+                $("#totalRowsSpan").html(result.total);
+                var html = template("models", result);
+                $("#model-list").html(html);
+
+        });
+    }
+
+
+    function setPageSize(val){
+        $("#page").val(1);
+        $("#modelName").val("");
+        $("#rowSize").val(val);
+        queryList("");
+    }
+
+</script>
+</body>
+</html>

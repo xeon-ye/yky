@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.base.mapper.BaseExpenseSubTypeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.base.entity.BaseExpenseSubType">
+        <id column="ID" property="id" />
+        <result column="CODE" property="code" />
+        <result column="NAME" property="name" />
+        <result column="EXPENSE_MAIN_TYPE_ID" property="expenseMainTypeId" />
+        <result column="C_ACCOUNT_CODE" property="cAccountCode" />
+        <result column="Y_ACCOUNT_CODE" property="yAccountCode" />
+        <result column="VALID_FLAG" property="validFlag" />
+        <result column="VALID_DATE" property="validDate" />
+        <result column="INVALID_DATE" property="invalidDate" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UNIT_CODE" property="unitCode" />
+        <result column="ORG_ID" property="orgId" />
+        <result column="ORG_PATH" property="orgPath" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, CODE, NAME, EXPENSE_MAIN_TYPE_ID, ACCOUNT_ID, VALID_FLAG, VALID_DATE, INVALID_DATE, CREATE_TIME,
+        CREATE_BY, UPDATE_BY, UPDATE_TIME
+    </sql>
+
+    <sql id="VO_Column_List">
+        subType.ID as id, subType.CODE as code, subType.NAME as name, subType.EXPENSE_MAIN_TYPE_ID as expenseMainTypeId,
+        mainType.code as expenseMainTypeCode, mainType.name as expenseMainTypeName,
+        subType.C_ACCOUNT_CODE as cAccountCode,TABLE1.DATA_DESC as cAccountName,
+        subType.Y_ACCOUNT_CODE as yAccountCode,TABLE2.DATA_DESC as yAccountName,
+        subType.VALID_FLAG AS validFlag, subType.VALID_DATE as validDate, subType.COST_TYPE as  costType,
+        subType.INVALID_DATE as invalidDate,subType.CREATE_TIME as createTime, subType.CREATE_BY as createBy,
+        subType.UPDATE_BY as updateBy, subType.UPDATE_TIME as updateTime,
+        subType.UNIT_CODE as unitCode, subType.ORG_ID as orgId,subType.ORG_PATH as orgPath
+    </sql>
+
+    <select id="selectVo" resultType="com.deloitte.platform.api.fssc.base.vo.BaseExpenseSubTypeVo">
+        select <include refid="VO_Column_List"/>
+        from BASE_EXPENSE_SUB_TYPE subType
+        LEFT JOIN BASE_EXPENSE_MAIN_TYPE mainType ON subType.EXPENSE_MAIN_TYPE_ID = mainType.ID
+        LEFT JOIN
+        (
+            select ABE.DATA_CODE,ABE.DATA_DESC,AE.SEGMENT_CODE, ABE.ETX_1 from AV_CHART_OF_ACCOUNT AA
+            LEFT JOIN  AV_LEDGER_UNIT_RELATION UNIT ON UNIT.ledger_id = AA.ledger_id
+            LEFT JOIN  AV_ACCOUNT_ELEMENT_RELE AR ON AA.LEDGER_ID = AR.LEDGER_ID
+            LEFT JOIN  AV_ACCOUNT_ELEMENT AE ON AR.ELEMENT_ID = AE.ID
+            LEFT JOIN  AV_ACCOUNT_BASE_RELE ABR ON AE.ID = ABR.ELEMENT_ID
+            LEFT JOIN  AV_BASE_ELEMENT ABE ON ABR.BASE_ID = ABE.ID
+            WHERE
+                ABE.ETX_1 = 'C' AND ABE.data_type LIKE '%ACCOUNT%' AND ABE.DATA_STATUS = 'Y'
+        ) TABLE1 ON subType.C_ACCOUNT_CODE = TABLE1.DATA_CODE
+        LEFT JOIN (
+            select ABE.DATA_CODE,ABE.DATA_DESC,AE.SEGMENT_CODE, ABE.ETX_1 from AV_CHART_OF_ACCOUNT AA
+            LEFT JOIN  AV_LEDGER_UNIT_RELATION UNIT ON UNIT.ledger_id = AA.ledger_id
+            LEFT JOIN  AV_ACCOUNT_ELEMENT_RELE AR ON AA.LEDGER_ID = AR.LEDGER_ID
+            LEFT JOIN  AV_ACCOUNT_ELEMENT AE ON AR.ELEMENT_ID = AE.ID
+            LEFT JOIN  AV_ACCOUNT_BASE_RELE ABR ON AE.ID = ABR.ELEMENT_ID
+            LEFT JOIN  AV_BASE_ELEMENT ABE ON ABR.BASE_ID = ABE.ID
+            WHERE
+                ABE.ETX_1 = 'Y' AND ABE.data_type LIKE '%ACCOUNT%' AND ABE.DATA_STATUS = 'Y'
+        ) TABLE2 ON subType.Y_ACCOUNT_CODE = TABLE2.DATA_CODE
+        <where>
+            subType.ID = #{id}
+        </where>
+    </select>
+
+    <select id="selectVoPage" resultType="com.deloitte.platform.api.fssc.base.vo.BaseExpenseSubTypeVo">
+        select <include refid="VO_Column_List"/>
+        from BASE_EXPENSE_SUB_TYPE subType
+        LEFT JOIN BASE_EXPENSE_MAIN_TYPE mainType ON subType.EXPENSE_MAIN_TYPE_ID = mainType.ID
+        LEFT JOIN
+        (
+            select ABE.DATA_CODE,ABE.DATA_DESC,AE.SEGMENT_CODE, ABE.ETX_1 from AV_CHART_OF_ACCOUNT AA
+            LEFT JOIN  AV_LEDGER_UNIT_RELATION UNIT ON UNIT.ledger_id = AA.ledger_id
+            LEFT JOIN  AV_ACCOUNT_ELEMENT_RELE AR ON AA.LEDGER_ID = AR.LEDGER_ID
+            LEFT JOIN  AV_ACCOUNT_ELEMENT AE ON AR.ELEMENT_ID = AE.ID
+            LEFT JOIN  AV_ACCOUNT_BASE_RELE ABR ON AE.ID = ABR.ELEMENT_ID
+            LEFT JOIN  AV_BASE_ELEMENT ABE ON ABR.BASE_ID = ABE.ID
+            WHERE
+               ABE.ETX_1 = 'C' AND ABE.data_type LIKE '%ACCOUNT%' AND ABE.DATA_STATUS = 'Y'
+                <if test="queryForm.unitCode != null and queryForm.unitCode != ''">
+                    and unit.balance_code = #{queryForm.unitCode}
+                </if>
+        ) TABLE1 ON subType.C_ACCOUNT_CODE = TABLE1.DATA_CODE
+        LEFT JOIN (
+            select ABE.DATA_CODE,ABE.DATA_DESC,AE.SEGMENT_CODE, ABE.ETX_1 from AV_CHART_OF_ACCOUNT AA
+            LEFT JOIN  AV_LEDGER_UNIT_RELATION UNIT ON UNIT.ledger_id = AA.ledger_id
+            LEFT JOIN  AV_ACCOUNT_ELEMENT_RELE AR ON AA.LEDGER_ID = AR.LEDGER_ID
+            LEFT JOIN  AV_ACCOUNT_ELEMENT AE ON AR.ELEMENT_ID = AE.ID
+            LEFT JOIN  AV_ACCOUNT_BASE_RELE ABR ON AE.ID = ABR.ELEMENT_ID
+            LEFT JOIN  AV_BASE_ELEMENT ABE ON ABR.BASE_ID = ABE.ID
+            WHERE
+              ABE.ETX_1 = 'Y' AND ABE.data_type LIKE '%ACCOUNT%' AND ABE.DATA_STATUS = 'Y'
+              <if test="queryForm.unitCode != null and queryForm.unitCode != ''">
+                  and unit.balance_code = #{queryForm.unitCode}
+              </if>
+        ) TABLE2 ON subType.Y_ACCOUNT_CODE = TABLE2.DATA_CODE
+        <where>
+            1 = 1
+            <if test="queryForm.unitCode != null and queryForm.unitCode != ''">
+                and subType.UNIT_CODE = #{queryForm.unitCode}
+            </if>
+            <if test="queryForm.code != null and queryForm.code != ''">
+                and subType.CODE LIKE CONCAT('%',CONCAT(#{queryForm.code},'%'))
+            </if>
+            <if test="queryForm.name != null and queryForm.name != ''">
+                and subType.NAME LIKE CONCAT('%',CONCAT(#{queryForm.name},'%'))
+            </if>
+            <if test="queryForm.validFlag != null and queryForm.validFlag != ''">
+                and subType.VALID_FLAG = #{queryForm.validFlag}
+            </if>
+            <if test="queryForm.expenseMainTypeId != null and queryForm.expenseMainTypeId != ''">
+                and subType.EXPENSE_MAIN_TYPE_ID = #{queryForm.expenseMainTypeId}
+            </if>
+        </where>
+        <choose>
+            <when test="queryForm.sort != null and queryForm.sort != ''
+                    and queryForm.sortOrder != null  and queryForm.sortOrder != ''"  >
+                order by ${queryForm.sort} ${queryForm.sortOrder}
+            </when>
+            <otherwise>
+                order by subType.code asc
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="countByExpenseMainTypeIds" resultType="java.lang.Long">
+        select count(ID) from BASE_EXPENSE_SUB_TYPE where VALID_FLAG='Y'
+         AND  EXPENSE_MAIN_TYPE_ID in
+        <foreach collection="expenseMainTypeIdList" separator="," item="item" open="(" close=")">
+            #{item}
+        </foreach>
+
+    </select>
+
+</mapper>

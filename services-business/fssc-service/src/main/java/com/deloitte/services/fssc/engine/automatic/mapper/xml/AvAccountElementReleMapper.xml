@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.engine.automatic.mapper.AvAccountElementReleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.engine.automatic.entity.AvAccountElementRele">
+        <id column="ID" property="id" />
+        <result column="ELEMENT_ID" property="elementId" />
+        <result column="LEDGER_ID" property="ledgerId" />
+        <result column="CREATE_DATE" property="createDate" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_DATE" property="updateDate" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="ETX_1" property="etx1" />
+        <result column="ETX_2" property="etx2" />
+        <result column="ETX_3" property="etx3" />
+        <result column="ETX_4" property="etx4" />
+        <result column="ETX_5" property="etx5" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, ELEMENT_ID, LEDGER_ID, CREATE_DATE, CREATE_BY, UPDATE_DATE, UPDATE_BY, ETX_1, ETX_2, ETX_3, ETX_4, ETX_5
+    </sql>
+
+    <select id="getRele" resultType="java.lang.Integer">
+        select COUNT(1) from AV_ACCOUNT_ELEMENT_RELE t
+        inner join AV_ACCOUNT_ELEMENT M ON t.ELEMENT_ID =M.ID  where M.chart_of_accounts_id =#{chartOfAccountsId} and M.segment_code =#{segmentCode}
+    </select>
+
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.srpmp.project.mpr.mapper.MprEvaResearchTaskTableMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.srpmp.project.mpr.entity.MprEvaResearchTaskTable">
+        <result column="ID" property="id" />
+        <result column="PROJECT_NO" property="projectNo" />
+        <result column="PROJECT_NAME" property="projectName" />
+        <result column="PROJECT_NO_RESEARCH" property="projectNoResearch" />
+        <result column="PROJECT_MANAGER" property="projectManager" />
+        <result column="PROJECT_SOURCE" property="projectSource" />
+        <result column="ACTUAL_FUND" property="actualFund" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="TYPE" property="type" />
+        <result column="BEGIN_TIME" property="beginTime" />
+        <result column="END_TIME" property="endTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, PROJECT_NO, PROJECT_NAME, PROJECT_NO_RESEARCH, PROJECT_MANAGER, PROJECT_SOURCE, ACTUAL_FUND, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, TYPE, BEGIN_TIME, END_TIME
+    </sql>
+
+</mapper>

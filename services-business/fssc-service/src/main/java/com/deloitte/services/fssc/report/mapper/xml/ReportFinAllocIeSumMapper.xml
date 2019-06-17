@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.report.mapper.ReportFinAllocIeSumMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.report.entity.ReportFinAllocIeSum">
+        <id column="ID" property="id" />
+        <result column="UNIT_ID" property="unitId" />
+        <result column="UNIT_CODE" property="unitCode" />
+        <result column="NAME" property="name" />
+        <result column="YEAR" property="year" />
+        <result column="MONTH" property="month" />
+        <result column="STATUS" property="status" />
+        <result column="PERIOD_TYPE" property="periodType" />
+        <result column="MERGE_FLAG" property="mergeFlag" />
+        <result column="INCOME_ITEM_1" property="incomeItem1" />
+        <result column="INCOME_ITEM_2" property="incomeItem2" />
+        <result column="INCOME_ITEM_3" property="incomeItem3" />
+        <result column="INCOME_ITEM_4" property="incomeItem4" />
+        <result column="INCOME_ITEM_5" property="incomeItem5" />
+        <result column="INCOME_ITEM_6" property="incomeItem6" />
+        <result column="INCOME_ITEM_7" property="incomeItem7" />
+        <result column="EXPENSE_ITEM_1" property="expenseItem1" />
+        <result column="EXPENSE_ITEM_2" property="expenseItem2" />
+        <result column="EXPENSE_ITEM_3" property="expenseItem3" />
+        <result column="EXPENSE_ITEM_4" property="expenseItem4" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, UNIT_ID, UNIT_CODE, NAME, YEAR, MONTH, STATUS, PERIOD_TYPE, MERGE_FLAG, INCOME_ITEM_1, INCOME_ITEM_2, INCOME_ITEM_3, INCOME_ITEM_4, INCOME_ITEM_5, INCOME_ITEM_6, INCOME_ITEM_7, EXPENSE_ITEM_1, EXPENSE_ITEM_2, EXPENSE_ITEM_3, EXPENSE_ITEM_4, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME, EXT1, EXT2, EXT3, EXT4, EXT5
+    </sql>
+
+</mapper>

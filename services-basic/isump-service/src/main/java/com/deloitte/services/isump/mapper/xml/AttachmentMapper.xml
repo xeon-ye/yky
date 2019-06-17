@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.isump.mapper.AttachmentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.isump.entity.Attachment">
+        <id column="ID" property="id" />
+        <result column="FILE_ID" property="fileId" />
+        <result column="MASTER_TYPE" property="masterType" />
+        <result column="MASTER_ID" property="masterId" />
+        <result column="FILE_NAME" property="fileName" />
+        <result column="FILE_URL" property="fileUrl" />
+        <result column="SORT" property="sort" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, FILE_ID, MASTER_TYPE, MASTER_ID, FILE_NAME, FILE_URL, SORT
+    </sql>
+    <delete id="delByMasterId">
+        delete from ISUMP_ATTACHMENT where master_id = #{id}
+    </delete>
+
+</mapper>

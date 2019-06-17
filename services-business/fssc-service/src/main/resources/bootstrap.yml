@@ -1,0 +1,26 @@
+server:
+  port: 8403
+
+spring:
+  application:
+    name: service-fssc
+  cloud:
+    config:
+      fail-fast: true
+      discovery:
+        enabled: true
+        service-id: config-server
+      name: config
+      profile: common,fssc
+    bus:
+      trace:
+        enabled: true
+      enabled: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_ZONE_HOST:localhost}:${EUREKA_ZONE_PORT:8101}/eureka/
+  instance:
+    status-page-url: http://${register.server.ip}:${server.port}/swagger-ui.html
+

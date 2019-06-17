@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.srpmp.relust.mapper.SrpmsResultMedicalMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.srpmp.relust.entity.SrpmsResultMedical">
+        <id column="ID" property="id" />
+        <result column="DEPT_CODE" property="deptCode" />
+        <result column="YEAR" property="year" />
+        <result column="MONTH" property="month" />
+        <result column="PRO_NUM" property="proNum" />
+        <result column="PRO_NAME" property="proName" />
+        <result column="MEDICAL_NAME" property="medicalName" />
+        <result column="MEDICAL_CAT" property="medicalCat" />
+        <result column="MEDICAL_CERTIFICATE_NUM" property="medicalCertificateNum" />
+        <result column="APPROVAL_TIME" property="approvalTime" />
+        <result column="PRO_IN_CHARGE" property="proInCharge" />
+        <result column="MEDICAL_TYPE" property="medicalType" />
+        <result column="MEDICAL_LEVEL" property="medicalLevel" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, DEPT_CODE, YEAR, MONTH, PRO_NUM, PRO_NAME, MEDICAL_NAME, MEDICAL_CAT, MEDICAL_CERTIFICATE_NUM, APPROVAL_TIME, PRO_IN_CHARGE, MEDICAL_TYPE, MEDICAL_LEVEL, CREATE_TIME, CREATE_BY
+    </sql>
+
+    <select id="getQueryCount" parameterType="java.util.Map" resultType="int">
+        SELECT count(*) FROM
+        (SELECT t1.id FROM
+        SRPMS_OUTLINE_MEDICAL t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE t2.org_id = #{orgCode}
+        AND t1.medical_name = #{medicalName}
+        AND t1.medical_certificate_num = #{medicalCertificateNum}
+
+        UNION ALL
+
+        SELECT t1.ID FROM SRPMS_RESULT_MEDICAL t1
+        WHERE t1.dept_code = #{orgCode}
+        AND t1.medical_name = #{medicalName}
+        AND t1.medical_certificate_num = #{medicalCertificateNum}
+        )
+    </select>
+
+</mapper>

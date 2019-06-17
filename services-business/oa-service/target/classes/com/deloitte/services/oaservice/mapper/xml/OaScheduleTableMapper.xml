@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.oaservice.mapper.OaScheduleTableMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.oaservice.entity.OaScheduleTable">
+        <id column="ID" property="id" />
+        <result column="ROW_NUM" property="rowNum" />
+        <result column="BUSINESS_ID" property="businessId" />
+        <result column="WORK_TYPE" property="workType" />
+        <result column="WORK_NAME" property="workName" />
+        <result column="WORK_DESC" property="workDesc" />
+        <result column="WORK_STATUS" property="workStatus" />
+        <result column="SHOW_FLAG" property="showFlag" />
+        <result column="USER_ID" property="userId" />
+        <result column="USER_NAME" property="userName" />
+        <result column="DEPT_ID" property="deptId" />
+        <result column="DEPT_NAME" property="deptName" />
+        <result column="START_TIME" property="startTime" />
+        <result column="END_TIME" property="endTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="PERSON_TYPE" property="personType" />
+        <result column="NOTICE_TYPE" property="noticeType" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, ROW_NUM,BUSINESS_ID, WORK_TYPE, WORK_NAME, WORK_DESC, WORK_STATUS,SHOW_FLAG, USER_ID, USER_NAME, DEPT_ID, DEPT_NAME, START_TIME, END_TIME, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME,PERSON_TYPE,NOTICE_TYPE, EXT1, EXT2, EXT3, EXT4, EXT5
+    </sql>
+
+
+    <select id="getScheduleByBusinessId" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from Oa_Schedule_Table where 1=1
+        <if test="businessId != null and businessId != ''">
+          and BUSINESS_ID = #{businessId}
+        </if>
+        <if test="param != null">
+            <if test="param.workStatus != null and param.workStatus != '' ">
+                <choose>
+                    <when test="param.workStatus.indexOf(',')> 0">
+                        and WORK_STATUS in (${param.workStatus})
+                    </when>
+                    <otherwise>
+                        and WORK_STATUS = #{param.workStatus}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="param.workType != null  and param.workType != '' ">
+                and work_type = #{param.workType}
+            </if>
+            <if test="param.createBy != null  and param.createBy != '' ">
+                and CREATE_BY = #{param.createBy}
+            </if>
+            <if test="param.workName != null  and param.workName != '' ">
+                and WORK_NAME like '%'||#{param.workName}||'%'
+            </if>
+            <if test="param.workDesc != null  and param.workDesc != '' ">
+                and WORK_DESC like '%'||#{param.workDesc}||'%'
+            </if>
+            <if test="param.showFlag != null  and param.showFlag != '' ">
+                and SHOW_FLAG = #{param.showFlag}
+            </if>
+            <if test="param.startTime != null">
+                and <![CDATA[trunc(START_TIME,'DD') >= #{param.startTime}]]>
+            </if>
+            <if test="param.endTime != null">
+                and <![CDATA[trunc(START_TIME,'DD') <= #{param.endTime}]]>
+            </if>
+        </if>
+        order by USER_ID,ROW_NUM
+    </select>
+
+    <delete id="removeByBusinessIdAndRowNum">
+        delete from Oa_Schedule_Table where BUSINESS_ID = #{businessId} and ROW_NUM = #{rowNum} and work_status = 'S'
+    </delete>
+
+    <update id="updateStatusAfterSubmit">
+        update OA_SCHEDULE_TABLE set WORK_STATUS = #{newStatus} where 1=1
+        <if test="businessId!=null and businessId!=''">
+          and BUSINESS_ID = #{businessId}
+        </if>
+        <if test="startTime!=null and startTime!=''">
+            and <![CDATA[START_TIME >= to_date(#{startTime},'YYYY-MM-DD')]]>
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            and <![CDATA[START_TIME <= to_date(#{endTime},'YYYY-MM-DD')]]>
+        </if>
+        <choose>
+            <when test="oldStatus.indexOf(',')> 0">
+                and WORK_STATUS in (${oldStatus})
+            </when>
+            <otherwise>
+                and WORK_STATUS = #{oldStatus}
+            </otherwise>
+        </choose>
+        <if test="filterIds!=null and filterIds!=''">
+            and id not in (${filterIds})
+        </if>
+        <if test="workType!=null and workType!=''">
+            and WORK_TYPE = #{workType}
+        </if>
+        and SHOW_FLAG != '1'
+        and nvl(work_name,'1') != '2'
+    </update>
+
+</mapper>

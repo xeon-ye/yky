@@ -1,0 +1,22 @@
+server:
+  port: 8410
+spring:
+  application:
+    name: service-management
+  cloud:
+    config:
+      fail-fast: true
+      discovery:
+        enabled: true
+        service-id: config-server
+      name: config
+      profile: common,management
+    bus:
+      trace:
+        enabled: true
+      enabled: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_ZONE_HOST:localhost}:${EUREKA_ZONE_PORT:8101}/eureka/

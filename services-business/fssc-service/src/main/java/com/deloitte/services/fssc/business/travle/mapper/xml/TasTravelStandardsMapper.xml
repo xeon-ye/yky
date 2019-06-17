@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.business.travle.mapper.TasTravelStandardsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.business.travle.entity.TasTravelStandards">
+        <id column="ID" property="id" />
+        <result column="NATION_ADMIN_CODE" property="nationAdminCode" />
+        <result column="COUNTRY" property="country" />
+        <result column="PLACE_NAME" property="placeName" />
+        <result column="MINISTERIAL_LEVEL" property="ministerialLevel" />
+        <result column="SECRETARIES" property="secretaries" />
+        <result column="OTHER_PERSONNEL" property="otherPersonnel" />
+        <result column="FOOD_ALLOWANCE" property="foodAllowance" />
+        <result column="TRAFFIC_SUBSIDY" property="trafficSubsidy" />
+        <result column="PEAK_MONTH" property="peakMonth" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, NATION_ADMIN_CODE, COUNTRY, PLACE_NAME, MINISTERIAL_LEVEL, SECRETARIES, OTHER_PERSONNEL, FOOD_ALLOWANCE, TRAFFIC_SUBSIDY, PEAK_MONTH
+    </sql>
+
+</mapper>

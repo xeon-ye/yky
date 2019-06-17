@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.srpmp.outline.mapper.SrpmsOutlineAcaExcMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.srpmp.outline.entity.SrpmsOutlineAcaExc">
+        <id column="ID" property="id" />
+        <result column="BASE_ID" property="baseId" />
+        <result column="REGION" property="region" />
+        <result column="SPONSOR_FLAG" property="sponsorFlag" />
+        <result column="JOIN_ORG" property="joinOrg" />
+        <result column="JOIN_TYPE" property="joinType" />
+        <result column="JOIN_CAT" property="joinCat" />
+        <result column="HOLDING_TIME" property="holdingTime" />
+        <result column="TEAM_NAME" property="teamName" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, BASE_ID, REGION, SPONSOR_FLAG, JOIN_ORG, JOIN_TYPE, JOIN_CAT, HOLDING_TIME, TEAM_NAME, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+    </sql>
+    <!--根据条件查询学术交流数据-->
+    <select id="listQuery" parameterType="com.deloitte.platform.api.srpmp.outline.param.SrpmsOutlineAcaExcQueryForm"
+            resultType="com.deloitte.platform.api.srpmp.outline.param.SrpmsOutlineAcaExcQueryParam">
+        SELECT t1.*, t2.org_id, t2.year, t2.month
+        FROM
+        SRPMS_OUTLINE_ACA_EXC t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE
+        1=1
+        <if test="orgId != null">
+            AND t2.org_id = #{orgId}
+        </if>
+        <if test="year != null and year != ''">
+            AND t2.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t2.month = #{month}
+        </if>
+        <if test="region != null and region != ''">
+            AND t1.region = #{region}
+        </if>
+        <if test="joinOrg != null and joinOrg != ''">
+            AND t1.join_org = #{joinOrg}
+        </if>
+        <if test="joinType != null and joinType != ''">
+            AND t1.join_type = #{joinType}
+        </if>
+        <if test="joinCat != null and joinCat != ''">
+            AND t1.join_cat = #{joinCat}
+        </if>
+        <if test="sponsorFlag != null and sponsorFlag != ''">
+            AND t1.sponsor_flag = #{sponsorFlag}
+        </if>
+        <if test="teamName != null and teamName != ''">
+            AND t1.team_name LIKE '%'||#{teamName}||'%'
+        </if>
+        <if test="holdingTime != null and holdingTime != ''">
+            AND t1.holding_time >= to_date(CONCAT(#{holdingTime},'00:00:00') ,'YYYY-MM-DD HH24:MI:SS')
+        </if>
+        <if test="holdingTime != null and holdingTime != ''">
+            AND t1.holding_time &lt;= to_date(CONCAT(#{holdingTime},'23:59:59') ,'YYYY-MM-DD HH24:MI:SS')
+        </if>
+        <if test="createBy != null and createBy != ''">
+            AND t1.create_by = #{createBy}
+        </if>
+        ORDER by nvl(t1.create_time, TO_DATE('1900-01-01', 'YYYY-MM-DD HH24:MI:SS')) DESC
+    </select>
+
+    <!--根据条件(单位+年月+主题)查询题录-学术交流数据-->
+    <select id="getQueryCount" parameterType="java.util.Map"
+            resultType="int">
+        SELECT count(*)
+        FROM
+        SRPMS_OUTLINE_ACA_EXC t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE
+        1=1
+        AND t2.org_id = #{orgId}
+        AND t2.year = #{year}
+        AND t2.month = #{month}
+        AND t1.team_name = #{teamName}
+        <if test="id != null">
+            AND t1.id &lt;&gt; #{id}
+        </if>
+    </select>
+
+    <!--查询题录-学术交流统计数据-->
+    <select id="getReportCount"
+            parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.srpmp.outline.vo.SrpmsOutlineAcaExcReportVo">
+        select tt.orgId,
+        SUM(CASE WHEN tt.REGION = '10' AND tt.SPONSOR_FLAG = '10' THEN 1 ELSE 0 END) inTeamJoin,
+        SUM(CASE WHEN tt.REGION = '10' AND tt.SPONSOR_FLAG = '20' THEN 1 ELSE 0 END) inTeamHost,
+        SUM(CASE WHEN tt.REGION = '20' AND tt.SPONSOR_FLAG = '10' THEN 1 ELSE 0 END) outTeamJoin,
+        SUM(CASE WHEN tt.REGION = '20' AND tt.SPONSOR_FLAG = '20' THEN 1 ELSE 0 END) outTeamHost
+        FROM
+        (select t2.org_id orgId, t1.REGION, t1.SPONSOR_FLAG from SRPMS_OUTLINE_ACA_EXC t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE 1 = 1
+        <if test="year != null and year != ''">
+            AND t2.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t2.month = #{month}
+        </if>
+        <if test="orgId != null and orgId != 0">
+            AND t2.org_id = #{orgId}
+        </if>
+        UNION ALL
+
+        select t1.DEPT_CODE orgId, t1.REGION, t1.SPONSOR_FLAG
+        from SRPMS_RESULT_ACA_EXC t1
+        WHERE 1 = 1
+        <if test="year != null and year != ''">
+            AND t1.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t1.month = #{month}
+        </if>
+        <if test="orgId != null and orgId != 0">
+            AND t1.DEPT_CODE = #{orgId}
+        </if>
+        ) tt
+        GROUP BY tt.orgId
+        ORDER by tt.orgId
+    </select>
+
+</mapper>

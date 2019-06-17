@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.project.mapper.EnclosureMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.project.entity.Enclosure">
+        <id column="ID" property="id" />
+        <result column="ENCLOSURE_ID" property="enclosureId" />
+        <result column="ENCLOSURE_NAME" property="enclosureName" />
+        <result column="ENCLOSURE_TYPE" property="enclosureType" />
+        <result column="REMARK" property="remark" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+        <result column="ORG_ID" property="orgId" />
+        <result column="ORG_PATH" property="orgPath" />
+        <result column="APPLICATION_ID" property="applicationId" />
+        <result column="ENCLOSURE_URL" property="enclosureUrl" />
+        <result column="FILE_ID" property="fileId" />
+        <result column="PROJECT_ID" property="projectId" />
+        <result column="UPLOAD_TIME" property="uploadTime" />
+        <result column="REVIEW_ID" property="reviewId" />
+        <result column="MIAN_ID" property="mianId" />
+        <result column="CHANGE_ID" property="changeId" />
+        <result column="PROJECT_EVALUATION_ID" property="projectEvaluationId" />
+        <result column="APPLICATION_CANCEL_ID" property="applicationCancelId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, ENCLOSURE_ID, ENCLOSURE_NAME, ENCLOSURE_TYPE, REMARK, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, EXT1, EXT2, EXT3, EXT4, EXT5, ORG_ID, ORG_PATH, APPLICATION_ID, ENCLOSURE_URL, FILE_ID, PROJECT_ID, UPLOAD_TIME, REVIEW_ID, MIAN_ID, CHANGE_ID, PROJECT_EVALUATION_ID, APPLICATION_CANCEL_ID
+    </sql>
+
+</mapper>

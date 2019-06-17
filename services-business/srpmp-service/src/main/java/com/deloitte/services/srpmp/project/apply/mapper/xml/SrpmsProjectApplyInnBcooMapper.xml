@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.srpmp.project.apply.mapper.SrpmsProjectApplyInnBcooMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.srpmp.project.apply.entity.SrpmsProjectApplyInnBcoo">
+        <id column="ID" property="id" />
+        <result column="APPLY_NUM" property="applyNum" />
+        <result column="PROJECT_NAME" property="projectName" />
+        <result column="BELONG_DOMAIN" property="belongDomain" />
+        <result column="ACTIVE_TYPE" property="activeType" />
+        <result column="ACHIEVEMENT_TYPE" property="achievementType" />
+        <result column="APPLY_POST_NUMBER" property="applyPostNumber" />
+        <result column="APPLY_FUNDS" property="applyFunds" />
+        <result column="LEAD_DEPT_ID" property="leadDeptId" />
+        <result column="TOP_EXPERT_PERSON_ID" property="topExpertPersonId" />
+        <result column="BOTH_TOP_EXPERT_PERSON_ID" property="bothTopExpertPersonId" />
+        <result column="PROJECT_ABSTRACT" property="projectAbstract" />
+        <result column="APPROVAL_NECESSAY" property="approvalNecessay" />
+        <result column="ACHIEVEMENT_FORM" property="achievementForm" />
+        <result column="ACHIEVEMENT_BENEFIT" property="achievementBenefit" />
+        <result column="RESEARCH_CONTENT_MAIN" property="researchContentMain" />
+        <result column="RESEARCH_CONTENT_METHOD" property="researchContentMethod" />
+        <result column="RESEARCH_CONTENT_INTERFLOW" property="researchContentInterflow" />
+        <result column="RESEARCH_CONTENT_USE_PLAN" property="researchContentUsePlan" />
+        <result column="RESEARCH_CONTENT_INNOVATE" property="researchContentInnovate" />
+        <result column="PROJECT_TARGET" property="projectTarget" />
+        <result column="SUPERIORITY_DEPT_CHOOSE" property="superiorityDeptChoose" />
+        <result column="SUPERIORITY_DEPT_BASIC" property="superiorityDeptBasic" />
+        <result column="SUPERIORITY_DEPT_SUPORT" property="superiorityDeptSuport" />
+        <result column="SUPERIORITY_DEPT_ABROAD" property="superiorityDeptAbroad" />
+        <result column="MAINSTAY_MEMBER_NOTE" property="mainstayMemberNote" />
+        <result column="MANAGE_GUARANTEE" property="manageGuarantee" />
+        <result column="MANAGE_KNOWLEDGE_RIGHT" property="manageKnowledgeRight" />
+        <result column="MANAGE_RISK" property="manageRisk" />
+        <result column="FUND_SOURCE_AMOUNT" property="fundSourceAmount" />
+        <result column="FUND_SOURCE_PROJECT" property="fundSourceProject" />
+        <result column="FUND_SOURCE_SELF" property="fundSourceSelf" />
+        <result column="FUND_SOURCE_OTHER" property="fundSourceOther" />
+        <result column="TASK_DIAGRAM" property="taskDiagram" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, APPLY_NUM, PROJECT_NAME, BELONG_DOMAIN, ACTIVE_TYPE, ACHIEVEMENT_TYPE, APPLY_POST_NUMBER, APPLY_FUNDS, LEAD_DEPT_ID, TOP_EXPERT_PERSON_ID, BOTH_TOP_EXPERT_PERSON_ID, PROJECT_ABSTRACT, APPROVAL_NECESSAY, ACHIEVEMENT_FORM, ACHIEVEMENT_BENEFIT, RESEARCH_CONTENT_MAIN, RESEARCH_CONTENT_METHOD, RESEARCH_CONTENT_INTERFLOW, RESEARCH_CONTENT_USE_PLAN, RESEARCH_CONTENT_INNOVATE, PROJECT_TARGET, SUPERIORITY_DEPT_CHOOSE, SUPERIORITY_DEPT_BASIC, SUPERIORITY_DEPT_SUPORT, SUPERIORITY_DEPT_ABROAD, MAINSTAY_MEMBER_NOTE, MANAGE_GUARANTEE, MANAGE_KNOWLEDGE_RIGHT, MANAGE_RISK, FUND_SOURCE_AMOUNT, FUND_SOURCE_PROJECT, FUND_SOURCE_SELF, FUND_SOURCE_OTHER, TASK_DIAGRAM, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+    </sql>
+
+</mapper>

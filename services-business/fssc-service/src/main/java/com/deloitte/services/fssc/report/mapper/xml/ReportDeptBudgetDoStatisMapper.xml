@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.report.mapper.ReportDeptBudgetDoStatisMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.report.entity.ReportDeptBudgetDoStatis">
+        <id column="ID" property="id" />
+        <result column="UNIT_ID" property="unitId" />
+        <result column="UNIT_CODE" property="unitCode" />
+        <result column="NAME" property="name" />
+        <result column="YEAR" property="year" />
+        <result column="MONTH" property="month" />
+        <result column="STATUS" property="status" />
+        <result column="PERIOD_TYPE" property="periodType" />
+        <result column="MERGE_FLAG" property="mergeFlag" />
+        <result column="ANNUAL_BUDGET_ITEM_1" property="annualBudgetItem1" />
+        <result column="ANNUAL_BUDGET_ITEM_2" property="annualBudgetItem2" />
+        <result column="ANNUAL_BUDGET_ITEM_3" property="annualBudgetItem3" />
+        <result column="ANNUAL_BUDGET_ITEM_4" property="annualBudgetItem4" />
+        <result column="ANNUAL_BUDGET_ITEM_5" property="annualBudgetItem5" />
+        <result column="ANNUAL_BUDGET_ITEM_6" property="annualBudgetItem6" />
+        <result column="ANNUAL_BUDGET_ITEM_7" property="annualBudgetItem7" />
+        <result column="ANNUAL_BUDGET_ITEM_8" property="annualBudgetItem8" />
+        <result column="ANNUAL_BUDGET_ITEM_9" property="annualBudgetItem9" />
+        <result column="ANNUAL_BUDGET_ITEM_10" property="annualBudgetItem10" />
+        <result column="ANNUAL_BUDGET_ITEM_11" property="annualBudgetItem11" />
+        <result column="ANNUAL_BUDGET_ITEM_12" property="annualBudgetItem12" />
+        <result column="ANNUAL_BUDGET_ITEM_13" property="annualBudgetItem13" />
+        <result column="ANNUAL_BUDGET_ITEM_14" property="annualBudgetItem14" />
+        <result column="ANNUAL_BUDGET_ITEM_15" property="annualBudgetItem15" />
+        <result column="ANNUAL_BUDGET_ITEM_16" property="annualBudgetItem16" />
+        <result column="ANNUAL_BUDGET_ITEM_17" property="annualBudgetItem17" />
+        <result column="ANNUAL_BUDGET_ITEM_18" property="annualBudgetItem18" />
+        <result column="ANNUAL_BUDGET_ITEM_19" property="annualBudgetItem19" />
+        <result column="ANNUAL_BUDGET_ITEM_20" property="annualBudgetItem20" />
+        <result column="EXPENSE_AMOUNT_ITEM_1" property="expenseAmountItem1" />
+        <result column="EXPENSE_AMOUNT_ITEM_2" property="expenseAmountItem2" />
+        <result column="EXPENSE_AMOUNT_ITEM_3" property="expenseAmountItem3" />
+        <result column="EXPENSE_AMOUNT_ITEM_4" property="expenseAmountItem4" />
+        <result column="EXPENSE_AMOUNT_ITEM_5" property="expenseAmountItem5" />
+        <result column="EXPENSE_AMOUNT_ITEM_6" property="expenseAmountItem6" />
+        <result column="EXPENSE_AMOUNT_ITEM_7" property="expenseAmountItem7" />
+        <result column="EXPENSE_AMOUNT_ITEM_8" property="expenseAmountItem8" />
+        <result column="EXPENSE_AMOUNT_ITEM_9" property="expenseAmountItem9" />
+        <result column="EXPENSE_AMOUNT_ITEM_10" property="expenseAmountItem10" />
+        <result column="EXPENSE_AMOUNT_ITEM_11" property="expenseAmountItem11" />
+        <result column="EXPENSE_AMOUNT_ITEM_12" property="expenseAmountItem12" />
+        <result column="EXPENSE_AMOUNT_ITEM_13" property="expenseAmountItem13" />
+        <result column="EXPENSE_AMOUNT_ITEM_14" property="expenseAmountItem14" />
+        <result column="EXPENSE_AMOUNT_ITEM_15" property="expenseAmountItem15" />
+        <result column="EXPENSE_AMOUNT_ITEM_16" property="expenseAmountItem16" />
+        <result column="EXPENSE_AMOUNT_ITEM_17" property="expenseAmountItem17" />
+        <result column="EXPENSE_AMOUNT_ITEM_18" property="expenseAmountItem18" />
+        <result column="EXPENSE_AMOUNT_ITEM_19" property="expenseAmountItem19" />
+        <result column="EXPENSE_AMOUNT_ITEM_20" property="expenseAmountItem20" />
+        <result column="RPOCESS_RATE_ITEM_1" property="rpocessRateItem1" />
+        <result column="RPOCESS_RATE_ITEM_2" property="rpocessRateItem2" />
+        <result column="RPOCESS_RATE_ITEM_3" property="rpocessRateItem3" />
+        <result column="RPOCESS_RATE_ITEM_4" property="rpocessRateItem4" />
+        <result column="RPOCESS_RATE_ITEM_5" property="rpocessRateItem5" />
+        <result column="RPOCESS_RATE_ITEM_6" property="rpocessRateItem6" />
+        <result column="RPOCESS_RATE_ITEM_7" property="rpocessRateItem7" />
+        <result column="RPOCESS_RATE_ITEM_8" property="rpocessRateItem8" />
+        <result column="RPOCESS_RATE_ITEM_9" property="rpocessRateItem9" />
+        <result column="RPOCESS_RATE_ITEM_10" property="rpocessRateItem10" />
+        <result column="RPOCESS_RATE_ITEM_11" property="rpocessRateItem11" />
+        <result column="RPOCESS_RATE_ITEM_12" property="rpocessRateItem12" />
+        <result column="RPOCESS_RATE_ITEM_13" property="rpocessRateItem13" />
+        <result column="RPOCESS_RATE_ITEM_14" property="rpocessRateItem14" />
+        <result column="RPOCESS_RATE_ITEM_15" property="rpocessRateItem15" />
+        <result column="RPOCESS_RATE_ITEM_16" property="rpocessRateItem16" />
+        <result column="RPOCESS_RATE_ITEM_17" property="rpocessRateItem17" />
+        <result column="RPOCESS_RATE_ITEM_18" property="rpocessRateItem18" />
+        <result column="RPOCESS_RATE_ITEM_19" property="rpocessRateItem19" />
+        <result column="RPOCESS_RATE_ITEM_20" property="rpocessRateItem20" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, UNIT_ID, UNIT_CODE, NAME, YEAR, MONTH, STATUS, PERIOD_TYPE, MERGE_FLAG, ANNUAL_BUDGET_ITEM_1, ANNUAL_BUDGET_ITEM_2, ANNUAL_BUDGET_ITEM_3, ANNUAL_BUDGET_ITEM_4, ANNUAL_BUDGET_ITEM_5, ANNUAL_BUDGET_ITEM_6, ANNUAL_BUDGET_ITEM_7, ANNUAL_BUDGET_ITEM_8, ANNUAL_BUDGET_ITEM_9, ANNUAL_BUDGET_ITEM_10, ANNUAL_BUDGET_ITEM_11, ANNUAL_BUDGET_ITEM_12, ANNUAL_BUDGET_ITEM_13, ANNUAL_BUDGET_ITEM_14, ANNUAL_BUDGET_ITEM_15, ANNUAL_BUDGET_ITEM_16, ANNUAL_BUDGET_ITEM_17, ANNUAL_BUDGET_ITEM_18, ANNUAL_BUDGET_ITEM_19, ANNUAL_BUDGET_ITEM_20, EXPENSE_AMOUNT_ITEM_1, EXPENSE_AMOUNT_ITEM_2, EXPENSE_AMOUNT_ITEM_3, EXPENSE_AMOUNT_ITEM_4, EXPENSE_AMOUNT_ITEM_5, EXPENSE_AMOUNT_ITEM_6, EXPENSE_AMOUNT_ITEM_7, EXPENSE_AMOUNT_ITEM_8, EXPENSE_AMOUNT_ITEM_9, EXPENSE_AMOUNT_ITEM_10, EXPENSE_AMOUNT_ITEM_11, EXPENSE_AMOUNT_ITEM_12, EXPENSE_AMOUNT_ITEM_13, EXPENSE_AMOUNT_ITEM_14, EXPENSE_AMOUNT_ITEM_15, EXPENSE_AMOUNT_ITEM_16, EXPENSE_AMOUNT_ITEM_17, EXPENSE_AMOUNT_ITEM_18, EXPENSE_AMOUNT_ITEM_19, EXPENSE_AMOUNT_ITEM_20, RPOCESS_RATE_ITEM_1, RPOCESS_RATE_ITEM_2, RPOCESS_RATE_ITEM_3, RPOCESS_RATE_ITEM_4, RPOCESS_RATE_ITEM_5, RPOCESS_RATE_ITEM_6, RPOCESS_RATE_ITEM_7, RPOCESS_RATE_ITEM_8, RPOCESS_RATE_ITEM_9, RPOCESS_RATE_ITEM_10, RPOCESS_RATE_ITEM_11, RPOCESS_RATE_ITEM_12, RPOCESS_RATE_ITEM_13, RPOCESS_RATE_ITEM_14, RPOCESS_RATE_ITEM_15, RPOCESS_RATE_ITEM_16, RPOCESS_RATE_ITEM_17, RPOCESS_RATE_ITEM_18, RPOCESS_RATE_ITEM_19, RPOCESS_RATE_ITEM_20, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME, EXT1, EXT2, EXT3, EXT4, EXT5
+    </sql>
+
+</mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.engine.automatic.mapper.AvDailyRatesMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.engine.automatic.entity.AvDailyRates">
+        <id column="ID" property="id" />
+        <result column="FROM_CURRENCY" property="fromCurrency" />
+        <result column="TO_CURRENCY" property="toCurrency" />
+        <result column="CONVERSION_DATE" property="conversionDate" />
+        <result column="CONVERSION_TYPE" property="conversionType" />
+        <result column="CONVERSION_RATE" property="conversionRate" />
+        <result column="CREATE_DATE" property="createDate" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="ETX_1" property="etx1" />
+        <result column="ETX_2" property="etx2" />
+        <result column="ETX_3" property="etx3" />
+        <result column="ETX_4" property="etx4" />
+        <result column="ETX_5" property="etx5" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, FROM_CURRENCY, TO_CURRENCY, CONVERSION_DATE, CONVERSION_TYPE, CONVERSION_RATE, CREATE_DATE, CREATE_BY, ETX_1, ETX_2, ETX_3, ETX_4, ETX_5
+    </sql>
+
+</mapper>

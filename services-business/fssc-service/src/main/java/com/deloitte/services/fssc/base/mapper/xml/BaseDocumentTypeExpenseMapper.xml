@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.base.mapper.BaseDocumentTypeExpenseMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap"
+        type="com.deloitte.services.fssc.base.entity.BaseDocumentTypeExpense">
+        <id column="ID" property="id"/>
+        <result column="EXPENSE_MAIN_TYPE_ID" property="expenseMainTypeId"/>
+        <result column="DOCUMENT_TYPE_ID" property="documentTypeId"/>
+        <result column="CREATE_BY" property="createBy"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="UPDATE_BY" property="updateBy"/>
+        <result column="UPDATE_TIME" property="updateTime"/>
+        <result column="EXT1" property="ext1"/>
+        <result column="EXT2" property="ext2"/>
+        <result column="EXT3" property="ext3"/>
+        <result column="EXT4" property="ext4"/>
+        <result column="EXT5" property="ext5"/>
+    </resultMap>
+
+    <resultMap id="ExtendsResultMap"
+        type="com.deloitte.platform.api.fssc.base.vo.BaseDocumentTypeExpenseVo">
+        <id column="ID" property="id"/>
+        <result column="EXPENSE_MAIN_TYPE_ID" property="expenseMainTypeId"/>
+        <result column="EXPENSE_MAIN_TYPE_CODE" property="expenseMainTypeCode"/>
+        <result column="EXPENSE_MAIN_TYPE_NAME" property="expenseMainTypeName"/>
+        <result column="DOCUMENT_TYPE_ID" property="documentTypeId"/>
+        <result column="CREATE_BY" property="createBy"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="UPDATE_BY" property="updateBy"/>
+        <result column="UPDATE_TIME" property="updateTime"/>
+        <result column="EXT1" property="ext1"/>
+        <result column="EXT2" property="ext2"/>
+        <result column="EXT3" property="ext3"/>
+        <result column="EXT4" property="ext4"/>
+        <result column="EXT5" property="ext5"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, EXPENSE_MAIN_TYPE_ID, DOCUMENT_TYPE_ID, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME, EXT1, EXT2, EXT3, EXT4, EXT5
+    </sql>
+
+    <sql id="Extends_Column_List">
+      docType.ID, docType.EXPENSE_MAIN_TYPE_ID,mainType.Code as EXPENSE_MAIN_TYPE_CODE,mainType.NAME as EXPENSE_MAIN_TYPE_NAME,
+      docType.DOCUMENT_TYPE_ID, docType.CREATE_BY, docType.CREATE_TIME, docType.VALID_FLAG,
+      docType.UPDATE_BY, docType.UPDATE_TIME, docType.EXT1, docType.EXT2, docType.EXT3, docType.EXT4, docType.EXT5
+    </sql>
+
+    <select id="selectVoPage" resultType="com.deloitte.platform.api.fssc.base.vo.BaseDocumentTypeExpenseVo">
+        select
+        <include refid="Extends_Column_List"/>
+        from
+        base_document_type_expense docType INNER JOIN base_expense_main_type mainType
+        on
+        docType.EXPENSE_MAIN_TYPE_ID = mainType.Id
+        <where>
+            1 = 1
+            <if test="queryForm.documentTypeId != null">
+                and docType.DOCUMENT_TYPE_ID = #{queryForm.documentTypeId}
+            </if>
+            <if test="queryForm.expenseMainTypeCode != null and queryForm.expenseMainTypeCode != ''">
+                and mainType.CODE LIKE CONCAT('%',CONCAT(#{queryForm.expenseMainTypeCode},'%'))
+            </if>
+            <if test="queryForm.expenseMainTypeName != null and queryForm.expenseMainTypeName != ''">
+                and mainType.NAME LIKE CONCAT('%',CONCAT(#{queryForm.expenseMainTypeName},'%'))
+            </if>
+            <if test="queryForm.validFlag != null and queryForm.validFlag != ''">
+                and docType.VALID_FLAG = #{queryForm.validFlag}
+            </if>
+        </where>
+        <choose>
+            <when test="queryForm.sort != null and queryForm.sort != ''
+                    and queryForm.sortOrder != null  and queryForm.sortOrder != ''"  >
+                order by ${queryForm.sort} ${queryForm.sortOrder}
+            </when>
+            <otherwise>
+                order by docType.UPDATE_TIME desc
+            </otherwise>
+        </choose>
+    </select>
+    
+    <select id="listVo" resultMap="ExtendsResultMap">
+        select
+        <include refid="Extends_Column_List"/>
+        from
+        base_document_type_expense docType INNER JOIN base_expense_main_type mainType
+        on
+        docType.EXPENSE_MAIN_TYPE_ID = mainType.Id
+        <where>
+            1 = 1
+            <if test="queryForm.documentTypeId != null">
+                and docType.DOCUMENT_TYPE_ID = #{queryForm.documentTypeId}
+            </if>
+            <if test="queryForm.expenseMainTypeCode != null and queryForm.expenseMainTypeCode != ''">
+                and mainType.CODE LIKE CONCAT('%',CONCAT(#{queryForm.expenseMainTypeCode},'%'))
+            </if>
+            <if test="queryForm.expenseMainTypeName != null and queryForm.expenseMainTypeName != ''">
+                and mainType.NAME LIKE CONCAT('%',CONCAT(#{queryForm.expenseMainTypeName},'%'))
+            </if>
+            <if test="queryForm.validFlag != null and queryForm.validFlag != ''">
+                and docType.VALID_FLAG = #{queryForm.validFlag}
+            </if>
+        </where>
+        <choose>
+            <when test="queryForm.sort != null and queryForm.sort != ''
+                    and queryForm.sortOrder != null  and queryForm.sortOrder != ''"  >
+                order by ${queryForm.sort} ${queryForm.sortOrder}
+            </when>
+            <otherwise>
+                order by docType.UPDATE_TIME desc
+            </otherwise>
+        </choose>
+    </select>
+</mapper>

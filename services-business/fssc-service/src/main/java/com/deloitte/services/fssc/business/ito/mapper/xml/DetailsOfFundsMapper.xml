@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.business.ito.mapper.DetailsOfFundsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.business.ito.entity.DetailsOfFunds">
+        <id column="ID" property="id" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_USER_NAME" property="createUserName" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+        <result column="EXT6" property="ext6" />
+        <result column="EXT7" property="ext7" />
+        <result column="EXT8" property="ext8" />
+        <result column="EXT9" property="ext9" />
+        <result column="EXT10" property="ext10" />
+        <result column="EXT11" property="ext11" />
+        <result column="EXT12" property="ext12" />
+        <result column="EXT13" property="ext13" />
+        <result column="EXT14" property="ext14" />
+        <result column="EXT15" property="ext15" />
+        <result column="INCOME_SUB_TYPE_ID" property="incomeSubTypeId" />
+        <result column="INCOME_SUB_TYPE_CODE" property="incomeSubTypeCode" />
+        <result column="INCOME_SUB_TYPE_NAME" property="incomeSubTypeName" />
+        <result column="INCOME_TYPE_ID" property="incomeTypeId" />
+        <result column="INCOME_TYPE_NAME" property="incomeTypeName" />
+        <result column="INCOME_TYPE_CODE" property="incomeTypeCode" />
+        <result column="ACCOUNT_CODE" property="accountCode" />
+        <result column="BUDGET_ACCOUNT_CODE" property="budgetAccountCode" />
+        <result column="LINE_NUMBER" property="lineNumber" />
+        <result column="RECEIPT_NUMBER" property="receiptNumber" />
+        <result column="PAID_UNIT" property="paidUnit" />
+        <result column="PAYMENT_BANK_INFO" property="paymentBankInfo" />
+        <result column="ACCOUNT_TYPE" property="accountType" />
+        <result column="PAYMENT_BANK_ACCOUNT" property="paymentBankAccount" />
+        <result column="AMOUNT_PAID" property="amountPaid" />
+        <result column="PAID_TIME" property="paidTime" />
+        <result column="COLLECTION_ACCOUNT" property="collectionAccount" />
+        <result column="COLLECTION_NUMBER" property="collectionNumber" />
+        <result column="REMARK" property="remark" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, CREATE_BY, CREATE_USER_NAME, UPDATE_BY, UPDATE_TIME, CREATE_TIME, EXT1, EXT2, EXT3, EXT4, EXT5, EXT6, EXT7, EXT8, EXT9, EXT10, EXT11, EXT12, EXT13, EXT14, EXT15, INCOME_SUB_TYPE_ID, INCOME_SUB_TYPE_CODE, INCOME_SUB_TYPE_NAME, INCOME_TYPE_ID, INCOME_TYPE_NAME, INCOME_TYPE_CODE, ACCOUNT_CODE, BUDGET_ACCOUNT_CODE, LINE_NUMBER, RECEIPT_NUMBER, PAID_UNIT, PAYMENT_BANK_INFO, ACCOUNT_TYPE, PAYMENT_BANK_ACCOUNT, AMOUNT_PAID, PAID_TIME, COLLECTION_ACCOUNT, COLLECTION_NUMBER, REMARK
+    </sql>
+
+</mapper>

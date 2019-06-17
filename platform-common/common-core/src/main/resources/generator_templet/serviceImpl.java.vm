@@ -1,0 +1,69 @@
+package ${package.ServiceImpl};
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import ${cfg.apiPackage}.param.${entity}QueryForm;
+import ${package.Entity}.${entity};
+import ${package.Mapper}.${table.mapperName};
+import ${package.Service}.${table.serviceName};
+import ${superServiceImplClassPackage};
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+
+
+
+import java.util.List;
+/**
+ * @Author : ${author}
+ * @Date : Create in ${date}
+ * @Description :  ${entity}服务实现类
+ * @Modified :
+ */
+@Service
+@Transactional
+public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
+
+
+    @Autowired
+    private ${table.mapperName} ${table.entityPath}Mapper;
+
+    @Override
+    public IPage<${entity}> selectPage(${entity}QueryForm queryForm ) {
+        QueryWrapper<${entity}> queryWrapper = new QueryWrapper <${entity}>();
+        //getQueryWrapper(queryWrapper,queryForm);
+        return ${table.entityPath}Mapper.selectPage(new Page<${entity}>(queryForm.getCurrentPage(),queryForm.getPageSize()), queryWrapper);
+
+        }
+
+    @Override
+    public List<${entity}> selectList(${entity}QueryForm queryForm) {
+        QueryWrapper<${entity}> queryWrapper = new QueryWrapper <${entity}>();
+        //getQueryWrapper(queryWrapper,queryForm);
+        return ${table.entityPath}Mapper.selectList(queryWrapper);
+    }
+
+    /**
+     *  通用查询
+     * @param queryWrapper,queryForm
+     * @return
+    public QueryWrapper<${entity}> getQueryWrapper(QueryWrapper<${entity}> queryWrapper,${entity}QueryForm queryForm){
+        //条件拼接
+    #foreach($field in ${table.fields})
+        #if(${field.propertyType.equals("boolean")})
+            #set($getprefix="is")
+        #else
+            #set($getprefix="get")
+        #end
+        #if(!${field.keyFlag})
+        if(StringUtils.isNotBlank(queryForm.${getprefix}${field.capitalName}())){
+            queryWrapper.eq(${entity}.${field.name.toUpperCase()},queryForm.${getprefix}${field.capitalName}());
+        }
+        #end
+    #end
+        return queryWrapper;
+    }
+     */
+}
+

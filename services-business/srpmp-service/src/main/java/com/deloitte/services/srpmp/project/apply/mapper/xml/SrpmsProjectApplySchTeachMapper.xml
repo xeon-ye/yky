@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.srpmp.project.apply.mapper.SrpmsProjectApplySchTeachMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.srpmp.project.apply.entity.SrpmsProjectApplySchTeach">
+        <id column="ID" property="id" />
+        <result column="PROJECT_NAME" property="projectName" />
+        <result column="BASE_SCIENCE_TCH_TYPE" property="baseScienceTchType" />
+        <result column="FIRST_LEVEL_DISCIPLINE" property="firstLevelDiscipline" />
+        <result column="TWO_LEVEL_DISCIPLINE" property="twoLevelDiscipline" />
+        <result column="APPLY_FUNDS" property="applyFunds" />
+        <result column="PROJECT_ACTION_DATE_START" property="projectActionDateStart" />
+        <result column="PROJECT_ACTION_DATE_END" property="projectActionDateEnd" />
+        <result column="PROJECT_LEADER_ID" property="projectLeaderId" />
+        <result column="PROJECT_KEYWORD" property="projectKeyword" />
+        <result column="PROJECT_ABSTRACT" property="projectAbstract" />
+        <result column="APPROVAL_BASIS_MEANING" property="approvalBasisMeaning" />
+        <result column="CONTENT_TARGET_PROBLEM" property="contentTargetProblem" />
+        <result column="RESEARCH_SCHEME_FEASIBILITY" property="researchSchemeFeasibility" />
+        <result column="PROJECT_FEATURE_INNOVATE" property="projectFeatureInnovate" />
+        <result column="PROJECT_EXPECT_ACHIEVEMENT" property="projectExpectAchievement" />
+        <result column="RESEARCH_FOUNDATION" property="researchFoundation" />
+        <result column="WORKINF_CONDITIONS" property="workinfConditions" />
+        <result column="PROJECT_LEADER_INTRODUCTION" property="projectLeaderIntroduction" />
+        <result column="PROJECT_BUDGET_DETAIL" property="projectBudgetDetail" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, PROJECT_NAME, BASE_SCIENCE_TCH_TYPE, FIRST_LEVEL_DISCIPLINE, TWO_LEVEL_DISCIPLINE, APPLY_FUNDS, PROJECT_ACTION_DATE_START, PROJECT_ACTION_DATE_END, PROJECT_LEADER_ID, PROJECT_KEYWORD, PROJECT_ABSTRACT, APPROVAL_BASIS_MEANING, CONTENT_TARGET_PROBLEM, RESEARCH_SCHEME_FEASIBILITY, PROJECT_FEATURE_INNOVATE, PROJECT_EXPECT_ACHIEVEMENT, RESEARCH_FOUNDATION, WORKINF_CONDITIONS, PROJECT_LEADER_INTRODUCTION, PROJECT_BUDGET_DETAIL, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+    </sql>
+
+</mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.project.mapper.ExeReplyMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.project.entity.ExeReply">
+        <id column="ID" property="id" />
+        <result column="EXE_REPLY_ID" property="exeReplyId" />
+        <result column="PROJECT_ID" property="projectId" />
+        <result column="CHANGE_ID" property="changeId" />
+        <result column="EXE_REPLY_CODE" property="exeReplyCode" />
+        <result column="EXE_REPLY_NAME" property="exeReplyName" />
+        <result column="EXE_REPLY_ADV" property="exeReplyAdv" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="ORG_ID" property="orgId" />
+        <result column="ORG_PATH" property="orgPath" />
+        <result column="SERVICE_NUM" property="serviceNum" />
+        <result column="REP_PERSON_ID" property="repPersonId" />
+        <result column="REP_PERSON_NAME" property="repPersonName" />
+        <result column="REP_DEPARTMENT_ID" property="repDepartmentId" />
+        <result column="REP_DEPARTMENT_NAME" property="repDepartmentName" />
+        <result column="REPLY_ID" property="replyId" />
+        <result column="MAINTENANCE_ID" property="maintenanceId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, EXE_REPLY_ID, PROJECT_ID, CHANGE_ID, EXE_REPLY_CODE, EXE_REPLY_NAME, EXE_REPLY_ADV, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, EXT1, EXT2, EXT3, EXT4, ORG_ID, ORG_PATH, SERVICE_NUM, REP_PERSON_ID, REP_PERSON_NAME, REP_DEPARTMENT_ID, REP_DEPARTMENT_NAME, REPLY_ID, MAINTENANCE_ID
+    </sql>
+
+</mapper>

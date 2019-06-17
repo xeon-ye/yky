@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>审批矩阵配置</title>
+    <style type="text/css">
+        input{
+            width:80px;
+        }
+        select{
+            width:80px;
+        }
+        table {
+            border-collapse: collapse;
+            width:100%;
+            border: 1px solid #fff;
+        }
+        table th {
+            border: 1px solid #E5E5E5;
+            white-space: nowrap;
+        }
+        table td {
+            border: 1px solid #E5E5E5;
+            white-space: normal;
+        }
+        #pop_close{
+            width:35px;
+            height:35px;
+            cursor:pointer;
+            position:absolute;
+            right:10px;
+            top:15px;
+        }
+        #pop_mask{
+            background-color:#ccc;
+            opacity:0.7;
+            filter: alpha(opacity=70);
+            position:absolute;
+            left:0;
+            top:0;
+            z-index:1000;
+        }
+        #pop_content{
+            position:fixed;
+            z-index:1001;
+            background:white;
+        }
+        .pop_title{
+            position:relative;
+            width:860px;
+            height:48px;
+            background:white;
+            border:0px;
+            text-align: center;
+            border-bottom: 1px solid #ccc;
+        }
+        .pop_content{
+            width:860px;
+            background:white;
+            border:0px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<h2>审批矩阵</h2>
+<div id="top">
+    <fieldset>
+        <legend onclick="showTips();" style="cursor: pointer;color: #4F94CD;text-decoration:underline;"> 使用规则【<-点我查看】</legend>
+        <div id="tips" style="display: none;">
+            <p> 1、配置固定人规则与“组织岗位角色组合”及“自定义规则”互斥，只能使用其中的一种 </p>
+            <p> 2、多个组织、岗位、角色使用英文的逗号分隔，注意此处填入的均为编码（岗位为名称，岗位暂不支持，请勿填入），填入角色时请将所属系统填入 </p>
+            <p> 3、一个节点的一个业务类型只能存在一个组合规则或自定义规则 </p>
+            <p> 4、提供以下虚拟组织：当前处理人所在部门（CURRENT_ORG）、流程发起人所在部门（SUBMIT_ORG）、 </p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当前处理人所在单位部门编码（CURRENT_DEPT_ORG）、流程发起人所在单位部门编码（SUBMIT_DEPT_ORG）</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当taskId传入的参数为start时，请通过processVariables，将对应的值传递，如processVariables.put("CURRENT_DEPT_ORG","1001");</p>
+            <p> 5、虚拟组织会将其转换为对应的组织编码；组织和角色均来源于4A，配置完成后将通过组织及角色进行查询，并返回对应的候选人 </p>
+            <h3>导入JSON格式样例：[{....}],ruleType为固定的值</h3>
+            <p>候选人（员工编号）清单JSON样例： {"processDefineKey": "流程定义ID","activityId": "节点ID","activityName": "节点名称","chargeOrg": "-1","chargeBusiness": "业务类型","accountEmpNo": "员工编号","accountName": "员工姓名","orgCode": "员工所属部门编号","position": "员工岗位名称","orderNum":1,"ruleType": "PERSON"}</p>
+            <p>候选人组合规则清单JSON样例： {"processDefineKey": "流程定义ID","activityId": "节点ID","activityName": "节点名称","chargeBusiness": "业务类型","orgNoList": "orgCode1,orgCode2...","positionList": "position1,position2...","roleNoList": "roleNo1,roleNo2...","systemCode":"systemCode","ruleType": "COMBINATION"}</p>
+            <p>候选人自定义规则清单JSON样例： {"processDefineKey": "流程定义ID","activityId": "节点ID","activityName": "节点名称","chargeBusiness": "业务类型", ruleType":"CUSTOM","customRule": "customRule"}</p>
+        </div>
+    </fieldset>
+</div>
+<HR>
+<div id="processName">
+    <script id="processNameModel" type="text/html">
+        {{name}}
+        <span style="margin-left: 20px;">
+        业务类型：<input type="text" id="businessType" name="businessType"/> <button onclick="getApproveMatrixData('','','')">加载审批矩阵</button>
+             <button onclick="exportApproveMatrix()">导出审批矩阵</button>
+             <button onclick="importApproveMatrix()">导入审批矩阵</button>
+        </span>
+    </script>
+</div>
+<BR>
+<table border="1" id="model-list">
+    <script id="models" type="text/html">
+    <tr>
+        <th>节点ID</th>
+        <th>节点名称</th>
+        <th>候选人（员工编号）清单</th>
+        <th>候选人组合规则清单</th>
+    </tr>
+    {{each rows.list}}
+    <tr>
+        <td>{{$value.activityId}}</td>
+        <td>{{$value.activityName}}</td>
+        <td id="{{$value.activityId}}"></td>
+        <td id="{{$value.activityId}}_combination"></td>
+    </tr>
+    {{/each}}
+    </script>
+</table>
+<script id="userTemplate" type="text/html">
+    <div>
+        <table border="1" cellspacing="1">
+            <tr>
+                <th>业务类型</th>
+                <th>负责部门ID</th>
+                <th>员工编号</th>
+                <th>员工姓名</th>
+                <th>员工所属部门编号</th>
+                <th>员工岗位名称</th>
+                <th>审批排序</th>
+                <th colspan="2">操作</th>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" name="chargeBusiness" readonly="readonly" value="{{chargeBusiness}}"/>
+                    <input type="hidden" name="activityId" value="{{activityId}}"/>
+                    <input type="hidden" name="activityName" value="{{activityName}}"/>
+                    <input type="hidden" name="processDefineKey" value="{{processDefineKey}}"/>
+                    <input type="hidden" name="ruleType" value="PERSON"/>
+                </td>
+                <td><input type="text" name="chargeOrg" value="-1"/></td>
+                <td><input type="text" name="accountEmpNo" value=""/></td>
+                <td><input type="text" name="accountName" value=""/></td>
+                <td><input type="text" name="orgCode" value=""/></td>
+                <td><input type="text" name="position" value=""/></td>
+                <td><input type="text" name="orderNum" value=""/></td>
+                <td colspan="2"><button style="display: {{showPersonSave}};" onclick="add(this,'{{activityId}}','user')">新增</button></td>
+            </tr>
+            {{each approveList}}
+            <tr>
+                <td>
+                    <input type="hidden" name="id" value="{{$value.id}}"/>
+                    <input type="hidden" name="activityId" value="{{$value.activityId}}"/>
+                    <input type="hidden" name="activityName" value="{{$value.activityName}}"/>
+                    <input type="hidden" name="processDefineKey" value="{{$value.processDefineKey}}"/>
+                    <input type="hidden" name="accountNum" value="{{$value.accountNum}}"/>
+                    <input type="text" name="chargeBusiness" value="{{$value.chargeBusiness}}"/>
+                </td>
+                <td><input type="text" name="chargeOrg" value="{{$value.chargeOrg}}"/></td>
+                <td><input type="text" name="accountEmpNo" value="{{$value.accountEmpNo}}"/></td>
+                <td><input type="text" name="accountName" value="{{$value.accountName}}"/></td>
+                <td><input type="text" name="orgCode" value="{{$value.orgCode}}"/></td>
+                <td><input type="text" name="position" value="{{$value.position}}"/></td>
+                <td><input type="text" name="orderNum" value="{{$value.orderNum}}"/></td>
+                <td><button onclick="update(this,'{{$value.activityId}}','user')">更新</button></td>
+                <td><button onclick="del(this,'{{$value.activityId}}','user')">删除</button></td>
+            </tr>
+            {{/each}}
+        </table>
+    </div>
+</script>
+<script id="combinationTemplate" type="text/html">
+    <div>
+        <table border="1" cellspacing="1">
+            <tr>
+                <th>选人规则</th>
+                <th>业务类型</th>
+                <th>组织编码</th>
+                <th>岗位名称</th>
+                <th>角色编码</th>
+                <th>所属系统</th>
+                <th>自定义编码</th>
+                <th colspan="2">操作</th>
+            </tr>
+            <tr style="display: {{showCombAdd}}">
+                <td>
+                    <select name="ruleTypeSelect" onchange="showCombination(this)">
+                        <option value="COMBINATION">组合规则</option>
+                        <option value="CUSTOM">自定义规则</option>
+                    </select>
+                    <input type="hidden" name="ruleType" value="COMBINATION"/>
+                </td>
+                <td>
+                    <input type="text" name="chargeBusiness" readonly="readonly" value="{{chargeBusiness}}"/>
+                    <input type="hidden" name="activityId" value="{{activityId}}"/>
+                    <input type="hidden" name="activityName" value="{{activityName}}"/>
+                    <input type="hidden" name="processDefineKey" value="{{processDefineKey}}"/>
+                </td>
+                <td><input type="text" name="orgNoList" value=""/></td>
+                <td><input type="text" name="positionList" value=""/></td>
+                <td><input type="text" name="roleNoList" value=""/></td>
+                <td><input type="text" name="systemCode" value=""/></td>
+                <td>
+                    <input style="display:none;" type="text" name="customRule" value=""/>
+                </td>
+                <td colspan="2"><button style="display:{{showCombSave}};" onclick="add(this,'{{activityId}}','combination')">新增</button></td>
+            </tr>
+            {{each approveCombList }}
+            <tr>
+                <td>
+                    <input type="hidden" name="ruleType" value="{{$value.ruleType}}"/>
+                    <select name="ruleTypeSelect">
+                        <option value="{{$value.ruleType}}">{{$value.ruleType == 'CUSTOM' ? '自定义规则' : '组合规则'}}</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="hidden" name="id" value="{{$value.id}}"/>
+                    <input type="hidden" name="activityId" value="{{$value.activityId}}"/>
+                    <input type="hidden" name="activityName" value="{{$value.activityName}}"/>
+                    <input type="hidden" name="processDefineKey" value="{{$value.processDefineKey}}"/>
+                    <input type="hidden" name="accountNum" value="{{$value.accountNum}}"/>
+                    <input type="text" name="chargeBusiness" value="{{$value.chargeBusiness}}"/>
+                </td>
+                <td><input style="display:{{$value.ruleType == 'CUSTOM' ? 'none' : ''}};" type="text" name="orgNoList" value="{{$value.orgNoList}}"/></td>
+                <td><input style="display:{{$value.ruleType == 'CUSTOM' ? 'none' : ''}};" type="text" name="positionList" value="{{$value.positionList}}"/></td>
+                <td><input style="display:{{$value.ruleType == 'CUSTOM' ? 'none' : ''}};" type="text" name="roleNoList" value="{{$value.roleNoList}}"/></td>
+                <td><input style="display:{{$value.ruleType == 'CUSTOM' ? 'none' : ''}};" type="text" name="systemCode" value="{{$value.systemCode}}"/></td>
+                <td>
+                    <input style="display:{{$value.ruleType == 'CUSTOM' ? '' : 'none'}};" type="text" name="customRule" value="{{$value.customRule}}"/>
+                </td>
+                <td><button onclick="update(this,'{{$value.activityId}}','combination')">更新</button></td>
+                <td><button onclick="del(this,'{{$value.activityId}}','combination')">删除</button></td>
+            </tr>
+            {{/each}}
+        </table>
+    </div>
+</script>
+</body>
+<script src="/lib/js/jquery-1.10.2.min.js"></script>
+<script src="/lib/js/jquery.cookie.js"></script>
+<script src="/js/ajax-util.js"></script>
+<script src="/lib/js/template.js"></script>
+<script src="/editor-app/libs/json3_3.2.6/lib/json3.js"></script>
+<script type="text/javascript">
+    var nodeArr = [];
+    var processDefineKey = "";
+    onload = function () {
+        var str = window.location.href;
+        var paramArr = str.split("?");
+        var params = "";
+        if(paramArr.length>1){
+            params = paramArr[1];
+        }
+        var modelId = "";
+        var param = params.split("&");
+        for(var i=0;i<param.length;i++){
+            var key = param[i].split("=")[0];
+            if("modelId"==key){
+                modelId = param[i].split("=")[1];
+                break;
+            }
+        }
+        AJAX.GET("/models/"+modelId+"/approve", null
+            , function (result) {
+                var html = template("models", result);
+                var processNameModel = template("processNameModel", result.obj);
+                $("#processName").html(processNameModel);
+                $("#model-list").html(html);
+                if(typeof(result.obj.key)!="undefined" ){
+                    //获取所有已配置的流程信息
+                    nodeArr = result.rows.list;
+                    // for(var k=0;k<result.rows.list.length;k++){
+                    //     nodeArr.push(result.rows.list[k].activityId);
+                    // }
+                }
+                processDefineKey = result.obj.key;
+                //getApproveMatrixData("","");
+            });
+    }
+    var showTipsFlag = false;
+    function showTips(){
+        if(showTipsFlag){
+            $("#tips").hide();
+            showTipsFlag = false;
+        }else{
+            $("#tips").show();
+            showTipsFlag = true;
+        }
+    }
+
+    function getApproveMatrixData(nodeId,activityName,type){
+        var chargeBusiness = $("#businessType").val();
+        if(chargeBusiness==null||chargeBusiness==""){
+            alert("请输入业务类型！");
+            $("#businessType").focus();
+            return;
+        }
+        var param = {};
+        param.processDefineKey = processDefineKey;
+        param.activityId = nodeId;
+        param.chargeBusiness = chargeBusiness;
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "/bpmservice/bpm-approval-matrix/list/conditions",
+            "method": "POST",
+            "headers": {
+                "Content-Type": "application/json",
+                "cache-control": "no-cache"
+            },
+            "processData": false,
+            "data": JSON.stringify(param)
+        }
+
+        $.ajax(settings).done(function (res) {
+            //获取到所有的节点，然后通过节点的ID，去替换script模板
+            if(res.code == "000000"){
+                var approveConfig = {};
+                var approveCombConfig = {};
+                for(var i=0;i<res.data.length;i++){
+                    var activityId = res.data[i].activityId;
+                    if(typeof(approveConfig[activityId])=="undefined"){
+                        approveConfig[res.data[i].activityId] = [];
+                        approveCombConfig[res.data[i].activityId] = [];
+                        if(res.data[i].ruleType == "PERSON"  || res.data[i].ruleType == "" || res.data[i].ruleType == null){
+                            approveConfig[res.data[i].activityId].push(res.data[i]);
+                        }else{
+                            approveCombConfig[res.data[i].activityId].push(res.data[i]);
+                        }
+
+                    }else{
+                        if(res.data[i].ruleType == "PERSON"  || res.data[i].ruleType == "" || res.data[i].ruleType == null){
+                            approveConfig[res.data[i].activityId].push(res.data[i]);
+                        }else{
+                            approveCombConfig[res.data[i].activityId].push(res.data[i]);
+                        }
+                    }
+                }
+                if(nodeId!=null&&nodeId!=""){
+                    var data = {};
+                    data.activityId = nodeId;
+                    data.activityName = activityName;
+                    data.chargeBusiness = chargeBusiness;
+                    data.processDefineKey = processDefineKey;
+                    data.approveList = approveConfig[nodeId];
+                    data.approveCombList = approveCombConfig[nodeId];
+                    if(typeof(data.approveList)!="undefined"&& data.approveList.length>0){
+                        data.showCombSave = "none";
+                    }else{
+                        data.showCombSave = "";
+                    }
+                    if(typeof(data.approveCombList)!="undefined"&& data.approveCombList.length>0){
+                        data.showPersonSave = "none";
+                        data.showCombAdd = "none";
+                    }else{
+                        data.showPersonSave = "";
+                        data.showCombAdd = "";
+                    }
+                    if(type==""||type == "user"){
+                        var userTemplate = template("userTemplate", data);
+                        $("#"+nodeId).html(userTemplate);
+                    }
+                    if(type==""||type == "combination") {
+                        $("#" + nodeId + "_combination").html(template("combinationTemplate", data));
+                    }
+                    console.log(data)
+                }else{
+                    for(var j=0;j<nodeArr.length;j++){
+                        var data = {};
+                        data.activityId = nodeArr[j].activityId;
+                        data.activityName = nodeArr[j].activityName;
+                        data.chargeBusiness = chargeBusiness;
+                        data.processDefineKey = processDefineKey;
+                        data.approveList = approveConfig[nodeArr[j].activityId];
+                        data.approveCombList = approveCombConfig[nodeArr[j].activityId];
+                        if(typeof(data.approveList)!="undefined" && data.approveList.length>0){
+                            data.showCombSave = "none";
+                        }else{
+                            data.showCombSave = "";
+                        }
+                        if(typeof(data.approveCombList)!="undefined" && data.approveCombList.length>0){
+                            data.showPersonSave = "none";
+                            data.showCombAdd = "none";
+                        }else{
+                            data.showPersonSave = "";
+                            data.showCombAdd = "";
+                        }
+                        if(type==""||type == "user"){
+                            var userTemplate = template("userTemplate", data);
+                            $("#"+nodeArr[j].activityId).html(userTemplate);
+                        }
+                        if(type==""||type == "combination") {
+                            $("#" + nodeArr[j].activityId + "_combination").html(template("combinationTemplate", data));
+                        }
+                        console.log(data)
+                    }
+                }
+            }else{
+                alert("获取数据出错");
+                console.log(res)
+            }
+        });
+    }
+
+    $(document).ready(function(){
+        $.fn.serializeObject = function() {
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function() {
+                if (o[this.name]) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [ o[this.name] ];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        }
+    });
+
+    function showCombination(obj){
+        if(obj.value=="CUSTOM"){
+            $(obj).parent().parent().find("input").hide();
+            $(obj).parent().parent().find("input[name='customRule']").show();
+        }else{
+            $(obj).parent().parent().find("input").show();
+            $(obj).parent().parent().find("input[name='customRule']").hide();
+        }
+        $(obj).parent().parent().find("input[name='chargeBusiness']").show();
+        $(obj).parent().find("input").val(obj.value);
+    }
+
+    function update(that,id,type){
+        var param = $(that).parent().parent().find("input").serializeObject();
+        //console.log(param)
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "/bpmservice/bpm-approval-matrix/"+param.id,
+            "method": "PATCH",
+            "headers": {
+                "Content-Type": "application/json",
+                "cache-control": "no-cache"
+            },
+            "processData": false,
+            "data": JSON.stringify(param)
+        }
+
+        $.ajax(settings).done(function (res) {
+            if(res.code == "000000"){
+                alert("操作成功");
+                getApproveMatrixData(id,param.activityName,type);
+            }else{
+                console.log(res);
+                alert(res.data);
+            }
+        });
+        return false;
+    }
+
+    function add(that,id,type){
+        var param = $(that).parent().parent().find("input").serializeObject();
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "/bpmservice/bpm-approval-matrix",
+            "method": "POST",
+            "headers": {
+                "Content-Type": "application/json",
+                "cache-control": "no-cache"
+            },
+            "processData": false,
+            "data": JSON.stringify(param)
+        }
+        //console.log(param)
+        $.ajax(settings).done(function (res) {
+            if(res.code == "000000"){
+                alert("操作成功");
+                getApproveMatrixData(id,param.activityName,"");
+            }else{
+                console.log(res);
+                alert(res.data);
+            }
+        });
+        return false;
+    }
+
+    function del(that,id,type){
+        var param = $(that).parent().parent().find("input").serializeObject();
+        //console.log(param)
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "/bpmservice/bpm-approval-matrix/"+param.id,
+            "method": "DELETE",
+            "headers": {
+                "Content-Type": "application/json",
+                "cache-control": "no-cache"
+            },
+            "processData": false,
+            "data": {}
+        }
+
+        $.ajax(settings).done(function (res) {
+            if(res.code == "000000"){
+                alert("操作成功");
+                getApproveMatrixData(id,param.activityName,"");
+            }else{
+                console.log(res);
+                alert(res.data);
+            }
+            closePop();
+        });
+
+    }
+
+    function save(){
+        var data = $("#approveMatrixData").val();
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "/bpmservice/bpm-approval-matrix/save",
+            "method": "POST",
+            "headers": {
+                "Content-Type": "application/json",
+                "cache-control": "no-cache"
+            },
+            "processData": false,
+            "data": data
+        }
+        //console.log(param)
+        $.ajax(settings).done(function (res) {
+            if(res.code == "000000"){
+                alert("保存成功");
+                getApproveMatrixData('','','');
+                closePop();
+            }else{
+                console.log(res);
+                alert(res.data);
+            }
+        });
+        return false;
+    }
+
+    function dialog(title,content,saveFunc,closeFunc){
+        //获取页面的高度和宽度
+        var sWidth=document.body.scrollWidth || document.documentElement.scrollWidth;
+        var sHeight=document.body.scrollHeight || document.documentElement.scrollHeight;
+
+        //获取页面的可视区域高度和宽度
+        var wHeight=document.documentElement.clientHeight || document.body.clientHeight;
+
+        //创建遮罩层
+        var oMask=document.createElement("div");
+        oMask.id="pop_mask";
+        oMask.style.height=wHeight+"px";
+        oMask.style.width=sWidth+"px";
+        document.body.appendChild(oMask);            //添加到body末尾
+
+        if(typeof(closeFunc)=="undefined"){
+            closeFunc = "closePop";
+        }
+        //创建登录框
+        var popDialog=document.createElement("div");
+        popDialog.id="pop_content";
+        popDialog.innerHTML="<div class='pop_title'><div id='pop_close'>X</div><div style='padding-top:15px;'>"+title+"</div></div>"
+            +"<div class='pop_content'>"+content+"</div>"
+            + "<div style='text-align: center;margin-top: 15px;margin-bottom: 15px;'><button onclick="+saveFunc+"()>保存</button>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="+closeFunc+"()>关闭</button></div>";
+        document.body.appendChild(popDialog);
+        var dHeight=popDialog.offsetHeight;
+        var dWidth=popDialog.offsetWidth;
+
+        //设置登陆框的left和top
+        popDialog.style.left=sWidth/2-dWidth/2+"px";
+        popDialog.style.top=wHeight/2-dHeight/2+"px";
+
+        //获取关闭按钮
+        var oClose=document.getElementById("pop_close");
+
+        //点击关闭按钮和点击登陆框以外的区域都可以关闭登陆框
+        oClose.onclick=oMask.onclick=function(){
+            document.body.removeChild(popDialog);
+            document.body.removeChild(oMask);
+        };
+    }
+
+    function closePop(){
+        var oMask=document.getElementById("pop_mask");
+        var popDialog=document.getElementById("pop_content");
+        document.body.removeChild(popDialog);
+        document.body.removeChild(oMask);
+    }
+
+    function exportApproveMatrix(){
+        var chargeBusiness = $("#businessType").val();
+        if(chargeBusiness==null||chargeBusiness==""){
+            alert("请输入业务类型！");
+            $("#businessType").focus();
+            return;
+        }
+        var param = {};
+        param.processDefineKey = processDefineKey;
+        param.chargeBusiness = chargeBusiness;
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "/bpmservice/bpm-approval-matrix/list/conditions",
+            "method": "POST",
+            "headers": {
+                "Content-Type": "application/json",
+                "cache-control": "no-cache"
+            },
+            "processData": false,
+            "data": JSON.stringify(param)
+        }
+
+        $.ajax(settings).done(function (res) {
+            //获取到所有的节点，然后通过节点的ID，去替换script模板
+            if(res.code == "000000"){
+                var data = res.data;
+                for(var i=0;i<data.length;i++){
+                    data[i].id="";
+                    data[i].accountNum="";
+                }
+                var approveMatrixData = JSON.stringify(data);
+                var content = "<div style='text-align: center;'><p></p><textarea id='approveMatrixData' style='width:800px;height: 450px;'>"+approveMatrixData+"</textarea> </div>";
+                dialog("导出审批矩阵",content,"closePop","closePop");
+            }else{
+                alert("获取数据出错");
+                console.log(res)
+            }
+        });
+    }
+
+    function importApproveMatrix(){
+        var chargeBusiness = $("#businessType").val();
+        if(chargeBusiness==null||chargeBusiness==""){
+            alert("请输入业务类型！");
+            $("#businessType").focus();
+            return;
+        }
+        var content = "<div style='text-align: center;'><p style='text-align: left;margin-left: 5px;'>导入时不做冲突验证，所有数据只会新增不会更新，请确保配置规则无误！<br>数据样例：<br>[{\"processDefineKey\": \"流程定义ID\",\"activityId\": \"节点ID\",\"activityName\": \"节点名称\",\"chargeOrg\": \"-1\",\"chargeBusiness\": \"业务类型\",\"accountEmpNo\": \"员工编号\",\"accountName\": \"员工姓名\",\"orgCode\": \"员工所属部门编号\",\"position\": \"员工岗位名称\",\"orderNum\":1,\"ruleType\": \"PERSON\"}]</p><textarea id='approveMatrixData' style='width:800px;height: 450px;'></textarea> </div>";
+        dialog("导入审批矩阵",content,"save","closePop");
+    }
+</script>
+</html>

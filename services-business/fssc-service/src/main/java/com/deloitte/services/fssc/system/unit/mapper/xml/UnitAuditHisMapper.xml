@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.system.unit.mapper.UnitAuditHisMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.system.unit.entity.UnitAuditHis">
+        <id column="ID" property="id" />
+        <result column="UNIT_ID" property="unitId" />
+        <result column="AUDIT_OPIN" property="auditOpin" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="EXT_1" property="ext1" />
+        <result column="EXT_2" property="ext2" />
+        <result column="EXT_3" property="ext3" />
+        <result column="EXT_4" property="ext4" />
+        <result column="EXT_5" property="ext5" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="VERSION" property="version"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, UNIT_ID, AUDIT_OPIN, CREATE_TIME, UPDATE_TIME, EXT_1, EXT_2, EXT_3, EXT_4, EXT_5, CREATE_BY, UPDATE_BY,VERSION
+    </sql>
+
+</mapper>

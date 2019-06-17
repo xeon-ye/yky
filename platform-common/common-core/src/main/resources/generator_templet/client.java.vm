@@ -1,0 +1,73 @@
+package ${cfg.apiPackage}.client;
+
+import ${cfg.apiPackage}.param.${entity}QueryForm;
+import ${cfg.apiPackage}.vo.${entity}Form;
+import ${cfg.apiPackage}.vo.${entity}Vo;
+import com.deloitte.platform.common.core.entity.vo.Result;
+import org.springframework.web.bind.annotation.*;
+import javax.validation.Valid;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+
+import java.util.List;
+
+/**
+ * @Author : ${author}
+ * @Date : Create in ${date}
+ * @Description :  ${entity}控制器接口
+ * @Modified :
+ */
+public interface ${entity}Client {
+
+    public static final String path="#if(${package.ModuleName})/${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end";
+
+
+    /**
+     *  POST---新增
+     * @param ${table.entityPath}Form
+     * @return
+     */
+    @PostMapping(value = path)
+    Result add(@Valid @ModelAttribute ${entity}Form ${table.entityPath}Form);
+
+    /**
+    *  Delete---删除
+    * @param  id
+    * @return
+    */
+    @DeleteMapping(value = path+"/{id}")
+    Result delete(@PathVariable(value="id") long id);
+
+    /**
+     *  Patch----部分更新
+     * @param  id, ${table.entityPath}Form
+     * @return
+     */
+    @PatchMapping(value = path+"/{id}")
+    Result update(@PathVariable(value="id") long id, @Valid @RequestBody ${entity}Form ${table.entityPath}Form);
+
+    /**
+    *  GET----根据ID获取
+    * @param  id
+    * @return
+    */
+    @GetMapping(value = path+"/{id}")
+    Result<${entity}Vo> get(@PathVariable(value="id") long id);
+
+
+    /**
+     *  POST----列表查询
+     * @param   ${table.entityPath}QueryForm
+     * @return
+     */
+    @PostMapping(value = path+"/list/conditions")
+    Result<List<${entity}Vo>> list(@Valid @RequestBody ${entity}QueryForm ${table.entityPath}QueryForm);
+
+
+    /**
+     *  POST----复杂查询
+     * @param  ${table.entityPath}QueryForm
+     * @return
+     */
+    @PostMapping(value = path+"/page/conditions")
+    Result<IPage<${entity}Vo>> search(@Valid @RequestBody ${entity}QueryForm ${table.entityPath}QueryForm);
+}

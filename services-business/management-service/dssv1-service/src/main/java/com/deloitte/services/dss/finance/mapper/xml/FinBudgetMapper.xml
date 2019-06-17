@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.finance.mapper.FinBudgetMapper">
+
+    <!-- 查询总收入预算  -->
+    <select id="selectBudget" parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo">
+       select
+          sum(YTD) ytd,
+          ind.INDEX_CODE indexCode,
+          ind.INDEX_DES indexDes
+         from
+          DSS_FIN_ETL_FACT fact
+        inner join
+          DSS_FIN_ETL_INDEX ind
+        on
+          fact.INDEX_CODE = ind.INDEX_CODE
+        where
+          fact.PERIOD_CODE like #{periodCode}||'%'
+        <if test="comCode != null">
+            and fact.COM_CODE in ${comCode}
+        </if>
+        and
+          ind.INDEX_CODE in
+          (
+          select INDEX_CODE from DSS_FIN_ETL_INCOME_MAP6
+          )
+        group by
+          ind.INDEX_CODE,ind.INDEX_DES
+        order by
+          ind.INDEX_CODE
+    </select>
+
+    <!-- 查询机构总收入预算 -->
+    <select id="selectComBudget" parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo">
+       select
+          sum(YTD) ytd,
+          ind.INDEX_CODE indexCode,
+          ind.INDEX_DES indexDes,
+          company.COM_CODE comCOde,
+          company.COM_DES comDes
+        from
+          DSS_FIN_ETL_FACT fact
+        inner join
+          DSS_FIN_ETL_INDEX ind
+        on
+          fact.INDEX_CODE = ind.INDEX_CODE
+        inner join
+          DSS_FINANCE_COMPANY company
+        on
+          company.COM_CODE = fact.COM_CODE
+        where
+          fact.PERIOD_CODE like #{periodCode}||'%'
+        <if test="comCode != null">
+          and fact.COM_CODE in ${comCode}
+        </if>
+        <if test="indexCode != null">
+            and fact.INDEX_CODE = #{indexCode}
+        </if>
+        and
+          ind.INDEX_CODE in
+          (
+          select INDEX_CODE from DSS_FIN_ETL_INCOME_MAP6
+          )
+        group by
+          ind.INDEX_CODE,ind.INDEX_DES,company.COM_CODE,company.COM_DES
+        order by
+          ind.INDEX_CODE
+    </select>
+
+    <!-- 查询总支出预算  -->
+    <select id="selectExpBudget" parameterType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo"
+            resultType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo">
+       select
+          sum(YTD) ytd,
+          ind.INDEX_CODE indexCode,
+          ind.INDEX_DES indexDes,
+          fact.PERIOD_CODE periodCode
+         from
+          DSS_FIN_ETL_FACT fact
+        inner join
+          DSS_FIN_ETL_INDEX ind
+        on
+          fact.INDEX_CODE = ind.INDEX_CODE
+        where
+          fact.PERIOD_CODE like #{periodCode}||'%'
+        and
+          ind.INDEX_CODE in
+          (
+          select INDEX_CODE from DSS_FIN_ETL_EXP_MAP1
+          )
+        <if test="indexCode != null">
+            and ind.INDEX_CODE = #{indexCode}
+        </if>
+        <if test="comCode != null">
+            and fact.COM_CODE in ${comCode}
+        </if>
+        group by
+          ind.INDEX_CODE,ind.INDEX_DES,fact.PERIOD_CODE
+        order by
+          ind.INDEX_CODE
+    </select>
+
+    <!-- 查询机构总支出预算 -->
+    <select id="selectComExpBudget" parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo">
+        select
+        sum(YTD) ytd,
+        ind.INDEX_CODE indexCode,
+        ind.INDEX_DES indexDes,
+        fact.COM_CODE comCode,
+        company.COM_DES comDes
+        from
+        DSS_FIN_ETL_FACT fact
+        inner join
+        DSS_FIN_ETL_INDEX ind
+        on
+        fact.INDEX_CODE = ind.INDEX_CODE
+        inner join
+        DSS_FINANCE_COMPANY company
+        on
+        company.COM_CODE = fact.COM_CODE
+        where
+        fact.PERIOD_CODE = #{periodCode}
+        <if test="comCode != null">
+          and fact.COM_CODE in ${comCode}
+        </if>
+        <if test="indexCode != null">
+           and fact.INDEX_CODE = #{indexCode}
+        </if>
+        and
+        ind.INDEX_CODE in
+        (
+        select INDEX_CODE from DSS_FIN_ETL_EXP_MAP1
+        )
+        group by
+        ind.INDEX_CODE,ind.INDEX_DES,fact.COM_CODE,company.COM_DES
+        order by
+        ind.INDEX_CODE
+    </select>
+
+    <!-- 查询收入预算指标 -->
+    <select id="selectIncomeIndexCode" resultType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo">
+        select
+          distinct ind.INDEX_CODE indexCode,
+          ind.INDEX_DES indexDes
+        from
+          DSS_FIN_ETL_INCOME_MAP6 map
+        inner join
+          DSS_FIN_ETL_INDEX ind
+        on
+          map.INDEX_CODE = ind.Index_Code
+        order by
+          ind.INDEX_DES
+    </select>
+
+    <!-- 查询支出预算指标 -->
+    <select id="selectExpIndexCode" resultType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo">
+        select
+          distinct ind.INDEX_CODE indexCode,
+          ind.INDEX_DES indexDes
+        from
+          DSS_FIN_ETL_EXP_MAP1 map
+        inner join
+          DSS_FIN_ETL_INDEX ind
+        on
+          map.INDEX_CODE = ind.Index_Code
+        order by
+          ind.INDEX_DES
+    </select>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.platform.api.dss.finance.vo.FinacenIncomeVo">
+        <id column="ID" property="id" />
+        <result column="COM_CODE" property="comCode" />
+        <result column="INCOME_ID" property="incomeId" />
+        <result column="INCOME" property="income" />
+        <result column="YEAR" property="year" />
+        <result column="MONTH" property="month" />
+        <result column="EX1" property="ex1" />
+        <result column="EX2" property="ex2" />
+        <result column="EX3" property="ex3" />
+        <result column="EX4" property="ex4" />
+        <result column="EX5" property="ex5" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, COM_CODE, INCOME_ID, INCOME, YEAR, MONTH, EX1, EX2, EX3, EX4, EX5, CREATE_BY, UPDATE_TIME
+    </sql>
+
+</mapper>

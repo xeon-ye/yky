@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.applycenter.mapper.ApplyCenterMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.applycenter.entity.ApplyCenter">
+        <id column="APPLY_ID" property="applyId" />
+        <result column="PIC_URL" property="picUrl" />
+        <result column="APPLY_NAME" property="applyName" />
+        <result column="APPLY_SORT" property="applySort" />
+        <result column="IS_VISIABLE" property="isVisiable" />
+        <result column="APPLY_DATETIME" property="applyDatetime" />
+        <result column="APPLY_UPDATETIME" property="applyUpdatetime" />
+        <result column="TYPE_NAME" property="typeName" />
+        <result column="DEL_FLAG" property="delFlag" />
+        <result column="APPLY_URL" property="applyUrl" />
+        <result column="SYSTEM_CODE" property="systemCode" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        APPLY_ID, PIC_URL, APPLY_NAME, APPLY_SORT, IS_VISIABLE, APPLY_DATETIME, APPLY_UPDATETIME, TYPE_NAME, DEL_FLAG, APPLY_URL, SYSTEM_CODE
+    </sql>
+
+</mapper>

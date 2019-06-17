@@ -1,0 +1,691 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.scientific.mapper.SrpmsProjectMapper">
+
+    <resultMap id="SrpmsProject" type="com.deloitte.platform.api.dss.scientific.vo.SrpmsProjectVo">
+        <result column="applyNum" property="applyNum"/>
+        <result column="approvalNum" property="approvalNum"/>
+        <result column="excuteNum" property="excuteNum"/>
+        <result column="conclusionNum" property="conclusionNum"/>
+        <result column="resultNum" property="resultNum"/>
+    </resultMap>
+
+    <!--科研项目各单位申请情况-->
+    <resultMap id="DeptApplyProject" type="com.deloitte.platform.api.dss.scientific.vo.DeptApplyProjectVo">
+        <result column="deptId" property="deptId"/>
+        <result column="deptName" property="deptName"/>
+        <result column="applyNum" property="applyNum"/>
+        <result column="applyFunds" property="applyFunds"/>
+    </resultMap>
+
+    <!--科研项目各单位人均情况-->
+    <resultMap id="DeptProjectPerson" type="com.deloitte.platform.api.dss.scientific.vo.DeptProjectPersonVo">
+        <result column="deptId" property="deptId"/>
+        <result column="deptName" property="deptName"/>
+        <result column="applyNum" property="applyNum"/>
+        <result column="applyFunds" property="applyFunds"/>
+        <result column="personNum" property="personNum"/>
+    </resultMap>
+
+    <!--项目各阶段数量-->
+    <select id="queryProjectStage" resultMap="SrpmsProject" parameterType="java.lang.String">
+        <choose>
+            <when test="_parameter=='100101'">
+                select
+                sum(case  when STATE in (101,102,103,104,105) then  1 else 0 end ) applyNum,
+                sum(case  when STATE = 200 then  1 else 0 end ) approvalNum,
+                sum(case  when STATE = 300 then  1 else 0 end ) excuteNum,
+                sum(case  when STATE = 400 then  1 else 0 end ) conclusionNum,
+                sum(case  when STATE = 500  then  1 else 0 end ) resultNum
+                from  DSS_SCIENTIFIC_PROJECT
+                where substr(PRO_TYPE,0,6)=#{_parameter}
+            </when>
+            <otherwise>
+                select
+                sum(case  when STATE in (101,102,103,104,105) then  1 else 0 end ) applyNum,
+                sum(case  when STATE = 200 then  1 else 0 end ) approvalNum,
+                sum(case  when STATE = 300 then  1 else 0 end ) excuteNum,
+                sum(case  when STATE = 400 then  1 else 0 end ) conclusionNum,
+                sum(case  when STATE = 500  then  1 else 0 end ) resultNum
+                from  DSS_SCIENTIFIC_PROJECT
+                where substr(PRO_TYPE,0,4)in ${_parameter}
+            </otherwise>
+        </choose>
+    </select>
+
+    <!--各所院申请项目金额及数量情况柱状图-->
+    <select id="queryDeptApplyNumAndFunds" resultMap="DeptApplyProject" parameterType="java.lang.String">
+        <choose>
+            <when test="_parameter=='100101'">
+        <![CDATA[
+           select pro.LEAD_DEPT_ID deptId,
+            dept.DEPT_NAME deptName,
+            count(pro.ID) applyNum,
+            sum(pro.FUNDS) applyFunds
+            from DSS_SCIENTIFIC_PROJECT pro,ISUMP_DEPT dept
+            where substr(pro.PRO_TYPE, 0, 6) = #{_parameter}
+            and pro.LEAD_DEPT_ID = dept.ID
+            and pro.STATE <=105
+            group by pro.LEAD_DEPT_ID,dept.DEPT_NAME
+         ]]>
+            </when>
+            <otherwise>
+        <![CDATA[
+                select pro.LEAD_DEPT_ID deptId,
+                dept.DEPT_NAME deptName,
+                count(pro.ID) applyNum,
+                sum(pro.FUNDS) applyFunds
+                from DSS_SCIENTIFIC_PROJECT pro,ISUMP_DEPT dept
+                where substr(pro.PRO_TYPE, 0, 4) = #{_parameter}
+                and pro.LEAD_DEPT_ID = dept.ID
+                and pro.STATE <=105
+                group by pro.LEAD_DEPT_ID,dept.DEPT_NAME
+                ]]>
+            </otherwise>
+        </choose>
+    </select>
+
+    <!--各所院立项项目金额及数量情况柱状图-->
+    <select id="queryApprovalNumAndFunds" resultMap="DeptApplyProject" parameterType="java.lang.String">
+        <choose>
+            <when test="_parameter=='100101'">
+        select pro.LEAD_DEPT_ID deptId,
+        dept.DEPT_NAME deptName,
+        count(pro.ID) applyNum,
+        sum(pro.FUNDS) applyFunds
+        from DSS_SCIENTIFIC_PROJECT pro,ISUMP_DEPT dept
+        where substr(pro.PRO_TYPE, 0, 6) = #{_parameter}
+        and pro.LEAD_DEPT_ID = dept.ID
+        and pro.STATE =200
+        group by pro.LEAD_DEPT_ID,dept.DEPT_NAME
+            </when>
+            <otherwise>
+                select pro.LEAD_DEPT_ID deptId,
+                dept.DEPT_NAME deptName,
+                count(pro.ID) applyNum,
+                sum(pro.FUNDS) applyFunds
+                from DSS_SCIENTIFIC_PROJECT pro,ISUMP_DEPT dept
+                where substr(pro.PRO_TYPE, 0, 4) = #{_parameter}
+                and pro.LEAD_DEPT_ID = dept.ID
+                and pro.STATE =200
+                group by pro.LEAD_DEPT_ID,dept.DEPT_NAME
+            </otherwise>
+        </choose>
+    </select>
+
+
+    <!-- 项目申请各阶段数量-->
+    <resultMap id="ProjectApplyNumVo" type="com.deloitte.platform.api.dss.scientific.vo.ProjectApplyNumVo">
+        <result column="totalNum" property="totalNum"/>
+        <result column="submitNum" property="submitNum"/>
+        <result column="auditNum" property="auditNum"/>
+        <result column="publicNum" property="publicNum"/>
+        <result column="taskSignNum" property="taskSignNum"/>
+        <result column="replyNum" property="replyNum"/>
+    </resultMap>
+    <select id="queryApplyNums"  resultMap="ProjectApplyNumVo"  parameterType="java.lang.String">
+        <choose>
+            <when test="_parameter=='100101'">
+        <![CDATA[
+            select
+              count(ID)  totalNum,
+              sum(case  when STATE = 101 then  1 else 0 end ) submitNum,
+              sum(case  when STATE = 102 then  1 else 0 end ) auditNum,
+              sum(case  when STATE = 103 then  1 else 0 end ) publicNum,
+              sum(case  when STATE = 104 then  1 else 0 end ) replyNum,
+              sum(case  when STATE = 105 then  1 else 0 end ) taskSignNum
+            from  DSS_SCIENTIFIC_PROJECT
+              where  STATE  in (101,102,103,104,105)
+              and substr(PRO_TYPE, 0, 6)=#{_parameter}
+        ]]>
+            </when>
+            <otherwise>
+                select
+                count(ID)  totalNum,
+                sum(case  when STATE = 101 then  1 else 0 end ) submitNum,
+                sum(case  when STATE = 102 then  1 else 0 end ) auditNum,
+                sum(case  when STATE = 103 then  1 else 0 end ) publicNum,
+                sum(case  when STATE = 104 then  1 else 0 end ) replyNum,
+                sum(case  when STATE = 105 then  1 else 0 end ) taskSignNum
+                from  DSS_SCIENTIFIC_PROJECT
+                where  STATE  in (101,102,103,104,105)
+                and substr(PRO_TYPE, 0, 4)=#{_parameter}
+            </otherwise>
+        </choose>
+    </select>
+    <!--科研人员人均项目数及人均经费折线图-->
+    <select id="queryDeptProjectPerson" resultMap="DeptProjectPerson" parameterType="java.util.Map">
+       select
+       t1.deptId,t1.deptName,t1.applyNum,t1.applyFunds,t2.personNum
+        from
+        (
+        SELECT pro.LEAD_DEPT_ID deptId,
+               dept.DEPT_NAME deptName,
+               count(pro.ID) applyNum,
+               sum(pro.FUNDS) applyFunds
+        FROM DSS_SCIENTIFIC_PROJECT  pro,ISUMP_DEPT dept
+          WHERE substr(pro.PRO_TYPE, 0, 6) = #{category}
+          and pro.LEAD_DEPT_ID = dept.ID
+          AND pro.STATE = 200
+          GROUP BY pro.LEAD_DEPT_ID, dept.DEPT_NAME
+        ) t1
+         left join (
+            SELECT
+              pro.LEAD_DEPT_ID                  deptId,
+              dept.DEPT_NAME                      deptName,
+              count(DISTINCT men.USER_ID) personNum
+            FROM DSS_SCIENTIFIC_PROJECT pro,ISUMP_DEPT  dept,DSS_SCIENTIFIC_MAIN_MENBER men
+              WHERE substr(pro.PRO_TYPE, 0, 6) = #{category}
+                   and  pro.LEAD_DEPT_ID = dept.ID
+                   and  pro.ID = men.PRO_ID
+                   AND pro.STATE = 200
+              GROUP BY pro.LEAD_DEPT_ID, dept.DEPT_NAME
+          ) t2
+          on t1.deptId = t2.deptId
+    </select>
+
+
+    <!--立项项目成员比例饼状图-->
+    <resultMap id="ProjectPersonPieChart" type="com.deloitte.platform.api.dss.scientific.vo.ProjectPersonPieChartVo">
+        <result property="totalNum" column="totalNum"/>
+        <result property="Low45Num" column="Low45Num"/>
+        <result property="over45Num" column="over45Num"/>
+        <result property="highLever" column="highLever"/>
+        <result property="midLever" column="midLever"/>
+        <result property="lowLever" column="lowLever"/>
+        <result property="otherOne" column="otherOne"/>
+    </resultMap>
+
+    <!--立项项目成员比例饼状图-->
+    <select id="queryPersonPercentage" resultMap="ProjectPersonPieChart" parameterType="java.lang.String">
+        <choose>
+            <when test="_parameter=='100101'">
+        <![CDATA[
+          select
+              count(*)                                                                  totalNum,
+              sum(case when age <= 45 then 1 else 0 end)                                Low45Num,
+              sum(case when age > 45 then 1 else 0 end)                                 over45Num,
+              sum(case when position_title in ('正高级','副高级') then 1 else 0 end) highLever,
+              sum(case when position_title in ('中级') then 1 else 0 end)                    midLever,
+              sum(case when position_title in ('初级','初初级','初高级') then 1 else 0 end)  lowLever,
+              sum(case when POSITION_TITLE not in  ('初级','初初级','初高级','中级','正高级','副高级') or POSITION_TITLE is null
+			  then 1 else 0 end)  otherOne
+            from
+              (
+                select
+                  usr.ID,
+                  TRUNC(months_between(sysdate, usr.birth_date) / 12) AS age,
+                  usr.position_title
+                from
+                  DSS_SCIENTIFIC_PROJECT pro,
+                  DSS_SCIENTIFIC_MAIN_MENBER member,
+                  ISUMP_USER  usr
+                  where pro.STATE = 200
+                  and substr(pro.PRO_TYPE, 0, 6) =#{_parameter}
+                  and to_char(pro.START_DATE, 'yyyy') <=
+                  to_char(sysdate, 'yyyy')
+                  and to_char(pro.END_DATE, 'yyyy') >=
+                  to_char(sysdate, 'yyyy')
+                  and   member.PRO_ID=pro.ID
+                  and  member.USER_ID = usr.ID
+              ) temp
+        ]]>
+            </when>
+            <otherwise>
+                <![CDATA[
+          select
+              count(id)                                                                  totalNum,
+              sum(case when age <= 45 then 1 else 0 end)                                Low45Num,
+              sum(case when age > 45 then 1 else 0 end)                                 over45Num,
+              sum(case when position_title in ('正高级','副高级') then 1 else 0 end) highLever,
+              sum(case when position_title in ('中级') then 1 else 0 end)                    midLever,
+              sum(case when position_title in ('初级','初初级','初高级') then 1 else 0 end) lowLever,
+              sum(case when POSITION_TITLE not in  ('初级','初初级','初高级','中级','正高级','副高级') or POSITION_TITLE is null
+			  then 1 else 0 end)  otherOne
+            from
+              (
+                select
+                  usr.ID,
+                  TRUNC(months_between(sysdate, usr.birth_date) / 12) AS age,
+                  usr.position_title
+                from
+                  DSS_SCIENTIFIC_PROJECT pro,
+                  DSS_SCIENTIFIC_MAIN_MENBER member,
+                  ISUMP_USER  usr
+                  where pro.STATE = 200
+                  and substr(pro.PRO_TYPE, 0, 4) =#{_parameter}
+                  and to_char(pro.START_DATE, 'yyyy') <=
+                  to_char(sysdate, 'yyyy')
+                  and to_char(pro.END_DATE, 'yyyy') >=
+                  to_char(sysdate, 'yyyy')
+                  and   member.PRO_ID=pro.ID
+                  and  member.USER_ID = usr.ID
+              ) temp
+        ]]>
+            </otherwise>
+        </choose>
+    </select>
+
+
+    <!--项目小类预算金额比例-->
+    <resultMap id="ProjectAmountPercentageVo"
+               type="com.deloitte.platform.api.dss.scientific.vo.ProjectAmountPercentageVo">
+        <result column="projectType" property="projectType"/>
+        <result column="amount" property="amount"/>
+    </resultMap>
+
+    <!--立项项目项目预算情况饼状图-->
+    <select id="queryAmountPercentage" resultMap="ProjectAmountPercentageVo" parameterType="java.lang.String">
+        <choose>
+            <when test="_parameter=='100101'">
+                SELECT
+                pro.PRO_TYPE projectType,
+                sum(t.FUNDS) amount
+                FROM DSS_SCIENTIFIC_PROJECT pro,
+                DSS_SCIENTIFIC_BUDGET t
+                WHERE pro.STATE = 200
+                and pro.id=t.PRO_ID
+                AND substr(pro.PRO_TYPE, 0, 6) = '100101'
+                and t.ANNUAL = to_char(sysdate,'yyyy')
+                GROUP BY pro.PRO_TYPE
+            </when>
+            <otherwise>
+                SELECT
+                substr(pro.PRO_TYPE,0,6) projectType,
+                sum(t.FUNDS) amount
+                FROM DSS_SCIENTIFIC_PROJECT pro,
+                DSS_SCIENTIFIC_BUDGET t
+                WHERE pro.STATE = 200
+                and pro.id=t.PRO_ID
+                AND substr(pro.PRO_TYPE, 0, 4) =  #{_parameter}
+                and t.ANNUAL = to_char(sysdate,'yyyy')
+                GROUP BY substr(pro.PRO_TYPE,0,6)
+            </otherwise>
+        </choose>
+    </select>
+
+
+    <!--各所院项目经费执行情况-->
+    <resultMap id="DeptAllAmountPay" type="com.deloitte.platform.api.dss.scientific.vo.DeptAllAmountPayVo">
+        <result column="deptName" property="deptName"/>
+        <result column="deptID" property="deptID"/>
+        <result column="budgetAmout" property="budgetAmout"/>
+        <result column="reciveAmount" property="reciveAmount"/>
+        <result column="payAmount" property="payAmount"/>
+    </resultMap>
+
+
+    <!--执行项目-各所院项目至今经费执行情况柱状图-->
+    <select id="queryAllAmountPay" resultMap="DeptAllAmountPay" parameterType="java.lang.String">
+        <choose>
+            <when test="_parameter=='100101'">
+            <![CDATA[
+               select
+                  temp.deptID,
+                  temp.deptName,
+                  sum(budgetAmout) budgetAmout,
+                  sum(reciveAmount)/10000 reciveAmount,
+                  sum(payAmount)/10000 payAmount
+                from (
+                       select
+                         pro.ID,
+                         pro.LEAD_DEPT_ID deptID,
+                         dept.DEPT_NAME  deptName,
+                         t.FUNDS  budgetAmout,
+                         0  reciveAmount,
+                         0 payAmount
+                       from
+                         DSS_SCIENTIFIC_PROJECT  pro,ISUMP_DEPT dept,DSS_SCIENTIFIC_BUDGET t
+                         where  pro.STATE = 300
+						and pro.id=t.pro_id
+						and t.ANNUAL = to_char(sysdate,'yyyy')
+                           and pro.LEAD_DEPT_ID = dept.ID
+							and substr(pro.PRO_TYPE,0,6)='100101'
+                         union  all
+                         select
+                         pro.ID,
+                         pro.LEAD_DEPT_ID deptID,
+                         dept.DEPT_NAME  deptName,
+                         0  budgetAmout,
+                         outlay.FUNDS  reciveAmount,
+                         0 payAmount
+                         from
+                         DSS_SCIENTIFIC_RECIVE  outlay,ISUMP_DEPT dept,DSS_SCIENTIFIC_PROJECT pro
+                         where  pro.STATE=300
+                           and  pro.CODE = outlay.PRO_CODE
+                           and pro.LEAD_DEPT_ID = dept.ID
+                           and outlay.STATUS = 'Y'
+						    and substr(pro.PRO_TYPE,0,6)=#{_parameter}
+                         union  all
+                         select
+                         pro.ID,
+                         pro.LEAD_DEPT_ID deptID,
+                         dept.DEPT_NAME  deptName,
+                         0  budgetAmout,
+                         0  reciveAmount,
+                         pay.FUNDS payAmount
+                         from
+                         DSS_SCIENTIFIC_PAY  pay,ISUMP_DEPT dept,DSS_SCIENTIFIC_PROJECT pro
+                         where  pro.STATE=300
+                           and  pro.CODE = pay.PRO_CODE
+                           and pro.LEAD_DEPT_ID = dept.ID
+                           and pay.STATUS = 'Y'
+							and substr(pro.PRO_TYPE,0,6)=#{_parameter}
+                     )  temp group by  temp.deptID,temp.deptName
+        ]]>
+            </when>
+            <otherwise>
+        <![CDATA[
+                select
+                temp.deptID,
+                temp.deptName,
+                sum(budgetAmout) budgetAmout,
+                sum(reciveAmount)/10000 reciveAmount,
+                sum(payAmount)/10000 payAmount
+                from (
+                select
+                pro.ID,
+                pro.LEAD_DEPT_ID deptID,
+                dept.DEPT_NAME  deptName,
+                t.FUNDS  budgetAmout,
+                0  reciveAmount,
+                0 payAmount
+                from
+                DSS_SCIENTIFIC_PROJECT  pro,ISUMP_DEPT dept,DSS_SCIENTIFIC_BUDGET t
+                         where  pro.STATE = 300
+						and pro.id=t.pro_id
+						and t.ANNUAL = to_char(sysdate,'yyyy')
+                         and pro.LEAD_DEPT_ID = dept.ID
+                and substr(pro.PRO_TYPE,0,4) in ${_parameter}
+                union  all
+                select
+                pro.ID,
+                pro.LEAD_DEPT_ID deptID,
+                dept.DEPT_NAME  deptName,
+                0  budgetAmout,
+                outlay.FUNDS  reciveAmount,
+                0 payAmount
+                from
+                DSS_SCIENTIFIC_RECIVE  outlay,ISUMP_DEPT dept,DSS_SCIENTIFIC_PROJECT pro
+                where  pro.STATE=300
+                and  pro.CODE = outlay.PRO_CODE
+                and pro.LEAD_DEPT_ID = dept.ID
+                and outlay.STATUS = 'Y'
+                and substr(pro.PRO_TYPE,0,4) in ${_parameter}
+                union  all
+                select
+                pro.ID,
+                pro.LEAD_DEPT_ID deptID,
+                dept.DEPT_NAME  deptName,
+                0  budgetAmout,
+                0  reciveAmount,
+                pay.FUNDS payAmount
+                from
+                DSS_SCIENTIFIC_PAY  pay,ISUMP_DEPT dept,DSS_SCIENTIFIC_PROJECT pro
+                where  pro.STATE=300
+                and  pro.CODE = pay.PRO_CODE
+                and pro.LEAD_DEPT_ID = dept.ID
+                and pay.STATUS = 'Y'
+                and substr(pro.PRO_TYPE,0,4) in ${_parameter}
+                )  temp group by  temp.deptID,temp.deptName
+                ]]>
+            </otherwise>
+        </choose>
+    </select>
+
+    <!--执行项目-各所院项目本年到位经费执行情况柱状图-->
+    <select id="queryAmountThisYear" resultMap="DeptAllAmountPay" parameterType="java.lang.String">
+        <choose>
+            <when test="_parameter=='100101'">
+        <![CDATA[
+            select
+              temp.deptID,
+              temp.deptName,
+              sum(reciveAmount)/10000 reciveAmount,
+              sum(payAmount)/10000 payAmount
+            from (
+                   select
+                     pro.ID,
+                     pro.LEAD_DEPT_ID deptID,
+                     dept.DEPT_NAME  deptName,
+                     outlay.FUNDS  reciveAmount,
+                     0 payAmount
+                   from
+                     DSS_SCIENTIFIC_RECIVE  outlay,ISUMP_DEPT dept,DSS_SCIENTIFIC_PROJECT pro
+                     where  pro.STATE=300
+                       and  pro.CODE = outlay.PRO_CODE
+                       and pro.LEAD_DEPT_ID = dept.ID
+                       and substr(pro.PRO_TYPE,0,6)='100101'
+                       and to_char(outlay.RECIVE_DATE,'yyyy') = to_char(sysdate,'yyyy')
+                       and outlay.STATUS = 'Y'
+                     union  all
+                     select
+                     pro.ID,
+                     pro.LEAD_DEPT_ID deptID,
+                     dept.DEPT_NAME  deptName,
+                     0  reciveAmount,
+                     pay.FUNDS payAmount
+                     from
+                     DSS_SCIENTIFIC_PAY  pay,ISUMP_DEPT dept,DSS_SCIENTIFIC_PROJECT pro
+                     where  pro.STATE=300
+                       and  pro.CODE = pay.PRO_CODE
+                       and pro.LEAD_DEPT_ID = dept.ID
+                       and pay.STATUS = 'Y'
+                       and substr(pro.PRO_TYPE,0,6)='100101'
+                       and substr(pay.PAY_DATE,0,4) = to_char(sysdate,'yyyy')
+                 )  temp group by  temp.deptID,temp.deptName
+        ]]>
+            </when>
+            <otherwise>
+                <![CDATA[
+            select
+              temp.deptID,
+              temp.deptName,
+              sum(reciveAmount)/10000 reciveAmount,
+              sum(payAmount)/10000 payAmount
+            from (
+                   select
+                     pro.ID,
+                     pro.LEAD_DEPT_ID deptID,
+                     dept.DEPT_NAME  deptName,
+                     outlay.FUNDS  reciveAmount,
+                     0 payAmount
+                   from
+                     DSS_SCIENTIFIC_RECIVE  outlay,ISUMP_DEPT dept,DSS_SCIENTIFIC_PROJECT pro
+                     where  pro.STATE=300
+                       and  pro.CODE = outlay.PRO_CODE
+                       and pro.LEAD_DEPT_ID = dept.ID
+                        and substr(pro.PRO_TYPE,0,4) in ${_parameter}
+                       and to_char(outlay.RECIVE_DATE,'yyyy') = to_char(sysdate,'yyyy')
+                       and outlay.STATUS = 'Y'
+                     union  all
+                     select
+                     pro.ID,
+                     pro.LEAD_DEPT_ID deptID,
+                     dept.DEPT_NAME  deptName,
+                     0  reciveAmount,
+                     pay.FUNDS payAmount
+                     from
+                     DSS_SCIENTIFIC_PAY  pay,ISUMP_DEPT dept,DSS_SCIENTIFIC_PROJECT pro
+                     where  pro.STATE=300
+                       and  pro.CODE = pay.PRO_CODE
+                       and pro.LEAD_DEPT_ID = dept.ID
+                       and pay.STATUS = 'Y'
+                       and substr(pro.PRO_TYPE,0,4) in ${_parameter}
+                       and substr(pay.PAY_DATE,0,4) = to_char(sysdate,'yyyy')
+                 )  temp group by  temp.deptID,temp.deptName
+        ]]>
+            </otherwise>
+        </choose>
+    </select>
+
+    <!--结题项目-各所院结题项目数量分布情况-->
+    <select id="queryConclude" resultMap="DeptApplyProject" parameterType="java.lang.String">
+        <choose>
+            <when test="_parameter=='100101'">
+        <![CDATA[
+          select
+              dept.DEPT_NAME deptName,
+              count(pro.ID) applyNum
+            from
+              DSS_SCIENTIFIC_PROJECT pro INNER JOIN
+              ISUMP_DEPT dept on pro.LEAD_DEPT_ID = dept.ID
+              where pro.STATE = 400
+                and substr(pro.PRO_TYPE, 0, 6) = '100101'
+              group by dept.DEPT_NAME
+        ]]>
+            </when>
+            <otherwise>
+                <![CDATA[
+          select
+              dept.DEPT_NAME deptName,
+              count(pro.ID) applyNum
+            from
+              DSS_SCIENTIFIC_PROJECT pro INNER JOIN
+              ISUMP_DEPT dept on pro.LEAD_DEPT_ID = dept.ID
+              where pro.STATE = 400
+                and substr(pro.PRO_TYPE, 0, 4) in ${_parameter}
+              group by dept.DEPT_NAME
+        ]]>
+            </otherwise>
+        </choose>
+    </select>
+
+    <!--结题项目预算金额及总到位金额情况-->
+    <resultMap id="ConcludeProjectFund" type="com.deloitte.platform.api.dss.scientific.vo.ConcludeProjectFundVo">
+        <result column="projectNum" property="projectNum"/>
+        <result column="projectName" property="projectName"/>
+        <result column="amount" property="amount"/>
+        <result column="receive" property="receive"/>
+    </resultMap>
+
+
+    <!--结题项目预算金额及总到位金额情况-->
+    <select id="queryConcludeFund" resultMap="ConcludeProjectFund" parameterType="java.lang.String">
+        <choose>
+            <when test="_parameter=='100101'">
+        <![CDATA[
+          select projectNum,projectName,sum(amount) amount, sum(receive)/10000 receive from
+(
+select
+              pro.CODE projectNum,
+              pro.NAME projectName,
+              0  amount,
+              outlay.FUNDS receive
+            from
+              DSS_SCIENTIFIC_PROJECT pro
+            left join  DSS_SCIENTIFIC_RECIVE  outlay
+              on pro.CODE = outlay.PRO_CODE
+              where  pro.STATE=400
+              and substr(pro.PRO_TYPE, 0, 6) in ${_parameter}
+              and outlay.STATUS = 'Y'
+						union all
+						select
+              pro.CODE projectNum,
+              pro.NAME projectName,
+              t.FUNDS  amount,
+              0 receive
+            from
+              DSS_SCIENTIFIC_PROJECT pro,
+							DSS_SCIENTIFIC_BUDGET t
+              where  pro.STATE=400
+							and t.pro_id=pro.id
+							and t.ANNUAL = to_char(sysdate,'yyyy')
+              and substr(pro.PRO_TYPE, 0, 6) in ${_parameter}
+							)GROUP BY projectNum,projectName
+        ]]>
+            </when>
+            <otherwise>
+                <![CDATA[
+            select projectNum,projectName,sum(amount) amount, sum(receive)/10000 receive from
+(
+select
+              pro.CODE projectNum,
+              pro.NAME projectName,
+              0  amount,
+              outlay.FUNDS receive
+            from
+              DSS_SCIENTIFIC_PROJECT pro
+            left join  DSS_SCIENTIFIC_RECIVE  outlay
+              on pro.CODE = outlay.PRO_CODE
+              where  pro.STATE=400
+              and substr(pro.PRO_TYPE, 0, 4) in ${_parameter}
+              and outlay.STATUS = 'Y'
+			union all
+			select
+              pro.CODE projectNum,
+              pro.NAME projectName,
+              t.FUNDS  amount,
+              0 receive
+            from
+              DSS_SCIENTIFIC_PROJECT pro,
+				DSS_SCIENTIFIC_BUDGET t
+              where  pro.STATE=400
+				and t.pro_id=pro.id
+				and t.ANNUAL = to_char(sysdate,'yyyy')
+              and substr(pro.PRO_TYPE, 0, 4) in ${_parameter}
+				)GROUP BY projectNum,projectName
+        ]]>
+            </otherwise>
+        </choose>
+
+    </select>
+
+
+    <!--各所院成果转化情况-->
+    <resultMap id="deptAchievement" type="com.deloitte.platform.api.dss.scientific.vo.DeptAchievementVo">
+        <result column="deptId" property="deptId"/>
+        <result column="deptName" property="deptName"/>
+        <result column="transformation" property="transformation"/>
+        <result column="authenticate" property="authenticate"/>
+    </resultMap>
+
+
+    <!--各所院成果转化情况-->
+    <select id="queryAchievement" resultMap="deptAchievement">
+        <![CDATA[
+             select dept.ID deptId,
+                   dept.DEPT_NAME deptName,
+                   count(tra.ID) transformation,
+                   count(ide.ID) authenticate
+            from
+              ((DSS_SCIENTIFIC_PROJECT pro INNER JOIN
+                ISUMP_DEPT dept on pro.LEAD_DEPT_ID = dept.ID) INNER JOIN
+                SRPMS_OUTLINE_RESULT_TRANS tra on pro.CODE = tra.PRO_CODE)
+                left JOIN SRPMS_OUTLINE_RESULT_IDENTIFY ide on pro.CODE = ide.PRO_CODE
+                and to_char(ide.IDENTIFY_TIME,'yyyy') = to_char(sysdate,'yyyy')
+              where  tra.CONTRACT_SIGNING_YEAR = to_char(sysdate,'yyyy')
+                and substr(pro.PRO_TYPE, 0, 6) = '100101'
+                and  pro.STATE = 500
+              group by dept.ID,dept.DEPT_NAME
+        ]]>
+    </select>
+
+
+    <!--各所院论文发表情况-->
+    <resultMap id="papersci" type="com.deloitte.platform.api.dss.scientific.vo.DeptPaperSCIVo">
+        <result column="deptId" property="deptId"/>
+        <result column="deptName" property="deptName"/>
+        <result column="paper" property="paper"/>
+        <result column="sciNum" property="sciNum"/>
+    </resultMap>
+
+    <!--各所院论文发表情况-->
+    <select id="queryPaper" resultMap="papersci">
+        <![CDATA[
+           SELECT
+              dept.ID deptId,
+              dept.DEPT_NAME deptName,
+              count(paper.ID) paper,
+              count(sci.ID)  sciNum
+            FROM DSS_SCIENTIFIC_PROJECT  pro,ISUMP_DEPT dept ,SRPMS_OUTLINE_PAPER  paper
+            left join  DSS_SCI_PAPER  sci on  paper.JOURNAL_TITLE  =sci.JOURNAL_TITLE
+            where pro.LEAD_DEPT_ID = dept.ID and pro.CODE = paper.PRO_CODE
+                   and  pro.STATE = 500
+                   and pro.END_DATE < sysdate
+              group by  dept.ID,dept.DEPT_NAME
+        ]]>
+    </select>
+
+
+</mapper>

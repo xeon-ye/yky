@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.srpmp.project.accept.mapper.SrpmsProjectAcceptSchoolMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.srpmp.project.accept.entity.SrpmsProjectAcceptSchool">
+        <id column="ID" property="id" />
+        <result column="ACCEPT_ID" property="acceptId" />
+        <result column="PROJECT_ABSTRACT" property="projectAbstract" />
+        <result column="PROJECT_CONTENT_INDICATORS" property="projectContentIndicators" />
+        <result column="PROJECT_GAIN_RESULT" property="projectGainResult" />
+        <result column="PROJECT_TEAM_CONSTRUCTION" property="projectTeamConstruction" />
+        <result column="PROJECT_QUESTION_ADVICE" property="projectQuestionAdvice" />
+        <result column="PROJECT_RESULT_DIRECTORY" property="projectResultDirectory" />
+        <result column="APPLY_FUNDS" property="applyFunds" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, ACCEPT_ID, PROJECT_ABSTRACT, PROJECT_CONTENT_INDICATORS, PROJECT_GAIN_RESULT, PROJECT_TEAM_CONSTRUCTION, PROJECT_QUESTION_ADVICE, PROJECT_RESULT_DIRECTORY, APPLY_FUNDS
+    </sql>
+
+</mapper>

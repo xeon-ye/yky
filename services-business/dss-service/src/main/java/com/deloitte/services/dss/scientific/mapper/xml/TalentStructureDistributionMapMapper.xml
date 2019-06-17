@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.scientific.mapper.TalentStructureDistributionMapMapper">
+
+    <select id="getTalentStructureDistribution" parameterType="java.lang.String"
+            resultType="com.deloitte.platform.api.dss.scientific.vo.TalentStructureDistributionMapVo">
+        <![CDATA[
+         select
+                count(*)                                                                  totalNum,
+                sum(case when age <= 45 then 1 else 0 end)                                Low45Num,
+                sum(case when age > 45 then 1 else 0 end)                                 over45Num,
+                sum(case when position_title = '10' then 1 else 0 end)                    highLever,
+                sum(case when position_title = '20' then 1 else 0 end)                    midLever,
+                sum(case when position_title = '30' then 1 else 0 end)                    lowLever,
+                sum(case when POSITION_TITLE not in  ('10','20','30') then 1 else 0 end)  otherOne,
+                sum(case when DEGREE = '10' then 1 else 0 end)                            doctor,
+                sum(case when DEGREE = '20' then 1 else 0 end)                            master,
+                sum(case when DEGREE = '30' then 1 else 0 end)                            undergraduate,
+                sum(case when DEGREE not in ('10', '20', '30') then 1 else 0 end)         otherTwo,
+                sum (case when personCategory = '30' then 1 else 0 end )                 postDoctor,
+                sum (case when personCategory = '10' then 1 else 0 end )                 researcher,
+                sum (case when personCategory = '20' then 1 else 0 end )                 technicist
+                from
+                (select  cast (iu.DEGREE as Nvarchar2(30)) degree,
+                 TRUNC(months_between(sysdate, iu.birth_date) / 12) AS age,
+                  cast ( iu.position_title as Nvarchar2(30)) position_title,
+                  cast (iu.TALENT_TYPE as Nvarchar2(30)) personCategory,
+                substr(pro.PROJECT_TYPE, 0, 6) category
+                from
+                SRPMS_PROJECT pro,
+                SRPMS_PROJECT_PERSON_JOIN member,
+                ISUMP_USER iu,
+                ISUMP_DEPT id
+                where pro.STATUS=50
+                and substr(pro.PROJECT_TYPE, 0, 6) = #{category}
+                and to_char(pro.project_action_date_start, 'yyyy') <=
+                to_char(sysdate, 'yyyy')
+                and to_char(pro.project_action_date_end, 'yyyy') >=
+                to_char(sysdate, 'yyyy')
+                and   member.PROJECT_NUM=pro.PROJECT_NUM
+                and member.JOIN_WAY in ('0101','0201','0301','0401','0501','0601')
+                and iu.ID=member.PERSON_ID
+                and id.DEPT_CODE=iu.DEPT
+
+                union
+
+                select
+                cast (leader.DEGREE as Nvarchar2(30)) degree,
+                TRUNC(months_between(sysdate, leader.birth_date) / 12) AS age,
+                cast ( leader.position_title as Nvarchar2(30)) position_title,
+                cast (leader.TALENT_TYPE as Nvarchar2(30)) personCategory,
+                substr(pro.PROJECT_TYPE, 0, 6) category
+                from SRPMS_PROJECT pro, ISUMP_USER leader
+                where pro.STATUS=50
+                and substr(pro.PROJECT_TYPE, 0, 6) = #{category}
+                and  pro.LEAD_PERSON_ID = leader.id
+                and to_char(pro.project_action_date_start, 'yyyy') <=
+                to_char(sysdate, 'yyyy')
+                and to_char(pro.project_action_date_end, 'yyyy') >=
+                to_char(sysdate, 'yyyy')
+                )temp group by category
+        ]]>
+    </select>
+
+    <select id="getDeptTalentStructureDistribution"  parameterType="java.lang.String"
+            resultType="com.deloitte.platform.api.dss.scientific.vo.TalentStructureDistributionMapVo">
+        <![CDATA[     select
+                count(*)                                                                  totalNum,
+                DEPT_NAME                                                                  deptName ,
+                sum(case when position_title = '10' then 1 else 0 end)                    highLever,
+                sum(case when position_title = '20' then 1 else 0 end)                    midLever,
+                sum(case when position_title = '30' then 1 else 0 end)                    lowLever,
+                sum(case when POSITION_TITLE not in  ('10','20','30') then 1 else 0 end)  otherOne
+
+      from
+                (
+                select
+                 pro.PROJECT_NUM,
+                 cast ( iu.position_title as Nvarchar2(30)) position_title,
+                 id.DEPT_NAME
+                from
+                SRPMS_PROJECT pro,
+                SRPMS_PROJECT_PERSON_JOIN member,
+                ISUMP_USER iu,
+                ISUMP_DEPT id
+                where pro.STATUS=50
+                and substr(pro.PROJECT_TYPE, 0, 6) =  #{category}
+                and to_char(pro.project_action_date_start, 'yyyy') <=
+                to_char(sysdate, 'yyyy')
+                and to_char(pro.project_action_date_end, 'yyyy') >=
+                to_char(sysdate, 'yyyy')
+                and   member.PROJECT_NUM=pro.PROJECT_NUM
+                and member.JOIN_WAY  in ('0101','0201','0301','0401','0501','0601')
+                and iu.ID=member.PERSON_ID
+
+                union
+                select
+                  pro.PROJECT_NUM,
+                cast ( leader.position_title as Nvarchar2(30)) position_title,
+                cast (id.DEPT_NAME as Nvarchar2(200)) DEPT_NAME
+                from SRPMS_PROJECT pro, ISUMP_USER leader,ISUMP_DEPT id
+                where pro.STATUS=50
+                and substr(pro.PROJECT_TYPE, 0, 6) =  #{category}
+                and  pro.LEAD_PERSON_ID = leader.id
+                and id.DEPT_CODE=leader.DEPT
+                and to_char(pro.project_action_date_start, 'yyyy') <=
+                to_char(sysdate, 'yyyy')
+                and to_char(pro.project_action_date_end, 'yyyy') >=
+                to_char(sysdate, 'yyyy')
+                )temp group by DEPT_NAME
+]]>
+    </select>
+    <select id="getProjectTalentStructureDistribution" resultType="com.deloitte.platform.api.dss.scientific.vo.TalentStructureDistributionMapVo">
+        <![CDATA[select
+                count(*)                                                                totalNum,
+                sum(case when category = '100101' then 1 else 0 end)                    innovate,
+                sum(case when category = '100102' then 1 else 0 end)                    academy,
+                sum(case when category = '100103' then 1 else 0 end)                    school,
+                sum(case when category = '100104' then 1 else 0 end)                    reform
+
+      from
+                (
+                select
+                member.PROJECT_NUM,
+                substr(pro.PROJECT_TYPE, 0, 6) category
+                from
+                SRPMS_PROJECT pro,
+                SRPMS_PROJECT_PERSON_JOIN member
+                where pro.STATUS=50
+                and substr(pro.PROJECT_TYPE, 0, 4) = '1001'
+                and to_char(pro.project_action_date_start, 'yyyy') <=
+                to_char(sysdate, 'yyyy')
+                and to_char(pro.project_action_date_end, 'yyyy') >=
+                to_char(sysdate, 'yyyy')
+                and   member.PROJECT_NUM=pro.PROJECT_NUM
+                and member.JOIN_WAY in ('0101','0201','0301','0401','0501','0601')
+
+                union
+
+                select
+                pro.PROJECT_NUM,
+                substr(pro.PROJECT_TYPE, 0, 6) category
+                from SRPMS_PROJECT pro, ISUMP_USER leader
+                where pro.STATUS=50
+                and substr(pro.PROJECT_TYPE, 0, 4) = '1001'
+                and  pro.LEAD_PERSON_ID = leader.id
+                and to_char(pro.project_action_date_start, 'yyyy') <=
+                to_char(sysdate, 'yyyy')
+                and to_char(pro.project_action_date_end, 'yyyy') >=
+                to_char(sysdate, 'yyyy')
+                )temp ]]>
+    </select>
+</mapper>

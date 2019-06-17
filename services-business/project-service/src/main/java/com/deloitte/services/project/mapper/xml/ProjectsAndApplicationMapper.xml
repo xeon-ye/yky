@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.project.mapper.ProjectsAndApplicationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.project.entity.ProjectsAndApplication">
+        <id column="ID" property="id"/>
+        <result column="PROJECT_CODE" property="projectCode"/>
+        <result column="PROJECT_NAME" property="projectName"/>
+        <result column="PROJECT_HEADER_ID" property="projectHeaderId"/>
+        <result column="PROJECT_HEADER_NAME" property="projectHeaderName"/>
+        <result column="PROJECT_TYPE_CODE" property="projectTypeCode"/>
+        <result column="PROJECT_TYPE_NAME" property="projectTypeName"/>
+        <result column="ORGANIZATION_ID" property="organizationId"/>
+        <result column="ORGANIZATION_NAME" property="organizationName"/>
+        <result column="PLAN_YEAR" property="planYear"/>
+        <result column="CYCLE" property="cycle"/>
+        <result column="PROJECT_STATUS_CODE" property="projectStatusCode"/>
+        <result column="PROJECT_STATUS_NAME" property="projectStatusName"/>
+        <result column="REPLY_NEW_MARK" property="replyNewMark"/>
+        <result column="PROJECT_CONNECT_STAFF_ID" property="projectConnectStaffId"/>
+        <result column="PROJECT_CONNECT_STAFF_NAME" property="projectConnectStaffName"/>
+
+        <result column="APPLICATION_ID" property="applicationId"/>
+        <result column="PROJECT_ID" property="projectId"/>
+        <result column="APP_STATE_CODE" property="appStateCode"/>
+        <result column="APP_STATE_NAME" property="appStateName"/>
+        <result column="THE_APPLICATION_YEAR" property="theApplicationYear"/>
+        <result column="SUBPROJECT_TYPE_CODE" property="subProjectTypeCode"/>
+        <result column="SUBPROJECT_TYPE_NAME" property="subProjectTypeName"/>
+
+        <result column="REVIEW_ADVICE" property="reviewAdvice"/>
+        <result column="REVIEW_STATUS_CODE" property="reviewStatusCode"/>
+        <result column="REVIEW_STATUS_NAME" property="reviewStatusName"/>
+
+        <result column="REPLY_CODE" property="replyCode"/>
+        <result column="REPLY_YEAR" property="replyYear"/>
+        <result column="REPLY_DOCUMENT_ID" property="replyDocumentId"/>
+        <result column="BEGIN_YEAR" property="beginYear"/>
+        <result column="REPLY_STATUS_CODE" property="replyStatusCode"/>
+        <result column="REPLY_STATUS_NAME" property="replyStatusName"/>
+
+        <result column="CHANGE_CODE" property="changeCode"/>
+        <result column="CHANGE_NAME" property="changeName"/>
+        <result column="CHANGE_ADV" property="changeAdv"/>
+        <result column="CHANGE_TIME" property="changeTime"/>
+
+        <result column="MAINTENANCE_ID" property="maintenanceId"/>
+
+    </resultMap>
+
+    <sql id="commonSql">
+        <if test=" app.projectName != null and app.projectName != '' ">
+            and a.project_name like '%'||#{app.projectName}||'%'
+        </if>
+
+        <if test="app.projectCode != null and app.projectCode != ''">
+            and a.project_code like '%'||#{app.projectCode}||'%'
+        </if>
+
+        <if test="app.projectTypeCode != null">
+            and a.project_type_code = #{app.projectTypeCode}
+        </if>
+
+        <if test="app.organizationId != null">
+            and a.organization_id = #{app.organizationId}
+        </if>
+
+        <if test="app.organizationName != null and app.organizationName != ''">
+            and a.organization_name like '%'||#{app.organizationName}||'%'
+        </if>
+
+        <if test="app.project_header_id != null">
+            and a.project_header_id = #{app.project_header_id}
+        </if>
+
+        <if test="app.planYear != null and app.planYear != ''">
+            and a.plan_year = #{app.planYear}
+        </if>
+
+        <if test="app.planYear1 != null and app.planYear1 != ''">
+            <![CDATA[ and a.plan_year >= #{app.planYear1} ]]>
+        </if>
+
+        <if test="app.planYear2 != null and app.planYear2 != ''">
+            <![CDATA[ and a.plan_year <= #{app.planYear2} ]]>
+        </if>
+
+        <if test="app.cycle != null">
+            and a.cycle = #{app.cycle}
+        </if>
+
+        <if test="app.cycle1 != null and app.cycle1 !='' ">
+            <![CDATA[ and a.cycle >= #{app.cycle1} ]]>
+        </if>
+        <if test="app.cycle2 != null and app.cycle2 !='' ">
+            <![CDATA[ and a.cycle <= #{app.cycle2} ]]>
+        </if>
+
+
+        <if test="app.reviewStateCode != null and app.reviewStateCode != ''">
+            and b.review_state_code = #{app.reviewStateCode}
+        </if>
+        <if test="app.theApplicationYear != null and app.theApplicationYear!= ''">
+            and b.the_application_year = #{app.theApplicationYear}
+        </if>
+        <if test="app.subProjectTypeCode != null and app.subProjectTypeCode != ''">
+            and b.subproject_type_code = #{app.subProjectTypeCode}
+        </if>
+        <if test="app.replyCode != null and app.replyCode!= ''">
+            and b.reply_code = #{app.replyCode}
+        </if>
+        <if test="app.replyYear != null and app.replyYear != '' ">
+            and b.reply_year = #{app.replyYear}
+        </if>
+
+        <if test="app.changeCode != null">
+            and d.change_code = #{app.changeCode}
+        </if>
+
+        <if test="app.changeName != null">
+            and d.change_name = #{app.changeName}
+        </if>
+
+        <if test="app.changeAdv != null">
+            and d.change_adv = #{app.changeAdv}
+        </if>
+
+        <if test="app.changeBeginDate != null">
+            <![CDATA[ and to_char(d.change_time,'yyyyMMdd') >= #{app.changeBeginDate} ]]>
+        </if>
+
+        <if test="app.changeEndDate != null">
+            <![CDATA[ and to_char(d.change_time,'yyyyMMdd') <= #{app.changeEndDate} ]]>
+        </if>
+    </sql>
+
+    <sql id="paSql" >
+        select  a.id,
+                a.project_code,
+                a.project_name,
+                a.project_header_id,
+                a.project_header_name,
+                a.project_type_code,
+                a.project_type_name,
+                a.plan_year,
+                a.PROJECT_STATUS_CODE,
+                a.PROJECT_STATUS_NAME,
+                a.cycle,
+                b.application_id,
+                b.project_id,
+                b.app_state_code,
+                b.app_state_name,
+                b.the_application_year,
+                b.subproject_type_code,
+                b.subproject_type_name,
+                (select review_status_code
+                  from project_review
+                 where application_id = b.application_id) as review_status_code,
+                (select review_status_name
+                  from project_review
+                 where application_id = b.application_id) as review_status_name
+        from projects a, project_application b
+            where a.id = b.project_id
+    </sql>
+
+    <!-- 综合查询 -->
+    <select id="selectAllListPage" parameterType="Map" resultMap="BaseResultMap">
+        <include refid="paSql"></include>
+        <include refid="commonSql"></include>
+    </select>
+
+    <!-- 项目申报前导查询 以及 关联查询 -->
+    <select id="selectAllApps" parameterType="Map" resultMap="BaseResultMap">
+        <include refid="paSql"></include>
+        <if test="app.appMark == 0">
+            and a.project_status_code in ('7003', '7004')
+            and a.cycle > 1
+        </if>
+        <if test="app.appMark == 1">
+            and a.project_status_code in ('7001','7002','7003','7004','7005','7006','7007')
+            and b.app_state_code in('2001','2002','2003','2004','2005','2006','2008')
+        </if>
+        <include refid="commonSql"></include>
+        order by a.priority desc, a.create_time desc
+    </select>
+
+    <!--评审-->
+    <select id="selectReviewListPage" parameterType="Map" resultMap="BaseResultMap">
+        select a.id,
+                a.project_code,
+                a.project_name,
+                a.project_header_id,
+                a.project_header_name,
+                a.project_type_code,
+                a.project_type_name,
+                a.plan_year,
+                a.cycle,
+                a.PROJECT_STATUS_CODE,
+                a.PROJECT_STATUS_NAME,
+                a.project_connect_staff_id,
+                a.project_connect_staff_name,
+                b.application_id,
+                b.project_id,
+                b.app_state_code,
+                b.app_state_name,
+                b.the_application_year,
+                b.subproject_type_code,
+                b.subproject_type_name,
+                (select review_advice
+                    from project_review
+                where application_id = b.application_id) as review_advice,
+                (select review_status_code
+                    from project_review
+                where application_id = b.application_id) as review_status_code,
+                (select review_status_name
+                    from project_review
+                where application_id = b.application_id) as review_status_name
+        from projects a, project_application b
+        where a.id = b.project_id
+        and b.app_state_code in ('2003')
+        <include refid="proTable"></include>
+    </select>
+
+    <!-- 批复前导查询-->
+    <select id="selectStartReplyPage" parameterType="Map" resultMap="BaseResultMap">
+        select a.id,
+               a.project_id,
+               a.project_code,
+               a.project_name,
+               a.project_header_id,
+               a.project_header_name,
+               a.project_type_code,
+               a.project_type_name,
+               a.plan_year,
+               a.project_status_code,
+               a.project_status_name,
+               a.cycle,
+               a.reply_new_mark,
+               a.organization_name,
+               a.organization_id,
+               b.reply_year,
+               b.reply_code,
+               b.reply_document_id,
+               b.reply_status_code,
+               b.reply_status_name
+          from projects a, project_reply b
+         where a.id = b.project_id
+           and a.project_status_code in ('7003', '7004')
+           and b.reply_status_code in ('2006', '2007')
+           and to_char(b.reply_time, 'yyyy') = to_char(sysdate, 'yyyy')
+        <if test="app.replyYear1 != null and app.replyYear1 !='' ">
+            <![CDATA[ and b.reply_year >= #{app.replyYear1} ]]>
+        </if>
+        <if test="app.replyYear2 != null and app.replyYear2 !='' ">
+            <![CDATA[ and b.reply_year <= #{app.replyYear2} ]]>
+        </if>
+        <include refid="commonSql"></include>
+    </select>
+
+    <!-- 批复关联项目申报书和批复书 -->
+    <sql id="replyAppSql">
+        select  a.id,
+                a.project_id,
+                a.project_code,
+                a.project_name,
+                a.project_header_id,
+                a.project_header_name,
+                a.project_type_code,
+                a.project_type_name,
+                a.plan_year,
+                a.project_status_code,
+                a.project_status_name,
+                a.cycle,
+                a.reply_new_mark
+            from projects a
+        where a.project_status_code in ('7003', '7004')
+         and exists (select 1
+                from project_application
+            where project_id = a.project_id
+            and app_state_code in ('2006','2007'))
+         <include refid="commonSql"></include>
+    </sql>
+
+    <sql id="replyRepSql">
+        select a.id,
+            a.project_id,
+            a.project_code,
+            a.project_name,
+            a.project_header_id,
+            a.project_header_name,
+            a.project_type_code,
+            a.project_type_name,
+            a.plan_year,
+            a.project_status_code,
+            a.project_status_name,
+            a.cycle,
+            a.reply_new_mark
+        from projects a
+        where a.project_status_code in ('7003', '7004')
+        and a.reply_new_mark = '80001'
+        and a.cycle > 1
+        and exists (select 1
+        from project_reply b
+        where a.project_id = b.project_id
+        and b.reply_status_code = '2007')
+        <include refid="commonSql"></include>
+    </sql>
+
+    <!-- 立项批复关联查询-->
+    <select id="selectAllReplyListPage" parameterType="Map" resultMap="BaseResultMap">
+        <include refid="replyAppSql"></include>
+        union all
+        <include refid="replyRepSql"></include>
+    </select>
+
+    <!-- 项目执行查询前导查询  -->
+    <select id="searchExecutionPages" parameterType="Map" resultMap="BaseResultMap">
+        select *
+          from (select a.id,
+                       a.project_code,
+                       a.project_name,
+                       a.project_type_code,
+                       a.project_type_name,
+                       a.plan_year,
+                       a.project_status_code,
+                       a.project_status_name,
+                       a.cycle,
+                       a.reply_new_mark,
+                       b.reply_document_id,
+                       b.reply_code,
+                       row_number() over(partition by b.project_id order by nvl(b.reply_year, '0') desc) rn
+                  from projects a, project_reply b
+                 where a.id = b.project_id
+                   and a.project_status_code = '7004'
+                   and b.reply_status_code = '2007') t
+         where t.rn = 1
+         union all
+         select *
+            from (select a.id,
+                       a.project_code,
+                       a.project_name,
+                       a.project_type_code,
+                       a.project_type_name,
+                       a.plan_year,
+                       a.project_status_code,
+                       a.project_status_name,
+                       a.cycle,
+                       a.reply_new_mark,
+                       b.reply_document_id,
+                       b.reply_code,
+                       row_number() over(partition by b.project_id order by nvl(b.reply_year, '0') desc) rn
+                  from projects a, project_maint_reply b
+                 where a.id = b.project_id
+                   and a.project_status_code = '7004'
+                   and b.reply_status_code = '2007') t
+            where t.rn = 1
+    </select>
+
+    <!-- 项目执行变更审批 -->
+    <select id="searchChangePages" parameterType="Map" resultMap="BaseResultMap" >
+        select a.id,
+           a.project_code,
+           a.project_name,
+           a.project_header_id,
+           a.project_header_name,
+           a.project_type_code,
+           a.project_type_name,
+           a.plan_year,
+           a.cycle,
+           a.PROJECT_STATUS_CODE,
+           a.PROJECT_STATUS_NAME,
+           b.application_id,
+           b.project_id,
+           b.app_state_code,
+           b.app_state_name,
+           b.the_application_year,
+           b.subproject_type_code,
+           b.subproject_type_name,
+           c.reply_code,
+           c.reply_year,
+           d.change_code,
+           d.change_name,
+           d.change_adv,
+           d.change_date
+      from projects a, project_application b, project_reply c,project_change_pro d
+     where a.id = b.project_id
+       and b.application_id = c.application_id
+       and b.application_id = d.application_id
+       <include refid="commonSql"></include>
+    </select>
+
+    <!-- 项目维护 -->
+    <select id="searchMaintenancePages" parameterType="Map" resultMap="BaseResultMap">
+        select a.id,
+               a.project_code,
+               a.project_name,
+               a.project_header_id,
+               a.project_header_name,
+               a.project_type_code,
+               a.project_type_name,
+               a.plan_year,
+               a.cycle,
+               a.project_status_code,
+               a.project_status_name,
+               e.maintenance_id
+          from projects a, project_maintenance e
+         where a.project_id = e.project_id
+            and a.project_mark = '80001'
+        <include refid="commonSql"></include>
+    </select>
+    
+    <sql id="proTable">
+        <if test=" app.projectName != null and app.projectName != '' ">
+            and a.project_name like '%'||#{app.projectName}||'%'
+        </if>
+        <if test="app.projectCode != null and app.projectCode != ''">
+            and a.project_code like '%'||#{app.projectCode}||'%'
+        </if>
+        <if test="app.projectTypeCode != null and app.projectTypeCode != ''">
+            and a.project_type_code = #{app.projectTypeCode}
+        </if>
+        <if test="app.organizationId != null and app.organizationId != '' ">
+            and a.organization_id = #{app.organizationId}
+        </if>
+        <if test="app.organizationName != null and app.organizationName != ''">
+            and a.organization_name like '%'||#{app.organizationName}||'%'
+        </if>
+        <if test="app.projectHeaderName != null and app.projectHeaderName != ''">
+            and a.project_header_name like '%'||#{app.projectHeaderName}||'%'
+        </if>
+        <if test="app.projectConnectStaffName != null and app.projectConnectStaffName != ''">
+            and a.project_connect_staff_Name like '%'||#{app.projectConnectStaffName}||'%'
+        </if>
+        <if test="app.projectStatusCode != null and app.projectStatusCode != ''">
+            and a.project_status_code = #{app.projectStatusCode}
+        </if>
+        <if test="app.planYear != null and app.planYear != ''">
+            and a.plan_year = #{app.planYear}
+        </if>
+        <if test="app.planYear1 != null and app.planYear1 != ''">
+            <![CDATA[ and a.plan_year >= #{app.planYear1} ]]>
+        </if>
+        <if test="app.planYear2 != null and app.planYear2 != ''">
+            <![CDATA[ and a.plan_year <= #{app.planYear2} ]]>
+        </if>
+        <if test="app.cycle != null">
+            and a.cycle = #{app.cycle}
+        </if>
+        <if test="app.cycle1 != null and app.cycle1 !='' ">
+            <![CDATA[ and a.cycle >= #{app.cycle1} ]]>
+        </if>
+        <if test="app.cycle2 != null and app.cycle2 !='' ">
+            <![CDATA[ and a.cycle <= #{app.cycle2} ]]>
+        </if>
+    </sql>
+</mapper>

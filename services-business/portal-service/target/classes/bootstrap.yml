@@ -1,0 +1,32 @@
+server:
+  port: 8402
+
+spring:
+  application:
+    name: service-portal
+  cloud:
+    config:
+      fail-fast: true
+      discovery:
+        enabled: true
+        service-id: config-server
+      name: config
+      profile: common,portal
+    bus:
+      trace:
+        enabled: true
+      enabled: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_ZONE_HOST:localhost}:${EUREKA_ZONE_PORT:8101}/eureka/
+feign:
+  hystrix:
+    enabled: true
+
+cas:
+  server-url-prefix: http://124.17.100.180:9080/isump
+  server-login-url: http://124.17.100.180:9080/isump/login
+  client-host-url: http://124.17.100.183:30005
+  validation-type: CAS3

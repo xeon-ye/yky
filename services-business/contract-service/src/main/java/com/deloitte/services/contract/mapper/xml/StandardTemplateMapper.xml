@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.contract.mapper.StandardTemplateMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.contract.entity.StandardTemplate">
+        <id column="ID" property="id" />
+        <result column="TEMPLATE_CODE" property="templateCode" />
+        <result column="TEMPLATE_NAME" property="templateName" />
+        <result column="ATTRIBUTE_CODE" property="attributeCode" />
+        <result column="ATTRIBUTE" property="attribute" />
+        <result column="ORG_CODE" property="orgCode" />
+        <result column="ORG" property="org" />
+        <result column="CONTRACT_TYPE_CODE" property="contractTypeCode" />
+        <result column="CONTRACT_TYPE" property="contractType" />
+        <result column="STATUE" property="statue" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="IS_USED" property="isUsed" />
+        <result column="SPARE_FIELD_1" property="spareField1" />
+        <result column="SPARE_FIELD_2" property="spareField2" />
+        <result column="SPARE_FIELD_3" property="spareField3" />
+        <result column="SPARE_FIELD_4" property="spareField4" />
+        <result column="SPARE_FIELD_5" property="spareField5" />
+        <result column="ATTAMENT_ID" property="attamentId" />
+        <result column="FILE_NAME" property="fileName" />
+        <result column="FILE_URL" property="fileUrl" />
+        <result column="STANDARD_REMARK" property="standardRemark" />
+        <result column="CREATE_BY_NAME" property="createByName" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, TEMPLATE_CODE, TEMPLATE_NAME, ATTRIBUTE_CODE, ATTRIBUTE, ORG_CODE, ORG, CONTRACT_TYPE_CODE, CONTRACT_TYPE, STATUE, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, IS_USED, SPARE_FIELD_1, SPARE_FIELD_2, SPARE_FIELD_3, SPARE_FIELD_4, SPARE_FIELD_5, ATTAMENT_ID, FILE_NAME, FILE_URL, STANDARD_REMARK
+    </sql>
+
+    <select id="getStandardTemplateList" parameterType="Map" resultMap="BaseResultMap">
+        SELECT
+        *
+        FROM
+        (
+        SELECT
+        ROWNUM RN,
+        A.*
+        FROM
+        (
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        CONTRACT_STANDARD_TEMPLATE T
+        WHERE
+        1 = 1
+        <if test="templateName !=null and templateName !=''">
+            AND T.TEMPLATE_NAME LIKE #{templateName}
+        </if>
+        <if test="templateCode !=null and templateCode !=''">
+            AND T.TEMPLATE_CODE = #{templateCode}
+        </if>
+        <if test="attributeCode !=null and attributeCode !=''">
+            AND T.ATTRIBUTE_CODE = #{attributeCode}
+        </if>
+        <if test="orgCode !=null and orgCode !=''">
+            AND T.ORG_CODE = #{orgCode}
+        </if>
+        <if test="contractTypeCode !=null and contractTypeCode !=''">
+            AND T.CONTRACT_TYPE_CODE = #{contractTypeCode}
+        </if>
+        ) A
+        WHERE
+        ROWNUM &lt; #{maxNum}
+        )
+        WHERE
+        RN &gt;= #{minNum}
+    </select>
+
+    <select id="getTemplatePersonList" parameterType="com.deloitte.platform.api.contract.param.StandardTemplateQueryForm" resultMap="BaseResultMap">
+        SELECT
+        *
+        FROM
+        (
+        SELECT
+        ROWNUM RN,
+        A.*
+        FROM
+        (
+        SELECT
+        T.ID,
+        T.TEMPLATE_CODE,
+        T.TEMPLATE_NAME,
+        T.CREATE_BY_NAME,
+        T.ATTRIBUTE_CODE,
+        T.ATTRIBUTE,
+        T.ORG_CODE,
+        T.ORG,
+        T.CONTRACT_TYPE_CODE,
+        T.CONTRACT_TYPE,
+        T.STATUE,
+        B.ID SPARE_FIELD_1
+        FROM CONTRACT_TEMPLATE_PERSON_MAP B
+        INNER JOIN CONTRACT_STANDARD_TEMPLATE T ON B.TEMPLATE_CODE = T.ID
+        WHERE
+        1 = 1
+        AND B.PERSON_CODE = #{createBy}
+        AND T.STATUE IN ('TEMP3000','TEMP4000','TEMP5000')
+        <if test="templateName !=null and templateName !=''">
+            AND T.TEMPLATE_NAME LIKE '%'||#{templateName}||'%'
+        </if>
+        <if test="templateCode !=null and templateCode !=''">
+            AND T.TEMPLATE_CODE LIKE '%'||#{templateCode}||'%'
+        </if>
+        <if test="attributeCode !=null and attributeCode !=''">
+            AND T.ATTRIBUTE_CODE = #{attributeCode}
+        </if>
+        <if test="orgCode !=null and orgCode !=''">
+            <foreach collection="orgCodeList" index="index" item="item" separator=" ">
+                AND T.ORG_CODE LIKE '%'||#{item}||'%'
+            </foreach>
+        </if>
+        <if test="contractTypeCode !=null and contractTypeCode !=''">
+            <foreach collection="contractTypeList" index="index" item="item" separator=" ">
+                AND T.CONTRACT_TYPE_CODE LIKE '%'||#{item}||'%'
+            </foreach>
+        </if>
+        <if test="contractTypeCode !=null and contractTypeCode !=''">
+            AND T.CONTRACT_TYPE_CODE = #{contractTypeCode}
+        </if>
+        ) A
+        WHERE
+        ROWNUM &lt;= #{maxNum}
+        )
+        WHERE
+        RN &gt;= #{minNum}
+    </select>
+
+    <select id="getStandardTemplateaAllList" parameterType="String" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> FROM CONTRACT_STANDARD_TEMPLATE T WHERE T.ATTRIBUTE_CODE = #{attributeCode}
+    </select>
+
+    <select id="getStandardTemplateMxaSize" parameterType="Map" resultMap="BaseResultMap">
+        SELECT
+        COUNT(1) LIST_NUMB
+        FROM
+        CONTRACT_STANDARD_TEMPLATE T
+        WHERE
+        1 = 1
+        <if test="templateName !=null and templateName !=''">
+            AND T.TEMPLATE_NAME LIKE #{templateName}
+        </if>
+        <if test="templateCode !=null and templateCode !=''">
+            AND T.TEMPLATE_CODE = #{templateCode}
+        </if>
+        <if test="attributeCode !=null and attributeCode !=''">
+            AND T.ATTRIBUTE_CODE = #{attributeCode}
+        </if>
+        <if test="orgCode !=null and orgCode !=''">
+            AND T.ORG_CODE = #{orgCode}
+        </if>
+        <if test="contractTypeCode !=null and contractTypeCode !=''">
+            AND T.CONTRACT_TYPE_CODE = #{contractTypeCode}
+        </if>
+    </select>
+
+    <select id="getTemplatePersonMxaSize" parameterType="com.deloitte.platform.api.contract.param.StandardTemplateQueryForm" resultType="java.math.BigDecimal">
+        SELECT
+        COUNT(1) LIST_NUMB
+        FROM CONTRACT_TEMPLATE_PERSON_MAP B
+        INNER JOIN CONTRACT_STANDARD_TEMPLATE T ON B.TEMPLATE_CODE = T.ID
+        WHERE
+        1 = 1
+        AND B.PERSON_CODE = #{createBy}
+        AND T.STATUE IN ('TEMP3000','TEMP4000','TEMP5000')
+        <if test="templateName !=null and templateName !=''">
+            AND T.TEMPLATE_NAME LIKE '%'||#{templateName}||'%'
+        </if>
+        <if test="templateCode !=null and templateCode !=''">
+            AND T.TEMPLATE_CODE LIKE '%'||#{templateCode}||'%'
+        </if>
+        <if test="attributeCode !=null and attributeCode !=''">
+            AND T.ATTRIBUTE_CODE = #{attributeCode}
+        </if>
+        <if test="orgCode !=null and orgCode !=''">
+            <foreach collection="orgCodeList" index="index" item="item" separator=" ">
+                AND T.ORG_CODE LIKE '%'||#{item}||'%'
+            </foreach>
+        </if>
+        <if test="contractTypeCode !=null and contractTypeCode !=''">
+            <foreach collection="contractTypeList" index="index" item="item" separator=" ">
+                AND T.CONTRACT_TYPE_CODE LIKE '%'||#{item}||'%'
+            </foreach>
+        </if>
+        <if test="contractTypeCode !=null and contractTypeCode !=''">
+            AND T.CONTRACT_TYPE_CODE = #{contractTypeCode}
+        </if>
+    </select>
+</mapper>

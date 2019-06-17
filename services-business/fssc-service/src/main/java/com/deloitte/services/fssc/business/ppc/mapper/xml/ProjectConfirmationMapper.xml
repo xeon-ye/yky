@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.business.ppc.mapper.ProjectConfirmationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.business.ppc.entity.ProjectConfirmation">
+        <id column="ID" property="id" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_USER_NAME" property="createUserName" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="VERSION" property="version" />
+        <result column="DOCUMENT_NUM" property="documentNum" />
+        <result column="DOCUMENT_STATUS" property="documentStatus" />
+        <result column="RECIEVE_STATUS" property="recieveStatus" />
+        <result column="PAYMENT_TYPE" property="paymentType" />
+        <result column="UNIT_CODE" property="unitCode" />
+        <result column="UNIT_ID" property="unitId" />
+        <result column="UNIT_NAME" property="unitName" />
+        <result column="DEPT_CODE" property="deptCode" />
+        <result column="DEPT_ID" property="deptId" />
+        <result column="DEPT_NAME" property="deptName" />
+        <result column="PROJECT_NAME" property="projectName" />
+        <result column="PROJECT_CODE" property="projectCode" />
+        <result column="PROJECT_UNIT_ID" property="projectUnitId" />
+        <result column="PROJECT_UNIT_CODE" property="projectUnitCode" />
+        <result column="PROJECT_UNIT_NAME" property="projectUnitName" />
+        <result column="PROJECT_ID" property="projectId" />
+        <result column="REMARK" property="remark" />
+        <result column="CURRENCY_CODE" property="currencyCode" />
+        <result column="COST" property="cost" />
+        <result column="IN_COME_MAIN_TYPE_ID" property="inComeMainTypeId" />
+        <result column="IN_COME_MAIN_TYPE_CODE" property="inComeMainTypeCode" />
+        <result column="IN_COME_MAIN_TYPE_NAME" property="inComeMainTypeName" />
+        <result column="PAYMENT_CONFIRM_TYPE" property="paymentConfirmType" />
+        <result column="TOTAL_AMOUNT" property="totalAmount" />
+        <result column="IS_NEED_INVOICE" property="isNeedInvoice" />
+        <result column="TOTAL_AMOUNT_OTHER_CURRENCY" property="totalAmountOtherCurrency" />
+        <result column="IS_AFTER_PATCH" property="isAfterPatch" />
+        <result column="EX1" property="ex1" />
+        <result column="EX2" property="ex2" />
+        <result column="EX3" property="ex3" />
+        <result column="EX4" property="ex4" />
+        <result column="EX5" property="ex5" />
+        <result column="EX6" property="ex6" />
+        <result column="EX7" property="ex7" />
+        <result column="EX8" property="ex8" />
+        <result column="EX9" property="ex9" />
+        <result column="EX10" property="ex10" />
+        <result column="EX11" property="ex11" />
+        <result column="EX12" property="ex12" />
+        <result column="EX13" property="ex13" />
+        <result column="EX14" property="ex14" />
+        <result column="EX15" property="ex15" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, CREATE_BY, CREATE_USER_NAME, UPDATE_BY, UPDATE_TIME, CREATE_TIME, VERSION, DOCUMENT_NUM, DOCUMENT_STATUS, RECIEVE_STATUS, PAYMENT_TYPE, UNIT_CODE, UNIT_ID, UNIT_NAME, DEPT_CODE, DEPT_ID, DEPT_NAME, PROJECT_NAME, PROJECT_CODE, PROJECT_UNIT_ID, PROJECT_UNIT_CODE, PROJECT_UNIT_NAME, PROJECT_ID, REMARK, CURRENCY_CODE, COST, IN_COME_MAIN_TYPE_ID, IN_COME_MAIN_TYPE_CODE, IN_COME_MAIN_TYPE_NAME, PAYMENT_CONFIRM_TYPE, TOTAL_AMOUNT, IS_NEED_INVOICE, TOTAL_AMOUNT_OTHER_CURRENCY, IS_AFTER_PATCH, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10, EX11, EX12, EX13, EX14, EX15
+    </sql>
+
+</mapper>

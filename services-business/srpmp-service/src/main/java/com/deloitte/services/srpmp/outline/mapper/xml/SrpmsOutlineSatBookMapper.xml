@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.srpmp.outline.mapper.SrpmsOutlineSatBookMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.srpmp.outline.entity.SrpmsOutlineSatBook">
+        <id column="ID" property="id"/>
+        <result column="BASE_ID" property="baseId"/>
+        <result column="PRO_CODE" property="proCode"/>
+        <result column="PRO_NAME" property="proName"/>
+        <result column="BOOK_NAME" property="bookName"/>
+        <result column="AUTHOR" property="author"/>
+        <result column="BOOK_ORG" property="bookOrg"/>
+        <result column="BOOK_LEVEL" property="bookLevel"/>
+        <result column="PRESS" property="press"/>
+        <result column="PRESS_TIME" property="pressTime"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="CREATE_BY" property="createBy"/>
+        <result column="UPDATE_TIME" property="updateTime"/>
+        <result column="UPDATE_BY" property="updateBy"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, BASE_ID, PRO_CODE, PRO_NAME, BOOK_NAME, AUTHOR, BOOK_ORG, BOOK_LEVEL, PRESS, PRESS_TIME, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+    </sql>
+
+    <!--根据条件查询科技著作数据-->
+    <select id="listQuery" parameterType="com.deloitte.platform.api.srpmp.outline.param.SrpmsOutlineSatBookQueryForm"
+            resultType="com.deloitte.platform.api.srpmp.outline.param.SrpmsOutlineSatBookQueryParam">
+        SELECT t1.*, t2.org_id, t2.year, t2.month
+        FROM
+        SRPMS_OUTLINE_SAT_BOOK t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE
+        1=1
+        <if test="orgId != null">
+            AND t2.org_id = #{orgId}
+        </if>
+        <if test="year != null and year != ''">
+            AND t2.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t2.month = #{month}
+        </if>
+        <if test="proCode != null and proCode != ''">
+            AND t1.PRO_CODE = #{proCode}
+        </if>
+        <if test="proName != null and proName != ''">
+            AND t1.PRO_NAME LIKE '%'||#{proName}||'%'
+        </if>
+        <if test="bookName != null and bookName != ''">
+            AND t1.book_name LIKE '%'||#{bookName}||'%'
+        </if>
+        <if test="bookOrg != null and bookOrg != ''">
+            AND t1.book_org = #{bookOrg}
+        </if>
+        <if test="bookLevel != null and bookLevel != ''">
+            AND t1.book_level = #{bookLevel}
+        </if>
+        <if test="author != null and author != ''">
+            AND t1.author = #{author}
+        </if>
+        <if test="press != null and press != ''">
+            AND t1.press LIKE '%'||#{press}||'%'
+        </if>
+        <if test="pressTime != null and pressTime != ''">
+            AND t1.press_time >= to_date(CONCAT(#{pressTime},'00:00:00') ,'YYYY-MM-DD HH24:MI:SS')
+        </if>
+        <if test="pressTime != null and pressTime != ''">
+            AND t1.press_time &lt;= to_date(CONCAT(#{pressTime},'23:59:59') ,'YYYY-MM-DD HH24:MI:SS')
+        </if>
+        <if test="createBy != null and createBy != ''">
+            AND t1.create_by = #{createBy}
+        </if>
+        ORDER by nvl(t1.create_time, TO_DATE('1900-01-01', 'YYYY-MM-DD HH24:MI:SS')) DESC
+    </select>
+
+    <!--根据条件(单位+著作名+出版社)查询题录-科技著作数据-->
+    <select id="getQueryCount" parameterType="java.util.Map"
+            resultType="int">
+        SELECT count(*)
+        FROM
+        SRPMS_OUTLINE_SAT_BOOK t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE
+        1=1
+        AND t2.org_id = #{orgId}
+        AND t1.book_name = #{bookName}
+        AND t1.press = #{press}
+        <if test="id != null">
+            AND t1.id &lt;&gt; #{id}
+        </if>
+    </select>
+
+    <!--查询题录-科技著作统计数据-->
+    <select id="getReportCount"
+            parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.srpmp.outline.vo.SrpmsOutlineSatBookReportVo">
+        select tt.orgId,
+        SUM(CASE WHEN tt.BOOK_LEVEL = '10' THEN 1 ELSE 0 END) chiefEditorCount,
+        SUM(CASE WHEN tt.BOOK_LEVEL = '20' THEN 1 ELSE 0 END) joinBookCount
+        FROM
+        (select t2.org_id orgId, t1.BOOK_LEVEL FROM SRPMS_OUTLINE_SAT_BOOK t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE 1 = 1
+        <if test="year != null and year != ''">
+            AND t2.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t2.month = #{month}
+        </if>
+        <if test="orgId != null and orgId != 0">
+            AND t2.org_id = #{orgId}
+        </if>
+
+        UNION ALL
+
+        select t1.DEPT_CODE orgId, t1.BOOK_LEVEL
+        from SRPMS_RESULT_SAT_BOOK t1
+        WHERE 1 = 1
+        <if test="year != null and year != ''">
+            AND t1.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t1.month = #{month}
+        </if>
+        <if test="orgId != null and orgId != 0">
+            AND t1.DEPT_CODE = #{orgId}
+        </if>
+        ) tt
+        GROUP BY tt.orgId
+        ORDER by tt.orgId
+    </select>
+
+</mapper>

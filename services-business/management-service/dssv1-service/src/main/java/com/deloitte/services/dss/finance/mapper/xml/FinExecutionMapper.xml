@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.finance.mapper.FinExecutionMapper">
+
+   <!-- 查询总收入预算执行数据 -->
+   <select id="queryTotalExe" parameterType="java.util.Map"
+           resultType="com.deloitte.platform.api.dss.finance.vo.FinExecutionVo">
+      select
+        sum(YTD_N) ytdN,
+        sum(YTD_D) ytdD,
+        ind.INDEX_CODE indexCode,
+        ind.INDEX_DES indexDes
+      from
+        DSS_FIN_ETL_FACT fact
+      inner join
+        DSS_FIN_ETL_INDEX ind
+      on
+        fact.INDEX_CODE = ind.INDEX_CODE
+      where
+        ind.INDEX_CODE = 'FINC0001'
+      group by
+        ind.INDEX_CODE,ind.INDEX_DES
+   </select>
+
+</mapper>

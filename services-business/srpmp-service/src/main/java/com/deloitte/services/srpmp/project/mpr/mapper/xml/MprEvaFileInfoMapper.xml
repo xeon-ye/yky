@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.srpmp.project.mpr.mapper.MprEvaFileInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.srpmp.project.mpr.entity.MprEvaFileInfo">
+        <id column="ID" property="id" />
+        <result column="PROJECT_NO" property="projectNo" />
+        <result column="ANNEX_TWO" property="annexTwo" />
+        <result column="ANNEX_THREE" property="annexThree" />
+        <result column="ANNEX_FOUR" property="annexFour" />
+        <result column="ANNEX_FIVE" property="annexFive" />
+        <result column="ANNEX_SEVEN" property="annexSeven" />
+        <result column="ANNEX_EIGHT" property="annexEight" />
+        <result column="ANNEX_TEN" property="annexTen" />
+        <result column="ANNEX_ELEVEN" property="annexEleven" />
+        <result column="ANNEX_TWELVE" property="annexTwelve" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="ANNEX_ONE" property="annexOne" />
+        <result column="ANNEX_SIX" property="annexSix" />
+        <result column="ANNEX_OTHER" property="annexOther" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, PROJECT_NO, ANNEX_TWO, ANNEX_THREE, ANNEX_FOUR, ANNEX_FIVE, ANNEX_SEVEN, ANNEX_EIGHT, ANNEX_TEN, ANNEX_ELEVEN, ANNEX_TWELVE, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, ANNEX_ONE, ANNEX_SIX, ANNEX_OTHER
+    </sql>
+
+</mapper>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.system.dic.mapper.DicValueMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.system.dic.entity.DicValue">
+        <id column="ID" property="id" />
+        <result column="DIC_PARENT_ID" property="dicParentId" />
+        <result column="DIC_CODE" property="dicCode" />
+        <result column="DIC_NAME" property="dicName" />
+        <result column="DIC_VALUE" property="dicValue" />
+        <result column="DIC_DESCIPTION" property="dicDesciption" />
+        <result column="DIC_ORDER" property="dicOrder" />
+        <result column="IS_VALID" property="isValid" />
+        <result column="EXT_1" property="ext1" />
+        <result column="EXT_2" property="ext2" />
+        <result column="EXT_3" property="ext3" />
+        <result column="EXT_4" property="ext4" />
+        <result column="EXT_5" property="ext5" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_BY" property="updateBy" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, DIC_PARENT_ID, DIC_CODE, DIC_NAME, DIC_VALUE, DIC_DESCIPTION, DIC_ORDER, IS_VALID, EXT_1, EXT_2, EXT_3, EXT_4, EXT_5, CREATE_TIME, UPDATE_TIME, CREATE_BY, UPDATE_BY
+    </sql>
+
+    <!-- 通过 字典类型 删除 字典值  -->
+    <delete id="deleteByEnumType" parameterType="java.util.List">
+        delete T_DIC_VALUE t1
+        WHERE t1.DIC_PARENT_ID in
+        <foreach item="item" index="index" open="(" separator="," close=")" collection="list">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="findByPage" parameterType="map" resultType="com.deloitte.services.fssc.system.dic.entity.DicValue">
+
+        select * from (
+        select
+        t.*,rownum rn
+        from (select  ID "id",
+        DIC_CODE "dicCode",
+        DIC_NAME "dicName",
+        DIC_DESCIPTION "dicDesciption",
+        DIC_VALUE "dicValue",
+        IS_VALID "isValid"
+        from T_DIC_VALUE
+        where DIC_CODE=#{dicCode}  <!-- 数据字典 -->
+        <if test="dicValue != null and dicValue != ''">
+            and DIC_VALUE LIKE CONCAT('%',CONCAT(#{dicValue},'%'))
+        </if>
+        <if test="dicDesciption != null and dicDesciption != ''">
+            and DIC_DESCIPTION LIKE CONCAT('%',CONCAT(#{dicDesciption},'%'))
+        </if>
+
+        <if test="isValid != null and isValid != ''">
+            and IS_VALID=#{isValid}
+        </if>
+        ) t
+        where rownum &lt;= #{pageSize}
+        ) where rn>= #{pageIndex}
+    </select>
+
+    <select id="count" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(*)
+        FROM
+        T_DIC_VALUE
+        where DIC_CODE=#{dicCode}  <!-- 数据字典编码 -->
+        <if test="dicValue != null and dicValue != ''">
+            and DIC_VALUE LIKE CONCAT('%',CONCAT(#{dicValue},'%'))
+        </if>
+        <if test="dicDesciption != null and dicDesciption != ''">
+            and DIC_DESCIPTION LIKE CONCAT('%',CONCAT(#{dicDesciption},'%'))
+        </if>
+        <if test="isvalid != null and isvalid != ''">
+            and IS_VALID=#{isvalid}
+        </if>
+    </select>
+
+    <delete id="deleteById" parameterType="java.util.List">
+        delete T_DIC_VALUE t1
+        WHERE t1.ID  in
+        <foreach item="item" index="index" open="(" separator="," close=")" collection="list">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="countBySysEnumValue" parameterType="com.deloitte.services.fssc.system.dic.entity.DicValue" resultType="java.lang.Integer">
+		select count(*)
+		FROM
+		T_DIC_VALUE
+		where  DIC_CODE=#{dicCode}
+			  and  DIC_VALUE =#{dicValue}
+			  
+	</select>
+
+    <select id="selectByPageConditions" resultType="com.deloitte.services.fssc.system.dic.entity.DicValue" >
+        select  ID "id",
+        DIC_CODE "dicCode",
+        DIC_NAME "dicName",
+        DIC_DESCIPTION "dicDesciption",
+        DIC_VALUE "dicValue",
+        IS_VALID "isValid"
+        from T_DIC_VALUE ut
+    <where>
+        <if test="form.dicCode != null and form.dicCode != ''">
+            and ut.DIC_CODE LIKE CONCAT('%',CONCAT(#{form.dicCode},'%'))
+        </if>
+        <if test="form.dicDesciption != null and form.dicDesciption != ''">
+            and ut.DIC_DESCIPTION LIKE CONCAT('%',CONCAT(#{form.dicDesciption},'%'))
+
+        </if>
+        <if test="form.dicValue != null and form.dicValue != ''">
+            and ut.DIC_VALUE LIKE CONCAT('%',CONCAT(#{form.dicValue},'%'))
+        </if>
+
+    </where>
+  </select>
+</mapper>

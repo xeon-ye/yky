@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.isump.mapper.ResourceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.isump.entity.Resource">
+        <id column="ID" property="id" />
+        <result column="ICON" property="icon" />
+        <result column="NAME" property="name" />
+        <result column="CODE" property="code" />
+        <result column="URI" property="uri" />
+        <result column="PERMS" property="perms" />
+        <result column="PARENT_ID" property="parentId" />
+        <result column="LEVELS" property="levels" />
+        <result column="LEAF" property="leaf" />
+        <result column="OPEN" property="open" />
+        <result column="TYPE" property="type" />
+        <result column="SORT" property="sort" />
+        <result column="STATE" property="state" />
+        <result column="REMARK" property="remark" />
+        <result column="RESERVE" property="reserve" />
+        <result column="VERSION" property="version" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="SYS_CODE" property="sysCode" />
+    </resultMap>
+
+    <resultMap id="TreeResultMap" type="com.deloitte.platform.api.isump.vo.ResourceVo">
+        <id column="ID" property="id" />
+        <result column="ICON" property="icon" />
+        <result column="NAME" property="name" />
+        <result column="CODE" property="code" />
+        <result column="URI" property="uri" />
+        <result column="PERMS" property="perms" />
+        <result column="PARENT_ID" property="parentId" />
+        <result column="LEVELS" property="levels" />
+        <result column="LEAF" property="leaf" />
+        <result column="OPEN" property="open" />
+        <result column="TYPE" property="type" />
+        <result column="SORT" property="sort" />
+        <result column="STATE" property="state" />
+        <result column="REMARK" property="remark" />
+        <result column="RESERVE" property="reserve" />
+        <result column="VERSION" property="version" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="SYS_CODE" property="sysCode" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, ICON, NAME, CODE,SYS_CODE, URI, PERMS, PARENT_ID, LEVELS, LEAF, OPEN, TYPE, SORT, STATE, REMARK, RESERVE, VERSION, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+    </sql>
+
+    <sql id="Tree_Column_List">
+        t1.ID, t1.ICON, t1.NAME, t1.CODE,SYS_CODE, t1.URI, t1.PERMS, t1.PARENT_ID, t1.LEVELS,
+        t1.LEAF, t1.OPEN, t1.TYPE, t1.SORT, t1.STATE, t1.REMARK, t1.RESERVE, t1.VERSION, t1.CREATE_TIME,
+        t1.CREATE_BY, t1.UPDATE_TIME, t1.UPDATE_BY
+    </sql>
+
+    <select id="findTree" resultMap="TreeResultMap">
+        select <include refid="Tree_Column_List"/>
+        from ISUMP_RESOURCE t1,
+        (select t2.RESOURCE_ID from ISUMP_ROLE_RESOURCE t2
+          where t2.ROLE_ID IN
+            <foreach collection="roleIds" item="roleId" open="(" separator="," close=")">
+                #{roleId}
+            </foreach>
+           GROUP BY t2.RESOURCE_ID) t
+        <where>
+            and t1.ID = t.RESOURCE_ID
+            and t1.SYS_CODE = #{sysCode}
+        </where>
+        order by t1.LEVELS asc , t1.sort asc
+    </select>
+
+</mapper>

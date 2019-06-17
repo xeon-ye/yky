@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.scientific.mapper.RegionalMapper">
+
+    <resultMap id="RegionalProScaleVo" type="com.deloitte.platform.api.dss.scientific.vo.RegionalProScaleVo">
+        <result column="continueNum" property="continueNum" />
+        <result column="newNum" property="newNum" />
+        <result column="budgetAmout" property="budgetAmout" />
+        <result column="receiveOutlay" property="receiveOutlay" />
+    </resultMap>
+
+    <resultMap id="RegionalAgeVo" type="com.deloitte.platform.api.dss.scientific.vo.RegionalAgeVo">
+        <result column="totalNum" property="totalNum" />
+        <result column="over45Num" property="over45Num" />
+        <result column="low45Num" property="low45Num" />
+        <result column="highNum" property="highNum" />
+    </resultMap>
+
+    <resultMap id="RegionalDataVo" type="com.deloitte.platform.api.dss.scientific.vo.RegionalDataVo">
+        <result column="provice" property="provice" />
+        <result column="taskNum" property="taskNum" />
+        <result column="proNum" property="proNum" />
+        <result column="fundMoney" property="fundMoney" />
+        <result column="ID" property="id"/>
+    </resultMap>
+
+    <resultMap id="RegionalTotalVo" type="com.deloitte.platform.api.dss.scientific.vo.RegionalTotalVo">
+        <result column="totalNum" property="totalNum" />
+        <result column="totalTaskNum" property="totalTaskNum" />
+    </resultMap>
+
+    <select id="queryTotalNum"  resultMap="RegionalTotalVo"  parameterType="java.util.Map">
+        <![CDATA[
+            SELECT
+              count(distinct pro.ID) totalNum,
+              count(task.ID) totalTaskNum
+            FROM
+            DSS_SCIENTIFIC_PROJECT pro,DSS_SCIENTIFIC_TASK  task
+             where
+             pro.ID = task.PRO_ID
+             and pro.STATE >= 200
+             and to_char(pro.START_DATE, 'yyyy') <= to_char(sysdate, 'yyyy')
+             and to_char(pro.END_DATE, 'yyyy') >= to_char(sysdate, 'yyyy')
+        ]]>
+    </select>
+
+    <select id="queryApplayNum"  resultType="java.lang.Long"  parameterType="java.util.Map">
+        <![CDATA[
+           select count(0) applayNum
+            from DSS_SCIENTIFIC_PROJECT pro
+            where  to_char(pro.START_DATE, 'yyyy') = to_char(sysdate, 'yyyy')
+        ]]>
+    </select>
+
+
+    <select id="queryReceviceOutlay"  resultType="java.lang.Double"  parameterType="java.util.Map">
+        <![CDATA[
+          select  sum(outlay.FUNDS)/10000 receiveOutlay  from DSS_SCIENTIFIC_RECIVE  outlay
+           where  to_char(outlay.RECIVE_DATE,'yyyy') = to_char(sysdate, 'yyyy')
+           and outlay.STATUS = 'Y'
+        ]]>
+    </select>
+
+
+
+
+    <!--任务地区项目数量-->
+    <select id="queryRegionProNum"  resultMap="RegionalDataVo"  parameterType="java.util.Map">
+        <![CDATA[
+         select
+          PROVINCE_CODE  baseType,count(task.ID) proNum
+        from DSS_SCIENTIFIC_PROJECT  pro,ISUMP_DEPT dept,DSS_SCIENTIFIC_TASK task
+        where
+          pro.STATE in (200,300,400,500)
+          and task.LEAD_DEPT_ID = dept.ID
+          and  pro.ID = task.PRO_ID
+          and to_char(pro.START_DATE, 'yyyy') <=
+              to_char(sysdate, 'yyyy')
+          and to_char(pro.END_DATE, 'yyyy') >=
+              to_char(sysdate, 'yyyy')
+         and substr(pro.PRO_TYPE,0,6)='100101'
+        group by dept.PROVINCE_CODE
+        ]]>
+    </select>
+
+
+
+    <!-- 任务地区项目金额-->
+    <select id="queryRegionProMoney"  resultMap="RegionalDataVo"  parameterType="java.util.Map">
+        <![CDATA[
+            select
+              PROVINCE_CODE  baseType,t.FUNDS fundMoney
+            from DSS_SCIENTIFIC_PROJECT  pro,ISUMP_DEPT dept,DSS_SCIENTIFIC_TASK task left join DSS_SCIENTIFIC_BUDGET t
+						on task.id=t.TASK_ID and t.ANNUAL = to_char(SYSDATE,'yyyy')
+            where
+               pro.ID  = task.PRO_ID
+              and  task.LEAD_DEPT_ID  = dept.ID
+              and pro.STATE in (200,300,400,500)
+							 and substr(pro.PRO_TYPE,0,6)='100101'
+              and to_char(pro.START_DATE, 'yyyy') <=
+                  to_char(sysdate, 'yyyy')
+              and to_char(pro.END_DATE, 'yyyy') >=
+                  to_char(sysdate, 'yyyy')
+            ]]>
+    </select>
+
+
+    <!--- 具体地区 项目到位经费、项目数量、任务数量-->
+    <select id="queryRegionData"  resultMap="RegionalDataVo"  parameterType="java.util.Map">
+        <![CDATA[
+              SELECT
+                PROVINCE_CODE baseType,
+                count( task.ID ) taskNum,
+                count( DISTINCT pro.ID ) proNum,
+                sum( budget.FUNDS ) fundMoney
+            FROM
+                ISUMP_DEPT dept,
+                DSS_SCIENTIFIC_PROJECT pro,
+                DSS_SCIENTIFIC_TASK task left join DSS_SCIENTIFIC_BUDGET budget ON task.ID = budget.TASK_ID
+                AND budget.ANNUAL = to_char( SYSDATE, 'yyyy' )
+                AND task.PRO_ID = budget.PRO_ID
+            WHERE
+                task.LEAD_DEPT_ID = dept.ID
+                AND pro.ID = task.PRO_ID
+                AND STATE IN ( 200, 300, 400, 500 )
+                AND to_char( pro.START_DATE, 'yyyy' ) <= to_char( SYSDATE, 'yyyy' )
+                AND to_char( pro.END_DATE, 'yyyy' ) >= to_char( SYSDATE, 'yyyy' )
+                AND substr(pro.PRO_TYPE,0,6)='100101'
+            GROUP BY
+                dept.PROVINCE_CODE
+            ]]>
+    </select>
+
+
+
+    <!---   创新工程延续项目与新获项目 -->
+    <select id="queryScaleData"  resultMap="RegionalProScaleVo"  parameterType="java.util.Map">
+        <choose>
+            <when test="category=='100101'">
+        <![CDATA[
+          -- 创新工程延续项目与新获项目
+            select
+                   temp1.continueNum,
+                   temp1.newNum,
+                   temp2.budgetAmout,
+                   temp3.receiveOutlay
+            from (
+                select sum(case when
+                                     to_char(pro.START_DATE, 'yyyy') <
+                                     to_char(sysdate, 'yyyy')
+                                 and to_char(pro.END_DATE, 'yyyy') >=
+                                     to_char(sysdate, 'yyyy') then 1
+                                  else 0 end) continueNum,
+                       sum(case  when
+                                      to_char(pro.START_DATE, 'yyyy') =
+                                      to_char(sysdate, 'yyyy')
+                                 and to_char(pro.END_DATE, 'yyyy') >=
+                                     to_char(sysdate, 'yyyy') then 1
+                                  else 0 end) newNum
+                from DSS_SCIENTIFIC_PROJECT pro
+                where pro.STATE in (200,300,400,500) and SUBSTR(pro.PRO_TYPE,0,6) = '100101'
+            ) temp1,
+
+            ---  新获项目经费
+            (select sum(pro.FUNDS) budgetAmout
+                   from  DSS_SCIENTIFIC_PROJECT pro
+                     where pro.STATE in (200,300,400,500)
+                    and
+                       to_char(pro.START_DATE, 'yyyy') =
+                       to_char(sysdate, 'yyyy')
+                   and to_char(pro.END_DATE, 'yyyy') >=
+                      to_char(sysdate, 'yyyy')
+                      and  SUBSTR(pro.PRO_TYPE,0,6) = '100101') temp2,
+
+            -- 到位经费
+            (select  sum(outlay.FUNDS)/10000 receiveOutlay  from DSS_SCIENTIFIC_RECIVE  outlay,DSS_SCIENTIFIC_PROJECT p
+            where  outlay.PRO_CODE=p.CODE
+						and p.STATE in (200,300,400,500)
+						and outlay.STATUS = 'Y'
+						and to_char(outlay.RECIVE_DATE,'yyyy') = to_char(sysdate, 'yyyy')
+						and SUBSTR(p.PRO_TYPE,0,6) = '100101') temp3
+
+      ]]>
+            </when>
+            <otherwise>
+                <![CDATA[
+          -- 创新工程延续项目与新获项目
+            select
+                   temp1.continueNum,
+                   temp1.newNum,
+                   temp2.budgetAmout,
+                   temp3.receiveOutlay
+            from (
+                select sum(case when
+                                     to_char(pro.START_DATE, 'yyyy') <
+                                     to_char(sysdate, 'yyyy')
+                                 and to_char(pro.END_DATE, 'yyyy') >=
+                                     to_char(sysdate, 'yyyy') then 1
+                                  else 0 end) continueNum,
+                       sum(case  when
+                                      to_char(pro.START_DATE, 'yyyy') =
+                                      to_char(sysdate, 'yyyy')
+                                 and to_char(pro.END_DATE, 'yyyy') >=
+                                     to_char(sysdate, 'yyyy') then 1
+                                  else 0 end) newNum
+                from DSS_SCIENTIFIC_PROJECT pro
+                where pro.STATE in (200,300,400,500) and SUBSTR(pro.PRO_TYPE,0,4) in ${category}
+            ) temp1,
+
+            ---  新获项目经费
+            (select sum(pro.FUNDS) budgetAmout
+                   from  DSS_SCIENTIFIC_PROJECT pro
+                     where pro.STATE in (200,300,400,500)
+                    and
+                       to_char(pro.START_DATE, 'yyyy') =
+                       to_char(sysdate, 'yyyy')
+                   and to_char(pro.END_DATE, 'yyyy') >=
+                      to_char(sysdate, 'yyyy')
+                      and  SUBSTR(pro.PRO_TYPE,0,4) in ${category}) temp2,
+
+            -- 到位经费
+            (select  sum(outlay.FUNDS)/10000 receiveOutlay  from DSS_SCIENTIFIC_RECIVE  outlay,DSS_SCIENTIFIC_PROJECT p
+            where  outlay.PRO_CODE=p.CODE
+						and p.STATE in (200,300,400,500)
+						and outlay.STATUS = 'Y'
+						and to_char(outlay.RECIVE_DATE,'yyyy') = to_char(sysdate, 'yyyy')
+						and SUBSTR(p.PRO_TYPE,0,4) in ${category}) temp3
+
+      ]]>
+            </otherwise>
+        </choose>
+    </select>
+
+    <!--年龄分布 高级占比 -->
+    <select id="queryAgeData"  resultMap="RegionalAgeVo"  parameterType="java.util.Map">
+        <choose>
+            <when test="category=='100101'">
+        <![CDATA[
+          select
+                   count(age)  totalNum,
+                   sum(case when age > 45 then 1 else 0 end ) over45Num,
+                   sum(case when age <= 45 then 1 else 0 end )  low45Num,
+                   sum(case when position_title = '10' then 1 else 0 end ) highNum
+            from (
+                       select
+                          DISTINCT  usr.ID,
+                          TRUNC(months_between(sysdate, usr.birth_date) / 12) AS age,
+                          usr.position_title
+                        from
+                          DSS_SCIENTIFIC_PROJECT pro,
+                          DSS_SCIENTIFIC_MAIN_MENBER menber,
+                          ISUMP_USER usr
+                        where
+                            pro.STATE IN (200,300,400,500)
+                          and pro.ID = menber.PRO_ID
+                          and menber.USER_ID = usr.ID
+                          and to_char(pro.START_DATE, 'yyyy') <=
+                              to_char(sysdate, 'yyyy')
+                          AND to_char(pro.END_DATE, 'yyyy') >=
+                              to_char(sysdate, 'yyyy')
+                          and SUBSTR(pro.PRO_TYPE,0,6) = '100101'
+                 ) temp1
+        ]]>
+            </when>
+            <otherwise>
+                <![CDATA[
+          select
+                   count(age)  totalNum,
+                   sum(case when age > 45 then 1 else 0 end ) over45Num,
+                   sum(case when age <= 45 then 1 else 0 end )  low45Num,
+                   sum(case when position_title = '10' then 1 else 0 end ) highNum
+            from (
+                       select
+                          DISTINCT  usr.ID,
+                          TRUNC(months_between(sysdate, usr.birth_date) / 12) AS age,
+                          usr.position_title
+                        from
+                          DSS_SCIENTIFIC_PROJECT pro,
+                          DSS_SCIENTIFIC_MAIN_MENBER menber,
+                          ISUMP_USER usr
+                        where
+                            pro.STATE IN (200,300,400,500)
+                          and pro.ID = menber.PRO_ID
+                          and menber.USER_ID = usr.ID
+                          and to_char(pro.START_DATE, 'yyyy') <=
+                              to_char(sysdate, 'yyyy')
+                          AND to_char(pro.END_DATE, 'yyyy') >=
+                              to_char(sysdate, 'yyyy')
+                          and SUBSTR(pro.PRO_TYPE,0,4) in ${category}
+                 ) temp1
+        ]]>
+            </otherwise>
+        </choose>
+    </select>
+
+    <!--柱状图到位经费 -->
+    <select id="queryColumnarData"  resultMap="RegionalDataVo"  parameterType="java.util.Map">
+        <![CDATA[
+        select
+          dept.ID,
+          dept.DEPT_NAME baseType,
+          sum(outlay.FUNDS)/10000 fundMoney,
+          count(distinct  task.ID) proNum
+        from ISUMP_DEPT  dept,DSS_SCIENTIFIC_PROJECT  pro,DSS_SCIENTIFIC_TASK task
+        left join  DSS_SCIENTIFIC_RECIVE  outlay
+         ON  task.CODE = outlay.TASK_CODE
+         AND TO_CHAR(outlay.RECIVE_DATE,'yyyy') = to_char(sysdate,'yyyy')
+         and outlay.STATUS = 'Y'
+        WHERE
+          pro.ID = task.PRO_ID
+          and  task.LEAD_DEPT_ID = dept.ID
+          and pro.STATE in (200,300,400,500)
+          and to_char(pro.START_DATE, 'yyyy') <=  to_char(sysdate, 'yyyy')
+          AND to_char(pro.END_DATE, 'yyyy') >=  to_char(sysdate, 'yyyy')
+          and substr(pro.PRO_TYPE,0,6) = '100101'
+        ]]>
+      <if test="proviceCode != null and proviceCode != '' and proviceCode!='全国'">
+      and dept.PROVINCE_CODE = #{proviceCode}
+      </if>
+        <![CDATA[
+                group by  dept.DEPT_NAME,dept.ID
+        ]]>
+    </select>
+</mapper>

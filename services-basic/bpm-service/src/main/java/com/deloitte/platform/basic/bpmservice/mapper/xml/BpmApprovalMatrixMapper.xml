@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.platform.basic.bpmservice.mapper.BpmApprovalMatrixMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.platform.basic.bpmservice.entity.BpmApprovalMatrix">
+        <id column="ID" property="id" />
+        <result column="PROCESS_DEFINE_KEY" property="processDefineKey" />
+        <result column="ACTIVITY_ID" property="activityId" />
+        <result column="ACTIVITY_NAME" property="activityName" />
+        <result column="CHARGE_ORG" property="chargeOrg" />
+        <result column="CHARGE_BUSINESS" property="chargeBusiness" />
+        <result column="ACCOUNT_NUM" property="accountNum" />
+        <result column="ACCOUNT_NAME" property="accountName" />
+        <result column="ORG_CODE" property="orgCode" />
+        <result column="POSITION" property="position" />
+        <result column="EFFECTIVE" property="effective" />
+        <result column="EFFECTIVE_START" property="effectiveStart" />
+        <result column="EFFECTIVE_END" property="effectiveEnd" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="ACCOUNT_EMP_NO" property="accountEmpNo" />
+        <result column="ORG_NO_LIST" property="orgNoList" />
+        <result column="POSITION_LIST" property="positionList" />
+        <result column="ROLE_NO_LIST" property="roleNoList" />
+        <result column="RULE_TYPE" property="ruleType" />
+        <result column="CUSTOM_RULE" property="customRule" />
+        <result column="ORDER_NUM" property="orderNum" />
+        <result column="SYSTEM_CODE" property="systemCode" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, PROCESS_DEFINE_KEY, ACTIVITY_ID, ACTIVITY_NAME, CHARGE_ORG, CHARGE_BUSINESS, ACCOUNT_NUM, ACCOUNT_NAME, ORG_CODE, POSITION, EFFECTIVE, EFFECTIVE_START, EFFECTIVE_END, CREATE_TIME, UPDATE_TIME,ACCOUNT_EMP_NO,ORG_NO_LIST,POSITION_LIST,ROLE_NO_LIST,RULE_TYPE,CUSTOM_RULE,ORDER_NUM,SYSTEM_CODE
+    </sql>
+
+</mapper>

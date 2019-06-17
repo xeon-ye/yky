@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.engine.automatic.mapper.AvAccountElementMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.engine.automatic.entity.AvAccountElement">
+        <id column="ID" property="id" />
+        <result column="CHART_OF_ACCOUNTS_ID" property="chartOfAccountsId" />
+        <result column="SEGMENT_CODE" property="segmentCode" />
+        <result column="SEGMENT_DESC" property="segmentDesc" />
+        <result column="SEGMENT_NUM" property="segmentNum" />
+        <result column="HAS_VALUE" property="hasValue" />
+        <result column="STATUS" property="status" />
+        <result column="TYPE" property="type" />
+        <result column="DATA_FROM" property="dataFrom" />
+        <result column="CREATE_DATE" property="createDate" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_DATE" property="updateDate" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="ETX_1" property="etx1" />
+        <result column="ETX_2" property="etx2" />
+        <result column="ETX_3" property="etx3" />
+        <result column="ETX_4" property="etx4" />
+        <result column="ETX_5" property="etx5" />
+        <result column="SEGMENT_TYPE" property="segmentType" />
+
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, CHART_OF_ACCOUNTS_ID, SEGMENT_CODE, SEGMENT_DESC, SEGMENT_NUM, HAS_VALUE, STATUS, TYPE, DATA_FROM, CREATE_DATE, CREATE_BY, UPDATE_DATE, UPDATE_BY, ETX_1, ETX_2, ETX_3, ETX_4, ETX_5, SEGMENT_TYPE
+    </sql>
+
+    <select id="whetherEnabledById" parameterType="java.lang.Long" resultType="com.deloitte.services.fssc.engine.automatic.entity.AvAccountElement">
+        select AVH.* from AV_CHART_OF_ACCOUNT AA
+        INNER JOIN  AV_ACCOUNT_ELEMENT_RELE AR ON AA.LEDGER_ID = AR.LEDGER_ID
+        INNER JOIN  AV_ACCOUNT_ELEMENT AE ON AR.ELEMENT_ID = AE.ID
+        INNER JOIN AV_MANUAL_VOUCHER_HEAD AVH ON AE.LEDGER_ID = AVH.LEDGER_ID
+        WHERE AE.ID = #{elementId}
+    </select>
+    <select id="elementReleationLedgerList" resultType="com.deloitte.services.fssc.engine.automatic.entity.AvChartOfAccount">
+        SELECT * FROM(
+        SELECT A.* ,ROWNUM RN FROM
+        (
+            select AA.* from AV_CHART_OF_ACCOUNT AA
+            LEFT JOIN  AV_ACCOUNT_ELEMENT_RELE AR ON AA.LEDGER_ID = AR.LEDGER_ID
+            LEFT JOIN  AV_ACCOUNT_ELEMENT AE ON AR.ELEMENT_ID = AE.ID
+            WHERE AE.ID = #{form.id}
+        )A
+        )
+        WHERE RN BETWEEN ${form.start} AND ${form.end}
+    </select>
+
+    <select id="elementReleationLedgerListCount" resultType="java.lang.Integer">
+        SELECT count(1) FROM
+        (
+        select AA.* from AV_CHART_OF_ACCOUNT AA
+        LEFT JOIN  AV_ACCOUNT_ELEMENT_RELE AR ON AA.LEDGER_ID = AR.LEDGER_ID
+        LEFT JOIN  AV_ACCOUNT_ELEMENT AE ON AR.ELEMENT_ID = AE.ID
+        WHERE AE.ID = #{form.id}
+        )A
+    </select>
+
+    <select id="sourceFromObtain" resultType="com.deloitte.services.fssc.engine.automatic.entity.AvBaseElement">
+              SELECT *  FROM ${table} WHERE ${conditions}
+    </select>
+
+    <select id="queryPageListByParam" resultType="com.deloitte.services.fssc.engine.automatic.entity.AvAccountElement">
+
+        SELECT * FROM(
+        SELECT A.* ,ROWNUM RN FROM
+        (
+        select AE.ID,AE.CHART_OF_ACCOUNTS_ID,AE.SEGMENT_CODE,AE.SEGMENT_DESC,AE.SEGMENT_NUM,
+        AE.HAS_VALUE,AE.STATUS,AE.TYPE,AE.DATA_FROM
+        from AV_ACCOUNT_ELEMENT AE
+        LEFT JOIN AV_ACCOUNT_ELEMENT_RELE AER ON AE.ID = AER.ELEMENT_ID
+        LEFT JOIN AV_CHART_OF_ACCOUNT ACA ON AER.LEDGER_ID = ACA.LEDGER_ID
+        WHERE 1=1
+            <if test ="form.ledgerId!=null and form.ledgerId != ''"  >
+            AND ACA.LEDGER_ID = #{form.ledgerId}
+            </if>
+            <if test ="form.segmentCode!=null  and form.segmentCode != ''"  >
+                AND AE.SEGMENT_CODE = '${form.segmentCode}'
+            </if>
+            <if test ="form.segmentDesc!=null  and form.segmentDesc != ''"  >
+                AND AE.SEGMENT_DESC = '${form.segmentDesc}'
+            </if>
+            <if test ="form.hasValue!=null  and form.hasValue != ''"  >
+                AND AE.HAS_VALUE = '${form.hasValue}'
+            </if>
+            <if test ="form.status!=null  and form.status != ''"  >
+                AND AE.STATUS = '${form.status}'
+            </if>
+            <if test ="form.name!=null  and form.name != ''"  >
+                AND ACA.NAME = '${form.name}'
+            </if>
+            <if test ="form.description!=null  and form.description != ''"  >
+                AND ACA.DESCRIPTION = '${form.description}'
+            </if>
+        group by AE.ID,AE.CHART_OF_ACCOUNTS_ID,AE.SEGMENT_CODE,AE.SEGMENT_DESC,AE.SEGMENT_NUM,
+        AE.HAS_VALUE,AE.STATUS,AE.TYPE,AE.DATA_FROM
+            ORDER BY AE.SEGMENT_NUM
+        )A
+        )
+        WHERE RN BETWEEN ${form.start} AND ${form.end}
+
+    </select>
+
+
+
+
+    <select id="queryPageListByParamCount" resultType="java.lang.Integer">
+        SELECT count(*) from(
+            select AE.ID,AE.CHART_OF_ACCOUNTS_ID,AE.SEGMENT_CODE,AE.SEGMENT_DESC,AE.SEGMENT_NUM,
+            AE.HAS_VALUE,AE.STATUS,AE.TYPE,AE.DATA_FROM
+            from AV_ACCOUNT_ELEMENT AE
+            LEFT JOIN AV_ACCOUNT_ELEMENT_RELE AER ON AE.ID = AER.ELEMENT_ID
+            LEFT JOIN AV_CHART_OF_ACCOUNT ACA ON AER.LEDGER_ID = ACA.LEDGER_ID
+           WHERE 1=1
+            <if test ="form.ledgerId!=null and form.ledgerId != ''"  >
+                AND ACA.LEDGER_ID = #{form.ledgerId}
+            </if>
+            <if test ="form.segmentCode!=null  and form.segmentCode != ''"  >
+                AND AE.SEGMENT_CODE = '${form.segmentCode}'
+            </if>
+            <if test ="form.segmentDesc!=null  and form.segmentDesc != ''"  >
+                AND AE.SEGMENT_DESC = '${form.segmentDesc}'
+            </if>
+            <if test ="form.hasValue!=null  and form.hasValue != ''"  >
+                AND AE.HAS_VALUE = '${form.hasValue}'
+            </if>
+            <if test ="form.status!=null  and form.status != ''"  >
+                AND AE.STATUS = '${form.status}'
+            </if>
+            <if test ="form.name!=null  and form.name != ''"  >
+                AND ACA.NAME = '${form.name}'
+            </if>
+            <if test ="form.shortName!=null  and form.shortName != ''"  >
+                AND ACA.NAME = '${form.shortName}'
+            </if>
+            group by AE.ID,AE.CHART_OF_ACCOUNTS_ID,AE.SEGMENT_CODE,AE.SEGMENT_DESC,AE.SEGMENT_NUM,
+            AE.HAS_VALUE,AE.STATUS,AE.TYPE,AE.DATA_FROM
+        )A
+    </select>
+
+</mapper>

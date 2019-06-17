@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.isump.mapper.DeptMapper">
+
+    <!-- 通用查询映射结果 -->
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.isump.entity.Dept">
+        <id column="ID" property="id" />
+        <result column="DEPT_NAME" property="deptName" />
+        <result column="ZIP_CODE" property="zipCode" />
+        <result column="ADDRESS" property="address" />
+        <result column="CONTACTS_NAME" property="contactsName" />
+        <result column="PHONE" property="phone" />
+        <result column="EMAIL" property="email" />
+        <result column="FAX_NUMBER" property="faxNumber" />
+        <result column="DEPT_QUALITY" property="deptQuality" />
+        <result column="DEPT_MAN_DEPARTMENT" property="deptManDepartment" />
+        <result column="DEPT_SUBJECTION" property="deptSubjection" />
+        <result column="DEPT_LEGAL_PERSON_NAME" property="deptLegalPersonName" />
+        <result column="PROVINCE_CODE" property="provinceCode" />
+        <result column="CITY_CODE" property="cityCode" />
+        <result column="COUNTY_CODE" property="countyCode" />
+        <result column="BANK_ACCOUNT_NAME_LOOSE" property="bankAccountNameLoose" />
+        <result column="BANK_NAME_LOOSE" property="bankNameLoose" />
+        <result column="BANK_ACCOUNT_NUMBER_LOOSE" property="bankAccountNumberLoose" />
+        <result column="BANK_ACCOUNT_NAME_BASE" property="bankAccountNameBase" />
+        <result column="BANK_NAME_BASE" property="bankNameBase" />
+        <result column="BANK_ACCOUNT_NUMBER_BASE" property="bankAccountNumberBase" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="SOURCE_DEPT_ID" property="sourceDeptId" />
+        <result column="ORG_CODE" property="orgCode" />
+        <result column="DEPT_CODE" property="deptCode" />
+        <result column="ESTABLISHED_TIME" property="establishedTime" />
+        <result column="OWNERSHIP_TYPE" property="ownershipType" />
+        <result column="ADMIN_NAME" property="adminName" />
+        <result column="DEPT_LEGAL_PERSON_GENDER" property="deptLegalPersonGender" />
+        <result column="DEPT_LEGAL_PERSON_BOTHDAY" property="deptLegalPersonBothday" />
+        <result column="DEPT_LEGAL_PERSON_JOB" property="deptLegalPersonJob" />
+        <result column="DEPT_LEGAL_PERSON_EDUCATION" property="deptLegalPersonEducation" />
+        <result column="DEPT_LEGAL_PERSON_JOBTITLE" property="deptLegalPersonJobtitle" />
+        <result column="MAIN_NAME" property="mainName" />
+        <result column="MAIN_GENDER" property="mainGender" />
+        <result column="MAIN_BOTHDAY" property="mainBothday" />
+        <result column="MAIN_JOB" property="mainJob" />
+        <result column="MAIN_TELL" property="mainTell" />
+        <result column="MAIN_EMAIL" property="mainEmail" />
+        <result column="STATE" property="state" />
+        <result column="DEPT_TYPE" property="deptType" />
+        <result column="CREDIT_CODE" property="creditCode" />
+        <result column="TAXPAYER_NUMBER" property="taxpayerNumber" />
+        <result column="BANK_ACCOUNT" property="bankAccount" />
+        <result column="BANK_NAME" property="bankName" />
+        <result column="BANK_ACCOUNT_NUMBER" property="bankAccountNumber" />
+        <result column="GROUP_TYPE" property="groupType" />
+        <result column="MAIN_PHONE" property="mainPhone" />
+        <result column="COUNTRY" property="country" />
+        <result column="REGION" property="region" />
+        <result column="REMARKS" property="remarks" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, DEPT_NAME, ZIP_CODE, ADDRESS, CONTACTS_NAME, PHONE, EMAIL, FAX_NUMBER, DEPT_QUALITY, DEPT_MAN_DEPARTMENT,
+        DEPT_SUBJECTION, DEPT_LEGAL_PERSON_NAME, PROVINCE_CODE, CITY_CODE, COUNTY_CODE, BANK_ACCOUNT_NAME_LOOSE,
+        BANK_NAME_LOOSE, BANK_ACCOUNT_NUMBER_LOOSE, BANK_ACCOUNT_NAME_BASE, BANK_NAME_BASE, BANK_ACCOUNT_NUMBER_BASE,
+        CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, SOURCE_DEPT_ID, ORG_CODE, DEPT_CODE, ESTABLISHED_TIME, OWNERSHIP_TYPE,
+        ADMIN_NAME, DEPT_LEGAL_PERSON_GENDER, DEPT_LEGAL_PERSON_BOTHDAY, DEPT_LEGAL_PERSON_JOB, DEPT_LEGAL_PERSON_EDUCATION,
+        DEPT_LEGAL_PERSON_JOBTITLE, MAIN_NAME, MAIN_GENDER, MAIN_BOTHDAY, MAIN_JOB, MAIN_TELL, MAIN_EMAIL,STATE,DEPT_TYPE,
+        CREDIT_CODE, TAXPAYER_NUMBER, BANK_ACCOUNT, BANK_NAME, BANK_ACCOUNT_NUMBER, GROUP_TYPE, MAIN_PHONE, COUNTRY, REGION, REMARKS
+    </sql>
+    <update id="updateState">
+        update ISUMP_DEPT set state = #{state} where id = #{id}
+    </update>
+
+    <delete id="delById">
+        delete from ISUMP_DEPT
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+
+    <resultMap id="DeptVoResultMap" type="com.deloitte.platform.api.isump.vo.DeptVo">
+        <id column="ID" property="id" />
+        <result column="DEPT_NAME" property="deptName" />
+        <result column="ZIP_CODE" property="zipCode" />
+        <result column="ADDRESS" property="address" />
+        <result column="CONTACTS_NAME" property="contactsName" />
+        <result column="PHONE" property="phone" />
+        <result column="EMAIL" property="email" />
+        <result column="FAX_NUMBER" property="faxNumber" />
+        <result column="DEPT_QUALITY" property="deptQuality" />
+        <result column="DEPT_MAN_DEPARTMENT" property="deptManDepartment" />
+        <result column="DEPT_SUBJECTION" property="deptSubjection" />
+        <result column="DEPT_LEGAL_PERSON_NAME" property="deptLegalPersonName" />
+        <result column="PROVINCE_CODE" property="provinceCode" />
+        <result column="CITY_CODE" property="cityCode" />
+        <result column="COUNTY_CODE" property="countyCode" />
+        <result column="BANK_ACCOUNT_NAME_LOOSE" property="bankAccountNameLoose" />
+        <result column="BANK_NAME_LOOSE" property="bankNameLoose" />
+        <result column="BANK_ACCOUNT_NUMBER_LOOSE" property="bankAccountNumberLoose" />
+        <result column="BANK_ACCOUNT_NAME_BASE" property="bankAccountNameBase" />
+        <result column="BANK_NAME_BASE" property="bankNameBase" />
+        <result column="BANK_ACCOUNT_NUMBER_BASE" property="bankAccountNumberBase" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="SOURCE_DEPT_ID" property="sourceDeptId" />
+        <result column="ORG_CODE" property="orgCode" />
+        <result column="DEPT_CODE" property="deptCode" />
+        <result column="ESTABLISHED_TIME" property="establishedTime" />
+        <result column="OWNERSHIP_TYPE" property="ownershipType" />
+        <result column="ADMIN_NAME" property="adminName" />
+        <result column="DEPT_LEGAL_PERSON_GENDER" property="deptLegalPersonGender" />
+        <result column="DEPT_LEGAL_PERSON_BOTHDAY" property="deptLegalPersonBothday" />
+        <result column="DEPT_LEGAL_PERSON_JOB" property="deptLegalPersonJob" />
+        <result column="DEPT_LEGAL_PERSON_EDUCATION" property="deptLegalPersonEducation" />
+        <result column="DEPT_LEGAL_PERSON_JOBTITLE" property="deptLegalPersonJobtitle" />
+        <result column="MAIN_NAME" property="mainName" />
+        <result column="MAIN_GENDER" property="mainGender" />
+        <result column="MAIN_BOTHDAY" property="mainBothday" />
+        <result column="MAIN_JOB" property="mainJob" />
+        <result column="MAIN_TELL" property="mainTell" />
+        <result column="MAIN_EMAIL" property="mainEmail" />
+        <result column="STATE" property="state" />
+        <result column="DEPT_TYPE" property="deptType" />
+        <result column="CREDIT_CODE" property="creditCode" />
+        <result column="TAXPAYER_NUMBER" property="taxpayerNumber" />
+        <result column="BANK_ACCOUNT" property="bankAccount" />
+        <result column="BANK_NAME" property="bankName" />
+        <result column="BANK_ACCOUNT_NUMBER" property="bankAccountNumber" />
+        <result column="GROUP_TYPE" property="groupType" />
+        <result column="COUNTRY" property="country" />
+        <result column="REGION" property="region" />
+        <result column="REMARKS" property="remarks" />
+    </resultMap>
+
+    <select id="getById" resultMap="DeptVoResultMap">
+        select <include refid="Base_Column_List"/>
+        from ISUMP_DEPT
+        where id = #{id}
+    </select>
+
+    <select id="getByCode" resultMap="DeptVoResultMap">
+        select <include refid="Base_Column_List"/>
+        from ISUMP_DEPT
+        where DEPT_CODE = #{code} and state = '1'
+    </select>
+
+    <select id="getByName" resultMap="DeptVoResultMap">
+        select <include refid="Base_Column_List"/>
+        from ISUMP_DEPT
+        where DEPT_NAME = #{name} and state = '1'
+    </select>
+    <select id="getByName2" resultType="com.deloitte.services.isump.entity.Dept">
+        select <include refid="Base_Column_List"/>
+        from ISUMP_DEPT
+        where DEPT_NAME = #{name}
+    </select>
+
+</mapper>

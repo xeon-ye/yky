@@ -1,0 +1,118 @@
+启动流程
+{
+  "bpmProcessTaskForm": {
+    "objectDescription": "想修年假，休3天",
+    "objectId": "00000000000001",
+    "objectOrderNum": "NO20190402",
+    "objectType": "请假单",
+    "processDefineKey": "process_test",
+    "sourceSystem": "科研系统",
+    "submitterCode": "10101",
+    "submitterName": "张一",
+    "submitterOrg": "101",
+    "submitterStation": "科员"
+  },
+  "nextNodeParamVo": [
+    {
+      "acountId": "10102",
+      "acountName": "张经理",
+      "approverDescription": "烦请经理审批",
+      "objectUrl": "124.0.0.1/srpmp/aprove/1",
+      "stationId": "经理",
+      "orgId": "101"
+    }
+  ],
+  "processVariables":  {"day":"3"}    <------流程流转条件：请假天数小于5天直接到经理审批，大于等于5天先到主管审批，然后经理审批
+}
+
+
+撤回流程 <==========================bpmProcessTaskForm.id 为撤回人的流程ID
+{
+  "bpmProcessTaskForm": {
+    "id": 1110520005172289538,
+    "objectDescription": "",
+    "opinion": "请假天数有误，需要撤回"
+  },
+  "nextNodeParamVo": [
+    {
+      "acountId": "10001",
+      "acountName": "张一",
+      "approverDescription": "",
+      "objectUrl": "",
+      "orgId": "101",
+      "stationId": "员工"
+    }
+  ],
+  "processVariables": {}
+}
+
+审批通过 <===================下一节点是普通节点
+{
+  "bpmProcessTaskForm": {
+    "id": 1110820949156114434,
+    "objectDescription": "",
+    "opinion": "再次确认没问题了"
+  },
+  "nextNodeParamVo": [
+    {
+      "acountId": "10010005",
+      "acountName": "张董事",
+      "approverDescription": "经理已经确认了好几次了，可以批复了",
+      "objectUrl": "124.0.0.1/srpmp/aprove/8",
+      "orgId": "101",
+      "stationId": "董事长"
+    }
+  ],
+  "processVariables": {}
+}
+
+
+审批通过 <===================下一节点是会签节点，有多人审批
+{
+  "bpmProcessTaskForm": {
+    "id": 1112922082523611138,
+    "objectDescription": "",
+    "opinion": "可以，没问题"
+  },
+  "nextNodeParamVo": [
+   {
+      "acountId": "10104",
+      "acountName": "何秘书",
+      "approverDescription": "请尽快审批",
+      "objectUrl": "124.0.0.1/srpmp/aprove/2",
+      "orgId": "101",
+      "stationId": "秘书"
+    },{
+       "acountId": "10105",
+       "acountName": "李秘书",
+       "approverDescription": "请尽快审批",
+       "objectUrl": "124.0.0.1/srpmp/aprove/3",
+       "orgId": "101",
+       "stationId": "秘书"
+    }
+
+  ],
+  "processVariables": {}
+}
+
+
+审批驳回
+{
+  "bpmProcessTaskForm": {
+    "id": 1112923628707643393,
+    "objectDescription": "string",
+    "opinion": "时间有问题"
+  },
+  "nextNodeParamVo": [
+    {
+      "acountId": "10102",
+      "acountName": "张经理",
+      "approverDescription": "麻烦经理重新审批",
+      "objectUrl": "124.0.0.1/srpmp/aprove/1",
+      "stationId": "经理",
+      "orgId": "101"
+    }
+  ],
+  "processVariables": {}
+}
+

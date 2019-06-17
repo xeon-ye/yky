@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.project.mapper.ReplyMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.project.entity.Reply">
+        <id column="ID" property="id" />
+        <result column="REPLY_DOCUMENT_ID" property="replyDocumentId" />
+        <result column="PROJECT_ID" property="projectId" />
+        <result column="APPLICATION_ID" property="applicationId" />
+        <result column="OPERATION_YEAR" property="operationYear" />
+        <result column="REPLY_YEAR" property="replyYear" />
+        <result column="BEGIN_YEAR" property="beginYear" />
+        <result column="CYCLE" property="cycle" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+        <result column="ORG_ID" property="orgId" />
+        <result column="ORG_PATH" property="orgPath" />
+        <result column="REPLY_CODE" property="replyCode" />
+        <result column="SERVICE_NUM" property="serviceNum" />
+        <result column="REPLY_STATUS_CODE" property="replyStatusCode" />
+        <result column="REPLY_STATUS_NAME" property="replyStatusName" />
+        <result column="REPLY_TIME" property="replyTime" />
+        <result column="REPLY_PERSON_ID" property="replyPersonId" />
+        <result column="REPLY_PERSON_NAME" property="replyPersonName" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, REPLY_DOCUMENT_ID, PROJECT_ID, APPLICATION_ID, OPERATION_YEAR, REPLY_YEAR, BEGIN_YEAR, CYCLE, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, EXT1, EXT2, EXT3, EXT4, EXT5, ORG_ID, ORG_PATH, REPLY_CODE, SERVICE_NUM, REPLY_STATUS_CODE, REPLY_STATUS_NAME, REPLY_TIME, REPLY_PERSON_ID, REPLY_PERSON_NAME
+    </sql>
+
+    <select id="getOneRep" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+          from project_reply a
+         where project_id = #{data.projectId}
+           and a.reply_status_code = '2008'
+           and a.reply_year =
+               (select max(reply_year) from project_reply where project_id = #{data.projectId})
+    </select>
+
+    <select id="getRepToRep" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from project_reply a
+        where project_id = #{data.projectId}
+        and a.reply_status_code = '2007'
+        and a.begin_year =
+        (select max(begin_year) from project_reply where project_id = #{data.projectId})
+    </select>
+
+    <select id="getNewRep" parameterType="Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from project_reply a
+        where project_id = #{data.projectId}
+        and a.reply_status_code = #{data.replyStatusCode}
+        and a.begin_year =
+        (select max(begin_year) from project_reply where project_id = #{data.projectId})
+    </select>
+
+    <select id="getRepByYear" parameterType="Map" resultMap="BaseResultMap">
+        select *
+          from project_reply a
+         where project_id = #{data.projectId}
+           and a.reply_status_code = '2008'
+           and a.reply_year = #{data.year}
+    </select>
+</mapper>

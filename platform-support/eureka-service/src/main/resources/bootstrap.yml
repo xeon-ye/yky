@@ -1,0 +1,30 @@
+server:
+  port: ${EUREKA_PORT:8101}
+
+spring:
+  application:
+    name: eureka-server
+  rabbitmq:
+    host: ${RABBIT_MQ_HOST:127.0.0.1}
+    port: ${RABBIT_MQ_PORT:5672}
+    username: ${RABBIT_MQ_USERNAME:guest}
+    password: ${RABBIT_MQ_PASSWORD:guest}
+
+eureka:
+  server:
+    enable-self-preservation: false        #关闭保护模式
+    eviction-interval-timer-in-ms: 2000      #更新服务状态的时间为2秒（快速下线已经失效的服务，默认是60）
+    response-cache-update-interval-ms: 3000     #刷新readCacheMap缓存的时间
+  # Eureka高可用配置
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${EUREKA_ZONE_HOST:localhost}:${EUREKA_ZONE_PORT:8101}/eureka/
+
+
+
+
+
+
+

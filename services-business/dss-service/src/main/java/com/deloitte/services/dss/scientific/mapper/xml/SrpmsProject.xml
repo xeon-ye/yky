@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.scientific.mapper.SrpmsProjectMapper">
+
+    <resultMap id="SrpmsProject" type="com.deloitte.platform.api.dss.scientific.vo.SrpmsProjectVo">
+        <result column="applyNum" property="applyNum"/>
+        <result column="approvalNum" property="approvalNum"/>
+        <result column="excuteNum" property="excuteNum"/>
+        <result column="conclusionNum" property="conclusionNum"/>
+        <result column="resultNum" property="resultNum"/>
+    </resultMap>
+
+    <!--科研项目各单位申请情况-->
+    <resultMap id="DeptApplyProject" type="com.deloitte.platform.api.dss.scientific.vo.DeptApplyProjectVo">
+        <result column="deptId" property="deptId"/>
+        <result column="deptName" property="deptName"/>
+        <result column="applyNum" property="applyNum"/>
+        <result column="applyFunds" property="applyFunds"/>
+    </resultMap>
+
+    <!--科研项目各单位人均情况-->
+    <resultMap id="DeptProjectPerson" type="com.deloitte.platform.api.dss.scientific.vo.DeptProjectPersonVo">
+        <result column="deptId" property="deptId"/>
+        <result column="deptName" property="deptName"/>
+        <result column="applyNum" property="applyNum"/>
+        <result column="applyFunds" property="applyFunds"/>
+        <result column="personNum" property="personNum"/>
+    </resultMap>
+
+    <!--项目各阶段数量-->
+    <select id="queryProjectStage" resultMap="SrpmsProject" parameterType="java.util.Map">
+       select
+          sum(case  when STATUS in ('10','20','30','40','60') then  1 else 0 end ) applyNum,
+          sum(case  when STATUS = '50' then  1 else 0 end ) approvalNum,
+          sum(case  when STATUS = '55' then  1 else 0 end ) excuteNum,
+          sum(case  when STATUS = '70' then  1 else 0 end ) conclusionNum,
+          sum(case  when STATUS = '80' then  1 else 0 end ) resultNum
+        from  SRPMS_PROJECT
+        where  STATUS  in ('10','20','30','40','60','50','55','70','80')
+    </select>
+
+    <!--各所院申请项目金额及数量情况柱状图-->
+    <select id="queryDeptApplyNumAndFunds" resultMap="DeptApplyProject" parameterType="java.util.Map">
+        select pro.LEAD_DEPT_ID deptId,
+        dept.DEPT_NAME deptName,
+        count(pro.ID) applyNum,
+        sum(det.BUDGET_AMOUNT) applyFunds
+        from (SRPMS_PROJECT pro INNER JOIN
+        SRPMS_PROJECT_BUDGET_DETAIL det
+        on det.PROJECT_ID = pro.ID)
+        INNER JOIN
+        ISUMP_DEPT dept
+        on dept.ID = pro.LEAD_DEPT_ID
+        where substr(pro.PROJECT_TYPE, 0, 6) = #{category}
+        and det.BUDGET_CATEGORY in ('0101','0201','0301','0401')
+        and det.BUDGET_YEAR = #{year}
+        and pro.STATUS in (10,20,30,40,60)
+        group by pro.LEAD_DEPT_ID,dept.DEPT_NAME
+    </select>
+
+    <!--各所院立项项目金额及数量情况柱状图-->
+    <select id="queryApprovalNumAndFunds" resultMap="DeptApplyProject" parameterType="java.util.Map">
+        select pro.LEAD_DEPT_ID deptId,
+        dept.DEPT_NAME deptName,
+        count(pro.ID) applyNum,
+        sum(det.BUDGET_AMOUNT) applyFunds
+        from (SRPMS_PROJECT pro INNER JOIN
+        SRPMS_PROJECT_BUDGET_DETAIL det
+        on det.PROJECT_ID = pro.ID)
+        INNER JOIN
+        ISUMP_DEPT dept
+        on dept.ID = pro.LEAD_DEPT_ID
+        where substr(pro.PROJECT_TYPE, 0, 6) = #{category}
+        and det.BUDGET_CATEGORY in ('0101','0201','0301','0401')
+        and det.BUDGET_YEAR = #{year}
+        and pro.STATUS = '50'
+        group by pro.LEAD_DEPT_ID,dept.DEPT_NAME
+    </select>
+
+
+    <!-- 项目申请各阶段数量-->
+    <resultMap id="ProjectApplyNumVo" type="com.deloitte.platform.api.dss.scientific.vo.ProjectApplyNumVo">
+        <result column="totalNum" property="totalNum"/>
+        <result column="submitNum" property="submitNum"/>
+        <result column="auditNum" property="auditNum"/>
+        <result column="publicNum" property="publicNum"/>
+        <result column="taskSignNum" property="taskSignNum"/>
+        <result column="replyNum" property="replyNum"/>
+    </resultMap>
+    <select id="queryApplyNums"  resultMap="ProjectApplyNumVo"  parameterType="java.util.Map">
+        <![CDATA[
+            select
+            count(ID)  totalNum,
+            sum(case  when STATUS = '10' then  1 else 0 end ) submitNum,
+            sum(case  when STATUS = '20' then  1 else 0 end ) auditNum,
+            sum(case  when STATUS = '30' then  1 else 0 end ) publicNum,
+            sum(case  when STATUS = '40' then  1 else 0 end ) taskSignNum,
+            sum(case  when STATUS = '60' then  1 else 0 end ) replyNum
+            from  SRPMS_PROJECT
+            where  STATUS  in ('10','20','30','40','60')
+        ]]>
+    </select>
+    <!--科研人员人均项目数及人均经费折线图-->
+    <select id="queryDeptProjectPerson" resultMap="DeptProjectPerson" parameterType="java.util.Map">
+        select t1.deptId,t1.deptName,t1.applyNum,t1.applyFunds,t2.personNum from
+        (
+        SELECT pro.LEAD_DEPT_ID deptId,
+        dept.DEPT_NAME deptName,
+        count(pro.ID) applyNum,
+        sum(det.BUDGET_AMOUNT) applyFunds
+        FROM (SRPMS_PROJECT pro INNER JOIN
+        SRPMS_PROJECT_BUDGET_DETAIL det
+        ON det.PROJECT_ID = pro.ID)
+        INNER JOIN
+        ISUMP_DEPT dept
+        ON dept.ID = pro.LEAD_DEPT_ID
+        WHERE substr(pro.PROJECT_TYPE, 0, 6) = #{category}
+        AND det.BUDGET_CATEGORY IN ('0101', '0201', '0301', '0401')
+        AND det.BUDGET_YEAR = #{year}
+        AND pro.STATUS = 50
+        GROUP BY pro.LEAD_DEPT_ID, dept.DEPT_NAME
+        ) t1,
+        (
+        SELECT deptId, deptName, count(num) personNum FROM
+        (
+        SELECT
+        pro.LEAD_DEPT_ID                  deptId,
+        dept.DEPT_NAME                      deptName,
+        count(DISTINCT pj.SOURCE_PERSON_ID) num
+        FROM (SRPMS_PROJECT pro INNER JOIN
+        ISUMP_DEPT dept ON pro.LEAD_DEPT_ID = dept.ID) INNER JOIN
+        SRPMS_PROJECT_PERSON_JOIN pj
+        ON pj.PROJECT_ID = pro.ID
+        WHERE substr(pro.PROJECT_TYPE, 0, 6) = #{category}
+        AND pro.STATUS = 50
+        GROUP BY pro.LEAD_DEPT_ID, dept.DEPT_NAME
+        UNION ALL
+        SELECT
+        pro.LEAD_DEPT_ID                  deptId,
+        dept.DEPT_NAME                      deptName,
+        count(DISTINCT pi.SOURCE_PERSON_ID) num
+        FROM (SRPMS_PROJECT pro INNER JOIN
+        ISUMP_DEPT dept ON pro.LEAD_DEPT_ID = dept.ID) INNER JOIN
+        ISUMP_USER pi
+        ON pi.ID = pro.LEAD_PERSON_ID
+        WHERE substr(pro.PROJECT_TYPE, 0, 6) = #{category}
+        AND pro.STATUS = 50
+        GROUP BY pro.LEAD_DEPT_ID, dept.DEPT_NAME
+        )
+        GROUP BY deptId, deptName
+        ) t2
+        where t1.deptId = t2.deptId
+    </select>
+
+
+    <!--立项项目成员比例饼状图-->
+    <resultMap id="ProjectPersonPieChart" type="com.deloitte.platform.api.dss.scientific.vo.ProjectPersonPieChartVo">
+        <result property="totalNum" column="totalNum"/>
+        <result property="Low45Num" column="Low45Num"/>
+        <result property="over45Num" column="over45Num"/>
+        <result property="highLever" column="highLever"/>
+        <result property="midLever" column="midLever"/>
+        <result property="lowLever" column="lowLever"/>
+        <result property="otherOne" column="otherOne"/>
+    </resultMap>
+
+    <!--立项项目成员比例饼状图-->
+    <select id="queryPersonPercentage" resultMap="ProjectPersonPieChart" parameterType="java.util.Map">
+        <![CDATA[
+        select
+          count(*)                                                                  totalNum,
+          sum(case when age <= 45 then 1 else 0 end)                                Low45Num,
+          sum(case when age > 45 then 1 else 0 end)                                 over45Num,
+          sum(case when position_title = '10' then 1 else 0 end)                    highLever,
+          sum(case when position_title = '20' then 1 else 0 end)                    midLever,
+          sum(case when position_title = '30' then 1 else 0 end)                    lowLever,
+          sum(case when POSITION_TITLE not in  ('10','20','30') then 1 else 0 end)  otherOne
+        from
+          (
+            select
+               usr.ID,
+              TRUNC(months_between(sysdate, usr.birth_date) / 12) AS age,
+               usr.position_title
+           from
+             SRPMS_PROJECT pro,
+             SRPMS_PROJECT_PERSON_JOIN member,
+             ISUMP_USER  usr
+           where pro.STATUS=50
+             and substr(pro.PROJECT_TYPE, 0, 6) =#{category}
+             and to_char(pro.project_action_date_start, 'yyyy') <=
+             to_char(sysdate, 'yyyy')
+             and to_char(pro.project_action_date_end, 'yyyy') >=
+             to_char(sysdate, 'yyyy')
+             and   member.PROJECT_NUM=pro.PROJECT_NUM
+             and member.JOIN_WAY in ('0101','0201','0301','0401','0501','0601')
+             and  member.PERSON_ID = usr.ID
+           union
+           select
+             leader.ID,
+             TRUNC(months_between(sysdate, leader.birth_date) / 12) AS age,
+             leader.position_title
+           from SRPMS_PROJECT pro, ISUMP_USER leader
+           where pro.STATUS=50
+             and substr(pro.PROJECT_TYPE, 0, 6) = #{category}
+             and  pro.LEAD_DEPT_ID = leader.id
+             and to_char(pro.project_action_date_start, 'yyyy') <=
+             to_char(sysdate, 'yyyy')
+             and to_char(pro.project_action_date_end, 'yyyy') >=
+             to_char(sysdate, 'yyyy')
+          ) temp
+        ]]>
+    </select>
+
+
+    <!--项目小类预算金额比例-->
+    <resultMap id="ProjectAmountPercentageVo"
+               type="com.deloitte.platform.api.dss.scientific.vo.ProjectAmountPercentageVo">
+        <result column="projectType" property="projectType"/>
+        <result column="amount" property="amount"/>
+    </resultMap>
+
+    <!--立项项目项目预算情况饼状图-->
+    <select id="queryAmountPercentage" resultMap="ProjectAmountPercentageVo" parameterType="java.util.Map">
+        SELECT
+        pro.PROJECT_TYPE projectType,
+        sum(bud.BUDGET_AMOUNT) amount
+        FROM SRPMS_PROJECT pro INNER JOIN SRPMS_PROJECT_BUDGET_DETAIL bud
+        ON bud.PROJECT_ID = pro.ID
+        WHERE pro.STATUS = 50
+        AND substr(pro.PROJECT_TYPE, 0, 6) = #{category}
+        and bud.BUDGET_YEAR = #{year}
+        and bud.BUDGET_CATEGORY IN ('0101', '0201', '0301', '0401')
+        GROUP BY pro.PROJECT_TYPE
+    </select>
+
+
+    <!--各所院项目经费执行情况-->
+    <resultMap id="DeptAllAmountPay" type="com.deloitte.platform.api.dss.scientific.vo.DeptAllAmountPayVo">
+        <result column="deptName" property="deptName"/>
+        <result column="deptID" property="deptID"/>
+        <result column="budgetAmout" property="budgetAmout"/>
+        <result column="reciveAmount" property="reciveAmount"/>
+        <result column="payAmount" property="payAmount"/>
+    </resultMap>
+
+
+    <!--执行项目-各所院项目至今经费执行情况柱状图-->
+    <select id="queryAllAmountPay" resultMap="DeptAllAmountPay" parameterType="java.util.Map">
+            <![CDATA[
+               select
+                  temp.deptID,
+                  temp.deptName,
+                  max(budgetAmout) budgetAmout,
+                  sum(reciveAmount) reciveAmount,
+                  sum(payAmount) payAmount
+                from (
+                       select
+                         pro.ID,
+                         pro.PROJECT_NUM,
+                         pro.LEAD_DEPT_ID deptID,
+                         dept.DEPT_NAME  deptName,
+                         budget.BUDGET_AMOUNT  budgetAmout,
+                         0  reciveAmount,
+                         0 payAmount
+                       from
+                         SRPMS_PROJECT_BUDGET_DETAIL  budget,ISUMP_DEPT dept,SRPMS_PROJECT pro
+                       where  pro.STATUS='55'  and  budget.BUDGET_CATEGORY = '0101'
+                         and  pro.PROJECT_NUM = budget.PROJECT_NUM
+                         and pro.LEAD_DEPT_ID = dept.ID
+                       union  all
+                       select
+                         pro.ID,
+                         pro.PROJECT_NUM,
+                         pro.LEAD_DEPT_ID deptID,
+                         dept.DEPT_NAME  deptName,
+                         0  budgetAmout,
+                         outlay.PRD_RECEIVE_OUTLAY  reciveAmount,
+                         0 payAmount
+                       from
+                         DSS_PRD_RECEIVE_OUTLAY_ACADEMY  outlay,ISUMP_DEPT dept,SRPMS_PROJECT pro
+                       where  pro.STATUS='55'
+                         and  pro.PROJECT_NUM = outlay.PRO_CODE
+                         and pro.LEAD_DEPT_ID = dept.ID
+                       union  all
+                       select
+                         pro.ID,
+                         pro.PROJECT_NUM,
+                         pro.LEAD_DEPT_ID deptID,
+                         dept.DEPT_NAME  deptName,
+                         0  budgetAmout,
+                         0  reciveAmount,
+                         pay.BUDGET_AMOUNT payAmount
+                       from
+                         DSS_PROJECT_TASK_PAY  pay,ISUMP_DEPT dept,SRPMS_PROJECT pro
+                       where  pro.STATUS='55'
+                         and  pro.PROJECT_NUM = pay.PROJECT_NUM
+                         and pro.LEAD_DEPT_ID = dept.ID
+                     )  temp group by  temp.deptID,temp.deptName
+        ]]>
+    </select>
+
+
+    <!--执行项目-各所院项目本年到位经费执行情况柱状图-->
+    <select id="queryAmountThisYear" resultMap="DeptAllAmountPay" parameterType="java.util.Map">
+        <![CDATA[
+            select
+              temp.deptID,
+              temp.deptName,
+              sum(reciveAmount) reciveAmount,
+              sum(payAmount) payAmount
+            from (
+                   select
+                     pro.ID,
+                     pro.PROJECT_NUM,
+                     pro.LEAD_DEPT_ID deptID,
+                     dept.DEPT_NAME  deptName,
+                     outlay.PRD_RECEIVE_OUTLAY  reciveAmount,
+                     0 payAmount
+                   from
+                     DSS_PRD_RECEIVE_OUTLAY_ACADEMY  outlay,ISUMP_DEPT dept,SRPMS_PROJECT pro
+
+                   where  pro.STATUS='55'
+                     and  pro.PROJECT_NUM = outlay.PRO_CODE
+                     and pro.LEAD_DEPT_ID = dept.ID
+                     and substr(outlay.PERIOD_RECEIVE,0,4) = to_char(sysdate,'yyyy')
+                   union  all
+                   select
+                     pro.ID,
+                     pro.PROJECT_NUM,
+                     pro.LEAD_DEPT_ID deptID,
+                     dept.DEPT_NAME  deptName,
+                     0  reciveAmount,
+                     pay.BUDGET_AMOUNT payAmount
+                   from
+                     DSS_PROJECT_TASK_PAY  pay,ISUMP_DEPT dept,SRPMS_PROJECT pro
+                   where  pro.STATUS='55'
+                     and  pro.PROJECT_NUM = pay.PROJECT_NUM
+                     and pro.LEAD_DEPT_ID = dept.ID
+                     and pay.BUDGET_YEAR = to_number(to_char(sysdate,'yyyy'))
+                 )  temp group by  temp.deptID,temp.deptName
+        ]]>
+    </select>
+
+    <!--结题项目-各所院结题项目数量分布情况-->
+    <select id="queryConclude" resultMap="DeptApplyProject" parameterType="java.util.Map">
+        <![CDATA[
+
+        select
+                dept.DEPT_NAME deptName,
+                count(pro.PROJECT_NUM) applyNum
+         from
+        SRPMS_PROJECT pro INNER JOIN
+        ISUMP_DEPT dept on pro.LEAD_DEPT_ID = dept.ID
+        where pro.STATUS = '70'
+        and substr(pro.PROJECT_TYPE, 0, 6) = '100101'
+        group by dept.DEPT_NAME
+
+        ]]>
+    </select>
+
+    <!--结题项目预算金额及总到位金额情况-->
+    <resultMap id="ConcludeProjectFund" type="com.deloitte.platform.api.dss.scientific.vo.ConcludeProjectFundVo">
+        <result column="projectNum" property="projectNum"/>
+        <result column="projectName" property="projectName"/>
+        <result column="amount" property="amount"/>
+        <result column="receive" property="receive"/>
+    </resultMap>
+
+
+    <!--结题项目预算金额及总到位金额情况-->
+    <select id="queryConcludeFund" resultMap="ConcludeProjectFund">
+        <![CDATA[
+            select
+              projectNum projectNum,
+              projectName projectName,
+              sum(BUDGET_AMOUNT) amount,
+              sum(PRD_RECEIVE_OUTLAY) receive
+            from
+              (
+              select
+                pro.PROJECT_NUM projectNum,
+                pro.PROJECT_NAME projectName,
+                budget.BUDGET_AMOUNT,
+                0 PRD_RECEIVE_OUTLAY
+              from
+                SRPMS_PROJECT_BUDGET_DETAIL  budget,SRPMS_PROJECT pro
+              where  pro.STATUS='70'  and  budget.BUDGET_CATEGORY = '0101'
+                and  pro.PROJECT_NUM = budget.PROJECT_NUM
+            union  all
+              select
+                pro.PROJECT_NUM projectNum,
+                pro.PROJECT_NAME projectName,
+                0 BUDGET_AMOUNT,
+                outlay.PRD_RECEIVE_OUTLAY PRD_RECEIVE_OUTLAY
+              from
+                DSS_PRD_RECEIVE_OUTLAY_ACADEMY  outlay,SRPMS_PROJECT pro
+              where  pro.STATUS='70'
+                and  pro.PROJECT_NUM = outlay.PRO_CODE) temp
+              group by  projectNum,projectName
+        ]]>
+    </select>
+
+
+    <!--各所院成果转化情况-->
+    <resultMap id="deptAchievement" type="com.deloitte.platform.api.dss.scientific.vo.DeptAchievementVo">
+        <result column="deptId" property="deptId"/>
+        <result column="deptName" property="deptName"/>
+        <result column="transformation" property="transformation"/>
+        <result column="authenticate" property="authenticate"/>
+    </resultMap>
+
+
+    <!--各所院成果转化情况-->
+    <select id="queryAchievement" resultMap="deptAchievement">
+        <![CDATA[
+              select dept.ID deptId,
+                   dept.DEPT_NAME deptName,
+                   count(tra.ID) transformation,
+                   count(ide.ID) authenticate
+            from
+              ((SRPMS_PROJECT pro INNER JOIN
+                ISUMP_DEPT dept on pro.LEAD_DEPT_ID = dept.ID) INNER JOIN
+                SRPMS_OUTLINE_RESULT_TRANS tra on pro.PROJECT_NUM = tra.PRO_CODE)
+                left JOIN SRPMS_OUTLINE_RESULT_IDENTIFY ide on pro.PROJECT_NUM = ide.PRO_CODE
+                and to_char(ide.IDENTIFY_TIME,'yyyy') = to_char(sysdate,'yyyy')
+            where  tra.CONTRACT_SIGNING_YEAR = to_char(sysdate,'yyyy')
+              and substr(pro.PROJECT_TYPE, 0, 6) = '100101'
+              and  pro.STATUS = '80'
+            group by dept.ID,dept.DEPT_NAME
+        ]]>
+    </select>
+
+
+    <!--各所院论文发表情况-->
+    <resultMap id="papersci" type="com.deloitte.platform.api.dss.scientific.vo.DeptPaperSCIVo">
+        <result column="deptId" property="deptId"/>
+        <result column="deptName" property="deptName"/>
+        <result column="paper" property="paper"/>
+        <result column="sciNum" property="sciNum"/>
+    </resultMap>
+
+    <!--各所院论文发表情况-->
+    <select id="queryPaper" resultMap="papersci">
+        <![CDATA[
+            SELECT
+              dept.ID deptId,
+              dept.DEPT_NAME deptName,
+              count(paper.ID) paper,
+              count(sci.ID)  sciNum
+             FROM SRPMS_PROJECT  pro,ISUMP_DEPT dept ,SRPMS_OUTLINE_PAPER  paper
+            left join  DSS_SCI_PAPER  sci on  paper.JOURNAL_TITLE  =sci.JOURNAL_TITLE
+            where pro.LEAD_DEPT_ID = dept.ID and pro.PROJECT_NUM = paper.PRO_CODE
+              and  pro.STATUS = '80'
+              and pro.PROJECT_ACTION_DATE_END < sysdate
+            group by  dept.ID,dept.DEPT_NAME
+        ]]>
+    </select>
+
+
+</mapper>

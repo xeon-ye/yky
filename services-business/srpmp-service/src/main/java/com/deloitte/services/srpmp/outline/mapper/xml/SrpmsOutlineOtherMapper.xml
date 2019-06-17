@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.srpmp.outline.mapper.SrpmsOutlineOtherMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.srpmp.outline.entity.SrpmsOutlineOther">
+        <id column="ID" property="id" />
+        <result column="BASE_ID" property="baseId" />
+        <result column="SRPMS_BASE_CAT" property="srpmsBaseCat" />
+        <result column="SRPMS_BASE_LEVEL" property="srpmsBaseLevel" />
+        <result column="EXP_CENTER_NAME" property="expCenterName" />
+        <result column="EXP_CENTER_DIRECTOR" property="expCenterDirector" />
+        <result column="SUPPORT_ORG" property="supportOrg" />
+        <result column="APPROVAL_TIME" property="approvalTime" />
+        <result column="APPROVAL_NUM" property="approvalNum" />
+        <result column="BUILT_TIME" property="builtTime" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, BASE_ID, SRPMS_BASE_CAT, SRPMS_BASE_LEVEL, EXP_CENTER_NAME, EXP_CENTER_DIRECTOR, SUPPORT_ORG, APPROVAL_TIME, APPROVAL_NUM, BUILT_TIME, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+    </sql>
+
+    <!--根据条件查询其他数据-->
+    <select id="listQuery" parameterType="com.deloitte.platform.api.srpmp.outline.param.SrpmsOutlineOtherQueryForm"
+            resultType="com.deloitte.platform.api.srpmp.outline.param.SrpmsOutlineOtherQueryParam">
+        SELECT t1.*, t2.org_id, t2.year, t2.month
+        FROM
+        SRPMS_OUTLINE_OTHER t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE
+        1=1
+        <if test="orgId != null">
+            AND t2.org_id = #{orgId}
+        </if>
+        <if test="year != null and year != ''">
+            AND t2.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t2.month = #{month}
+        </if>
+        <if test="srpmsBaseCat != null and srpmsBaseCat != ''">
+            AND t1.srpms_base_cat = #{srpmsBaseCat}
+        </if>
+        <if test="srpmsBaseLevel != null and srpmsBaseLevel != ''">
+            AND t1.srpms_base_level = #{srpmsBaseLevel}
+        </if>
+        <if test="expCenterName != null and expCenterName != ''">
+            AND t1.exp_center_name = #{expCenterName}
+        </if>
+        <if test="expCenterDirector != null and expCenterDirector != ''">
+            AND t1.exp_center_director = #{expCenterDirector}
+        </if>
+        <if test="supportOrg != null and supportOrg != ''">
+            AND t1.support_org = #{supportOrg}
+        </if>
+        <if test="approvalNum != null and approvalNum != ''">
+            AND t1.approval_num = #{approvalNum}
+        </if>
+        <if test="approvalTime != null and approvalTime != ''">
+            AND t1.approval_time >= to_date(CONCAT(#{approvalTime},'00:00:00') ,'YYYY-MM-DD HH24:MI:SS')
+        </if>
+        <if test="approvalTime != null and approvalTime != ''">
+            AND t1.approval_time &lt;= to_date(CONCAT(#{approvalTime},'23:59:59') ,'YYYY-MM-DD HH24:MI:SS')
+        </if>
+        <if test="builtTime != null and builtTime != ''">
+            AND t1.built_time >= to_date(CONCAT(#{builtTime},'00:00:00') ,'YYYY-MM-DD HH24:MI:SS')
+        </if>
+        <if test="builtTime != null and builtTime != ''">
+            AND t1.built_time &lt;= to_date(CONCAT(#{builtTime},'23:59:59') ,'YYYY-MM-DD HH24:MI:SS')
+        </if>
+        <if test="createBy != null and createBy != ''">
+            AND t1.create_by = #{createBy}
+        </if>
+        ORDER by nvl(t1.create_time, TO_DATE('1900-01-01', 'YYYY-MM-DD HH24:MI:SS')) DESC
+    </select>
+
+    <!--根据条件(单位+科研基地类别+实验室/中心名称+批准文号)查询题录-其他数据-->
+    <select id="getQueryCount" parameterType="java.util.Map"
+            resultType="int">
+        SELECT count(*)
+        FROM
+        SRPMS_OUTLINE_OTHER t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE
+        1=1
+        AND t2.org_id = #{orgId}
+        AND t1.srpms_base_cat = #{srpmsBaseCat}
+        AND t1.exp_center_name = #{expCenterName}
+        AND t1.approval_num = #{approvalNum}
+        <if test="id != null">
+            AND t1.id &lt;&gt; #{id}
+        </if>
+    </select>
+
+</mapper>

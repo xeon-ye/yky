@@ -1,0 +1,1 @@
+update srpmp.srpms_project_attachment a set a.id = (select b.id from bpm.file_info b where b.file_url=a.file_url) where a.file_url is not null;

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.finance.mapper.FinEtlAchievementMapper">
+
+
+    <!-- 整体项目预算绩效 -->
+    <select id="queryInfoForAchive" parameterType="com.deloitte.services.dss.finance.entity.FinEtlAchievementFact"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          sum(PTS) ytdN,
+          count(PROJECT_CODE) ytdD,
+          PERIOD periodCode,
+          ENTITY_CODE comCode
+        from
+          DSS_FIN_ETL_ACHIEVEMENT achievement
+        where
+           achievement.PERIOD like #{periodCode}||'%'
+        group by
+          PERIOD,ENTITY_CODE
+    </select>
+
+    <!-- 各类型项目预算绩效 -->
+    <select id="queryInfoForComAchive" parameterType="java.util.Map"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          sum(achivement.PTS) ytdN,
+          count(achivement.PROJECT_CODE) ytdD,
+          map.INDEX_CODE indexCode,
+          achivement.PERIOD periodCode,
+          achivement.ENTITY_CODE comCode
+        from
+          DSS_FIN_ETL_ACHIEVEMENT achivement
+        inner join
+          DSS_FIN_ETL_ACHIEVEMENT_MAP1 map
+        on
+          achivement.PFM_TYPE = map.PFM_TYPE
+        and
+          achivement.PROJECT_TYPE = map.PROJECT_TYPE
+        where
+          PERIOD = #{period}
+        group by
+          map.INDEX_CODE,achivement.PERIOD,achivement.ENTITY_CODE
+    </select>
+
+    <!-- 平均项目预算绩效同比增长 -->
+    <select id="queryInfoForAvgAchive" parameterType="java.util.Map"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          period periodCode,
+          comCode2 comCode ,
+          ytdN ytdN,
+          ytdD ytdD
+        from
+          (select
+            sum(PTS) / count(PROJECT_CODE) ytdN,
+            COM_CODE comCode1,
+            PERIOD period
+          from
+            DSS_FIN_ETL_ACHIEVEMENT achiev
+          inner join
+            DSS_FINANCE_COMPANY company
+          on
+            achiev.ENTITY_NAME = company.COM_DES
+          where
+            PERIOD = #{periodNow}
+          group by
+            COM_CODE,PERIOD) t1
+        inner join
+          (select
+            sum(PTS) / count(PROJECT_CODE) ytdD,
+            COM_CODE comCode2
+          from
+            DSS_FIN_ETL_ACHIEVEMENT achiev
+          inner join
+            DSS_FINANCE_COMPANY company
+          on
+            achiev.ENTITY_NAME = company.COM_DES
+          where
+            PERIOD = #{periodBefore}
+          group by
+            COM_CODE) t2
+        on
+          comCode1 = comCode2
+    </select>
+
+    <!-- 平均项目预算绩效同比增长 单年 -->
+    <select id="queryInfoForAvgAchive" parameterType="java.util.Map"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          period periodCode,
+          comCode2 comCode,
+          ytdN ytdN,
+          ytdD ytdD
+        from
+          (select
+            sum(PTS) / count(PROJECT_CODE) ytdN,
+            COM_CODE comCode1,
+            PERIOD period
+          from
+            DSS_FIN_ETL_ACHIEVEMENT achiev
+          inner join
+            DSS_FINANCE_COMPANY company
+          on
+            achiev.ENTITY_NAME = company.COM_DES
+          where
+            PERIOD = #{periodNow}
+          group by
+            COM_CODE,PERIOD)
+    </select>
+
+    <!-- 平均科研项目预算绩效 -->
+    <select id="queryInfoForAvgSciAchive" parameterType="java.util.Map"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+          select
+            comCode1 comCode,
+            period1 periodCode,
+            indexCode1 indexCode,
+            ytdN ytdN,
+            ytdD ytdD
+          from
+            (select
+                sum(PTS) / count(PROJECT_CODE) ytdN,
+                COM_CODE comCode1,
+                PERIOD period1,
+                map2.PROJECT_TYPE projectType1,
+                map2.PFM_TYPE pfmType1,
+                map2.INDEX_CODE indexCode1
+              from
+                DSS_FIN_ETL_ACHIEVEMENT achiev
+              inner join
+                DSS_FINANCE_COMPANY company
+              on
+                achiev.ENTITY_NAME = company.COM_DES
+              inner join
+                DSS_FIN_ETL_ACHIEVEMENT_MAP2 map2
+              on
+                map2.PROJECT_TYPE = achiev.PROJECT_TYPE
+              and
+                map2.PFM_TYPE = achiev.PFM_TYPE
+              where
+                PERIOD = #{periodNow}
+              group by
+                COM_CODE,PERIOD,map2.PROJECT_TYPE,map2.PFM_TYPE,map2.INDEX_CODE
+              ) t1
+          inner join
+              (select
+                sum(PTS) / count(PROJECT_CODE) ytdD,
+                COM_CODE comCode2,
+                PERIOD period2,
+                map2.PROJECT_TYPE projectType2,
+                map2.PFM_TYPE pfmType2,
+                map2.INDEX_CODE indexCode2
+              from
+                DSS_FIN_ETL_ACHIEVEMENT achiev
+              inner join
+                DSS_FINANCE_COMPANY company
+              on
+                achiev.ENTITY_NAME = company.COM_DES
+              inner join
+                DSS_FIN_ETL_ACHIEVEMENT_MAP2 map2
+              on
+                map2.PROJECT_TYPE = achiev.PROJECT_TYPE
+              and
+                map2.PFM_TYPE = achiev.PFM_TYPE
+              where
+                PERIOD = #{periodBefore}
+              group by
+                COM_CODE,PERIOD,map2.PROJECT_TYPE,map2.PFM_TYPE,map2.INDEX_CODE
+              ) t2
+          on
+            comCode1 = comCode2
+          and
+            period1 = period2
+          and
+            projectType1 = projectType2
+          and
+            pfmType1 = pfmType2
+    </select>
+
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.dss.finance.entity.FinEtlAchievement">
+        <id column="ID" property="id"/>
+        <result column="PERIOD" property="period"/>
+        <result column="PROJECT_CODE" property="projectCode"/>
+        <result column="PROJECT_NAME" property="projectName"/>
+        <result column="ENTITY_CODE" property="entityCode"/>
+        <result column="ENTITY_NAME" property="entityName"/>
+        <result column="PROJECT_TYPE" property="projectType"/>
+        <result column="TITLE_L1" property="titleL1"/>
+        <result column="PFM_TYPE" property="pfmType"/>
+        <result column="PTS" property="pts"/>
+        <result column="EX1" property="ex1"/>
+        <result column="EX2" property="ex2"/>
+        <result column="EX3" property="ex3"/>
+        <result column="EX4" property="ex4"/>
+        <result column="EX5" property="ex5"/>
+        <result column="CREATE_BY" property="createBy"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="UPDATE_BY" property="updateBy"/>
+        <result column="UPDATE_TIME" property="updateTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, PERIOD, PROJECT_CODE, PROJECT_NAME, ENTITY_CODE, ENTITY_NAME, PROJECT_TYPE, TITLE_L1, PFM_TYPE, PTS, EX1, EX2, EX3, EX4, EX5, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME
+    </sql>
+
+</mapper>

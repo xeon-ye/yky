@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.noticeper.mapper.OaNoticePermissionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.noticeper.entity.OaNoticePermission">
+        <result column="ID" property="id" />
+        <result column="TYPE" property="type" />
+        <result column="OBJECT_ID" property="objectId" />
+        <result column="ORG_CODE" property="orgCode" />
+        <result column="DEPT_CODE" property="deptCode" />
+        <result column="CREATE_TIME" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, TYPE, OBJECT_ID, ORG_CODE, DEPT_CODE, CREATE_TIME
+    </sql>
+
+    <delete id="deletePermissionByObjId" >
+        DELETE FROM
+          OA_NOTICE_PERMISSION
+        WHERE
+          OBJECT_ID = #{objId }
+    </delete>
+
+    <select id="getPermissionsByObjId" resultMap="BaseResultMap">
+        SELECT
+          <include refid="Base_Column_List" />
+        FROM
+          OA_NOTICE_PERMISSION
+        WHERE
+          OBJECT_ID = #{objId }
+    </select>
+
+</mapper>

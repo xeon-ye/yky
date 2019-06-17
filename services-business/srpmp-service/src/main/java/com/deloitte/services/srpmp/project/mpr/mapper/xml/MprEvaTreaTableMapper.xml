@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.srpmp.project.mpr.mapper.MprEvaTreaTableMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.srpmp.project.mpr.entity.MprEvaTreaTable">
+        <result column="ID" property="id" />
+        <result column="PROJECT_NO" property="projectNo" />
+        <result column="TREA_TOPIC" property="treaTopic" />
+        <result column="JOURNAL_NAME" property="journalName" />
+        <result column="AUTHOR" property="author" />
+        <result column="AUTHOR_TYPE" property="authorType" />
+        <result column="YEAR" property="year" />
+        <result column="VOLUME" property="volume" />
+        <result column="PAGE" property="page" />
+        <result column="SOURCE_INCLUSION" property="sourceInclusion" />
+        <result column="SCI_PARTITION" property="sciPartition" />
+        <result column="ISSU_TIME" property="issuTime" />
+        <result column="IMPACT_FACTOR" property="impactFactor" />
+        <result column="REFE_FREQ" property="refeFreq" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, PROJECT_NO, TREA_TOPIC, JOURNAL_NAME, AUTHOR, AUTHOR_TYPE, YEAR, VOLUME, PAGE, SOURCE_INCLUSION, SCI_PARTITION, ISSU_TIME, IMPACT_FACTOR, REFE_FREQ, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+    </sql>
+
+</mapper>

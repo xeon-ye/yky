@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.report.mapper.ReportEduDoStatisMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.report.entity.ReportEduDoStatis">
+        <id column="ID" property="id" />
+        <result column="UNIT_ID" property="unitId" />
+        <result column="UNIT_CODE" property="unitCode" />
+        <result column="NAME" property="name" />
+        <result column="YEAR" property="year" />
+        <result column="MONTH" property="month" />
+        <result column="STATUS" property="status" />
+        <result column="PERIOD_TYPE" property="periodType" />
+        <result column="MERGE_FLAG" property="mergeFlag" />
+        <result column="REPLY_ALLOCATE_ITEM_1" property="replyAllocateItem1" />
+        <result column="REPLY_ALLOCATE_ITEM_2" property="replyAllocateItem2" />
+        <result column="REPLY_ALLOCATE_ITEM_3" property="replyAllocateItem3" />
+        <result column="REPLY_ALLOCATE_ITEM_4" property="replyAllocateItem4" />
+        <result column="REPLY_ALLOCATE_ITEM_5" property="replyAllocateItem5" />
+        <result column="REPLY_ALLOCATE_ITEM_6" property="replyAllocateItem6" />
+        <result column="REPLY_ALLOCATE_ITEM_7" property="replyAllocateItem7" />
+        <result column="REPLY_ALLOCATE_ITEM_8" property="replyAllocateItem8" />
+        <result column="REPLY_ALLOCATE_ITEM_9" property="replyAllocateItem9" />
+        <result column="REPLY_ALLOCATE_ITEM_10" property="replyAllocateItem10" />
+        <result column="CARRY_FORWARD_ITEM_1" property="carryForwardItem1" />
+        <result column="CARRY_FORWARD_ITEM_2" property="carryForwardItem2" />
+        <result column="CARRY_FORWARD_ITEM_3" property="carryForwardItem3" />
+        <result column="CARRY_FORWARD_ITEM_4" property="carryForwardItem4" />
+        <result column="CARRY_FORWARD_ITEM_5" property="carryForwardItem5" />
+        <result column="CARRY_FORWARD_ITEM_6" property="carryForwardItem6" />
+        <result column="CARRY_FORWARD_ITEM_7" property="carryForwardItem7" />
+        <result column="CARRY_FORWARD_ITEM_8" property="carryForwardItem8" />
+        <result column="CARRY_FORWARD_ITEM_9" property="carryForwardItem9" />
+        <result column="CARRY_FORWARD_ITEM_10" property="carryForwardItem10" />
+        <result column="ADD_UP_ITEM_1" property="addUpItem1" />
+        <result column="ADD_UP_ITEM_2" property="addUpItem2" />
+        <result column="ADD_UP_ITEM_4" property="addUpItem4" />
+        <result column="ADD_UP_ITEM_5" property="addUpItem5" />
+        <result column="ADD_UP_ITEM_6" property="addUpItem6" />
+        <result column="ADD_UP_ITEM_7" property="addUpItem7" />
+        <result column="ADD_UP_ITEM_8" property="addUpItem8" />
+        <result column="ADD_UP_ITEM_9" property="addUpItem9" />
+        <result column="ADD_UP_ITEM_10" property="addUpItem10" />
+        <result column="ADD_UP_ITEM_3" property="addUpItem3" />
+        <result column="ADD_UP_ITEM_11" property="addUpItem11" />
+        <result column="ADD_UP_ITEM_12" property="addUpItem12" />
+        <result column="ADD_UP_ITEM_13" property="addUpItem13" />
+        <result column="ADD_UP_ITEM_14" property="addUpItem14" />
+        <result column="ADD_UP_ITEM_15" property="addUpItem15" />
+        <result column="ADD_UP_ITEM_16" property="addUpItem16" />
+        <result column="ADD_UP_ITEM_17" property="addUpItem17" />
+        <result column="ADD_UP_ITEM_18" property="addUpItem18" />
+        <result column="ADD_UP_ITEM_19" property="addUpItem19" />
+        <result column="ADD_UP_ITEM_20" property="addUpItem20" />
+        <result column="PROCESS_ITEM_1" property="processItem1" />
+        <result column="PROCESS_ITEM_2" property="processItem2" />
+        <result column="PROCESS_ITEM_3" property="processItem3" />
+        <result column="PROCESS_ITEM_4" property="processItem4" />
+        <result column="PROCESS_ITEM_5" property="processItem5" />
+        <result column="PROCESS_ITEM_6" property="processItem6" />
+        <result column="PROCESS_ITEM_7" property="processItem7" />
+        <result column="PROCESS_ITEM_8" property="processItem8" />
+        <result column="PROCESS_ITEM_9" property="processItem9" />
+        <result column="PROCESS_ITEM_10" property="processItem10" />
+        <result column="PROCESS_ITEM_11" property="processItem11" />
+        <result column="PROCESS_ITEM_12" property="processItem12" />
+        <result column="PROCESS_ITEM_13" property="processItem13" />
+        <result column="PROCESS_ITEM_14" property="processItem14" />
+        <result column="PROCESS_ITEM_15" property="processItem15" />
+        <result column="PROCESS_ITEM_16" property="processItem16" />
+        <result column="PROCESS_ITEM_17" property="processItem17" />
+        <result column="PROCESS_ITEM_18" property="processItem18" />
+        <result column="PROCESS_ITEM_19" property="processItem19" />
+        <result column="PROCESS_ITEM_20" property="processItem20" />
+        <result column="REASON_ITEM_1" property="reasonItem1" />
+        <result column="REASON_ITEM_2" property="reasonItem2" />
+        <result column="REASON_ITEM_3" property="reasonItem3" />
+        <result column="REASON_ITEM_4" property="reasonItem4" />
+        <result column="REASON_ITEM_5" property="reasonItem5" />
+        <result column="REASON_ITEM_6" property="reasonItem6" />
+        <result column="REASON_ITEM_7" property="reasonItem7" />
+        <result column="REASON_ITEM_8" property="reasonItem8" />
+        <result column="REASON_ITEM_9" property="reasonItem9" />
+        <result column="REASON_ITEM_10" property="reasonItem10" />
+        <result column="REASON_ITEM_11" property="reasonItem11" />
+        <result column="REASON_ITEM_12" property="reasonItem12" />
+        <result column="REASON_ITEM_13" property="reasonItem13" />
+        <result column="REASON_ITEM_14" property="reasonItem14" />
+        <result column="REASON_ITEM_15" property="reasonItem15" />
+        <result column="REASON_ITEM_16" property="reasonItem16" />
+        <result column="REASON_ITEM_17" property="reasonItem17" />
+        <result column="REASON_ITEM_18" property="reasonItem18" />
+        <result column="REASON_ITEM_19" property="reasonItem19" />
+        <result column="REASON_ITEM_20" property="reasonItem20" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, UNIT_ID, UNIT_CODE, NAME, YEAR, MONTH, STATUS, PERIOD_TYPE, MERGE_FLAG, REPLY_ALLOCATE_ITEM_1, REPLY_ALLOCATE_ITEM_2, REPLY_ALLOCATE_ITEM_3, REPLY_ALLOCATE_ITEM_4, REPLY_ALLOCATE_ITEM_5, REPLY_ALLOCATE_ITEM_6, REPLY_ALLOCATE_ITEM_7, REPLY_ALLOCATE_ITEM_8, REPLY_ALLOCATE_ITEM_9, REPLY_ALLOCATE_ITEM_10, CARRY_FORWARD_ITEM_1, CARRY_FORWARD_ITEM_2, CARRY_FORWARD_ITEM_3, CARRY_FORWARD_ITEM_4, CARRY_FORWARD_ITEM_5, CARRY_FORWARD_ITEM_6, CARRY_FORWARD_ITEM_7, CARRY_FORWARD_ITEM_8, CARRY_FORWARD_ITEM_9, CARRY_FORWARD_ITEM_10, ADD_UP_ITEM_1, ADD_UP_ITEM_2, ADD_UP_ITEM_4, ADD_UP_ITEM_5, ADD_UP_ITEM_6, ADD_UP_ITEM_7, ADD_UP_ITEM_8, ADD_UP_ITEM_9, ADD_UP_ITEM_10, ADD_UP_ITEM_3, ADD_UP_ITEM_11, ADD_UP_ITEM_12, ADD_UP_ITEM_13, ADD_UP_ITEM_14, ADD_UP_ITEM_15, ADD_UP_ITEM_16, ADD_UP_ITEM_17, ADD_UP_ITEM_18, ADD_UP_ITEM_19, ADD_UP_ITEM_20, PROCESS_ITEM_1, PROCESS_ITEM_2, PROCESS_ITEM_3, PROCESS_ITEM_4, PROCESS_ITEM_5, PROCESS_ITEM_6, PROCESS_ITEM_7, PROCESS_ITEM_8, PROCESS_ITEM_9, PROCESS_ITEM_10, PROCESS_ITEM_11, PROCESS_ITEM_12, PROCESS_ITEM_13, PROCESS_ITEM_14, PROCESS_ITEM_15, PROCESS_ITEM_16, PROCESS_ITEM_17, PROCESS_ITEM_18, PROCESS_ITEM_19, PROCESS_ITEM_20, REASON_ITEM_1, REASON_ITEM_2, REASON_ITEM_3, REASON_ITEM_4, REASON_ITEM_5, REASON_ITEM_6, REASON_ITEM_7, REASON_ITEM_8, REASON_ITEM_9, REASON_ITEM_10, REASON_ITEM_11, REASON_ITEM_12, REASON_ITEM_13, REASON_ITEM_14, REASON_ITEM_15, REASON_ITEM_16, REASON_ITEM_17, REASON_ITEM_18, REASON_ITEM_19, REASON_ITEM_20, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME, EXT1, EXT2, EXT3, EXT4, EXT5
+    </sql>
+
+</mapper>

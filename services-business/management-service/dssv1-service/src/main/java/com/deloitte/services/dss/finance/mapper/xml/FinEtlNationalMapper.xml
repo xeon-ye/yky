@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.finance.mapper.FinEtlNationalMapper">
+
+    <!-- 国库系统（实际项目支出） -->
+    <select id="queryInfoForNational" parameterType="java.util.Map"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          map1.INDEX_CODE indexCode,
+          nation.BUD_YEAR periodCode,
+          TOTAL ytd,
+          company.COM_CODE comCode
+        from
+          DSS_FIN_ETL_NATIONAL nation
+        inner join
+          DSS_FIN_ETL_PROEXP_MAP2 map2
+        on
+          nation.ITEM_CODE = map2.ITEM_CODE
+        inner join
+          DSS_FIN_ETL_PROEXP_MAP1 map1
+        on
+          map1.FIRST_CODE = map2.FIRST_CODE
+        inner join
+          DSS_FIN_ETL_COMPANY company
+        on
+          company.COM_DES = nation.ENTITY_NAME
+        where
+          nation.BUD_YEAR = #{period}
+        and
+          map1.MAPPING_TYPE = '项目实际支出'
+    </select>
+
+    <!-- 项目支出预算执行率（分子） -->
+    <select id="queryInfoForNationalExeN" parameterType="java.util.Map"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          map1.INDEX_CODE indexCode,
+          nation.BUD_YEAR periodCode,
+          company.COM_CODE comCode,
+          TOTAL ytdN
+        from
+          DSS_FIN_ETL_NATIONAL nation
+        inner join
+          DSS_FIN_ETL_PROEXP_MAP2 map2
+        on
+          nation.ITEM_CODE = map2.ITEM_CODE
+        inner join
+          DSS_FIN_ETL_PROEXP_MAP1 map1
+        on
+          map1.FIRST_CODE = map2.FIRST_CODE
+        inner join
+          DSS_FIN_ETL_COMPANY company
+        on
+          company.COM_DES = nation.ENTITY_NAME
+        where
+          nation.BUD_YEAR = #{period}
+        and
+           map1.MAPPING_TYPE = '项目支出预算执行率'
+    </select>
+
+    <!-- 项目支出预算执行率（分母） -->
+    <select id="queryInfoForNationalExeD" parameterType="java.util.Map"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          map.INDEX_CODE indexCode,
+          proexp.YEAR periodCode,
+          company.COM_CODE comCode,
+          proexp.BUD_TOTAL ytdD
+        from
+          DSS_FIN_ETL_PROEXP proexp
+        inner join
+          DSS_FIN_ETL_PROEXP_MAP1 map
+        on
+          proexp.ACCOUNT_CODE = map.FIRST_CODE
+        inner join
+          DSS_FINANCE_COMPANY company
+        on
+          company.COM_DES = proexp.ENTITY_NAME
+        where
+          proexp.YEAR = #{period}
+        and
+          map.MAPPING_TYPE = '项目支出预算执行率'
+    </select>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.dss.finance.entity.FinEtlNational">
+        <id column="ID" property="id" />
+        <result column="BUD_YEAR" property="budYear" />
+        <result column="ENTITY_CODE" property="entityCode" />
+        <result column="ENTITY_BUD_CODE" property="entityBudCode" />
+        <result column="ENTITY_NAME" property="entityName" />
+        <result column="ITEM_CODE" property="itemCode" />
+        <result column="ITEM_NAME" property="itemName" />
+        <result column="BUD_INFO_CODE" property="budInfoCode" />
+        <result column="ACC_CODE" property="accCode" />
+        <result column="ACC_NAME" property="accName" />
+        <result column="YEAR_TAG" property="yearTag" />
+        <result column="PLAN_DIRECT" property="planDirect" />
+        <result column="PLAN_AUTHORIZE" property="planAuthorize" />
+        <result column="PLAN_TOTAL" property="planTotal" />
+        <result column="EXP_DIRECT" property="expDirect" />
+        <result column="EXP_AUTHORIZE" property="expAuthorize" />
+        <result column="TOTAL" property="Total" />
+        <result column="SURPLUS_INDEX" property="surplusIndex" />
+        <result column="SURPLUS" property="surplus" />
+        <result column="FACT_NOW" property="factNow" />
+        <result column="FACT_PLAN" property="factPlan" />
+        <result column="EX1" property="ex1" />
+        <result column="EX2" property="ex2" />
+        <result column="EX3" property="ex3" />
+        <result column="EX4" property="ex4" />
+        <result column="EX5" property="ex5" />
+        <result column="EX6" property="ex6" />
+        <result column="EX7" property="ex7" />
+        <result column="EX8" property="ex8" />
+        <result column="EX9" property="ex9" />
+        <result column="EX10" property="ex10" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, BUD_YEAR, ENTITY_CODE, ENTITY_BUD_CODE, ENTITY_NAME, ITEM_CODE, ITEM_NAME, BUD_INFO_CODE, ACC_CODE, ACC_NAME, YEAR_TAG, PLAN_DIRECT, PLAN_AUTHORIZE, PLAN_TOTAL, EXP_DIRECT, EXP_AUTHORIZE, TOTAL, SURPLUS_INDEX, SURPLUS, FACT_NOW, FACT_PLAN, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME
+    </sql>
+
+</mapper>

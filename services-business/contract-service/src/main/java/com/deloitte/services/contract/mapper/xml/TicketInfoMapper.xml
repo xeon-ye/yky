@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.contract.mapper.TicketInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.contract.entity.TicketInfo">
+        <id column="ID" property="id" />
+        <result column="TAXPAYER_CODE" property="taxpayerCode" />
+        <result column="TAXPAYER" property="taxpayer" />
+        <result column="TAX_NUM" property="taxNum" />
+        <result column="INVOICE_CODE" property="invoiceCode" />
+        <result column="INVOICE_NUM" property="invoiceNum" />
+        <result column="AMOUNT_EXCLUD_TAX" property="amountExcludTax" />
+        <result column="TAX_RATE" property="taxRate" />
+        <result column="TAX_AMOUNT" property="taxAmount" />
+        <result column="AMOUNT" property="amount" />
+        <result column="TICKET_TIME" property="ticketTime" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="IS_USED" property="isUsed" />
+        <result column="SPARE_FIELD_1" property="spareField1" />
+        <result column="SPARE_FIELD_2" property="spareField2" />
+        <result column="SPARE_FIELD_3" property="spareField3" />
+        <result column="SPARE_FIELD_4" property="spareField4" />
+        <result column="SPARE_FIELD_5" property="spareField5" />
+        <result column="CONTRACT_TYPE" property="contractType" />
+        <result column="TYPE" property="type" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, TAXPAYER_CODE, TAXPAYER, TAX_NUM, INVOICE_CODE, INVOICE_NUM, AMOUNT_EXCLUD_TAX, TAX_RATE, TAX_AMOUNT, AMOUNT, TICKET_TIME, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, IS_USED, SPARE_FIELD_1, SPARE_FIELD_2, SPARE_FIELD_3, SPARE_FIELD_4, SPARE_FIELD_5, CONTRACT_TYPE, TYPE
+    </sql>
+
+    <select id="selectListByContractId" parameterType="java.lang.String" resultType="com.deloitte.platform.api.contract.vo.TicketInfoVo">
+        select ct.*
+          from contract_basic_ticket_map bt
+          left join contract_ticket_info ct
+            on bt.ticket_id = ct.id
+         where bt.contract_id = #{_parameter}
+    </select>
+</mapper>

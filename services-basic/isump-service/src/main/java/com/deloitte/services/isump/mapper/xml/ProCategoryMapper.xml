@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.isump.mapper.ProCategoryMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.isump.entity.ProCategory">
+        <id column="ID" property="id" />
+        <result column="CODE" property="code" />
+        <result column="NAME" property="name" />
+        <result column="PARENT_CODE" property="parentCode" />
+        <result column="REMARK" property="remark" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="SYS_TYPE" property="sysType" />
+    </resultMap>
+
+    <resultMap id="ProCategoryVoResultMap" type="com.deloitte.platform.api.isump.vo.ProCategoryVo">
+        <id column="ID" property="id" />
+        <result column="CODE" property="code" />
+        <result column="NAME" property="name" />
+        <result column="PARENT_CODE" property="parentCode" />
+        <result column="REMARK" property="remark" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="SYS_TYPE" property="sysType" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, CODE, NAME, PARENT_CODE, REMARK, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, SYS_TYPE
+    </sql>
+
+    <sql id="T1_Base_Column_List">
+        t1.ID, t1.CODE, t1.NAME, t1.PARENT_CODE, t1.REMARK, t1.CREATE_TIME, t1.CREATE_BY, t1.UPDATE_TIME, t1.UPDATE_BY, t1.SYS_TYPE
+    </sql>
+    
+    <select id="getListByDeputyAccountId" resultMap="ProCategoryVoResultMap">
+        select <include refid="T1_Base_Column_List"/>
+        from ISUMP_PRO_CATEGORY t1
+        left join  ISUMP_PRO_DEPUTY_ACCOUNT t2
+        on t1.ID = t2.PRO_CATEGORY_ID
+        where t2.DEPUTY_ACCOUNT_ID = #{id}
+        order by t1.CODE ASC
+    </select>
+
+</mapper>

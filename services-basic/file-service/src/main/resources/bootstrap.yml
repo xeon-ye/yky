@@ -1,0 +1,23 @@
+server:
+  port: 8201
+
+spring:
+  application:
+    name: file-service
+  cloud:
+    config:
+      fail-fast: true
+      discovery:
+        enabled: true
+        service-id: config-server
+      name: config
+      profile: common,file
+    bus:
+      trace:
+        enabled: true
+      enabled: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_ZONE_HOST:localhost}:${EUREKA_ZONE_PORT:8101}/eureka/

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.platform.basic.bpmservice.mapper.BpmPositionRelationshipMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.platform.basic.bpmservice.entity.BpmPositionRelationship">
+        <id column="ID" property="id" />
+        <result column="BPM_POSITION_ID" property="bpmPositionId" />
+        <result column="PHYSICAL_POSITION_ID" property="physicalPositionId" />
+        <result column="CHARGE_ORG_ID" property="chargeOrgId" />
+        <result column="STATE" property="state" />
+        <result column="EFFECT_TIME" property="effectTime" />
+        <result column="LOSE_EFFICACY_TIME" property="loseEfficacyTime" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, BPM_POSITION_ID, PHYSICAL_POSITION_ID, CHARGE_ORG_ID, STATE, EFFECT_TIME, LOSE_EFFICACY_TIME, CREATE_TIME, UPDATE_TIME
+    </sql>
+
+</mapper>

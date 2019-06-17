@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.portal.mapper.ArticleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.portal.entity.Article">
+        <id column="ARTICLE_ID" property="articleId"/>
+        <result column="ARTICLE_CATEGORY_ID" property="articleCategoryId"/>
+        <result column="ARTICLE_TITLE" property="articleTitle"/>
+        <result column="ARTICLE_THUMBNAILS" property="articleThumbnails"/>
+        <result column="ARTICLE_HIT" property="articleHit"/>
+        <result column="ARTICLE_DATETIME" property="articleDatetime"/>
+        <result column="ARTICLE_UPDATETIME" property="articleUpdatetime"/>
+        <result column="ARTICLE_AUTHOR" property="articleAuthor"/>
+        <result column="ARTICLE_CONTENT" property="articleContent"/>
+        <result column="ARTICLE_URL" property="articleUrl"/>
+        <result column="ARTICLE_MOVIE_URL" property="articleMovieUrl"/>
+        <result column="ARTICLE_KEYWORD" property="articleKeyword"/>
+        <result column="ISTOP" property="isTop"/>
+        <result column="DEL_FLG" property="delFlg"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ARTICLE_ID, ARTICLE_CATEGORY_ID, ARTICLE_TITLE, ARTICLE_THUMBNAILS, ARTICLE_HIT, ARTICLE_DATETIME, ARTICLE_UPDATETIME, ARTICLE_AUTHOR, ARTICLE_CONTENT, ARTICLE_URL, ARTICLE_MOVIE_URL, ARTICLE_KEYWORD, ISTOP, DEL_FLG
+    </sql>
+
+    <select id="getHomeList" parameterType="int" resultType="com.deloitte.services.portal.entity.Article">
+        SELECT <include refid="Base_Column_List"/>
+        FROM
+        (
+        SELECT <include refid="Base_Column_List"/> FROM ARTICLE a WHERE a.ISTOP = 1 ORDER BY a.ARTICLE_DATETIME DESC
+        )
+        WHERE ROWNUM &lt;= #{num}
+        UNION ALL
+        SELECT <include refid="Base_Column_List"/> FROM (
+        SELECT <include refid="Base_Column_List"/> FROM ARTICLE b
+        WHERE b.ISTOP &lt;&gt; 1
+        ORDER BY b.ARTICLE_DATETIME DESC
+        )
+        WHERE ROWNUM &lt;= (
+        SELECT #{num} - COUNT(1) FROM ARTICLE a WHERE a.ISTOP = 1
+        )
+    </select>
+
+</mapper>

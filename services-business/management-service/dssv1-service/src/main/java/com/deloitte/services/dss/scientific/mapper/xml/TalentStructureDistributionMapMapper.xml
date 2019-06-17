@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.scientific.mapper.TalentStructureDistributionMapMapper">
+
+    <select id="getTalentStructureDistribution" parameterType="java.lang.String"
+            resultType="com.deloitte.platform.api.dss.scientific.vo.TalentStructureDistributionMapVo">
+        <choose>
+            <when test="_parameter=='100101' or _parameter=='100102' or _parameter=='100103' or _parameter=='100104'">
+        <![CDATA[
+                select
+                  totalNum,
+                  Low45Num,
+                  over45Num,
+                  highLever,
+                  midLever,
+                  lowLever,
+                  otherOne,
+                  doctor,
+                  master,
+                  undergraduate,
+                  otherTwo,
+                  postDoctor,
+                  researcher,
+                  technicist
+                from (
+                       select count(*)                                                                  totalNum,
+                           sum(case when age <= 45 then 1 else 0 end)                                Low45Num,
+                           sum(case when age > 45 then 1 else 0 end)                                 over45Num,
+						sum(case when position_title in ('正高级','副高级') then 1 else 0 end) highLever,
+						sum(case when position_title in ('中级') then 1 else 0 end) midLever,
+						sum(case when position_title in ('初级','初初级','初高级') then 1 else 0 end) lowLever,
+						sum(case when position_title not in  ('初级','初初级','初高级','正高级','副高级','中级') or position_title is null then 1 else 0 end)otherOne,
+                              sum(case when substr(DEGREE,0,2) = '博士' then 1 else 0 end)                            doctor,
+                              sum(case when substr(DEGREE,0,2) = '硕士' then 1 else 0 end)                            master,
+                              sum(case when substr(DEGREE,0,2) = '本科' then 1 else 0 end)                            undergraduate,
+                              sum(case when substr(DEGREE,0,2) not in ('博士', '硕士', '本科') or DEGREE is null then 1 else 0 end )         otherTwo,
+                              category
+                       from (
+                              select
+                                             distinct iu.ID,
+                                             cast(iu.EDUCATION as Nvarchar2(30))                   degree,
+                                             TRUNC(months_between(sysdate, iu.birth_date) / 12) AS age,
+                                             cast(iu.position_title as Nvarchar2(30))              position_title,
+                                             substr(pro.PRO_TYPE, 0, 6)                            category
+                             from DSS_SCIENTIFIC_PROJECT pro,
+                                  DSS_SCIENTIFIC_MAIN_MENBER member,
+                                  ISUMP_USER iu,
+                                  ISUMP_DEPT id
+                             where pro.STATE IN (200, 300)
+                               and substr(pro.PRO_TYPE, 0, 6) = #{_parameter}
+                               and to_char(pro.START_DATE, 'yyyy') <=
+                                   to_char(sysdate, 'yyyy')
+                               and to_char(pro.END_DATE, 'yyyy') >=
+                                   to_char(sysdate, 'yyyy')
+                               and member.PRO_ID = pro.ID
+                               and iu.ID = member.USER_ID
+                               and id.DEPT_CODE = iu.DEPT
+                            ) temp  group by category
+                     ) temp11,
+                  (
+                    select
+                      category,
+                      sum (case when personCategory = '3' then 1 else 0 end )                 postDoctor,
+                      sum (case when personCategory = '1' then 1 else 0 end )                 researcher,
+                      sum (case when personCategory = '2' then 1 else 0 end )                 technicist
+                    from (
+                           select distinct iu.ID,
+                                           cast(member.CATEGROY as Nvarchar2(30)) personCategory,
+                                           substr(pro.PRO_TYPE, 0, 6)             category
+                           from DSS_SCIENTIFIC_PROJECT pro,
+                                DSS_SCIENTIFIC_MAIN_MENBER member,
+                                ISUMP_USER iu,
+                                ISUMP_DEPT id
+                           where pro.STATE IN (200, 300)
+                             and substr(pro.PRO_TYPE, 0, 6) = #{_parameter}
+                             and to_char(pro.START_DATE, 'yyyy') <=
+                                 to_char(sysdate, 'yyyy')
+                             and to_char(pro.END_DATE, 'yyyy') >=
+                                 to_char(sysdate, 'yyyy')
+                             and member.PRO_ID = pro.ID
+                             and iu.ID = member.USER_ID
+                             and id.DEPT_CODE = iu.DEPT
+                         ) group by  category
+                ) temp22
+                where temp11.category = temp22.category
+        ]]>
+            </when>
+            <otherwise>
+                <![CDATA[
+                select
+                  totalNum,
+                  Low45Num,
+                  over45Num,
+                  highLever,
+                  midLever,
+                  lowLever,
+                  otherOne,
+                  doctor,
+                  master,
+                  undergraduate,
+                  otherTwo,
+                  postDoctor,
+                  researcher,
+                  technicist
+                from (
+                       select count(*)                                                                  totalNum,
+                              sum(case when age <= 45 then 1 else 0 end)                                Low45Num,
+                              sum(case when age > 45 then 1 else 0 end)                                 over45Num,
+                              sum(case when position_title in ('正高级','副高级') then 1 else 0 end) highLever,
+							sum(case when position_title in ('中级') then 1 else 0 end) midLever,
+							sum(case when position_title in ('初级','初初级','初高级') then 1 else 0 end) lowLever,
+							sum(case when position_title not in  ('初级','初初级','初高级','正高级','副高级','中级') or position_title is null then 1 else 0 end)otherOne,
+                              sum(case when substr(DEGREE,0,2) = '博士' then 1 else 0 end)                            doctor,
+                              sum(case when substr(DEGREE,0,2) = '硕士' then 1 else 0 end)                            master,
+                              sum(case when substr(DEGREE,0,2) = '本科' then 1 else 0 end)                            undergraduate,
+                              sum(case when substr(DEGREE,0,2) not in ('博士', '硕士', '本科') or DEGREE is null then 1 else 0 end )         otherTwo,
+                              category
+                       from (
+                              select
+                                             distinct iu.ID,
+                                             cast(iu.EDUCATION as Nvarchar2(30))                   degree,
+                                             TRUNC(months_between(sysdate, iu.birth_date) / 12) AS age,
+                                             cast(iu.position_title as Nvarchar2(30))              position_title,
+                                             substr(pro.PRO_TYPE, 0, 6)                            category
+                             from DSS_SCIENTIFIC_PROJECT pro,
+                                  DSS_SCIENTIFIC_MAIN_MENBER member,
+                                  ISUMP_USER iu,
+                                  ISUMP_DEPT id
+                             where pro.STATE IN (200, 300)
+                               and substr(pro.PRO_TYPE, 0, 4) = #{_parameter}
+                               and to_char(pro.START_DATE, 'yyyy') <=
+                                   to_char(sysdate, 'yyyy')
+                               and to_char(pro.END_DATE, 'yyyy') >=
+                                   to_char(sysdate, 'yyyy')
+                               and member.PRO_ID = pro.ID
+                               and iu.ID = member.USER_ID
+                               and id.DEPT_CODE = iu.DEPT
+                            ) temp  group by category
+                     ) temp11,
+                  (
+                    select
+                      category,
+                      sum (case when personCategory = '3' then 1 else 0 end )                 postDoctor,
+                      sum (case when personCategory = '1' then 1 else 0 end )                 researcher,
+                      sum (case when personCategory = '2' then 1 else 0 end )                 technicist
+                    from (
+                           select distinct iu.ID,
+                                           cast(member.CATEGROY as Nvarchar2(30)) personCategory,
+                                           substr(pro.PRO_TYPE, 0, 6)             category
+                           from DSS_SCIENTIFIC_PROJECT pro,
+                                DSS_SCIENTIFIC_MAIN_MENBER member,
+                                ISUMP_USER iu,
+                                ISUMP_DEPT id
+                           where pro.STATE IN (200, 300)
+                             and substr(pro.PRO_TYPE, 0, 4) = #{_parameter}
+                             and to_char(pro.START_DATE, 'yyyy') <=
+                                 to_char(sysdate, 'yyyy')
+                             and to_char(pro.END_DATE, 'yyyy') >=
+                                 to_char(sysdate, 'yyyy')
+                             and member.PRO_ID = pro.ID
+                             and iu.ID = member.USER_ID
+                             and id.DEPT_CODE = iu.DEPT
+                         ) group by  category
+                ) temp22
+                where temp11.category = temp22.category
+        ]]>
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="getDeptTalentStructureDistribution"  parameterType="java.lang.String"
+            resultType="com.deloitte.platform.api.dss.scientific.vo.TalentStructureDistributionMapVo">
+        <choose>
+            <when test="_parameter=='100101'">
+        <![CDATA[
+
+            select
+              count(*)                                                                  totalNum,
+              DEPT_NAME                                                                  deptName ,
+              sum(case when position_title in ('正高级','副高级') then 1 else 0 end) highLever,
+			sum(case when position_title in ('中级') then 1 else 0 end) midLever,
+			sum(case when position_title in ('初级','初初级','初高级') then 1 else 0 end) lowLever,
+			sum(case when position_title not in  ('初级','初初级','初高级','正高级','副高级','中级') then 1 else 0 end)otherOne
+            from
+              (
+                select
+                  distinct  iu.ID,
+                  cast ( iu.position_title as Nvarchar2(30)) position_title,
+                  id.DEPT_NAME
+                  from
+                  DSS_SCIENTIFIC_PROJECT pro,
+                  DSS_SCIENTIFIC_MAIN_MENBER member,
+                  ISUMP_USER iu,
+                  ISUMP_DEPT id
+                  where pro.STATE IN (200,300)
+                  and substr(pro.PRO_TYPE, 0, 6) = #{category}
+                  and to_char(pro.START_DATE, 'yyyy') <=
+                  to_char(sysdate, 'yyyy')
+                  and to_char(pro.END_DATE, 'yyyy') >=
+                  to_char(sysdate, 'yyyy')
+                  and   member.PRO_ID=pro.ID
+                  and iu.ID=member.USER_ID
+                  and id.DEPT_CODE=iu.DEPT
+              )temp group by DEPT_NAME
+]]>
+            </when>
+            <otherwise>
+                <![CDATA[
+
+            select
+              count(*)                                                                  totalNum,
+              DEPT_NAME                                                                  deptName ,
+              sum(case when position_title in ('正高级','副高级') then 1 else 0 end) highLever,
+			sum(case when position_title in ('中级') then 1 else 0 end) midLever,
+			sum(case when position_title in ('初级','初初级','初高级') then 1 else 0 end) lowLever,
+			sum(case when position_title not in  ('初级','初初级','初高级','正高级','副高级','中级') then 1 else 0 end)otherOne
+
+            from
+              (
+                select
+                  distinct  iu.ID,
+                  cast ( iu.position_title as Nvarchar2(30)) position_title,
+                  id.DEPT_NAME
+                  from
+                  DSS_SCIENTIFIC_PROJECT pro,
+                  DSS_SCIENTIFIC_MAIN_MENBER member,
+                  ISUMP_USER iu,
+                  ISUMP_DEPT id
+                  where pro.STATE IN (200,300)
+                  and substr(pro.PRO_TYPE, 0, 4) = #{category}
+                  and to_char(pro.START_DATE, 'yyyy') <=
+                  to_char(sysdate, 'yyyy')
+                  and to_char(pro.END_DATE, 'yyyy') >=
+                  to_char(sysdate, 'yyyy')
+                  and   member.PRO_ID=pro.ID
+                  and iu.ID=member.USER_ID
+                  and id.DEPT_CODE=iu.DEPT
+              )temp group by DEPT_NAME
+]]>
+            </otherwise>
+        </choose>
+    </select>
+    <select id="getProjectTalentStructureDistribution" resultType="com.deloitte.platform.api.dss.scientific.vo.TalentStructureDistributionMapVo">
+        <![CDATA[
+            select
+              count(*)                                                                totalNum,
+              sum(case when substr(category,0,6) = '100101' then 1 else 0 end)                    innovate,
+              sum(case when substr(category,0,6) = '100102' then 1 else 0 end)                    academy,
+              sum(case when substr(category,0,6) = '100103' then 1 else 0 end)                    school,
+              sum(case when substr(category,0,6) = '100104' then 1 else 0 end)                    reform,
+							sum(case when substr(category,0,4) = '1002' then 1 else 0 end)                    national,
+							sum(case when substr(category,0,4) = '1003' then 1 else 0 end)                    provincial,
+							sum(case when substr(category,0,4) = '1005' then 1 else 0 end)                    transverse,
+							sum(case when substr(category,0,4) = '1004' then 1 else 0 end)                    other
+            from
+              (
+                select
+                  DISTINCT member.USER_ID,
+                  pro.PRO_TYPE category
+                from
+                  DSS_SCIENTIFIC_PROJECT pro,
+                  DSS_SCIENTIFIC_MAIN_MENBER member
+                where pro.STATE IN (200,300)
+                  and to_char(pro.START_DATE, 'yyyy') <=
+                  to_char(sysdate, 'yyyy')
+                  and to_char(pro.END_DATE, 'yyyy') >=
+                  to_char(sysdate, 'yyyy')
+                  and  pro.ID = member.PRO_ID
+              )temp
+         ]]>
+    </select>
+</mapper>

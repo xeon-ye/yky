@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.business.borrow.mapper.BorrowMoneyLineMapper">
+
+
+    <select id="existsByExpenseSubTypeIds" resultType="java.lang.Long">
+        select count(ID) from BM_BORROW_MONEY_LINE where SUB_TYPE_ID in
+        <foreach collection="ExpenseSubTypeList" separator="," item="item" open="(" close=")">
+            #{item}
+        </foreach>
+</select>
+
+</mapper>

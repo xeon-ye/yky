@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.scientific.mapper.HarvestMapper">
+    <!-- 查询映射结果 -->
+  <resultMap id="HarvestLineVo" type="com.deloitte.platform.api.dss.scientific.vo.HarvestLineVo">
+        <result column="yaerValue" property="yaerValue" />
+        <result column="paperNum" property="paperNum" />
+        <result column="resultNum" property="resultNum" />
+        <result column="patentNum" property="patentNum" />
+  </resultMap>
+
+    <!-- 论文数据-->
+    <resultMap id="HarvestPaperVo" type="com.deloitte.platform.api.dss.scientific.vo.HarvestPaperVo">
+        <result column="deptCode" property="deptCode" />
+        <result column="deptName" property="deptName" />
+        <result column="totalNum" property="totalNum" />
+        <result column="sciNum" property="sciNum" />
+        <result column="ifNum" property="ifNum" />
+    </resultMap>
+
+
+    <resultMap id="HarvestResultPatentVo" type="com.deloitte.platform.api.dss.scientific.vo.HarvestResultPatentVo">
+        <result column="deptCode" property="deptCode" />
+        <result column="deptName" property="deptName" />
+        <result column="resultNum" property="resultNum" />
+        <result column="patentNum" property="patentNum" />
+    </resultMap>
+
+
+    <!-- 科研成果 各结果年度折线数据-->
+    <select id="queryBrokenLineData"  resultType="java.util.Map" resultMap="HarvestLineVo"  >
+        <![CDATA[
+            select
+                   temp.yaerValue,
+                   sum(case when type = '08' then 1 else 0 end )  paperNum,
+                   sum(case when type = '04' then 1 else 0 end )  resultNum,
+                   sum(case when type = '05' then 1 else 0 end )  patentNum
+            from
+            (
+            select  base.TYPE type,base.YEAR yaerValue from  SRPMS_OUTLINE_PAPER  paper,SRPMS_OUTLINE_BASE  base
+              where  paper.BASE_ID = base.id  and  base.TYPE = '08' and  base.YEAR >= TO_CHAR(add_months(sysdate,-36),'yyyy')
+            union  all
+            select  base.TYPE type,base.YEAR yaerValue from  SRPMS_OUTLINE_RESULT_TRANS  paper,SRPMS_OUTLINE_BASE  base
+             where  paper.BASE_ID = base.id and  base.TYPE = '04' and  base.YEAR >= TO_CHAR(add_months(sysdate,-36),'yyyy')
+            union  all
+            select   base.TYPE type,base.YEAR yaerValue from  SRPMS_OUTLINE_PATENT  paper,SRPMS_OUTLINE_BASE  base
+              where  paper.BASE_ID = base.id and  base.TYPE = '05' and  base.YEAR >= TO_CHAR(add_months(sysdate,-36),'yyyy')
+             ) temp  group by  temp.yaerValue  order by  temp.yaerValue
+        ]]>
+    </select>
+
+    <!-- 各单位论文发表数量 -->
+    <select id="queryDeptPaper"  resultMap="HarvestPaperVo"  parameterType="java.util.Map">
+        <![CDATA[
+              select
+                  base.ORG_ID  deptCode,
+                  dept.DEPT_NAME  deptName,
+                  count(*) totalNum,
+                  count(sci.ID)  sciNum,
+                  sum(case when paper.INFLUENCE_FACTOR  IS  NULL  THEN 0 ELSE 1 END)  ifNum
+                from  SRPMS_OUTLINE_BASE  base,ISUMP_DEPT dept ,SRPMS_OUTLINE_PAPER  paper
+                left join DSS_SCI_PAPER sci on paper.JOURNAL_TITLE = sci.JOURNAL_TITLE
+                where  paper.BASE_ID = base.id
+                  and  base.ORG_ID = dept.DEPT_CODE
+                  and  base.TYPE = '08'
+                  and  base.YEAR = TO_CHAR(sysdate,'yyyy')
+                group by  base.ORG_ID,dept.DEPT_NAME
+        ]]>
+    </select>
+
+
+    <!-- 查询专利和成果柱状数据-->
+    <select id="queryDeptPatentResult"  resultMap="HarvestResultPatentVo"  parameterType="java.util.Map">
+         <![CDATA[
+                select
+                       temp.deptCode deptCode,
+                       dept.DEPT_NAME  deptName,
+                       sum(case when type='04' THEN 1 ELSE 0 END)  resultNum,
+                       sum(case when type='05' THEN 1 ELSE 0 END)  patentNum
+                from
+                       (
+                         select base.TYPE type, base.YEAR yaerValue, base.ORG_ID deptCode,result.ID
+                         from SRPMS_OUTLINE_RESULT_TRANS result,
+                              SRPMS_OUTLINE_BASE base
+                         where result.BASE_ID = base.id
+                           and base.TYPE = '04'
+                           and base.YEAR = TO_CHAR(sysdate, 'yyyy')
+                         union all
+                         select base.TYPE type, base.YEAR yaerValue, base.ORG_ID deptCode,patent.ID
+                         from SRPMS_OUTLINE_PATENT patent,
+                              SRPMS_OUTLINE_BASE base
+                         where patent.BASE_ID = base.id
+                           and base.TYPE = '05'
+                           and base.YEAR = TO_CHAR(sysdate, 'yyyy')
+                       )  temp , ISUMP_DEPT dept where temp.deptCode = dept.DEPT_CODE group by  temp.deptCode,dept.DEPT_NAME
+          ]]>
+    </select>
+</mapper>

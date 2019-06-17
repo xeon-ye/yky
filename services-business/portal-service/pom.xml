@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>services-business</artifactId>
+        <groupId>com.deloitte.gdc.oracle</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>portal-service</artifactId>
+    <packaging>jar</packaging>
+    <description>医科院门户</description>
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.thetransactioncompany/cors-filter -->
+
+        <!--引入4A客户端-->
+        <dependency>
+            <groupId>net.unicon.cas</groupId>
+            <artifactId>cas-client-autoconfig-support</artifactId>
+            <version>2.1.0-GA</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jasig.cas.client</groupId>
+                    <artifactId>cas-client-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.jasig.cas.client</groupId>
+            <artifactId>cas-client-core</artifactId>
+            <version>3.5.0</version>
+        </dependency>
+    </dependencies>
+</project>

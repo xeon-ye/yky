@@ -1,0 +1,33 @@
+package ${cfg.apiPackage}.vo;
+import com.deloitte.platform.common.core.entity.vo.BaseVo;
+import lombok.AllArgsConstructor;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import java.time.LocalDateTime;
+import java.sql.Blob;
+
+/**
+ * @Author : ${author}
+ * @Date : Create in ${date}
+ * @Description : ${entity}返回的VO对象
+ * @Modified :
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ${entity}Vo extends BaseVo {
+    private static final long serialVersionUID = 1L;
+## ----------  BEGIN 字段循环遍历  ----------
+#foreach($field in ${table.fields})
+
+    @ApiModelProperty(value = "${field.comment}")
+    #if(${field.propertyName}=="id")
+    private String ${field.propertyName};
+    #else
+    private ${field.propertyType} ${field.propertyName};
+    #end
+#end
+
+}

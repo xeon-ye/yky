@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.business.borrow.mapper.BorrowMoneyInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.business.borrow.entity.BorrowMoneyInfo">
+        <id column="ID" property="id" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_USER_NAME" property="createUserName" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="EX1" property="ex1" />
+        <result column="EX2" property="ex2" />
+        <result column="EX3" property="ex3" />
+        <result column="EX4" property="ex4" />
+        <result column="EX5" property="ex5" />
+        <result column="VERSION" property="version" />
+        <result column="DOCUMENT_NUM" property="documentNum" />
+        <result column="DOCUMENT_STATUS" property="documentStatus" />
+        <result column="PAY_STATUS" property="payStatus" />
+        <result column="UNIT_ID" property="unitId" />
+        <result column="DEPT_ID" property="deptId" />
+        <result column="PROJECT_ID" property="projectId" />
+        <result column="APPLY_FOR_ID" property="applyForId" />
+        <result column="MAIN_TYPE_ID" property="mainTypeId" />
+        <result column="PAYMENT_TYPE" property="paymentType" />
+        <result column="REPAYMENT_TIME" property="repaymentTime" />
+        <result column="BORROW_AMOUNT" property="borrowAmount" />
+        <result column="HAS_VER_AMOUNT" property="hasVerAmount" />
+        <result column="NO_VER_AMOUNT" property="noVerAmount" />
+        <result column="CURRENCY_CODE" property="currencyCode" />
+        <result column="IS_AGREED_PROMIS" property="isAgreedPromis" />
+        <result column="REMARK" property="remark" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, CREATE_BY, CREATE_USER_NAME, UPDATE_BY, UPDATE_TIME, CREATE_TIME, EX1, EX2, EX3, EX4, EX5, VERSION, DOCUMENT_NUM, DOCUMENT_STATUS, PAY_STATUS, UNIT_ID, DEPT_ID, PROJECT_ID, APPLY_FOR_ID, MAIN_TYPE_ID, PAYMENT_TYPE, REPAYMENT_TIME, BORROW_AMOUNT, HAS_VER_AMOUNT, NO_VER_AMOUNT, CURRENCY_CODE, IS_AGREED_PROMIS, REMARK
+    </sql>
+
+    <select id="countByExpenseMainTypeIds" resultType="java.lang.Long">
+        select count(ID) from BM_BORROW_MONEY_INFO where MAIN_TYPE_ID in
+        <foreach collection="expenseMainTypeIdList" separator="," item="item" open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
+
+</mapper>

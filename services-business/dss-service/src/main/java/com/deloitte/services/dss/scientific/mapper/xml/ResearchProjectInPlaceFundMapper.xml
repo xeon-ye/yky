@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.scientific.mapper.ResearchProjectInPlaceFundMapper">
+
+    <select id="getAnnualInPlaceFund"
+            resultType="com.deloitte.platform.api.dss.scientific.vo.ResearchProjectInPlaceFundVo">
+    <![CDATA[
+               select temp.category,
+               sum(case year when to_char(add_months(sysdate,0),'yyyy') then money else 0 end  )   thatYearFund,
+               sum(case year when to_char(add_months(sysdate,-12),'yyyy') then money else 0 end  )   lastYearFund,
+               sum(case year when to_char(add_months(sysdate,-24),'yyyy') then money else 0 end  )   yearBeforeLastFund
+                from(
+                select
+                t.PRO_RECEIVE_OUTLAY money,
+                to_char(t.pro_start_date,'yyyy') year,
+                substr(t.pro_category,0,4) category
+                from
+                srpms_outline_new_title t
+                where to_char(t.pro_start_date,'yyyy')>=to_char(add_months(sysdate,-24),'yyyy')
+                and   to_char(t.pro_start_date,'yyyy')<=to_char(sysdate,'yyyy')
+
+                 union all
+
+                select y.PRD_RECEIVE_OUTLAY money,
+                to_char(y.pro_start_date,'yyyy') year,
+                substr(p.PROJECT_TYPE,0,4) category
+                from DSS_PRD_RECEIVE_OUTLAY_ACADEMY y,SRPMS_PROJECT p
+                where y.pro_code=p.PROJECT_NUM
+                and to_char(y.pro_start_date,'yyyy')<=to_char(sysdate,'yyyy')
+                and to_char(y.pro_start_date,'yyyy')>=to_char(add_months(sysdate,-24),'yyyy')
+                ) temp group by category
+
+
+        ]]>
+</select>
+    <select id="getSubclassNewAndContinuationFund"
+            resultType="com.deloitte.platform.api.dss.scientific.vo.ResearchProjectInPlaceFundVo"
+            parameterType="java.lang.String">
+        <choose>
+            <when test="_parameter=='1001'">
+                <![CDATA[select temp.category,
+                                 sum(case year when to_char(sysdate,'yyyy') then money else 0 end  )   newProjectFund,
+                                 sum(case  when year < to_char(sysdate,'yyyy') then money else 0 end  )   continuationProjectFund
+                          from (
+
+                          select y.PRD_RECEIVE_OUTLAY money,
+                          substr(p.PROJECT_TYPE,0,6) category,
+                          to_char(y.pro_start_date,'yyyy') year
+                          from DSS_PRD_RECEIVE_OUTLAY_ACADEMY y,SRPMS_PROJECT p
+                          where y.pro_code=p.PROJECT_NUM
+                          and substr(p.PROJECT_TYPE,0,4)=#{category}
+                          and to_char(y.pro_start_date,'yyyy')<to_char(sysdate,'yyyy')
+
+                          union all
+
+                          select y.PRD_RECEIVE_OUTLAY money,
+                          substr(p.PROJECT_TYPE,0,6) category,
+                          to_char(y.pro_start_date,'yyyy') year
+                          from DSS_PRD_RECEIVE_OUTLAY_ACADEMY y,SRPMS_PROJECT p
+                          where y.pro_code=p.PROJECT_NUM
+                          and substr(p.PROJECT_TYPE,0,4)=#{category}
+                          and to_char(y.pro_start_date,'yyyy')=to_char(sysdate,'yyyy')
+
+                          ) temp group by temp.category]]>
+            </when>
+            <otherwise>
+                <![CDATA[select temp.category,
+                                 sum(case year when to_char(sysdate,'yyyy') then money else 0 end  )   newProjectFund,
+                                 sum(case  when year < to_char(sysdate,'yyyy') then money else 0 end  )   continuationProjectFund
+                          from (
+                          select t.PRO_RECEIVE_OUTLAY money,
+                          substr(t.pro_category,0,6) category,
+                          to_char(t.pro_start_date,'yyyy') year
+                          from
+                          srpms_outline_new_title t
+                          where to_char(t.pro_start_date,'yyyy')=to_char(sysdate,'yyyy')--新获
+                          --动态参数
+                          and substr(t.pro_category,0,4) = #{category}
+
+                          union all
+                          select t.PRO_RECEIVE_OUTLAY money,
+                          substr(t.pro_category,0,6) category,
+                          to_char(t.pro_start_date,'yyyy') year
+                          from
+                          srpms_outline_new_title t
+                          where to_char(t.pro_start_date,'yyyy')<to_char(sysdate,'yyyy') --延续
+                          and substr(t.pro_category,0,4) =#{category}
+
+                          ) temp group by temp.category]]>
+            </otherwise>
+        </choose>
+        <![CDATA[]]>
+    </select>
+    <select id="getSubclassResearchAndConclusionFund"
+            resultType="com.deloitte.platform.api.dss.scientific.vo.ResearchProjectInPlaceFundVo"
+            parameterType="java.lang.String">
+        <choose>
+            <when test="_parameter=='1001'">
+                <![CDATA[select
+                  temp.category,
+                  sum(case  when proState='60' then money else 0 end  )   conclusionProjectFund,
+                   sum(case  when proState='40' then money else 0 end  )   researchProjectFund
+                  from (
+                         select y.PRD_RECEIVE_OUTLAY money,
+                         substr(p.PROJECT_TYPE,0,6) category ,
+                         p.STATUS           proState
+                  from DSS_PRD_RECEIVE_OUTLAY_ACADEMY y,SRPMS_PROJECT p
+                  where y.pro_code=p.PROJECT_NUM
+                  and to_char(y.pro_start_date,'yyyy')<=to_char(sysdate,'yyyy')
+                  and to_char(y.PRO_END_DATE,'yyyy')>=to_char(sysdate,'yyyy')
+                  and p.STATUS='40'
+                  and   substr(p.PROJECT_TYPE,0,4)=#{category}
+                  union all
+                  select y.PRD_RECEIVE_OUTLAY money,
+                   substr(p.PROJECT_TYPE,0,6) category ,
+                         p.STATUS           proState
+                  from DSS_PRD_RECEIVE_OUTLAY_ACADEMY y,SRPMS_PROJECT p
+                  where y.pro_code=p.PROJECT_NUM
+                  and to_char(y.pro_start_date,'yyyy')<=to_char(sysdate,'yyyy')
+                  and to_char(y.PRO_END_DATE,'yyyy')>=to_char(sysdate,'yyyy')
+                  and p.STATUS='60'
+                  and   substr(p.PROJECT_TYPE,0,4)=#{category}
+                  )temp group by temp.category]]>
+            </when>
+            <otherwise>
+                <![CDATA[select
+                   temp.category,
+                   sum(case  when proState='30' then money else 0 end  )   conclusionProjectFund,
+                    sum(case  when proState='20' then money else 0 end  )   researchProjectFund
+                   from (
+                          select t.PRO_RECEIVE_OUTLAY money,
+                          substr(t.pro_category,0,6) category ,
+                          t.pro_state            proState
+                          from
+                   srpms_outline_new_title t
+                   where to_char(t.pro_start_date,'yyyy')<=to_char(sysdate,'yyyy')
+                   and to_char(t.pro_end_date,'yyyy')>=to_char(sysdate,'yyyy')
+                   and t.pro_state='30'
+                   and substr(t.pro_category,0,4) =#{category}
+                   union all
+                   select t.PRO_RECEIVE_OUTLAY money,
+                   substr(t.pro_category,0,6) category ,
+                    t.pro_state            proState
+                   from
+                   srpms_outline_new_title t
+                   where to_char(t.pro_start_date,'yyyy')<=to_char(sysdate,'yyyy')
+                   and to_char(t.pro_end_date,'yyyy')>=to_char(sysdate,'yyyy')
+                   and t.pro_state ='20'
+                   and substr(t.pro_category,0,4) =#{category}
+                   )temp group by temp.category]]>
+            </otherwise>
+        </choose>
+    </select>
+    <select id="getDeptBudgetAndExpendFund" resultType="com.deloitte.platform.api.dss.scientific.vo.BudgetAmountImplementationRateVo"
+            parameterType="java.lang.String">
+       <![CDATA[
+           select id.id deptId,id.DEPT_NAME dept,sum(d.BUDGET_AMOUNT) budget,sum(y.BUDGET_AMOUNT) expend
+        from srpms_project p,srpms_project_budget_detail d,dss_project_task_pay y,ISUMP_DEPT id
+        where p.project_num=d.project_num
+        and y.PROJECT_NUM=p.PROJECT_NUM
+        AND id.ID=p.LEAD_DEPT_ID
+        and d.BUDGET_YEAR=to_char(sysdate,'yyyy')
+        and y.BUDGET_YEAR=to_char(sysdate,'yyyy')
+        and substr(p.project_type,0,6)=#{category}
+        group by id.DEPT_NAME,id.id
+
+        ]]>
+</select>
+
+    <select id="getProjectBudgetAndExpendFundByDept"    resultType="com.deloitte.platform.api.dss.scientific.vo.BudgetAmountImplementationRateVo">
+    <![CDATA[
+       select p.PROJECT_NAME  projectName,
+        p.PROJECT_NUM projectNum,
+        sum(d.BUDGET_AMOUNT) budget,
+        sum(y.BUDGET_AMOUNT) expend
+        from srpms_project p,
+        srpms_project_budget_detail d,
+        dss_project_task_pay y
+        where p.project_num=d.project_num
+        and y.PROJECT_NUM=p.PROJECT_NUM
+        and d.BUDGET_YEAR=to_char(sysdate,'yyyy')
+        and y.BUDGET_YEAR=to_char(sysdate,'yyyy')
+        and substr(p.project_type,0,6)=#{category}
+        and p.LEAD_DEPT_ID=#{deptId}
+        group by p.PROJECT_NUM,p.PROJECT_NAME
+
+        ]]>
+</select>
+
+ <select id="getProjectDetail"  parameterType="java.lang.String" resultType="com.deloitte.platform.api.dss.scientific.vo.ProjectDetailInformationVo">
+    <![CDATA[
+
+     select yjfx subjectCategory,xmzt status,pi projectPI,sum(bsh) postDoctorNum,sum(bs) doctorNum,sum(sss) MasterNum
+from (
+
+select p.SUBJECT_CATEGORY yjfx,p.status xmzt,i.Name pi,0 bsh,count(j.DEGREE) bs,0 sss
+from srpms_project p,srpms_project_budget_detail d,isump_user i,srpms_project_person_join j
+where p.project_num=d.project_num
+and p.LEAD_PERSON_ID=i.id
+and p.project_num=j.project_num
+and d.BUDGET_YEAR=to_char(sysdate,'yyyy')
+
+and p.project_num=#{projectNum}
+and j.degree='10'
+group by p.SUBJECT_CATEGORY,p.status,i.Name
+union all
+
+select p.SUBJECT_CATEGORY yjfx,p.status xmzt,i.Name pi,count(j.PERSON_CATEGORY) bsh,0 bs,0 sss
+from srpms_project p,srpms_project_budget_detail d,isump_user i,srpms_project_person_join j
+where p.project_num=d.project_num
+and p.LEAD_PERSON_ID=i.id
+and p.project_num=j.project_num
+and d.BUDGET_YEAR=to_char(sysdate,'yyyy')
+
+and p.project_num=#{projectNum}
+and j.PERSON_CATEGORY='3'
+group by p.SUBJECT_CATEGORY,p.status,i.Name
+union all
+
+select p.SUBJECT_CATEGORY yjfx,p.status xmzt,i.Name pi,0 bsh,0 bs,count(i.EDUCATION) sss
+from srpms_project p,srpms_project_budget_detail d,isump_user i,srpms_project_person_join j
+where p.project_num=d.project_num
+and p.LEAD_PERSON_ID=i.id
+and p.project_num=j.project_num
+and d.BUDGET_YEAR=to_char(sysdate,'yyyy')
+
+and p.project_num=#{projectNum}
+and i.EDUCATION='硕士'
+group by p.SUBJECT_CATEGORY,p.status,i.Name
+)group by yjfx,xmzt,pi
+
+     ]]>
+</select>
+<select id="queryPItotal" parameterType="java.lang.String" resultType="com.deloitte.platform.api.dss.scientific.vo.ProjectDetailInformationVo">
+    <![CDATA[
+    SELECT
+	count( * ) undertakeProjectNum
+FROM
+	srpms_project
+WHERE
+	LEAD_PERSON_ID = ( SELECT LEAD_PERSON_ID FROM srpms_project WHERE 1 = 1 AND
+	project_num=#{projectNum} )
+    ]]>
+</select>
+
+</mapper>

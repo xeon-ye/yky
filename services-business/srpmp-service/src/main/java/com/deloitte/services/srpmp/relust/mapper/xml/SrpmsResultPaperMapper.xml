@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.srpmp.relust.mapper.SrpmsResultPaperMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.srpmp.relust.entity.SrpmsResultPaper">
+        <id column="ID" property="id" />
+        <result column="DEPT_CODE" property="deptCode" />
+        <result column="YEAR" property="year" />
+        <result column="MONTH" property="month" />
+        <result column="PRO_NUM" property="proNum" />
+        <result column="PRO_NAME" property="proName" />
+        <result column="CORRESPONDENCE_AUTHOR" property="correspondenceAuthor" />
+        <result column="FIRST_AUTHOR" property="firstAuthor" />
+        <result column="OTHER_AUTHOR" property="otherAuthor" />
+        <result column="PAPER_CAT" property="paperCat" />
+        <result column="PAPER_TITLE" property="paperTitle" />
+        <result column="JOURNAL_TITLE" property="journalTitle" />
+        <result column="PUBLICATION_ORG" property="publicationOrg" />
+        <result column="PAPER_VOLUME" property="paperVolume" />
+        <result column="STAGE" property="stage" />
+        <result column="PAGE" property="page" />
+        <result column="INFLUENCE_FACTOR" property="influenceFactor" />
+        <result column="PROPERTY" property="property" />
+        <result column="REGION" property="region" />
+        <result column="PAPER_LEVEL" property="paperLevel" />
+        <result column="HPRO_IN_CHARGE" property="hproInCharge" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, DEPT_CODE, YEAR, MONTH, PRO_NUM, PRO_NAME, CORRESPONDENCE_AUTHOR, FIRST_AUTHOR, OTHER_AUTHOR, PAPER_CAT, PAPER_TITLE, JOURNAL_TITLE, PUBLICATION_ORG, PAPER_VOLUME, STAGE, PAGE, INFLUENCE_FACTOR, PROPERTY, REGION, PAPER_LEVEL, HPRO_IN_CHARGE, CREATE_TIME, CREATE_BY
+    </sql>
+
+    <select id="getQueryCount" parameterType="java.util.Map" resultType="int">
+        SELECT count(*) FROM
+        (SELECT t1.id FROM
+        SRPMS_OUTLINE_PAPER t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE t2.org_id = #{orgCode}
+        AND t1.paper_title = #{paperTitle}
+        AND t1.journal_title = #{journalTitle}
+
+        UNION ALL
+
+        SELECT t1.ID FROM SRPMS_RESULT_PAPER t1
+        WHERE t1.dept_code = #{orgCode}
+        AND t1.paper_title = #{paperTitle}
+        AND t1.journal_title = #{journalTitle}
+        )
+    </select>
+
+</mapper>

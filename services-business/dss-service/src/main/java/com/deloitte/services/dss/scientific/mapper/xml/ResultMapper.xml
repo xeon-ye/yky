@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.scientific.mapper.ResultMapper">
+    <!-- 查询映射结果 -->
+    <!--科研成果总数-->
+  <resultMap id="ResultVo" type="com.deloitte.platform.api.dss.scientific.vo.ResultVo">
+        <result column="category" property="category" />
+        <result column="total" property="total" />
+    </resultMap>
+    <!--科研成果数按依托单位统计-->
+    <resultMap id="ResultColumnVo" type="com.deloitte.platform.api.dss.scientific.vo.ResultColumnVo">
+        <result column="addres" property="addres" />
+        <result column="height" property="height" />
+        <result column="result" property="result" />
+        <result column="patent" property="patent" />
+        <result column="paper"  property="paper" />
+    </resultMap>
+    <!--查询科研成果当年总数-->
+    <select id="queryResult" resultMap="ResultVo">
+        <![CDATA[
+        select '专利数量' category,count(t.Patent_Num) total from
+        SRPMS_OUTLINE_PATENT t where to_char(t.application_time,'yyyy')=to_char(sysdate,'yyyy')
+        union select '论文数量' category,count(r.paper_title) total
+        from SRPMS_OUTLINE_PAPER r left join SRPMS_OUTLINE_BASE e on r.base_id=e.id
+        LEFT JOIN dss_sci_paper d on d.JOURNAL_TITLE=r.JOURNAL_TITLE
+        where e.year=to_char(sysdate,'yyyy')
+        union select '成果转化' category, count(*) total from
+        SRPMS_OUTLINE_RESULT_TRANS s where contract_signing_year=to_char(sysdate,'yyyy')
+    ]]>
+    </select>
+    <!--科研成果总数按依托单位统计-->
+    <select id="queryResultColumn" resultMap="ResultColumnVo">
+        <![CDATA[
+        select org_id addres,
+        count(*) height,
+        sum(case when type=04 then 1 else 0 end) result,
+        sum(case when type=05 then 1 else 0 end) patent,
+        sum(case when type=08 then 1 else 0 end) paper
+        from
+        (select e.org_id,e.type from SRPMS_OUTLINE_PATENT t left join SRPMS_OUTLINE_BASE e on t.base_id=e.id
+        where to_char(t.application_time,'yyyy')=to_char(sysdate,'yyyy')
+        union all
+        select e.org_id,e.type from SRPMS_OUTLINE_RESULT_TRANS s left join SRPMS_OUTLINE_BASE e on s.base_id=e.id
+        where s.contract_signing_year=to_char(sysdate,'yyyy')
+        union all
+        select e.org_id,e.type from SRPMS_OUTLINE_PAPER r left join SRPMS_OUTLINE_BASE e on r.base_id=e.id
+        LEFT JOIN dss_sci_paper d on d.JOURNAL_TITLE=r.JOURNAL_TITLE
+        where e.year=to_char(sysdate,'yyyy'))
+        group by org_id
+        ]]>
+    </select>
+</mapper>

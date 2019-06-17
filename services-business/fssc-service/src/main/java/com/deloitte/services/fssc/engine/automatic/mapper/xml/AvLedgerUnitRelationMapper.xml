@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.engine.automatic.mapper.AvLedgerUnitRelationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.engine.automatic.entity.AvLedgerUnitRelation">
+        <id column="ID" property="id" />
+        <result column="BALANCE_CODE" property="balanceCode" />
+        <result column="LEDGER_ID" property="ledgerId" />
+        <result column="EXT_1" property="ext1" />
+        <result column="EXT_2" property="ext2" />
+        <result column="EXT_3" property="ext3" />
+        <result column="EXT_4" property="ext4" />
+        <result column="EXT_5" property="ext5" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_DATE" property="createDate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, BALANCE_CODE, LEDGER_ID, EXT_1, EXT_2, EXT_3, EXT_4, EXT_5, CREATE_BY, CREATE_DATE
+    </sql>
+
+    <select id="getDocumentTypeList" resultType="com.deloitte.services.fssc.base.entity.BaseDocumentType">
+        SELECT BDT.* FROM AV_LEDGER_UNIT_RELATION AUR
+           INNER JOIN BASE_DOCUMENT_TYPE BDT ON AUR.BALANCE_CODE = BDT.UNIT_CODE
+              WHERE AUR.LEDGER_ID =#{ledgerId} AND VALID_FLAG ='Y' AND POST_FLAG ='Y'
+    </select>
+
+</mapper>

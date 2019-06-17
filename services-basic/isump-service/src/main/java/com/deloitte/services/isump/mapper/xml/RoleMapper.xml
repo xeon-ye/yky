@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.isump.mapper.RoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.isump.entity.Role">
+        <id column="ID" property="id" />
+        <result column="NAME" property="name" />
+        <result column="TYPE" property="type" />
+        <result column="SORT" property="sort" />
+        <result column="PARENT_ID" property="parentId" />
+        <result column="REMARK" property="remark" />
+        <result column="RESERVE" property="reserve" />
+        <result column="VERSION" property="version" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, NAME, TYPE, SORT, PARENT_ID, REMARK, RESERVE, VERSION, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+    </sql>
+
+    <select id="getRoleList" resultType="com.deloitte.services.isump.entity.Role">
+        select * from isump_role
+        <where>
+            service = #{service}
+            and code = #{code}
+        </where>
+    </select>
+    <select id="getSystemNameList" resultType="java.lang.String">
+        select role.service from ISUMP_DEPUTY_ACCOUNT ida,ISUMP_DEPUTY_ACCOUNT_ROLE idarole,ISUMP_ROLE role
+        <where>
+            ida.id = idarole.deputy_account_id
+            and idarole.role_id = role.id
+            and ida.user_id = #{userId}
+            group by role.service
+        </where>
+    </select>
+
+</mapper>

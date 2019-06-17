@@ -1,0 +1,354 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.scientific.mapper.ResearchProjectInPlaceFundMapper">
+    <!--各类科研项目到位经费情况-->
+    <select id="getAnnualInPlaceFund"
+            resultType="com.deloitte.platform.api.dss.scientific.vo.ResearchProjectInPlaceFundVo">
+    <![CDATA[
+              select temp.category,
+               sum(case year when to_char(add_months(sysdate,0),'yyyy') then money else 0 end  )   thatYearFund,
+               sum(case year when to_char(add_months(sysdate,-12),'yyyy') then money else 0 end  )   lastYearFund,
+               sum(case year when to_char(add_months(sysdate,-24),'yyyy') then money else 0 end  )   yearBeforeLastFund
+                from(
+                select e.FUNDS/10000 money,
+                to_char(e.RECIVE_DATE,'yyyy') year,
+                substr(p.PRO_TYPE,0,4) category
+                from DSS_SCIENTIFIC_RECIVE e,DSS_SCIENTIFIC_PROJECT p
+                where e.PRO_CODE=p.CODE
+				and p.STATE in (200,300,400,500)
+				and to_char(e.RECIVE_DATE,'yyyy')>=to_char(add_months(sysdate,-24),'yyyy')
+				and to_char(e.RECIVE_DATE,'yyyy')<=to_char(sysdate,'yyyy')
+                and e.STATUS = 'Y'
+                ) temp group by category
+                order by category
+				]]>
+
+</select>
+    <!--新获和延续-->
+    <select id="getSubclassNewAndContinuationFund"
+            resultType="com.deloitte.platform.api.dss.scientific.vo.ResearchProjectInPlaceFundVo"
+    parameterType="java.lang.String">
+        <choose>
+            <when test="_parameter=='1001'">
+                <![CDATA[
+                    select temp.category,
+                        sum(case year when to_char(sysdate,'yyyy') then money else 0 end  )   newProjectFund,
+                         sum(case  when year < to_char(sysdate,'yyyy') then money else 0 end  )   continuationProjectFund
+                          from (
+                          select
+						  e.FUNDS/10000  money,
+                          substr(p.PRO_TYPE,0,6) category,
+                          to_char(p.START_DATE,'yyyy') year
+                          from
+							DSS_SCIENTIFIC_RECIVE e,DSS_SCIENTIFIC_PROJECT p,DSS_SCIENTIFIC_TASK k
+                          where e.PRO_CODE=p.CODE
+						  and k.CODE=e.TASK_CODE
+                          and p.STATE in (200,300,400,500)
+                          and substr(p.PRO_TYPE,0,4)=#{_parameter}
+                          and to_char(p.START_DATE,'yyyy')<to_char(sysdate,'yyyy')
+						  and to_char(e.RECIVE_DATE,'yyyy')=to_char(sysdate,'yyyy')
+						  and e.STATUS = 'Y'
+                          union all
+                          select e.FUNDS/10000  money,
+                          substr(p.PRO_TYPE,0,6) category,
+                          to_char(p.START_DATE,'yyyy') year
+                          from DSS_SCIENTIFIC_RECIVE e,DSS_SCIENTIFIC_PROJECT p,DSS_SCIENTIFIC_TASK k
+                          where e.PRO_CODE=p.CODE
+						  and k.CODE=e.TASK_CODE
+                          and p.STATE in (200,300,400,500)
+                          and substr(p.PRO_TYPE,0,4)=#{_parameter}
+                          and to_char(p.START_DATE,'yyyy')=to_char(sysdate,'yyyy')
+						  and to_char(e.RECIVE_DATE,'yyyy')=to_char(sysdate,'yyyy')
+						  and e.STATUS = 'Y'
+						  ) temp group by temp.category
+						  ORDER BY temp.category
+						  ]]>
+            </when>
+            <otherwise>
+                <![CDATA[
+                   select temp.category,
+			 temp.deptId,
+                        sum(case year when to_char(sysdate,'yyyy') then money else 0 end  )   newProjectFund,
+                         sum(case  when year < to_char(sysdate,'yyyy') then money else 0 end  )   continuationProjectFund
+                          from (
+                          select
+							e.FUNDS/10000  money,
+                          t.DEPT_NAME category,
+							t.id deptId,
+                          to_char(p.START_DATE,'yyyy') year
+                          from
+							DSS_SCIENTIFIC_RECIVE e,DSS_SCIENTIFIC_PROJECT p,DSS_SCIENTIFIC_TASK k,ISUMP_DEPT t
+                          where e.PRO_CODE=p.CODE
+						  and k.CODE=e.TASK_CODE
+						  and k.LEAD_DEPT_ID=t.id
+                          and p.STATE in (200,300,400,500)
+                          and substr(p.PRO_TYPE,0,4)=${_parameter}
+                          and to_char(p.START_DATE,'yyyy')<to_char(sysdate,'yyyy')
+						  and to_char(e.RECIVE_DATE,'yyyy')=to_char(sysdate,'yyyy')
+						  and e.STATUS = 'Y'
+                          union all
+						  select
+						  e.FUNDS/10000  money,
+                          t.DEPT_NAME category,
+						  t.id deptId,
+                          to_char(p.START_DATE,'yyyy') year
+                          from DSS_SCIENTIFIC_RECIVE e,DSS_SCIENTIFIC_PROJECT p,DSS_SCIENTIFIC_TASK k,ISUMP_DEPT t
+                          where e.PRO_CODE=p.CODE
+						  and k.CODE=e.TASK_CODE
+						  and k.LEAD_DEPT_ID=t.id
+                          and p.STATE in (200,300,400,500)
+                          and substr(p.PRO_TYPE,0,4)=${_parameter}
+                          and to_char(p.START_DATE,'yyyy')=to_char(sysdate,'yyyy')
+						  and to_char(e.RECIVE_DATE,'yyyy')=to_char(sysdate,'yyyy')
+						  and e.STATUS = 'Y'
+						  ) temp group by temp.category,temp.deptId
+						  ]]>
+            </otherwise>
+        </choose>
+    </select>
+    <!--结题和在研-->
+    <select id="getSubclassResearchAndConclusionFund"
+            resultType="com.deloitte.platform.api.dss.scientific.vo.ResearchProjectInPlaceFundVo"
+    parameterType="java.lang.String">
+        <choose>
+            <when test="_parameter=='1001'">
+                <![CDATA[
+                        select
+                        temp.category,
+                        sum(case  when proState in ('400','500') then money else 0 end  )   conclusionProjectFund,
+                        sum(case when proState in ('200','300') then money else 0 end  )   researchProjectFund
+                        from (
+                        select e.FUNDS/10000 money,
+                        substr(p.PRO_TYPE,0,6) category ,
+                        p.STATE           proState
+                        from DSS_SCIENTIFIC_RECIVE e,DSS_SCIENTIFIC_PROJECT p,DSS_SCIENTIFIC_TASK k
+                        where e.PRO_CODE=p.CODE
+                        and e.TASK_CODE=k.CODE
+                        and to_char(p.START_DATE,'yyyy')<=to_char(sysdate,'yyyy')
+                        and to_char(p.END_DATE,'yyyy')>=to_char(sysdate,'yyyy')
+                        and to_char(e.RECIVE_DATE,'yyyy')=to_char(sysdate,'yyyy')
+                        and p.STATE in ('400','500')
+                        and e.STATUS = 'Y'
+                        and   substr(p.PRO_TYPE,0,4)=#{_parameter}
+                        union all
+                        select e.FUNDS/10000 money,
+                        substr(p.PRO_TYPE,0,6) category ,
+                        p.STATE          proState
+                        from DSS_SCIENTIFIC_RECIVE e,DSS_SCIENTIFIC_PROJECT p,DSS_SCIENTIFIC_TASK k
+                        where e.PRO_CODE=p.CODE
+                        and e.TASK_CODE=k.CODE
+                        and to_char(p.START_DATE,'yyyy')<=to_char(sysdate,'yyyy')
+                        and to_char(p.END_DATE,'yyyy')>=to_char(sysdate,'yyyy')
+                        and to_char(e.RECIVE_DATE,'yyyy')=to_char(sysdate,'yyyy')
+                        and p.STATE in ('200','300')
+                        and e.STATUS = 'Y'
+                        and   substr(p.PRO_TYPE,0,4)=#{_parameter}
+                        )temp group by temp.category
+                        order by temp.category
+                        ]]>
+            </when>
+            <otherwise>
+                <![CDATA[
+                        select
+                        temp.category,
+						temp.deptId,
+                        sum(case  when proState in ('400','500') then money else 0 end  )   conclusionProjectFund,
+                        sum(case when proState in ('200','300') then money else 0 end  )   researchProjectFund
+                        from (
+                        select e.FUNDS/10000 money,
+                        t.DEPT_NAME category,
+												t.id deptId,
+                        p.STATE           proState
+                        from DSS_SCIENTIFIC_RECIVE e,DSS_SCIENTIFIC_PROJECT p,DSS_SCIENTIFIC_TASK k,ISUMP_DEPT t
+                        where e.PRO_CODE=p.CODE
+                        and e.TASK_CODE=k.CODE
+						and k.LEAD_DEPT_ID=t.id
+                        and to_char(p.START_DATE,'yyyy')<=to_char(sysdate,'yyyy')
+                        and to_char(p.END_DATE,'yyyy')>=to_char(sysdate,'yyyy')
+                        and to_char(e.RECIVE_DATE,'yyyy')=to_char(sysdate,'yyyy')
+                        and p.STATE in ('400','500')
+                        and e.STATUS = 'Y'
+                        and   substr(p.PRO_TYPE,0,4)=#{_parameter}
+                        union all
+                        select e.FUNDS/10000 money,
+                        t.DEPT_NAME category,
+						t.id deptId,
+                        p.STATE          proState
+                        from DSS_SCIENTIFIC_RECIVE e,DSS_SCIENTIFIC_PROJECT p,DSS_SCIENTIFIC_TASK k,ISUMP_DEPT t
+                        where e.PRO_CODE=p.CODE
+                        and e.TASK_CODE=k.CODE
+						and k.LEAD_DEPT_ID=t.id
+                        and to_char(p.START_DATE,'yyyy')<=to_char(sysdate,'yyyy')
+                        and to_char(p.END_DATE,'yyyy')>=to_char(sysdate,'yyyy')
+                        and to_char(e.RECIVE_DATE,'yyyy')=to_char(sysdate,'yyyy')
+                        and p.STATE in ('200','300')
+                        and e.STATUS = 'Y'
+                        and   substr(p.PRO_TYPE,0,4)=#{_parameter}
+                        )temp group by temp.category,temp.deptId
+                        order by temp.category
+                        ]]>
+            </otherwise>
+        </choose>
+    </select>
+    <!--单位年度预算-->
+    <select id="getDeptBudgetAndExpendFund" resultType="com.deloitte.platform.api.dss.scientific.vo.BudgetAmountImplementationRateVo"
+            parameterType="java.lang.String">
+       <![CDATA[
+           select code deptId,name dept,sum(budget) budget,sum(expend)/10000 expend from (
+            select i.id code,i.DEPT_NAME name,sum(t.FUNDS) budget,0 expend from
+            DSS_SCIENTIFIC_BUDGET t,
+			ISUMP_DEPT i,
+            DSS_SCIENTIFIC_TASK k,
+            DSS_SCIENTIFIC_PROJECT p
+            where
+            k.ID=t.TASK_ID
+			and K.LEAD_DEPT_ID=i.id
+            and p.id=k.PRO_ID
+            and t.ANNUAL=to_char(SYSDATE,'yyyy')
+			and p.STATE in (200,300,400,500)
+            and substr(p.PRO_TYPE,0,6)=#{category}
+            group by i.id,i.DEPT_NAME
+            union all
+            --单位执行率
+            select i.id code,i.DEPT_NAME name,0 budget,sum(y.FUNDS) expend from
+            DSS_SCIENTIFIC_PAY y,
+            DSS_SCIENTIFIC_TASK k,
+						ISUMP_DEPT i,
+            DSS_SCIENTIFIC_PROJECT p
+            where
+            y.TASK_CODE=k.CODE
+						and K.LEAD_DEPT_ID=i.id
+            and p.id=k.PRO_ID
+            and substr(y.PAY_DATE,0,4)=to_char(SYSDATE,'yyyy')
+						and p.STATE in ('200','300','400','500')
+						and y.STATUS = 'Y'
+            and substr(p.PRO_TYPE,0,6)=#{category}
+            group by i.id,i.DEPT_NAME
+            )group by name,code
+        ]]>
+</select>
+<!--项目年度预算、支出-->
+    <select id="getProjectBudgetAndExpendFundByDept"    resultType="com.deloitte.platform.api.dss.scientific.vo.BudgetAmountImplementationRateVo">
+    <![CDATA[
+       select name projectName,code projectNum,sum(budget) budget,sum(fm)/10000 putMoney,sum(expend)/10000 expend from
+        (
+        select k.name name,k.code code,sum(t.FUNDS) budget,0 fm,0 expend
+        from
+        DSS_SCIENTIFIC_BUDGET t,
+        DSS_SCIENTIFIC_TASK k,
+        DSS_SCIENTIFIC_PROJECT p
+        where
+         k.ID=t.TASK_ID
+        and p.id=k.PRO_ID
+		and p.STATE in (200,300,400,500)
+        and t.ANNUAL=to_char(SYSDATE,'yyyy')
+        and substr(p.PRO_TYPE,0,6)=#{category}
+        and k.LEAD_DEPT_ID=#{deptId}
+        group by k.name,k.code
+        union all
+        --项目执行率(分母)
+        select k.name name,k.code code,0 budget,sum(e.FUNDS) fm,0 expend from
+        DSS_SCIENTIFIC_RECIVE e,
+        DSS_SCIENTIFIC_TASK k,
+        DSS_SCIENTIFIC_BUDGET t,
+        DSS_SCIENTIFIC_PROJECT p
+        where e.TASK_CODE=k.CODE
+        and t.TASK_ID=k.id
+        and p.id=k.PRO_ID
+		and p.STATE in (200,300,400,500)
+        and to_char(e.RECIVE_DATE,'yyyy')=to_char(SYSDATE,'yyyy')
+        and substr(p.PRO_TYPE,0,6)=#{category}
+        and k.LEAD_DEPT_ID=#{deptId}
+        and e.STATUS = 'Y'
+        group by k.name,k.code
+        union all
+        --项目执行率(分子)
+        select k.name name,k.code code,0 bugget,0 fm,sum(y.FUNDS) expend from
+        DSS_SCIENTIFIC_PAY y,
+        DSS_SCIENTIFIC_TASK k,
+        DSS_SCIENTIFIC_BUDGET t,
+        DSS_SCIENTIFIC_PROJECT p
+        where
+        y.TASK_CODE=k.CODE
+        and t.TASK_ID=k.id
+        and p.id=k.PRO_ID
+		and p.STATE in (200,300,400,500)
+        and substr(y.PAY_DATE,0,4)=to_char(SYSDATE,'yyyy')
+        and substr(p.PRO_TYPE,0,6)=#{category}
+        and k.LEAD_DEPT_ID=#{deptId}
+        and y.STATUS = 'Y'
+        group by k.name,k.code
+        )GROUP BY name,code
+        ]]>
+</select>
+
+<!--项目明细-->
+ <select id="getProjectDetail"  parameterType="java.lang.String" resultType="com.deloitte.platform.api.dss.scientific.vo.ProjectDetailInformationVo">
+    <![CDATA[
+        select t1.yjfx subjectCategory,t1.code code,t1.xmzt status,t1.pi projectPI,t2.bsh postDoctorNum,t3.bs doctorNum,t4.sss MasterNum
+        from (
+        select r.NAME pi,p.SRPMS_PROJECT code,t.DICT_VALUE yjfx,p.STATE xmzt from
+        DSS_SCIENTIFIC_PROJECT p,
+        ISUMP_USER r,
+		SYS_DICT t,
+		DSS_SCIENTIFIC_TASK k
+        where
+        k.LEAD_PERSON_ID=r.id
+		and k.PRO_ID=p.id
+		and p.SRPMS_PROJECT=t.DICT_CODE
+        and k.CODE=#{projectNum}
+        ) t1,
+		--博士后
+        (select count(m.CATEGROY) bsh from
+        ISUMP_USER r,
+        DSS_SCIENTIFIC_MAIN_MENBER m,
+		DSS_SCIENTIFIC_TASK k
+        where
+        m.USER_ID=r.id
+		and k.id=m.TASK_ID
+        and m.CATEGROY=3
+        and k.CODE=#{projectNum}
+        )t2,
+        --博士
+        (select count(r.DEGREE) bs from
+        ISUMP_USER r,
+        DSS_SCIENTIFIC_MAIN_MENBER m,
+		DSS_SCIENTIFIC_TASK k
+        where
+        m.USER_ID=r.id
+		and k.id=m.TASK_ID
+        and r.DEGREE='博士'
+        and k.CODE=#{projectNum}
+				)t3,
+        --硕士
+        (select count(r.EDUCATION) sss from
+        ISUMP_USER r,
+        DSS_SCIENTIFIC_MAIN_MENBER m,
+		DSS_SCIENTIFIC_TASK k
+        where
+        m.USER_ID=r.id
+		and k.id=m.TASK_ID
+        and r.DEGREE='硕士'
+        and k.CODE=#{projectNum}
+        )t4
+     ]]>
+</select>
+    <!--项目PI承担项目数量-->
+<select id="queryPItotal" parameterType="java.lang.String" resultType="com.deloitte.platform.api.dss.scientific.vo.ProjectDetailInformationVo">
+    <![CDATA[
+   	SELECT
+	count( id ) undertakeProjectNum
+    FROM
+	DSS_SCIENTIFIC_TASK
+    WHERE
+	LEAD_PERSON_ID = (
+	SELECT
+		LEAD_PERSON_ID
+	FROM
+		DSS_SCIENTIFIC_TASK
+		WHERE 1 = 1 AND
+		code=#{projectNum}
+		)
+    ]]>
+</select>
+
+</mapper>

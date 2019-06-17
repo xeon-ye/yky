@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.scientific.mapper.ResearchResultMapper">
+    <resultMap id="ResultVo" type="com.deloitte.platform.api.dss.scientific.vo.ResultVo">
+        <result column="category" property="category"/>
+        <result column="total" property="total"/>
+    </resultMap>
+    <!--科研成果接口-->
+    <select id="queryResearch" resultMap="ResultVo" parameterType="java.lang.String">
+        select '专利数量' category,count(t.Patent_Num) total from SRPMS_OUTLINE_PATENT t
+        where
+        <if test="_parameter != null">
+            pro_code=#{_parameter}
+        </if>
+        union
+        select 'SCI论文数量' category,count(r.paper_title) total
+        from SRPMS_OUTLINE_PAPER r left join SRPMS_OUTLINE_BASE e on r.base_id=e.id
+        LEFT JOIN dss_sci_paper d on d.JOURNAL_TITLE=r.JOURNAL_TITLE
+        where
+        <if test="_parameter != null">
+            pro_code=#{_parameter}
+        </if>
+        union
+        select '成果转化' category, count(*) total from SRPMS_OUTLINE_RESULT_TRANS
+        where
+        <if test="_parameter != null">
+            pro_code=#{_parameter}
+        </if>
+        union
+        select '论文数' category, count(*) total from SRPMS_OUTLINE_PAPER
+        where
+        <if test="_parameter !=null">
+            pro_code=#{_parameter}
+        </if>
+
+    </select>
+</mapper>

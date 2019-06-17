@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.finance.mapper.FinAchievementMapper">
+
+
+
+    <!-- 平均项目预算绩效 -->
+    <select id="selectAvgAchive" parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo">
+        select
+          sum(YTD_N)/sum(YTD_D) ytd,
+          ind.INDEX_CODE indexCode,
+          ind.INDEX_DES indexDes
+        from
+          DSS_FIN_ETL_FACT fact
+        inner join
+          DSS_FIN_ETL_INDEX ind
+        on
+          fact.INDEX_CODE = ind.INDEX_CODE
+        where
+          fact.PERIOD_CODE like #{periodCode}||'%'
+        and
+         ind.INDEX_CODE = #{indexCode}
+         <if test="comCode != null">
+             and fact.COM_CODE in ${comCode}
+         </if>
+         group by
+         ind.INDEX_CODE,ind.INDEX_DES
+    </select>
+
+    <!-- 平均项目预算绩效 往年同比 -->
+    <select id="selectAvgAchiveRate" parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo">
+        select
+          sum(YTD_N)/sum(YTD_D)-1 rate,
+          ind.INDEX_CODE indexCode,
+          ind.INDEX_DES indexDes
+        from
+          DSS_FIN_ETL_FACT fact
+        inner join
+          DSS_FIN_ETL_INDEX ind
+        on
+          fact.INDEX_CODE = ind.INDEX_CODE
+        where
+          fact.PERIOD_CODE like #{periodCode}||'%'
+        <if test="comCode != null">
+            and fact.COM_CODE in ${comCode}
+        </if>
+        and
+         ind.INDEX_CODE = #{indexCode}
+         group by
+         ind.INDEX_CODE,ind.INDEX_DES
+    </select>
+
+
+
+
+
+</mapper>

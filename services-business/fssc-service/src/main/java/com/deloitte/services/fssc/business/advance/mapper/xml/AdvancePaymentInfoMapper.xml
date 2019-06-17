@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.business.advance.mapper.AdvancePaymentInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.business.advance.entity.AdvancePaymentInfo">
+        <id column="ID" property="id" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_USER_NAME" property="createUserName" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="VERSION" property="version" />
+        <result column="DOCUMENT_NUM" property="documentNum" />
+        <result column="DOCUMENT_STATUS" property="documentStatus" />
+        <result column="PAY_STATUS" property="payStatus" />
+        <result column="UNIT_ID" property="unitId" />
+        <result column="DEPT_ID" property="deptId" />
+        <result column="PROJECT_ID" property="projectId" />
+        <result column="MAIN_TYPE_ID" property="mainTypeId" />
+        <result column="TOTAL_SUM" property="totalSum" />
+        <result column="HAS_VER_AMOUNT" property="hasVerAmount" />
+        <result column="NO_VER_AMOUNT" property="noVerAmount" />
+        <result column="CURRENCY_CODE" property="currencyCode" />
+        <result column="IS_AGREED_PROMIS" property="isAgreedPromis" />
+        <result column="REMARK" property="remark" />
+        <result column="COST" property="cost" />
+        <result column="UNIT_NAME" property="unitName" />
+        <result column="DEPT_NAME" property="deptName" />
+        <result column="MAIN_TYPE_NAME" property="mainTypeName" />
+        <result column="PROJECT_NAME" property="projectName" />
+        <result column="PAYMENT_TYPE" property="paymentType" />
+        <result column="SUPPLIER" property="supplier" />
+        <result column="SUPPLIER_ID" property="supplierId" />
+        <result column="SUPPLIER_CODE" property="supplierCode" />
+        <result column="CONTACT_NUMBER_ID" property="contactNumberId" />
+        <result column="CONTACT_NUMBER" property="contactNumber" />
+        <result column="SUPPORT_FILE_NUM" property="supportFileNum" />
+        <result column="TOTAL_SUM_POSITION" property="totalSumPosition" />
+        <result column="HAS_VER_AMOUNT_POSITION" property="hasVerAmountPosition" />
+        <result column="NO_VER_AMOUNT_POSITION" property="noVerAmountPosition" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+        <result column="EXT6" property="ext6" />
+        <result column="EXT7" property="ext7" />
+        <result column="EXT8" property="ext8" />
+        <result column="EXT9" property="ext9" />
+        <result column="EXT10" property="ext10" />
+        <result column="EXT11" property="ext11" />
+        <result column="EXT12" property="ext12" />
+        <result column="EXT13" property="ext13" />
+        <result column="EXT14" property="ext14" />
+        <result column="EXT15" property="ext15" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, CREATE_BY, CREATE_USER_NAME, UPDATE_BY, UPDATE_TIME, CREATE_TIME, VERSION, DOCUMENT_NUM, DOCUMENT_STATUS, PAY_STATUS, UNIT_ID, DEPT_ID, PROJECT_ID, MAIN_TYPE_ID, TOTAL_SUM, HAS_VER_AMOUNT, NO_VER_AMOUNT, CURRENCY_CODE, IS_AGREED_PROMIS, REMARK, COST, UNIT_NAME, DEPT_NAME, MAIN_TYPE_NAME, PROJECT_NAME, PAYMENT_TYPE, SUPPLIER, SUPPLIER_ID,SUPPLIER_CODE, CONTACT_NUMBER_ID, CONTACT_NUMBER, SUPPORT_FILE_NUM, TOTAL_SUM_POSITION, HAS_VER_AMOUNT_POSITION, NO_VER_AMOUNT_POSITION, EXT1, EXT2, EXT3, EXT4, EXT5, EXT6, EXT7, EXT8, EXT9, EXT10, EXT11, EXT12, EXT13, EXT14, EXT15
+    </sql>
+
+    <select id="countByExpenseMainTypeIds" resultType="java.lang.Long">
+        select count(ID) from ADP_ADVANCE_PAYMENT_INFO where MAIN_TYPE_ID in
+        <foreach collection="expenseMainTypeIdList" separator="," item="item" open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
+
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.isump.mapper.OrgRoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.isump.entity.OrgRole">
+        <id column="ID" property="id" />
+        <result column="ORG_ID" property="orgId" />
+        <result column="ROLE_ID" property="roleId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, ORG_ID, ROLE_ID
+    </sql>
+
+    <select id="selectRolesByOrgId" resultType="java.lang.String">
+        select ROLE_ID from ISUMP_ORG_ROLE where ORG_ID = #{orgId}
+    </select>
+
+</mapper>

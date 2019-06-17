@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.system.unit.mapper.UnitInfoMapper">
+
+
+
+    <select id="selectByPageConditions" resultType="com.deloitte.platform.api.fssc.unit.vo.UnitInfoVo">
+        SELECT * FROM BASE_UNIT_INFO ut
+        <where>
+            <if test="form.unitType!=null and form.unitType!=''">
+                AND ut.unit_type = #{form.unitType}
+            </if>
+            <if test="form.unitCode!=null and form.unitCode!=''">
+                AND ut.unit_code LIKE CONCAT(CONCAT('%',#{form.unitCode}),'%')
+            </if>
+            <if test="form.unitName!=null and form.unitName!=''">
+                AND ut.unit_name LIKE CONCAT(CONCAT('%',#{form.unitName}),'%')
+            </if>
+            <if test="form.isValid!=null and form.isValid!=''">
+                AND ut.is_valid = #{form.isValid}
+            </if>
+            <if test="form.createUserName!=null and form.createUserName!=''">
+                AND ut.create_user_name LIKE CONCAT(CONCAT('%',#{form.createUserName}),'%')
+            </if>
+        </where>
+        ORDER BY ut.UPDATE_TIME DESC
+    </select>
+    <select id="getSequence" resultType="java.lang.Long">
+        select ${sequenceName}.nextval from dual
+    </select>
+    <insert id="createSequenceName">
+      create SEQUENCE ${sequenceName} INCREMENT BY 1 START WITH 10 MINVALUE 0 MAXVALUE 99999
+    </insert>
+
+    <update id="resetSequenceName">
+      ALTER sequence ${sequenceName} INCREMENT BY ${value}
+    </update>
+
+    <select id="selectVo" resultType="com.deloitte.platform.api.fssc.unit.vo.UnitBankBaseInfoVo">
+        select e.id as id,e.unit_name as unitName,e.common_credit_code as commonCreditCode,d.id as unitBandId,d.bank_name as bankName,
+        d.inter_branch_number as interBranchNumber,h.bank_id as bankId, h.unit_id as unitId,h.bank_account as bankAccount
+        from  base_unit_info e LEFT JOIN base_bank_unit_info h  ON e.id =h.unit_id
+        LEFT JOIN base_bank_info d ON d.id=h.bank_id
+        <where>
+            e.id = #{id}
+        </where>
+
+    </select></mapper>

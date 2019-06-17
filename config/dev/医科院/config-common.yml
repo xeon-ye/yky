@@ -1,0 +1,115 @@
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+  # instance-id: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${server.port}},
+    #生产环境调高相应的值，默认是30，90
+    leaseRenewalIntervalInSeconds: 1  #client发送心跳给server端的频率,默认30秒
+    leaseExpirationDurationInSeconds: 2   #表示eureka server至上一次收到client的心跳之后，等待下一次心跳的超时时间，在这个时间内若没收到下一次心跳，则将移除该instance。
+  client:
+    registryFetchIntervalSeconds: 5  #eureka client刷新本地缓存时间  注意和ribbon.ServerListRefreshInterval配合使用
+
+#hystrix的超时时间
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 200000
+#ribbon的超时时间
+ribbon:
+  ServerListRefreshInterval: 5000 # ribbon刷新服务端列表的时间  默认30s
+  ConnectTimeout: 150000
+  ReadTimeout: 1500000
+#  OkToRetryOnAllOperations: true
+#  MaxAutoRetries: 1  # 重试次数，***千万注意接口幂等性***
+  MaxAutoRetriesNextServer: 2
+  restclient:
+    enabled: true
+
+feign:
+  hystrix:
+    enabled: true
+  client:
+    config:
+      default:
+        loggerLevel: full
+        requestInterceptors:
+          - com.deloitte.platform.common.web.feign.GdcFeignInterceptor
+
+management:
+  #屏蔽bus安全验证
+  security:
+    enabled: false
+  context-path: /monitor
+  endpoints:
+    web:
+      exposure:
+        #加载所有的端点，默认只加载了info、health
+        #include: '*'
+        include: 'mappings'
+  endpoint:
+    health:
+      show-details: always
+    #可以关闭指定的端点
+    shutdown:
+      enabled: true
+---
+spring:
+  #消息队列服务
+  rabbitmq:
+<<<<<<< .mine
+    host: ${RABBIT_MQ_HOST:127.0.0.1}
+    port: ${RABBIT_MQ_PORT:5672}
+||||||| .r18467
+    #host: ${RABBIT_MQ_HOST:124.17.100.183}
+    #port: ${RABBIT_MQ_PORT:30895}
+    host: ${RABBIT_MQ_HOST:rabbitmq}
+    port: ${RABBIT_MQ_PORT:5672}
+=======
+    #host: ${RABBIT_MQ_HOST:124.17.100.183}
+    #port: ${RABBIT_MQ_PORT:30895}
+    host: ${RABBIT_MQ_HOST:124.17.100.183}
+    port: ${RABBIT_MQ_PORT:30672}
+>>>>>>> .r18594
+    username: ${RABBIT_MQ_USERNAME:guest}
+    password: ${RABBIT_MQ_PASSWORD:guest}
+    publisher-confirms: true
+    virtual-host: /
+  #redis配置
+  redis:
+    host: ${REDIS_HOST:127.0.0.1}
+    port: ${REDIS_PORT:6379}
+    password: 123456
+
+
+---
+spring:
+  http:
+    multipart:
+      maxFileSize: 100Mb
+      maxRequestSize: 100Mb
+---
+spring:
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+#测试属性
+test:
+  username: "jack"
+  password: "${test.username}4411"
+  strlist:
+    - list1
+    - list2
+    - list3
+
+mybatis-plus:
+  global-config:
+    banner: false
+  configuration:
+      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

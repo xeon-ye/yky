@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.srpmp.outline.mapper.SrpmsOutlinePaperMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.srpmp.outline.entity.SrpmsOutlinePaper">
+        <id column="ID" property="id"/>
+        <result column="BASE_ID" property="baseId"/>
+        <result column="PRO_CODE" property="proCode"/>
+        <result column="PRO_NAME" property="proName"/>
+        <result column="CORRESPONDENCE_AUTHOR" property="correspondenceAuthor"/>
+        <result column="FIRST_AUTHOR" property="firstAuthor"/>
+        <result column="OTHER_AUTHOR" property="otherAuthor"/>
+        <result column="PAPER_CAT" property="paperCat"/>
+        <result column="PAPER_TITLE" property="paperTitle"/>
+        <result column="JOURNAL_TITLE" property="journalTitle"/>
+        <result column="PUBLICATION_ORG" property="publicationOrg"/>
+        <result column="PAPER_VOLUME" property="paperVolume"/>
+        <result column="STAGE" property="stage"/>
+        <result column="PAGE" property="page"/>
+        <result column="INFLUENCE_FACTOR" property="influenceFactor"/>
+        <result column="PROPERTY" property="property"/>
+        <result column="REGION" property="region"/>
+        <result column="PAPER_LEVEL" property="paperLevel"/>
+        <result column="HPRO_IN_CHARGE" property="hproInCharge"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="CREATE_BY" property="createBy"/>
+        <result column="UPDATE_TIME" property="updateTime"/>
+        <result column="UPDATE_BY" property="updateBy"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, BASE_ID, PRO_CODE, PRO_NAME, CORRESPONDENCE_AUTHOR, FIRST_AUTHOR, OTHER_AUTHOR, PAPER_CAT, PAPER_TITLE, JOURNAL_TITLE, PUBLICATION_ORG, PAPER_VOLUME, STAGE, PAGE, INFLUENCE_FACTOR, PROPERTY, REGION, PAPER_LEVEL, HPRO_IN_CHARGE, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+    </sql>
+
+    <!--根据条件查询论文数据-->
+    <select id="listQuery" parameterType="com.deloitte.platform.api.srpmp.outline.param.SrpmsOutlinePaperQueryForm"
+            resultType="com.deloitte.platform.api.srpmp.outline.param.SrpmsOutlinePaperQueryParam">
+        SELECT t1.*, t2.org_id, t2.year, t2.month
+        FROM
+        SRPMS_OUTLINE_PAPER t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE
+        1=1
+        <if test="orgId != null">
+            AND t2.org_id = #{orgId}
+        </if>
+        <if test="year != null and year != ''">
+            AND t2.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t2.month = #{month}
+        </if>
+        <if test="proCode != null and proCode != ''">
+            AND t1.PRO_CODE = #{proCode}
+        </if>
+        <if test="proName != null and proName != ''">
+            AND t1.PRO_NAME LIKE '%'||#{proName}||'%'
+        </if>
+        <if test="correspondenceAuthor != null and correspondenceAuthor != ''">
+            AND t1.correspondence_author = #{correspondenceAuthor}
+        </if>
+        <if test="firstAuthor != null and firstAuthor != ''">
+            AND t1.first_author = #{firstAuthor}
+        </if>
+        <if test="otherAuthor != null and otherAuthor != ''">
+            AND t1.other_author = #{otherAuthor}
+        </if>
+        <if test="paperCat != null and paperCat != ''">
+            AND t1.paper_cat = #{paperCat}
+        </if>
+        <if test="paperTitle != null and paperTitle != ''">
+            AND t1.paper_title = #{paperTitle}
+        </if>
+        <if test="journalTitle != null and journalTitle != ''">
+            AND t1.journal_title = #{journalTitle}
+        </if>
+        <if test="publicationOrg != null and publicationOrg != ''">
+            AND t1.publication_org = #{publicationOrg}
+        </if>
+        <if test="paperVolume != null and paperVolume != ''">
+            AND t1.paper_volume = #{paperVolume}
+        </if>
+        <if test="stage != null and stage != ''">
+            AND t1.stage = #{stage}
+        </if>
+        <if test="page != null and page != ''">
+            AND t1.page = #{page}
+        </if>
+        <if test="influenceFactor != null and influenceFactor != 0">
+            AND tt.influenceFactor = #{influenceFactor}
+        </if>
+        <if test="property != null and property != ''">
+            AND t1.property = #{property}
+        </if>
+        <if test="region != null and region != ''">
+            AND tt.region = #{region}
+        </if>
+        <if test="paperLevel != null and paperLevel != ''">
+            AND t1.paper_level = #{paperLevel}
+        </if>
+        <if test="hproInCharge != null and hproInCharge != ''">
+            AND t1.hpro_in_charge = #{hproInCharge}
+        </if>
+        <if test="createBy != null and createBy != ''">
+            AND t1.create_by = #{createBy}
+        </if>
+        ORDER by nvl(t1.create_time, TO_DATE('1900-01-01', 'YYYY-MM-DD HH24:MI:SS')) DESC
+    </select>
+
+    <!--根据条件(单位+论文名称+期刊名称)查询题录-论文数据-->
+    <select id="getQueryCount" parameterType="java.util.Map"
+            resultType="int">
+        SELECT count(*)
+        FROM
+        SRPMS_OUTLINE_PAPER t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE
+        1=1
+        AND t2.org_id = #{orgId}
+        AND t1.paper_title = #{paperTitle}
+        AND t1.journal_title = #{journalTitle}
+        <if test="id != null">
+            AND t1.id &lt;&gt; #{id}
+        </if>
+    </select>
+
+    <!--查询题录-论文统计数据-->
+    <select id="getReportCount"
+            parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.srpmp.outline.vo.SrpmsOutlinePaperReportVo">
+        select tt.orgId,
+        SUM(CASE WHEN tt.region = '10' AND tt.property = '10' THEN 1 ELSE 0 END) inJournalNationCount,
+        SUM(CASE WHEN tt.region = '10' AND tt.property = '20' THEN 1 ELSE 0 END) inJournalCount,
+        SUM(CASE WHEN tt.region = '20' THEN 1 ELSE 0 END) outJournalCount,
+        SUM(CASE WHEN tt.region = '20' AND tt.influenceFactor >= 10.0 THEN 1 ELSE 0 END) outSciFirstCount,
+        SUM(CASE WHEN tt.region = '20' AND tt.influenceFactor &lt; 10.0 AND tt.influenceFactor >= 5.0 THEN 1 ELSE 0 END)
+        outSciSecoendCount,
+        SUM(CASE WHEN tt.region = '20' AND tt.influenceFactor &lt; 5.0 AND tt.influenceFactor >= 3.0 THEN 1 ELSE 0 END)
+        outSciThreeCount,
+        SUM(CASE WHEN tt.region = '20' AND tt.influenceFactor &lt; 3.0 THEN 1 ELSE 0 END) outSciFourCount
+        FROM
+        (select t2.org_id orgId, t1.REGION region, t1.PROPERTY property, t1.INFLUENCE_FACTOR influenceFactor
+        from SRPMS_OUTLINE_PAPER t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON t1.BASE_ID = t2.id
+        WHERE 1 = 1
+        <if test="year != null and year != ''">
+            AND t2.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t2.month = #{month}
+        </if>
+        <if test="orgId != null and orgId != 0">
+            AND t2.org_id = #{orgId}
+        </if>
+
+        UNION ALL
+
+        select t1.DEPT_CODE orgId, t1.REGION region, t1.PROPERTY property, t1.INFLUENCE_FACTOR influenceFactor
+        from SRPMS_RESULT_PAPER t1
+        WHERE 1 = 1
+        <if test="year != null and year != ''">
+            AND t1.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t1.month = #{month}
+        </if>
+        <if test="orgId != null and orgId != 0">
+            AND t1.DEPT_CODE = #{orgId}
+        </if>
+        ) tt
+        GROUP BY tt.orgId
+        ORDER by tt.orgId
+    </select>
+
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.srpmp.project.apply.mapper.SrpmsProjectApplyInnPreMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.srpmp.project.apply.entity.SrpmsProjectApplyInnPre">
+        <id column="ID" property="id" />
+        <result column="PROJECT_NAME" property="projectName" />
+        <result column="ACHIEVEMENT_TYPE" property="achievementType" />
+        <result column="APPLY_POST_NUMBER" property="applyPostNumber" />
+        <result column="APPLY_FUNDS" property="applyFunds" />
+        <result column="LEAD_DEPT_ID" property="leadDeptId" />
+        <result column="LEAD_PERSON_ID" property="leadPersonId" />
+        <result column="PROJECT_ABSTRACT" property="projectAbstract" />
+        <result column="APPROVAL_NECESSAY" property="approvalNecessay" />
+        <result column="ACHIEVEMENT_FORM" property="achievementForm" />
+        <result column="ACHIEVEMENT_BENEFIT" property="achievementBenefit" />
+        <result column="RESEARCH_CONTENT_MAIN" property="researchContentMain" />
+        <result column="RESEARCH_CONTENT_METHOD" property="researchContentMethod" />
+        <result column="PROJECT_TARGET" property="projectTarget" />
+        <result column="SUPERIORITY_DEPT_BASIC" property="superiorityDeptBasic" />
+        <result column="FUND_SOURCE_AMOUNT" property="fundSourceAmount" />
+        <result column="FUND_SOURCE_PROJECT" property="fundSourceProject" />
+        <result column="FUND_SOURCE_SELF" property="fundSourceSelf" />
+        <result column="FUND_SOURCE_OTHER" property="fundSourceOther" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="ATTACHMENT_COMMITTEE" property="attachmentCommittee" />
+        <result column="ATTACHMENT_AUDIT" property="attachmentAudit" />
+        <result column="ATTACHMENT_STATEMENT" property="attachmentStatement" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, PROJECT_NAME, ACHIEVEMENT_TYPE, APPLY_POST_NUMBER, APPLY_FUNDS, LEAD_DEPT_ID, LEAD_PERSON_ID, PROJECT_ABSTRACT, APPROVAL_NECESSAY, ACHIEVEMENT_FORM, ACHIEVEMENT_BENEFIT, RESEARCH_CONTENT_MAIN, RESEARCH_CONTENT_METHOD, PROJECT_TARGET, SUPERIORITY_DEPT_BASIC, FUND_SOURCE_AMOUNT, FUND_SOURCE_PROJECT, FUND_SOURCE_SELF, FUND_SOURCE_OTHER, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, ATTACHMENT_COMMITTEE, ATTACHMENT_AUDIT, ATTACHMENT_STATEMENT
+    </sql>
+
+</mapper>

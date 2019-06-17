@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.business.basecontract.mapper.BaseContractPlanLineMapper">
+
+
+    <!-- 通用查询结果列 -->
+    <select id="findPlanDetail"
+            resultType="com.deloitte.platform.api.fssc.basecontract.vo.BaseContractPlanLineVo">
+        SELECT DISTINCT
+        BCI.CONTRACT_ID,
+        BCI.CONTRACT_NO,
+        BCI.CONTRACT_NAME,
+        BCI.ORG,
+        BCI.OPERATOR,
+        BCI.SIDE_SUBJECT_NAME,
+        BCI.OUR_SUBJECT_NAME,
+        BCI.AMOUNT_INCLUD_TAX,
+        BCPL.APPOINT_PAY_STAGE,
+        BCPL.AGREED_PROPERTIONS,
+        BCPL.AGREED_PAYMENT_AMOUNT，
+        BCPL.TRAVEL_PLAN_ID,
+        BCPL.PLAN_PAY_TIME,
+        BCPL.SIDE_SUBJECT_CODE,
+        BCI.CONTRACT_TYPE,
+        BCPL.AGREED_RECIEVE_AMOUNT,
+        BCPL.AGREED_RECIEVE_PROPERTIONS,
+        BCPL.ACTUAL_PLAY_AMOUNT,
+        BCPL.RECEIP_PLAY_AMOUNT,
+        BCPL.PLAN_RECIEVE_TIME,
+        BCPL.PAID_AMOUNT,
+        BCPL.APPOINT_RECIEVE_STAGE
+        FROM
+        BASE_CONTRACT_INFO BCI
+        LEFT JOIN BASE_CONTRACT_PLAN_MAP BCPM ON BCI.CONTRACT_ID=BCPM.CONTRACT_ID
+        LEFT JOIN BASE_CONTRACT_PLAN_LINE BCPL ON BCPL.TRAVEL_PLAN_ID=BCPM.PLAN_ID
+        <where>
+            <if test="queryForm.contractId!=null">
+                AND BCI.CONTRACT_ID=#{queryForm.contractId}
+            </if>
+            <if test="queryForm.contractName!=null">
+                AND BCI.CONTRACT_NAME LIKE CONCAT('%',CONCAT(#{queryForm.contractName},'%'))
+            </if>
+            <if test="queryForm.contractType!=null">
+                AND BCI.CONTRACT_TYPE=#{queryForm.contractType}
+            </if>
+            <if test="queryForm.contractNo!=null">
+                AND BCI.CONTRACT_NO LIKE CONCAT('%',CONCAT(#{queryForm.contractNo},'%'))
+            </if>
+            AND BCPL.TRAVEL_PLAN_ID IS NOT NULL
+        </where>
+
+
+    </select>
+    <sql id="Base_Column_List">
+        ID, CREATE_BY, CREATE_USER_NAME, UPDATE_BY, UPDATE_TIME, CREATE_TIME, VERSION, CONTRACT_NO, CONTRACT_NAME, TRAVEL_PLAN_ID, UNIT_NAME, DEPT_NAME, SIDE_SUBJECT_NAME, APPOINT_PAY_STAGE, AGREED_PROPERTIONS, AGREED_PAYMENT_AMOUNT, PLAN_PAY_TIME, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10, EX11, EX12, EX13, EX14, EX15
+    </sql>
+
+</mapper>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.contract.mapper.ProcessExecuterTransferMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.contract.entity.ProcessExecuterTransfer">
+        <id column="ID" property="id" />
+        <result column="CONTRACT_ID" property="contractId" />
+        <result column="EXECUTER_CODE" property="executerCode" />
+        <result column="EXECUTER" property="executer" />
+        <result column="NEW_EXECUTER_CODE" property="newExecuterCode" />
+        <result column="NEW_EXECUTER" property="newExecuter" />
+        <result column="PROCESS_ID" property="processId" />
+        <result column="PROCESS_INSTANCE_ID" property="processInstanceId" />
+        <result column="STATUE" property="statue" />
+        <result column="SEND_TIME" property="sendTime" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="SPARE_FIELD_1" property="spareField1" />
+        <result column="SPARE_FIELD_2" property="spareField2" />
+        <result column="SPARE_FIELD_3" property="spareField3" />
+        <result column="SPARE_FIELD_4" property="spareField4" />
+        <result column="SPARE_FIELD_5" property="spareField5" />
+        <result column="EXCUTER_INFORMATION" property="excuterInfomation"/>
+        <result column="OLD_EXCUTER_INFORMATION" property="oldExcuterInfomation"/>
+        <result column="OLD_ORG_ID" property="oldOrgId"/>
+        <result column="OLD_ORG" property="oldOrg"/>
+        <result column="ORG_ID" property="orgId"/>
+        <result column="ORG" property="org"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, CONTRACT_ID, EXECUTER_CODE, EXECUTER, NEW_EXECUTER_CODE, NEW_EXECUTER, PROCESS_ID, PROCESS_INSTANCE_ID, STATUE, SEND_TIME, CREATE_TIME, SPARE_FIELD_1, SPARE_FIELD_2, SPARE_FIELD_3, SPARE_FIELD_4, SPARE_FIELD_5, EXCUTER_INFORMATION, OLD_EXCUTER_INFORMATION,
+        OLD_ORG_ID, OLD_ORG, ORG_ID, ORG
+    </sql>
+
+</mapper>

@@ -1,0 +1,26 @@
+server:
+  port: 8411
+spring:
+  application:
+    name: service-project
+  cloud:
+    config:
+      fail-fast: true
+      discovery:
+        enabled: true
+        service-id: config-server
+      name: config
+      profile: common,project
+    bus:
+      trace:
+        enabled: true
+      enabled: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_ZONE_HOST:localhost}:${EUREKA_ZONE_PORT:8101}/eureka/
+
+word:
+  export:
+    path: word/export

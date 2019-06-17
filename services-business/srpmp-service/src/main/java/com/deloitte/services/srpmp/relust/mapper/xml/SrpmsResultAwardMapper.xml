@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.srpmp.relust.mapper.SrpmsResultAwardMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.srpmp.relust.entity.SrpmsResultAward">
+        <id column="ID" property="id" />
+        <result column="DEPT_CODE" property="deptCode" />
+        <result column="YEAR" property="year" />
+        <result column="MONTH" property="month" />
+        <result column="PRO_NUM" property="proNum" />
+        <result column="PRO_NAME" property="proName" />
+        <result column="AWARD_RESULTS" property="awardResults" />
+        <result column="AWARD_CAT" property="awardCat" />
+        <result column="COMPLETION_ORG" property="completionOrg" />
+        <result column="COMPLETION_PERSON" property="completionPerson" />
+        <result column="AWARD_NAME" property="awardName" />
+        <result column="AWARD_LEVEL" property="awardLevel" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, DEPT_CODE, YEAR, MONTH, PRO_NUM, PRO_NAME, AWARD_RESULTS, AWARD_CAT, COMPLETION_ORG, COMPLETION_PERSON, AWARD_NAME, AWARD_LEVEL, CREATE_TIME, CREATE_BY
+    </sql>
+
+    <select id="getQueryCount" parameterType="java.util.Map" resultType="int">
+        SELECT count(*) FROM
+        (SELECT t1.id FROM
+        SRPMS_OUTLINE_AWARD t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE t2.org_id = #{orgCode}
+        AND t2.year = #{year}
+        AND t2.month = #{month}
+        AND t1.award_name = #{awardName}
+
+        UNION ALL
+
+        SELECT t1.ID FROM SRPMS_RESULT_AWARD t1
+        WHERE t1.dept_code = #{orgCode}
+        AND t1.year = #{year}
+        AND t1.month = #{month}
+        AND t1.award_name = #{awardName}
+        )
+    </select>
+
+</mapper>

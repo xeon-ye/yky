@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.oaservice.mapper.OaMssSendInfoMapper">
+
+    <resultMap id="BaseResultMap2" type="com.deloitte.services.oaservice.entity.OaMssSendInfo">
+        <id column="ID" property="id" />
+        <result column="MSS_ID" property="mssId" />
+        <result column="MSS_TYPE" property="mssType" />
+        <result column="SEND_USER_ID" property="sendUserId" />
+        <result column="SEND_USER_NAME" property="sendUserName" />
+        <result column="REQUEST_ID" property="requestId" />
+        <result column="RECEIVE_ID" property="receiveId" />
+        <result column="RECEIVE_NAME" property="receiveName" />
+        <result column="RECEIVE_TELEPHONE" property="receiveTelephone" />
+        <result column="IS_SEND" property="isSend" />
+        <result column="RESOURCE_SYSTEM" property="resourceSystem" />
+        <result column="MSS_COUNT" property="mssCount" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID,MSS_ID,MSS_TITLE,MSS_TYPE,SEND_USER_ID,SEND_USER_NAME,REQUEST_ID,RECEIVE_ID,RECEIVE_NAME,RECEIVE_TELEPHONE,IS_SEND,RESOURCE_SYSTEM,MSS_COUNT,CREATE_BY,CREATE_TIME,UPDATE_BY,UPDATE_TIME,EXT1,EXT2,EXT3,EXT4,EXT5
+    </sql>
+
+    <select id="getMssMonthTotal" resultType="long">
+        select sum(MSS_COUNT) from Oa_Mss_Send_Info I where to_char(i.UPDATE_TIME ,'yyyy-mm') = #{date}
+    </select>
+
+</mapper>

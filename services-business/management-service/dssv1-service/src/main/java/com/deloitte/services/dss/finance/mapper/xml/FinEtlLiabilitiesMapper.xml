@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.finance.mapper.FinEtlLiabilitiesMapper">
+
+    <!-- 查询资产数据 -->
+    <select id="queryLiabilities" parameterType="java.util.Map"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+      select
+        INDEX_CODE indexCode,
+        PERIOD periodCode,
+        ENTITY comCode,
+        YTD ytd
+      from
+        DSS_FIN_ETL_LIABILITIES liabilities
+      inner join
+        DSS_FIN_ETL_LIAB_MAP1 map
+      on
+        liabilities.ITEM = map.ITEM
+      where
+        period = #{period}
+    </select>
+
+    <!-- 查询 资产负债率与累计折旧率 -->
+    <select id="queryLiaAndDep" parameterType="java.util.Map"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          indexCode2 indexCode,
+          periodCode,
+          comCode1 comCode,
+          ytdN,
+          ytdD
+        from
+          (
+            select
+              map.INDEX_CODE indexCode1,
+              map.ITEM item1,
+              liab.YTD ytdN,
+              liab.PERIOD periodCode,
+              ENTITY comCode1
+            from
+              DSS_FIN_ETL_LIABILITIES liab
+            inner join
+              DSS_FIN_ETL_LIAB_MAP2 map
+            on
+              liab.ITEM = map.ITEM
+            where
+              PERIOD = #{period}
+            and
+              map.ITEM in ('二、负债总计','减：固定资产累计折旧')
+          ) t1
+        inner join
+          (
+            select
+              map.INDEX_CODE indexCode2,
+              map.ITEM item2,
+              ENTITY comCode2,
+              liab.YTD ytdD
+            from
+              DSS_FIN_ETL_LIABILITIES liab
+            inner join
+              DSS_FIN_ETL_LIAB_MAP2 map
+            on
+              liab.ITEM = map.ITEM
+            where
+              PERIOD = #{period}
+            and
+              map.ITEM in ('一、资产总计','其中：固定资产原值')
+          ) t2
+        on
+          indexCode1 = indexCode2
+          and comCode2=comCode1
+    </select>
+</mapper>

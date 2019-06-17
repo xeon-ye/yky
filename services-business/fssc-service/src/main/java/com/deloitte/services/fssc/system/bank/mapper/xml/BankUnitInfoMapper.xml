@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.system.bank.mapper.BankUnitInfoMapper">
+
+
+    <select id="selectByPageConditions" resultType="com.deloitte.platform.api.fssc.bank.vo.BankUnitInfoVo">
+        SELECT
+        BU.ID ,
+        BU.UNIT_ID AS UNIT_ID,
+        BB.ID AS BANK_ID,
+        BU.UNIT_NAME,
+        BB.BANK_CODE,
+        BB.BANK_INTERNATIONAL_CODE,
+        BB.BANK_NAME,
+        BB.BRANCH_BANK_NAME,
+        BU.BANK_TYPE,
+        BU.BANK_ACCOUNT,
+        BB.INTER_BRANCH_NUMBER,
+        BB.ADDRESS,
+        BU.IS_BANK_DRECT_LINK,
+        BU.SUBJECT_ID,
+        BU.SUBJECT_CODE,
+        BU.CREATE_BY,
+        BU.CREATE_USER_NAME,
+        BU.IS_VALID,
+        BU.CURRENCY_CODE,
+        BU.SUBJECT_NAME,
+        BU.UNIT_TYPE,
+        BU.BUDGET_SUBJECT_NAME,
+        BU.BUDGET_SUBJECT_CODE,
+        BU.COMMON_CREDIT_CODE,
+        BU.BANK_ACCOUNT_NAME
+        FROM
+        BASE_BANK_UNIT_INFO BU
+        LEFT JOIN BASE_BANK_INFO BB ON BU.BANK_ID=BB.ID
+        <where>
+            <if test="form.bankType!=null and form.bankType!=''">
+                AND BU.BANK_TYPE = #{form.bankType}
+            </if>
+            <if test="form.bankCode!=null and form.bankCode!=''">
+                AND BB.BANK_CODE LIKE CONCAT('%',CONCAT(#{form.bankCode},'%'))
+            </if>
+            <if test="form.bankName!=null and form.bankName!=''">
+                AND BB.BANK_NAME LIKE CONCAT('%',CONCAT(#{form.bankName},'%'))
+            </if>
+            <if test="form.branchBankName!=null and form.branchBankName!=''">
+                AND BB.BRANCH_BANK_NAME LIKE CONCAT('%',CONCAT(#{form.branchBankName},'%'))
+            </if>
+            <if test="form.bankAccount!=null and form.bankAccount!=''">
+                AND BU.BANK_ACCOUNT LIKE CONCAT('%',CONCAT(#{form.bankAccount},'%'))
+            </if>
+            <if test="form.interBranchNumber!=null and form.interBranchNumber!=''">
+                AND BB.INTER_BRANCH_NUMBER LIKE CONCAT('%',CONCAT(#{form.interBranchNumber},'%'))
+            </if>
+            <if test="form.isBankDrectLink!=null and form.isBankDrectLink!=''">
+                AND BU.IS_BANK_DRECT_LINK = #{form.isBankDrectLink}
+            </if>
+            <if test="form.isValid!=null and form.isValid!=''">
+                AND BU.IS_VALID = #{form.isValid}
+            </if>
+            <if test="form.unitType!=null and form.unitType!=''">
+                AND BU.UNIT_TYPE = #{form.unitType}
+            </if>
+            <if test="form.unitId!=null">
+                AND BU.UNIT_ID = #{form.unitId}
+            </if>
+            <if test="form.unitCode!=null">
+                AND BU.UNIT_CODE = #{form.unitCode}
+            </if>
+        </where>
+         ORDER BY BU.UPDATE_TIME DESC
+    </select>
+
+    <select id="selectByConditions" resultType="com.deloitte.platform.api.fssc.bank.vo.BankUnitInfoVo">
+        SELECT
+        BU.ID ,
+        BU.UNIT_ID AS UNIT_ID,
+        BB.ID AS BANK_ID,
+        BU.UNIT_NAME,
+        BB.BANK_CODE,
+        BB.BANK_INTERNATIONAL_CODE,
+        BB.BANK_NAME,
+        BB.BRANCH_BANK_NAME,
+        BU.BANK_TYPE,
+        BU.BANK_ACCOUNT,
+        BB.INTER_BRANCH_NUMBER,
+        BB.ADDRESS,
+        BU.IS_BANK_DRECT_LINK,
+        BU.SUBJECT_ID,
+        BU.SUBJECT_CODE,
+        BU.CREATE_BY,
+        BU.CREATE_USER_NAME,
+        BU.IS_VALID,
+        BU.CURRENCY_CODE,
+        BU.SUBJECT_NAME,
+        BU.UNIT_TYPE,
+        BU.BUDGET_SUBJECT_NAME,
+        BU.BUDGET_SUBJECT_CODE,
+        BU.COMMON_CREDIT_CODE,
+        BU.BANK_ACCOUNT_NAME
+        FROM
+        BASE_BANK_UNIT_INFO BU
+        LEFT JOIN BASE_BANK_INFO BB ON BU.BANK_ID=BB.ID
+        <where>
+            <if test="form.bankAccount!=null and form.bankAccount!=''">
+                AND BU.BANK_ACCOUNT = #{form.bankAccount}
+            </if>
+        </where>
+        ORDER BY BU.UPDATE_TIME DESC
+    </select>
+
+</mapper>

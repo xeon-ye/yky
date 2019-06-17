@@ -1,0 +1,41 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@124.17.100.184:1521:TEST
+    username: oa_self
+    password: oa_self
+     # 使用druid数据源
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+  mail:
+    host: 124.17.100.113
+    username: macrp@cams.cn
+    password: nc.smac@prcam
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+#mybatis mapper文件的位置
+mybatis-plus:
+  mapper-locations: classpath:com/deloitte/services/**/**/mapper/xml/*.xml
+
+scheduletask:
+  notice: 0 0/5 * * * ?
+  person:
+    notice: 0 30 8,13 * * ?

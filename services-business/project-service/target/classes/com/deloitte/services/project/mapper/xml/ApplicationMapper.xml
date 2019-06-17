@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.project.mapper.ApplicationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.project.entity.Application">
+        <id column="ID" property="id" />
+        <result column="PROJECT_ID" property="projectId" />
+        <result column="THE_APPLICATION_YEAR" property="theApplicationYear" />
+        <result column="BUD_BASIS" property="budBasis" />
+        <result column="BUD_CONTENT" property="budContent" />
+        <result column="BUD_TARGET_MEASURE" property="budTargetMeasure" />
+        <result column="BUD_CONDITION" property="budCondition" />
+        <result column="SCI_BASIS" property="sciBasis" />
+        <result column="SCI_CONTENT" property="sciContent" />
+        <result column="EDU_NEED" property="eduNeed" />
+        <result column="EDU_MAYBE" property="eduMaybe" />
+        <result column="EDU_CONDI" property="eduCondi" />
+        <result column="EDU_BUDGE" property="eduBudge" />
+        <result column="EDU_PLAN" property="eduPlan" />
+        <result column="EDU_ANALYSIS" property="eduAnalysis" />
+        <result column="EDU_BENEFIT" property="eduBenefit" />
+        <result column="EDU_CONTENT" property="eduContent" />
+        <result column="BUDGET_ACC_TYPE" property="budgetAccType" />
+        <result column="BUDGET_ACC_VALUE" property="budgetAccValue" />
+        <result column="PRIORITY" property="priority" />
+        <result column="OU_BUDGET_CODE" property="ouBudgetCode" />
+        <result column="DEPARTMENT" property="department" />
+        <result column="SCHOOL" property="school" />
+        <result column="APP_STATE_CODE" property="appStateCode" />
+        <result column="APP_STATE_NAME" property="appStateName" />
+        <result column="DEPARTMENT_CODE" property="departmentCode" />
+        <result column="PROJECT_ATTRIBUTE" property="projectAttribute" />
+        <result column="OPERATION_OU" property="operationOu" />
+        <result column="PRO_CHANGE" property="proChange" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+        <result column="ORG_ID" property="orgId" />
+        <result column="ORG_PATH" property="orgPath" />
+        <result column="APPLICATION_ID" property="applicationId" />
+        <result column="SUBPROJECT_TYPE_CODE" property="subprojectTypeCode" />
+        <result column="SUBPROJECT_TYPE_NAME" property="subprojectTypeName" />
+        <result column="PROJECT_NAME" property="projectName" />
+        <result column="SERVICE_NUM" property="serviceNum" />
+        <result column="PRO_ADRESS" property="proAdress" />
+        <result column="CREATE_USER_NAME" property="createUserName" />
+        <result column="CREATE_USER_ID" property="createUserId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, PROJECT_ID, THE_APPLICATION_YEAR, BUD_BASIS, BUD_CONTENT, BUD_TARGET_MEASURE, BUD_CONDITION, SCI_BASIS, SCI_CONTENT, EDU_NEED, EDU_MAYBE, EDU_CONDI, EDU_BUDGE, EDU_PLAN, EDU_ANALYSIS, EDU_BENEFIT, EDU_CONTENT, BUDGET_ACC_TYPE, BUDGET_ACC_VALUE, PRIORITY, OU_BUDGET_CODE, DEPARTMENT, SCHOOL, APP_STATE_CODE, APP_STATE_NAME, DEPARTMENT_CODE, PROJECT_ATTRIBUTE, OPERATION_OU, PRO_CHANGE, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, EXT1, EXT2, EXT3, EXT4, EXT5, ORG_ID, ORG_PATH, APPLICATION_ID, SUBPROJECT_TYPE_CODE, SUBPROJECT_TYPE_NAME, PROJECT_NAME, SERVICE_NUM, PRO_ADRESS, CREATE_USER_NAME, CREATE_USER_ID
+    </sql>
+
+    <select id="getOneApp" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select *
+          from project_application a
+         where project_id = #{projectId}
+           and a.app_state_code in('2007','2008')
+           and a.the_application_year =
+               (select max(the_application_year)
+                  from project_application
+                 where project_id = #{projectId})
+           and to_char(create_time, 'yyyymmdd hh:MM:dd') =
+               (select to_char(max(create_time), 'yyyymmdd hh:MM:dd')
+                  from project_application
+                 where project_id = #{projectId})
+    </select>
+</mapper>

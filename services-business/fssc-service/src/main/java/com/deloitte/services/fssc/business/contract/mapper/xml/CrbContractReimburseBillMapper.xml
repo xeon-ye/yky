@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.business.contract.mapper.CrbContractReimburseBillMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.business.contract.entity.CrbContractReimburseBill">
+        <id column="ID" property="id" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_USER_NAME" property="createUserName" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="VERSION" property="version" />
+        <result column="DOCUMENT_NUM" property="documentNum" />
+        <result column="DOCUMENT_STATUS" property="documentStatus" />
+        <result column="PAY_STATUS" property="payStatus" />
+        <result column="UNIT_ID" property="unitId" />
+        <result column="DEPT_ID" property="deptId" />
+        <result column="PROJECT_ID" property="projectId" />
+        <result column="MAIN_TYPE_ID" property="mainTypeId" />
+        <result column="TOTAL_SUM" property="totalSum" />
+        <result column="CURRENCY_CODE" property="currencyCode" />
+        <result column="IS_AGREED_PROMIS" property="isAgreedPromis" />
+        <result column="REMARK" property="remark" />
+        <result column="UNIT_NAME" property="unitName" />
+        <result column="DEPT_NAME" property="deptName" />
+        <result column="MAIN_TYPE_NAME" property="mainTypeName" />
+        <result column="PROJECT_NAME" property="projectName" />
+        <result column="PAYMENT_TYPE" property="paymentType" />
+        <result column="SUPPLIER" property="supplier" />
+        <result column="SUPPLIER_ID" property="supplierId" />
+        <result column="CONTACT_NUMBER_ID" property="contactNumberId" />
+        <result column="CONTACT_NUMBER" property="contactNumber" />
+        <result column="SUPPORT_FILE_NUM" property="supportFileNum" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+        <result column="EXT6" property="ext6" />
+        <result column="EXT7" property="ext7" />
+        <result column="EXT8" property="ext8" />
+        <result column="EXT9" property="ext9" />
+        <result column="EXT10" property="ext10" />
+        <result column="EXT11" property="ext11" />
+        <result column="EXT12" property="ext12" />
+        <result column="EXT13" property="ext13" />
+        <result column="EXT14" property="ext14" />
+        <result column="EXT15" property="ext15" />
+        <result column="UNIT_CODE" property="unitCode" />
+        <result column="DEPT_CODE" property="deptCode" />
+        <result column="PROJECT_CODE" property="projectCode" />
+        <result column="SUPPLIER_CODE" property="supplierCode" />
+        <result column="MAIN_TYPE_CODE" property="mainTypeCode" />
+        <result column="CONTACT_NAME" property="contactName" />
+        <result column="TOTAL_AMOUNT_REIMBURSE" property="totalAmountReimburse" />
+        <result column="VER_AMOUNT" property="verAmount" />
+        <result column="ACTUAL_PAYMENT_AMOUNT" property="actualPaymentAmount" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, CREATE_BY, CREATE_USER_NAME, UPDATE_BY, UPDATE_TIME, CREATE_TIME, VERSION, DOCUMENT_NUM, DOCUMENT_STATUS, PAY_STATUS, UNIT_ID, DEPT_ID, PROJECT_ID, MAIN_TYPE_ID, TOTAL_SUM, CURRENCY_CODE, IS_AGREED_PROMIS, REMARK, UNIT_NAME, DEPT_NAME, MAIN_TYPE_NAME, PROJECT_NAME, PAYMENT_TYPE, SUPPLIER, SUPPLIER_ID, CONTACT_NUMBER_ID, CONTACT_NUMBER, SUPPORT_FILE_NUM, EXT1, EXT2, EXT3, EXT4, EXT5, EXT6, EXT7, EXT8, EXT9, EXT10, EXT11, EXT12, EXT13, EXT14, EXT15, UNIT_CODE, DEPT_CODE, PROJECT_CODE, SUPPLIER_CODE, MAIN_TYPE_CODE, CONTACT_NAME, TOTAL_AMOUNT_REIMBURSE, VER_AMOUNT, ACTUAL_PAYMENT_AMOUNT
+    </sql>
+
+    <select id="countByExpenseMainTypeIds" resultType="java.lang.Long">
+        select count(ID) from CRB_CONTRACT_REIMBURSE_BILL where MAIN_TYPE_ID in
+        <foreach collection="idList" separator="," item="item" open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="findBorrowPrepayList"
+            resultType="com.deloitte.platform.api.fssc.general.vo.BorrowPrepayListVo">
+
+        <if test="form.documentType=='ADP_ADVANCE_PAYMENT_INFO'.toString()">
+            SELECT
+            INFO.ID borrowOrPrepayId,
+            INFO.DOCUMENT_NUM connectDocumentNum,
+            '预付款单' connectDocumentTypeName,
+            'ADP_ADVANCE_PAYMENT_INFO' connectDocumentType,
+            INFO.MAIN_TYPE_ID mainTypeId,
+            INFO.MAIN_TYPE_CODE mainTypeCode,
+            INFO.MAIN_TYPE_NAME mainTypeName,
+            CONTACT.LINE_NUMBER lineNumber,
+            CONTACT.SUB_TYPE_ID subTypeId,
+            BASE.NAME subTypeName,
+            BASE.CODE subTypeCode,
+            CONTACT.HAS_VER_AMOUNT verficatedAmount,
+            CONTACT.REMARK remark,
+            CONTACT.SUBJECT_SUPERFICIL subjectSuperficil,
+            CONTACT.AGREED_PAYMENT_LOT agreedPaymentLot,
+            CONTACT.ACTUAL_PLAY_AMOUNT bpAmount,
+            CONTACT.PAYMENT_TYPE paymentType,
+            CONTACT.ID lineId,
+            CONTACT.NO_VER_AMOUNT noVerAmount
+            FROM ADP_ADVANCE_PAYMENT_INFO INFO
+            LEFT JOIN ADP_CONTACT_DETAIL CONTACT ON INFO.ID=CONTACT.DOCUMENT_ID
+            LEFT JOIN BASE_EXPENSE_SUB_TYPE BASE ON CONTACT.SUB_TYPE_ID=BASE.ID
+            WHERE INFO.DEPT_ID=#{form.deptId} AND INFO.UNIT_ID=#{form.unitId}
+            AND INFO.CREATE_BY=#{form.createBy} AND CONTACT.NO_VER_AMOUNT >0
+            AND INFO.PAY_STATUS='PAYED'
+            <if test="form.projectId!=null">
+                AND INFO.PROJECT_ID=#{form.projectId}
+            </if>
+            <if test="form.executor!=null">
+                AND CONTACT.EXECUTOR=#{form.executor}
+            </if>
+            <if test="form.contactNumber!=null">
+                AND INFO.CONTACT_NUMBER=#{form.contactNumber}
+            </if>
+
+            AND CONTACT.PAYMENT_TYPE IN
+            <foreach collection="form.paymentTypeList" item="iii"
+                     index="index" open="(" close=")" separator=",">
+                #{iii}
+            </foreach>
+            AND INFO.MAIN_TYPE_ID=#{form.mainTypeId} AND INFO.CURRENCY_CODE=#{form.currencyCode}
+
+            ORDER BY INFO.UPDATE_TIME DESC
+
+
+        </if>
+
+
+    </select>
+
+</mapper>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.contract.mapper.ApprovalOpinionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.contract.entity.ApprovalOpinion">
+        <id column="ID" property="id" />
+        <result column="PROCESS_TASK_ID" property="processTaskId" />
+        <result column="CONTRACT_ID" property="contractId" />
+        <result column="OPINION_TYPE" property="opinionType" />
+        <result column="OPINION" property="opinion" />
+        <result column="APPROVALER_CODE" property="approvalerCode" />
+        <result column="APPROVALER" property="approvaler" />
+        <result column="REPLY_TEXT" property="replyText" />
+        <result column="REPLY_PERSON_CODE" property="replyPersonCode" />
+        <result column="REPLY_PERSON" property="replyPerson" />
+        <result column="OPINION_FILE_ID" property="opinionFileId" />
+        <result column="OPINION_FILE_URL" property="opinionFileUrl" />
+        <result column="OPINION_FILE_NAME" property="opinionFileName" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="IS_USED" property="isUsed" />
+        <result column="SPARE_FIELD_1" property="spareField1" />
+        <result column="SPARE_FIELD_2" property="spareField2" />
+        <result column="SPARE_FIELD_3" property="spareField3" />
+        <result column="SPARE_FIELD_4" property="spareField4" />
+        <result column="SPARE_FIELD_5" property="spareField5" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, PROCESS_TASK_ID, CONTRACT_ID, OPINION_TYPE, OPINION, APPROVALER_CODE, APPROVALER, REPLY_TEXT, REPLY_PERSON_CODE, REPLY_PERSON, OPINION_FILE_ID, OPINION_FILE_URL, OPINION_FILE_NAME, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, IS_USED, SPARE_FIELD_1, SPARE_FIELD_2, SPARE_FIELD_3, SPARE_FIELD_4, SPARE_FIELD_5
+    </sql>
+
+</mapper>

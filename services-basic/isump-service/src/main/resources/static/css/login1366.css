@@ -1,0 +1,102 @@
+@media screen and (max-width: 1599px) {
+  html {
+    height: 100%;
+  }
+  body {
+    background-image: url("../images/bg.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    position: relative;
+    height: 100%;
+  }
+  .logo {
+    position: absolute;
+    top: 50%;
+    margin-top: -54px;
+    left: 150px;
+    width: 49%;
+  }
+  .logo img {
+    width: 70%;
+  }
+  .login {
+    position: absolute;
+    top: 25%;
+    right: 16%;
+    width: 28%;
+    background-color: #fff;
+    border-radius: 22px;
+    padding-top: 23.12px;
+    padding-left: 4%;
+    padding-right: 4%;
+    box-sizing: border-box;
+  }
+  .login .title {
+    margin-bottom: 29.92px;
+  }
+  .login .title .p1 {
+    font-size: 23.12px;
+    color: #5aae49;
+    margin-bottom: 4px;
+    letter-spacing: 4px;
+  }
+  .login .title .p2 {
+    font-size: 13.6px;
+    color: #5aae49;
+  }
+  .login li {
+    position: relative;
+  }
+  .login input {
+    border: 1px solid #c4bfbf;
+    border-radius: 6px;
+    height: 29.92px;
+    width: 100%;
+    padding-left: 50px;
+    font-size: 10.88px;
+    box-sizing: border-box;
+  }
+  .login .right,
+  .login .wrong {
+    position: absolute;
+    right: -30px;
+    top: 8.16px;
+  }
+  .login .user-img,
+  .login .psd-img {
+    position: absolute;
+    left: 16px;
+    top: 6.8px;
+    width: 5%;
+  }
+  .login .user {
+    margin-bottom: 13.6px;
+  }
+  .login .psd {
+    margin-bottom: 9.52px;
+  }
+  .login .forget,
+  .login .reset-p {
+    color: #777;
+  }
+  .login .login-btn {
+    border: 1px solid transparent;
+    outline: none;
+    line-height: 29.92px;
+    text-align: center;
+    background-color: #ecf5ff;
+    height: 29.92px;
+    margin-top: 32.64px;
+    margin-bottom: 32.64px;
+    width: 100%;
+    font-size: 12.24px;
+    color: #409eff;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 0;
+  }
+  .login .login-btn:hover {
+    background-color: #409eff;
+    color: #fff;
+  }
+}

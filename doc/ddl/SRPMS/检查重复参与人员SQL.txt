@@ -1,0 +1,3 @@
+select *  from (
+select person_name,BIRTH_DATE,join_way,project_id,count(*) AS cc from SRPMS_PROJECT_PERSON_JOIN where join_way != '02' 
+group by  person_name,BIRTH_DATE ,join_way,project_id) where cc != 1;

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.engine.automatic.mapper.AvVoucherLogicInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.engine.automatic.entity.AvVoucherLogicInfo">
+        <id column="ID" property="id" />
+        <result column="LEDGER_ID" property="ledgerId" />
+        <result column="TYPE" property="type" />
+        <result column="CREATE_DATE" property="createDate" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_DATE" property="updateDate" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="ETX_1" property="etx1" />
+        <result column="ETX_2" property="etx2" />
+        <result column="ETX_3" property="etx3" />
+        <result column="ETX_4" property="etx4" />
+        <result column="ETX_5" property="etx5" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, LEDGER_ID, TYPE, CREATE_DATE, CREATE_BY, UPDATE_DATE, UPDATE_BY, ETX_1, ETX_2, ETX_3, ETX_4, ETX_5
+    </sql>
+    <select id="getLedgerInfo" resultType="com.deloitte.services.fssc.engine.automatic.entity.AvVoucherLogicInfo">
+        select AVLI.* from AV_LEDGER_UNIT_RELATION ALUR
+        INNER JOIN AV_VOUCHER_LOGIC_INFO AVLI ON AVLI.LEDGER_ID = ALUR.LEDGER_ID
+        WHERE AVLI.TYPE =#{type} and ALUR.BALANCE_CODE =#{unitCode}
+    </select>
+
+</mapper>

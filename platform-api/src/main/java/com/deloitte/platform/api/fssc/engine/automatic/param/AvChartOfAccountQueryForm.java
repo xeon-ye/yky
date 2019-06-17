@@ -1,0 +1,63 @@
+package com.deloitte.platform.api.fssc.engine.automatic.param;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.deloitte.platform.common.core.entity.form.BaseQueryForm;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+import java.time.LocalDateTime;
+
+/**
+ * @Author : chenx
+ * @Date : Create in 2019-03-23
+ * @Description :   AvChartOfAccount查询from对象
+ * @Modified :
+ */
+@ApiModel("AvChartOfAccount查询表单")
+@Data
+public class AvChartOfAccountQueryForm extends BaseQueryForm<AvChartOfAccountQueryParam>  {
+
+
+    @ApiModelProperty(value = "ID")
+    private Long id;
+
+    @ApiModelProperty(value = "账套ID")
+    private Long ledgerId;
+
+    @ApiModelProperty(value = "账套名称")
+    private String name;
+    @ApiModelProperty(value = "科目表ID（跟COA关联）")
+    private Long chartOfAccountsId;
+    @ApiModelProperty(value = "账套说明")
+    private String description;
+
+    @ApiModelProperty(value = "币种")
+    private String currencyCode;
+
+    @ApiModelProperty(value = "创建时间")
+    private LocalDateTime createDate;
+
+    @ApiModelProperty(value = "创建人")
+    private Long createBy;
+
+    @ApiModelProperty(value = "预留字段1")
+    private String etx1;
+
+    @ApiModelProperty(value = "预留字段2")
+    private String etx2;
+
+    @ApiModelProperty(value = "预留字段3")
+    private String etx3;
+
+    @ApiModelProperty(value = "预留字段4")
+    private String etx4;
+
+    @ApiModelProperty(value = "预留字段5")
+    private String etx5;
+
+    @ApiModelProperty(value = "简称")
+    private String shortName;
+
+    @ApiModelProperty(value = "是否有效")
+    private String status;
+}

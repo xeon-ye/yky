@@ -1,0 +1,125 @@
+package com.deloitte.platform.api.fssc.advance.vo;
+import com.deloitte.platform.api.fssc.config.LongJsonDeserializer;
+import com.deloitte.platform.api.fssc.config.LongJsonSerializer;
+import com.deloitte.platform.common.core.entity.vo.BaseVo;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.AllArgsConstructor;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+/**
+ * @Author : hjy
+ * @Date : Create in 2019-03-12
+ * @Description : BmAdvancePaymentLine返回的VO对象
+ * @Modified :
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class AdvancePaymentLineVo extends BaseVo {
+    private static final long serialVersionUID = 1L;
+
+    @ApiModelProperty(value = "ID")
+    @JsonSerialize(using = LongJsonSerializer.class)
+    @JsonDeserialize(using = LongJsonDeserializer.class)
+    private Long id;
+
+    @JsonSerialize(using = LongJsonSerializer.class)
+    @JsonDeserialize(using = LongJsonDeserializer.class)
+    @ApiModelProperty(value = "创建人ID")
+    private Long createBy;
+
+    @ApiModelProperty(value = "创建人姓名")
+    private String createUserName;
+
+    @JsonSerialize(using = LongJsonSerializer.class)
+    @JsonDeserialize(using = LongJsonDeserializer.class)
+    @ApiModelProperty(value = "更改人")
+    private Long updateBy;
+
+
+    @ApiModelProperty(value = "更改时间")
+    private LocalDateTime updateTime;
+
+
+    @ApiModelProperty(value = "创建时间")
+    private LocalDateTime createTime;
+
+    @ApiModelProperty(value = "${field.comment}")
+    private String ex1;
+
+    @ApiModelProperty(value = "${field.comment}")
+    private String ex2;
+
+    @ApiModelProperty(value = "${field.comment}")
+    private String ex3;
+
+    @ApiModelProperty(value = "${field.comment}")
+    private String ex4;
+
+    @ApiModelProperty(value = "${field.comment}")
+    private String ex5;
+
+    @ApiModelProperty(value = "版本")
+    private Long version;
+
+    @JsonSerialize(using = LongJsonSerializer.class)
+    @JsonDeserialize(using = LongJsonDeserializer.class)
+    @ApiModelProperty(value = "支出大类ID")
+    private Long mainTypeId;
+
+    @ApiModelProperty(value = "大类编码")
+    private String mainTypeCode;
+
+    @ApiModelProperty(value = "支出小类编码")
+    private String subTypeCode;
+
+    @ApiModelProperty("会计科目代码")
+    private String accountCode;
+
+    @ApiModelProperty("预算会计科目代码")
+    private String budgetAccountCode;
+
+    @JsonSerialize(using = LongJsonSerializer.class)
+    @JsonDeserialize(using = LongJsonDeserializer.class)
+    @ApiModelProperty(value = "支出小类ID",required = true)
+    private Long subTypeId;
+
+    @ApiModelProperty(value = "预付金额")
+    private BigDecimal prepaidAmount;
+
+    @ApiModelProperty(value = "备注")
+    private String remark;
+
+    @ApiModelProperty(value = "对公预付款Id")
+    private Long documentId;
+
+    @ApiModelProperty(value = "支出大类名称")
+    private String mainTypeName;
+
+    @ApiModelProperty(value = "支出小类名称",required = true)
+    private String subTypeName;
+
+    @ApiModelProperty(value="行号")
+    private Long lineNumber;
+
+    @ApiModelProperty(value="是否被报账单关联Y，N")
+    private String isAssociated;
+
+    @ApiModelProperty(value = "已核销金额")
+    private BigDecimal hasVerAmount;
+
+    @ApiModelProperty(value = "未核销金额")
+    private BigDecimal noVerAmount;
+
+    @ApiModelProperty(value = "关联单据类型")
+    private String documentType;
+
+
+}

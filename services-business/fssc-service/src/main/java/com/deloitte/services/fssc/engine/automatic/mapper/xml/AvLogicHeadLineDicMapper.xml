@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.engine.automatic.mapper.AvLogicHeadLineDicMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.engine.automatic.entity.AvLogicHeadLineDic">
+        <id column="ID" property="id" />
+        <result column="DOCUMENT_MODULE" property="documentModule" />
+        <result column="HEAD_TABLE" property="headTable" />
+        <result column="LINE_TABLE" property="lineTable" />
+        <result column="LINE_TYPE" property="lineType" />
+        <result column="ETX_1" property="etx1" />
+        <result column="ETX_2" property="etx2" />
+        <result column="ETX_3" property="etx3" />
+        <result column="ETX_4" property="etx4" />
+        <result column="ETX_5" property="etx5" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, DOCUMENT_MODULE, HEAD_TABLE, LINE_TABLE, LINE_TYPE, ETX_1, ETX_2, ETX_3, ETX_4, ETX_5
+    </sql>
+
+</mapper>

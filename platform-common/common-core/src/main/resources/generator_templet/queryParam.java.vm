@@ -1,0 +1,27 @@
+package ${cfg.apiPackage}.param;
+import com.deloitte.platform.common.core.entity.param.BaseParam;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import java.time.LocalDateTime;
+import java.sql.Blob;
+
+/**
+
+ * @Author : ${author}
+ * @Date : Create in ${date}
+ * @Description :  ${entity}查询参数
+ * @Modified :
+ */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class ${entity}QueryParam extends BaseParam {
+    private static final long serialVersionUID = 1L;
+## ----------  BEGIN 字段循环遍历  ----------
+#foreach($field in ${table.fields})
+    private ${field.propertyType} ${field.propertyName};
+#end
+
+}

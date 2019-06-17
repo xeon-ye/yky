@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.contract.mapper.SignInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.contract.entity.SignInfo">
+        <id column="ID" property="id" />
+        <result column="CONTRACT_ID" property="contractId" />
+        <result column="CONTRACT_NAME" property="contractName" />
+        <result column="OUR_PRINT_TIME" property="ourPrintTime" />
+        <result column="OUR_PRINT_CONTRACT_NUM" property="ourPrintContractNum" />
+        <result column="OUR_SIGN_PERSON" property="ourSignPerson" />
+        <result column="OUR_SIGN_TIME" property="ourSignTime" />
+        <result column="OUR_SIGN_CONTRACT_NUM" property="ourSignContractNum" />
+        <result column="OTHER_CONTRACT_NAME" property="otherContractName" />
+        <result column="OTHER_LEGAL_PERSON" property="otherLegalPerson" />
+        <result column="OTHER_SIGN_PERSON" property="otherSignPerson" />
+        <result column="OTHER_SIGN_TIME" property="otherSignTime" />
+        <result column="OTHER_AUTHORIZATION" property="otherAuthorization" />
+        <result column="OTHER_SIGN_CONTRACT_NUM" property="otherSignContractNum" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="IS_USED" property="isUsed" />
+        <result column="SPARE_FIELD_1" property="spareField1" />
+        <result column="SPARE_FIELD_2" property="spareField2" />
+        <result column="SPARE_FIELD_3" property="spareField3" />
+        <result column="SPARE_FIELD_4" property="spareField4" />
+        <result column="SPARE_FIELD_5" property="spareField5" />
+        <result column="STAMP_WAY" property="stampWay"/>
+        <result column="SIGN_STAGE" property="signStage"/>
+        <result column="SUBJECT_CODE" property="subjectCode"/>
+        <result column="OUR_SUBJECT_INFO" property="ourSubjectInfo"/>
+        <result column="TYPE" property="type"/>
+        <result column="OTHER_AUTHORIZATION_URL" property="otherAuthorizationUrl"/>
+        <result column="OTHER_AUTHORIZATION_NAME" property="otherAuthorizationName"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, CONTRACT_ID, CONTRACT_NAME, OUR_PRINT_TIME, OUR_PRINT_CONTRACT_NUM, OUR_SIGN_PERSON, OUR_SIGN_TIME, OUR_SIGN_CONTRACT_NUM, OTHER_CONTRACT_NAME, OTHER_LEGAL_PERSON, OTHER_SIGN_PERSON, OTHER_SIGN_TIME, OTHER_AUTHORIZATION, OTHER_SIGN_CONTRACT_NUM, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, IS_USED, SPARE_FIELD_1, SPARE_FIELD_2, SPARE_FIELD_3, SPARE_FIELD_4, SPARE_FIELD_5, STAMP_WAY, SIGN_STAGE, SUBJECT_CODE, OUR_SUBJECT_INFO, TYPE, OTHER_AUTHORIZATION_URL, OTHER_AUTHORIZATION_NAME
+    </sql>
+    <select id="querySignInfo" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select <include refid="Base_Column_List"></include>
+        from CONTRACT_SIGN_INFO
+        where 1=1
+        and CONTRACT_ID=#{_parameter}
+    </select>
+
+</mapper>

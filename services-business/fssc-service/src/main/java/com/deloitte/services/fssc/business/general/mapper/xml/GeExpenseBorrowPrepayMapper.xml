@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.business.general.mapper.GeExpenseBorrowPrepayMapper">
+
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, CREATE_BY, CREATE_USER_NAME, UPDATE_BY, UPDATE_TIME, CREATE_TIME, VERSION, DOCUMENT_ID, DOCUMENT_NUM, DOCUMENT_TYPE, DOCUMENT_TYPE_NAME, MAIN_TYPE_ID, MAIN_TYPE_NAME, VERFICATION_DATE, BP_AMOUNT, VERFICATED_AMOUNT, CURRENT_VER_AMOUNT, NO_VER_AMOUNT, VERFICATION_REMARK, SUB_TYPE_ID, SUB_TYPE_NAME, INVOICE_CODE, INVOICE_NUMBER, INVOICE_AMOUNT, TAX, TAX_AMOUNT, REMARK, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10, EX11, EX12, EX13, EX14, EX15
+    </sql>
+
+
+
+</mapper>

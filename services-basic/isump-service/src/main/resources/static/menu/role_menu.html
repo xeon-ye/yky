@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>角色菜单分配</title>
+    <script type="text/javascript" src="/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="/lib/js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/lib/js/template.js"></script>
+    <script type="text/javascript" src="/lib/jsTree/jstree.min.js"></script>
+    <script type="text/javascript" src="/lib/js/json3.js"></script>
+    <script type="text/javascript" src="/js/ajax-util.js"></script>
+    <link rel="stylesheet" href="/lib/jsTree/themes/default/style.min.css"/>
+    <style type="text/css">
+        .head {
+            min-height: 40px;
+            margin: 0;
+            font-weight: bolder;
+        }
+
+        .content {
+            margin: 0;
+            min-height: 500px;
+        }
+
+        .left {
+            width: 60%;
+            float: left;
+            margin: 0;
+        }
+
+        .c {
+            width: 40%;
+            margin: 0;
+            float: left;
+        }
+
+        input {
+            padding-left: 5px;
+        }
+
+        select {
+
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            border: 1px solid #fff;
+        }
+
+        table th {
+            border: 1px solid #E5E5E5;
+            white-space: nowrap;
+        }
+
+        table td {
+            border: 1px solid #E5E5E5;
+            white-space: normal;
+        }
+
+    </style>
+</head>
+<body>
+<div class="head">角色菜单分配</div>
+<div class="content">
+    <div class="left">
+        <div>所属系统：<input type="text" id="sysCode" name="sysCode"/>&nbsp;&nbsp;&nbsp;&nbsp;
+            角色类型：<select type="text" id="roleType" name="roleType">
+                <option value="function">function</option>
+                <option value="data">data</option>
+                <option value="approval">approval</option>
+            </select>
+            &nbsp;&nbsp;&nbsp;&nbsp;角色名称：<input type="text" id="roleName" name="roleName"/>
+            <button onclick="loadData()">加载角色</button>
+        </div>
+        <div id="roleDiv">
+            <script id="roleTemplate" type="text/html">
+                <table id="roleList">
+                    <tr>
+                        <th>角色编号</th>
+                        <th>角色类型</th>
+                        <th>角色名称</th>
+                        <th>排序</th>
+                        <th>操作</th>
+                    </tr>
+                    <tr>
+                        <td><input type="text" name="code"/></td>
+                        <td><input type="text" name="type" style="width:80px;" value="function"/></td>
+                        <td><input type="text" name="name"/></td>
+                        <td><input type="text" name="sort" style="width:50px;"/></td>
+                        <td>
+                            <button onclick="save('',this)">保存</button>
+                        </td>
+                    </tr>
+                    {{each}}
+                    <tr>
+                        <td><input type="text" name="code" value="{{$value.code}}"/></td>
+                        <td><input type="text" name="type" style="width:50px;" value="{{$value.type}}"/></td>
+                        <td><input type="text" name="name" value="{{$value.name}}"/></td>
+                        <td><input type="text" name="sort" style="width:50px;" value="{{$value.sort}}"/></td>
+                        <td>
+                            <button onclick="update('{{$value.id}}',this)">更新</button>
+                            <button onclick="del('{{$value.id}}',this)">删除</button>
+                            <button onclick="view('{{$value.id}}',this)">查看分配</button>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </table>
+            </script>
+        </div>
+    </div>
+    <div class="c">
+        <div>
+            <p>已分配菜单</p>
+            <div id="menuList">
+                <script id="roleMenuTemplate" type="text/html">
+                    <button onclick="addRoleMenu('')">批量保存</button>
+                    <table id="roleMenuTable">
+                        <tr>
+                            <th>选择</th>
+                            <th>菜单类型</th>
+                            <th>菜单名称</th>
+                            <th>菜单地址</th>
+                            <th>操作</th>
+                        </tr>
+                        {{each}}
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="{{$value.id}}" rmid="{{$value.rmId}}" roleid="{{$value.roleId}}" name="check" {{$value.checked}}/>
+                            </td>
+                            <td>{{$value.type}}</td>
+                            <td>{{$value.name}}</td>
+                            <td>{{$value.uri}}</td>
+                            <td>
+                                <button onclick="addRoleMenu(this)">保存</button>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </table>
+                </script>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+<script type="text/javascript">
+    function loadData() {
+        var sysCode = $("#sysCode").val();
+        if (sysCode == "") {
+            alert("请输入所属系统");
+            return;
+        }
+        var roleType = $("#roleType").val();
+        var roleName = $("#roleName").val();
+        var param = {
+            service: sysCode,
+            type: roleType,
+            name: roleName
+        };
+
+        AJAX.POST_JSON('/isump/role/list/conditions', JSON.stringify(param),
+            function (res) {
+                $("#roleDiv").html(template("roleTemplate", res));
+            });
+    }
+
+    function save(id, that) {
+        var sysCode = $("#sysCode").val();
+        if (sysCode == "") {
+            alert("请输入所属系统！");
+            $("#sysCode").focus();
+            return;
+        }
+        var param = $(that).parent().parent().find("input").serializeObject();
+        param.service = sysCode;
+        //保存
+        AJAX.POST_JSON("/isump/role", JSON.stringify(param), function () {
+            alert("保存成功");
+            loadData();
+        });
+    }
+
+    function update(id, that) {
+        var sysCode = $("#sysCode").val();
+        if (sysCode == "") {
+            alert("请输入所属系统！");
+            $("#sysCode").focus();
+            return;
+        }
+        var param = $(that).parent().parent().find("input").serializeObject();
+        param.service = sysCode;
+        AJAX.PATCH("/isump/role/" + id, JSON.stringify(param), function () {
+            alert("保存成功");
+            loadData();
+        });
+    }
+
+    function del(id, that) {
+        AJAX.DELETE("/isump/role/" + id, {}, function () {
+            alert("删除成功");
+            $(that).parent().parent().remove();
+        });
+    }
+
+    function view(id, that) {
+        var sysCode = $("#sysCode").val();
+        if (sysCode == "") {
+            alert("请输入所属系统！");
+            $("#sysCode").focus();
+            return;
+        }
+        var param = {};
+        param.roleId = id;
+
+        var menuParam = {
+            sysCode : sysCode
+        };
+        AJAX.POST_JSON('/isump/resource/list/conditions',JSON.stringify(menuParam),
+            function(menu){
+                var menuList = []
+
+                AJAX.POST_JSON("/isump/role-resource/list/conditions",JSON.stringify(param),function(roleMenu){
+                    var map = {};
+                    for(var i=0;i<roleMenu.length;i++){
+                        map[roleMenu[i].resourceId] = roleMenu[i];
+                    }
+                    for(var i=0;i<menu.length;i++){
+                        var temp = {...menu[i]};
+                        var result = map[temp.id];
+                        if(typeof (result)!="undefined"){
+                            //此菜单被分配
+                            temp.checked = "checked";
+                            temp.rmId = result.id
+                        }else{
+                            temp.checked = "";
+                            temp.rmId = "";
+                        }
+                        temp.roleId = id;
+                        menuList.push(temp);
+                    }
+                    $("#menuList").html(template("roleMenuTemplate", menuList));
+            });
+         });
+    }
+
+    function addRoleMenu(that) {
+        var checkBoxs ;
+        if(that == ""){
+            checkBoxs = $("#roleMenuTable").find("input[type='checkbox']");
+        }else{
+            checkBoxs = $(that).parent().parent().find("input[type='checkbox']");
+        }
+        var  roleId = "";
+        for (var i=0;i<checkBoxs.length;i++) {
+            var checkBox = checkBoxs[i]
+            roleId = $(checkBox).attr("roleid")
+            var  rmId = $(checkBox).attr("rmid")
+            var param = {
+                roleId: roleId,
+                resourceId: checkBoxs[i].id
+            };
+            if (checkBoxs[i].checked) {
+                if (rmId == "" || rmId == null){
+                    AJAX.POST_JSON("/isump/role-resource", JSON.stringify(param), function () {
+                        //alert("保存成功");
+                    });
+                }
+            } else {
+                if (rmId != "") {
+                    AJAX.DELETE("/isump/role-resource/" + rmId, JSON.stringify(param), function () {
+                        //alert("删除成功");
+                    });
+                }
+            }
+        }
+        alert("操作完成");
+        view(roleId);
+    }
+</script>
+</html>

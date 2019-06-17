@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.oaservice.mapper.OaScheduleHistoryMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.oaservice.entity.OaScheduleHistory">
+        <id column="ID" property="id" />
+        <result column="ROW_NUM" property="rowNum" />
+        <result column="BUSINESS_ID" property="businessId" />
+        <result column="WORK_ID" property="workId" />
+        <result column="WORK_NAME" property="workName" />
+        <result column="WORK_DESC" property="workDesc" />
+        <result column="WORK_STATUS" property="workStatus" />
+        <result column="SHOW_FLAG" property="showFlag" />
+        <result column="USER_ID" property="userId" />
+        <result column="USER_NAME" property="userName" />
+        <result column="DEPT_ID" property="deptId" />
+        <result column="DEPT_NAME" property="deptName" />
+        <result column="START_TIME" property="startTime" />
+        <result column="END_TIME" property="endTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="PERSON_TYPE" property="personType" />
+        <result column="NOTICE_TYPE" property="noticeType" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, ROW_NUM,BUSINESS_ID, WORK_ID, WORK_NAME, WORK_DESC, WORK_STATUS,SHOW_FLAG, USER_ID, USER_NAME, DEPT_ID, DEPT_NAME, START_TIME, END_TIME, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME,PERSON_TYPE,NOTICE_TYPE, EXT1, EXT2, EXT3, EXT4, EXT5
+    </sql>
+
+</mapper>

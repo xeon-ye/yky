@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.project.mapper.ValueMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.project.entity.Value">
+        <id column="ID" property="id" />
+        <result column="VALUE_ID" property="valueId" />
+        <result column="VALUE_CODE" property="valueCode" />
+        <result column="VALUE_NAME" property="valueName" />
+        <result column="VALUE_STATUS" property="valueStatus" />
+        <result column="SUCCESS_TIME" property="successTime" />
+        <result column="PAR_ID" property="parId" />
+        <result column="PAR_NAME" property="parName" />
+        <result column="FAILURE_TIME" property="failureTime" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="ORG_ID" property="orgId" />
+        <result column="ORG_PATH" property="orgPath" />
+        <result column="PRO_ID" property="proId" />
+        <result column="VALUE_DES" property="valueDes" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, VALUE_ID, VALUE_CODE, VALUE_NAME, VALUE_STATUS, SUCCESS_TIME, PAR_ID, PAR_NAME, FAILURE_TIME, EXT1, EXT2, EXT3, EXT4, EXT5, CREATE_BY, CREATE_TIME, UPDATE_TIME, UPDATE_BY, ORG_ID, ORG_PATH, PRO_ID, VALUE_DES
+    </sql>
+
+</mapper>

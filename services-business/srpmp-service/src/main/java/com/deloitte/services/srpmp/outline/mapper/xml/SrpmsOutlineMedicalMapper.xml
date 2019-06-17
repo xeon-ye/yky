@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.srpmp.outline.mapper.SrpmsOutlineMedicalMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.srpmp.outline.entity.SrpmsOutlineMedical">
+        <id column="ID" property="id" />
+        <result column="BASE_ID" property="baseId" />
+        <result column="PRO_CODE" property="proCode" />
+        <result column="PRO_NAME" property="proName" />
+        <result column="MEDICAL_NAME" property="medicalName" />
+        <result column="MEDICAL_CAT" property="medicalCat" />
+        <result column="MEDICAL_CERTIFICATE_NUM" property="medicalCertificateNum" />
+        <result column="APPROVAL_TIME" property="approvalTime" />
+        <result column="PRO_IN_CHARGE" property="proInCharge" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="MEDICAL_TYPE" property="medicalType" />
+        <result column="MEDICAL_LEVEL" property="medicalLevel" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, BASE_ID, PRO_CODE, PRO_NAME, MEDICAL_NAME, MEDICAL_CAT, MEDICAL_CERTIFICATE_NUM, APPROVAL_TIME, PRO_IN_CHARGE, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, MEDICAL_TYPE, MEDICAL_LEVEL
+    </sql>
+
+    <!--根据条件查询奖励数据-->
+    <select id="listQuery" parameterType="com.deloitte.platform.api.srpmp.outline.param.SrpmsOutlineMedicalQueryForm"
+            resultType="com.deloitte.platform.api.srpmp.outline.param.SrpmsOutlineMedicalQueryParam">
+        SELECT t1.*, t2.org_id, t2.year, t2.month
+        FROM
+        SRPMS_OUTLINE_MEDICAL t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE
+        1=1
+        <if test="orgId != null">
+            AND t2.org_id = #{orgId}
+        </if>
+        <if test="year != null and year != ''">
+            AND t2.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t2.month = #{month}
+        </if>
+        <if test="medicalName != null and medicalName != ''">
+            AND t1.medical_name = #{medicalName}
+        </if>
+        <if test="medicalCertificateNum != null and medicalCertificateNum != ''">
+            AND t1.medical_certificate_num = #{medicalCertificateNum}
+        </if>
+        <if test="proInCharge != null and proInCharge != ''">
+            AND t1.PRO_IN_CHARGE = #{proInCharge}
+        </if>
+        <if test="medicalCat != null and medicalCat != 0">
+            AND t1.MEDICAL_CAT = #{medicalCat}
+        </if>
+        <if test="medicalType != null and medicalType != 0">
+            AND t1.MEDICAL_TYPE = #{medicalType}
+        </if>
+        <if test="medicalLevel != null and medicalLevel != 0">
+            AND t1.MEDICAL_LEVEL = #{medicalLevel}
+        </if>
+        <if test="approvalStartTime != null and approvalStartTime != ''">
+            AND t1.APPROVAL_TIME = <![CDATA[ >= ]]> to_date(#{approvalStartTime},'YYYY-MM-DD HH24:MI:SS')
+        </if>
+        <if test="approvalEndTime != null and approvalEndTime != ''">
+            AND t1.APPROVAL_TIME = <![CDATA[ <= ]]> to_date(#{approvalEndTime},'YYYY-MM-DD HH24:MI:SS')
+        </if>
+        <if test="proCode != null and proCode != ''">
+            AND t1.PRO_CODE = #{proCode}
+        </if>
+        <if test="proName != null and proName != ''">
+            AND t1.PRO_NAME LIKE '%'||#{proName}||'%'
+        </if>
+        <if test="createBy != null and createBy != ''">
+            AND t1.create_by = #{createBy}
+        </if>
+        ORDER by nvl(t1.create_time, TO_DATE('1900-01-01', 'YYYY-MM-DD HH24:MI:SS')) DESC
+    </select>
+
+    <!--根据条件(单位+年月+获奖名称)查询题录-奖励数据-->
+    <select id="getQueryCount" parameterType="java.util.Map"
+            resultType="int">
+        SELECT count(*)
+        FROM
+        SRPMS_OUTLINE_MEDICAL t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE
+        1=1
+        AND t2.org_id = #{orgId}
+        AND t1.medical_name = #{medicalName}
+        AND t1.medical_certificate_num = #{medicalCertificateNum}
+        <if test="id != null">
+            AND t1.id &lt;&gt; #{id}
+        </if>
+    </select>
+
+    <!--查询题录-新药器械统计数据-->
+    <select id="getReportCount"
+            parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.srpmp.outline.vo.SrpmsOutlineMedicalReportVo">
+        SELECT tt.orgId,
+        SUM(CASE WHEN tt.MEDICAL_CAT = '10' AND tt.MEDICAL_TYPE = '10' AND tt.MEDICAL_LEVEL = '10' THEN 1 ELSE 0 END) wFirstCount,
+        SUM(CASE WHEN tt.MEDICAL_CAT = '10' AND tt.MEDICAL_TYPE = '10' AND tt.MEDICAL_LEVEL = '20' THEN 1 ELSE 0 END) wSecondCount,
+        SUM(CASE WHEN tt.MEDICAL_CAT = '10' AND tt.MEDICAL_TYPE = '10' AND tt.MEDICAL_LEVEL = '30' THEN 1 ELSE 0 END) wThreeCount,
+        SUM(CASE WHEN tt.MEDICAL_CAT = '10' AND tt.MEDICAL_TYPE = '10' AND tt.MEDICAL_LEVEL = '40' THEN 1 ELSE 0 END) wFourCount,
+        SUM(CASE WHEN tt.MEDICAL_CAT = '10' AND tt.MEDICAL_TYPE = '20' AND tt.MEDICAL_LEVEL = '10' THEN 1 ELSE 0 END) zhFirstCount,
+        SUM(CASE WHEN tt.MEDICAL_CAT = '10' AND tt.MEDICAL_TYPE = '20' AND tt.MEDICAL_LEVEL = '20' THEN 1 ELSE 0 END) zhSecondCount,
+        SUM(CASE WHEN tt.MEDICAL_CAT = '10' AND tt.MEDICAL_TYPE = '20' AND tt.MEDICAL_LEVEL = '30' THEN 1 ELSE 0 END) zhThreeCount,
+        SUM(CASE WHEN tt.MEDICAL_CAT = '10' AND tt.MEDICAL_TYPE = '20' AND tt.MEDICAL_LEVEL = '40' THEN 1 ELSE 0 END) zhFourCount,
+        SUM(CASE WHEN tt.MEDICAL_CAT = '10' AND tt.MEDICAL_TYPE = '20' AND tt.MEDICAL_LEVEL = '50' THEN 1 ELSE 0 END) zhFiveCount,
+        SUM(CASE WHEN tt.MEDICAL_CAT = '10' AND tt.MEDICAL_TYPE = '30' AND tt.MEDICAL_LEVEL = '10' THEN 1 ELSE 0 END) sFirstCount,
+        SUM(CASE WHEN tt.MEDICAL_CAT = '10' AND tt.MEDICAL_TYPE = '30' AND tt.MEDICAL_LEVEL = '20' THEN 1 ELSE 0 END) sSecondCount,
+        SUM(CASE WHEN tt.MEDICAL_CAT = '10' AND tt.MEDICAL_TYPE = '30' AND tt.MEDICAL_LEVEL = '30' THEN 1 ELSE 0 END) sThreeCount,
+        SUM(CASE WHEN tt.MEDICAL_CAT = '10' AND tt.MEDICAL_TYPE = '30' AND tt.MEDICAL_LEVEL = '40' THEN 1 ELSE 0 END) sFourCount,
+        SUM(CASE WHEN tt.MEDICAL_CAT = '20' AND tt.MEDICAL_LEVEL = '10' THEN 1 ELSE 0 END) qFirstCount,
+        SUM(CASE WHEN tt.MEDICAL_CAT = '20' AND tt.MEDICAL_LEVEL = '20' THEN 1 ELSE 0 END) qSecondCount,
+        SUM(CASE WHEN tt.MEDICAL_CAT = '20' AND tt.MEDICAL_LEVEL = '30' THEN 1 ELSE 0 END) qThreeCount,
+        SUM(CASE WHEN tt.MEDICAL_CAT = '20' AND tt.MEDICAL_LEVEL = '40' THEN 1 ELSE 0 END) qFourCount,
+        SUM(CASE WHEN tt.MEDICAL_CAT = '20' AND tt.MEDICAL_LEVEL = '50' THEN 1 ELSE 0 END) qFiveCount,
+        SUM(CASE WHEN tt.MEDICAL_CAT = '10' THEN 1 ELSE 0 END) totalNewCount,
+        SUM(CASE WHEN tt.MEDICAL_CAT = '20' THEN 1 ELSE 0 END) totalMedicalCount
+        FROM
+        (SELECT t2.org_id orgId, t1.MEDICAL_CAT, t1.MEDICAL_TYPE, t1.MEDICAL_LEVEL
+        FROM SRPMS_OUTLINE_MEDICAL t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE 1 = 1
+        <if test="year != null and year != ''">
+            AND t2.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t2.month = #{month}
+        </if>
+        <if test="orgId != null and orgId != 0">
+            AND t2.org_id = #{orgId}
+        </if>
+        UNION ALL
+
+        select t1.DEPT_CODE orgId, t1.MEDICAL_CAT, t1.MEDICAL_TYPE, t1.MEDICAL_LEVEL
+        from SRPMS_RESULT_MEDICAL t1
+        WHERE 1 = 1
+        <if test="year != null and year != ''">
+            AND t1.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t1.month = #{month}
+        </if>
+        <if test="orgId != null and orgId != 0">
+            AND t1.DEPT_CODE = #{orgId}
+        </if>
+        ) tt
+        GROUP BY tt.orgId
+        ORDER by tt.orgId
+    </select>
+
+</mapper>

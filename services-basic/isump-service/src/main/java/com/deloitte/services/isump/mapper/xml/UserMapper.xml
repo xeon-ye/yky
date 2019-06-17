@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.isump.mapper.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.isump.entity.User">
+        <id column="ID" property="id" />
+        <result column="NAME" property="name" />
+        <result column="EMP_NO" property="empNo" />
+        <result column="PHONE" property="phone" />
+        <result column="EMAIL" property="email" />
+        <result column="PASSWORD" property="password" />
+        <result column="SALT" property="salt" />
+        <result column="AVATAR" property="avatar" />
+        <result column="HONOR" property="honor" />
+        <result column="TYPE" property="type" />
+        <result column="STATE" property="state" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="REMARK" property="remark" />
+        <result column="RESERVE" property="reserve" />
+        <result column="VERSION" property="version" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="EXPERTISE" property="expertise" />
+        <result column="SUBJECT" property="subject" />
+        <result column="GENDER" property="gender" />
+        <result column="BIRTH_DATE" property="birthDate" />
+        <result column="POSITION_TITLE" property="positionTitle" />
+        <result column="EDUCATION" property="education" />
+        <result column="MAJOR" property="major" />
+        <result column="TEL" property="tel" />
+        <result column="FAX" property="fax" />
+        <result column="ID_CARD_TYPE" property="idCardType" />
+        <result column="ID_CARD" property="idCard" />
+        <result column="EDUCATION_COUNTRY" property="educationCountry" />
+        <result column="DEPT" property="dept" />
+        <result column="WORK_PER_YEAR" property="workPerYear" />
+        <result column="ADDRESS" property="address" />
+        <result column="ZIP_CODE" property="zipCode" />
+        <result column="LIVE_BASE_NAME" property="liveBaseName" />
+        <result column="TALENT_PLAN" property="talentPlan" />
+        <result column="SOURCE_PERSON_ID" property="sourcePersonId" />
+        <result column="DEGREE" property="degree" />
+        <result column="OFFICE_NAME" property="officeName" />
+        <result column="PROJECT_COMMITMENT_UNIT" property="projectCommitmentUnit" />
+        <result column="COUNTRY" property="country" />
+        <result column="NATION" property="nation" />
+        <result column="EDUCATION_YEAR" property="educationYear" />
+        <result column="FACULTY" property="faculty" />
+        <result column="BIRTH_PLACE" property="birthPlace" />
+        <result column="PLO_STA" property="ploSta" />
+        <result column="MANAGE_POSITION_RANK" property="managePositionRank" />
+        <result column="DEPUTY_ACCOUNT_ID" property="deputyAccountId" />
+        <result column="RESEARCH_RESULTS" property="researchResults" />
+        <result column="FIRST_LOGIN" property="firstLogin" />
+        <result column="POSITION_LEVEL" property="positionLevel" />
+    </resultMap>
+    <resultMap id="UserVoResultMap" type="com.deloitte.platform.api.isump.vo.UserVo">
+        <id column="ID" property="id" />
+        <result column="NAME" property="name" />
+        <result column="EMP_NO" property="empNo" />
+        <result column="PHONE" property="phone" />
+        <result column="EMAIL" property="email" />
+        <result column="AVATAR" property="avatar" />
+        <result column="HONOR" property="honor" />
+        <result column="TYPE" property="type" />
+        <result column="STATE" property="state" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="REMARK" property="remark" />
+        <result column="RESERVE" property="reserve" />
+        <result column="VERSION" property="version" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="EXPERTISE" property="expertise" />
+        <result column="SUBJECT" property="subject" />
+        <result column="GENDER" property="gender" />
+        <result column="BIRTH_DATE" property="birthDate" />
+        <result column="POSITION_TITLE" property="positionTitle" />
+        <result column="EDUCATION" property="education" />
+        <result column="MAJOR" property="major" />
+        <result column="TEL" property="tel" />
+        <result column="FAX" property="fax" />
+        <result column="ID_CARD_TYPE" property="idCardType" />
+        <result column="ID_CARD" property="idCard" />
+        <result column="EDUCATION_COUNTRY" property="educationCountry" />
+        <result column="DEPT" property="dept" />
+        <result column="WORK_PER_YEAR" property="workPerYear" />
+        <result column="ADDRESS" property="address" />
+        <result column="ZIP_CODE" property="zipCode" />
+        <result column="LIVE_BASE_NAME" property="liveBaseName" />
+        <result column="TALENT_PLAN" property="talentPlan" />
+        <result column="SOURCE_PERSON_ID" property="sourcePersonId" />
+        <result column="DEGREE" property="degree" />
+        <result column="OFFICE_NAME" property="officeName" />
+        <result column="PROJECT_COMMITMENT_UNIT" property="projectCommitmentUnit" />
+        <result column="COUNTRY" property="country" />
+        <result column="NATION" property="nation" />
+        <result column="EDUCATION_YEAR" property="educationYear" />
+        <result column="FACULTY" property="faculty" />
+        <result column="BIRTH_PLACE" property="birthPlace" />
+        <result column="PLO_STA" property="ploSta" />
+        <result column="MANAGE_POSITION_RANK" property="managePositionRank" />
+        <result column="DEPUTY_ACCOUNT_ID" property="deputyAccountId" />
+        <result column="RESEARCH_RESULTS" property="researchResults" />
+        <result column="FIRST_LOGIN" property="firstLogin" />
+        <result column="POSITION_LEVEL" property="positionLevel" />
+    </resultMap>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, NAME, EMP_NO, PHONE, EMAIL, PASSWORD, SALT, AVATAR, HONOR, TYPE, STATE, CREATE_BY,
+        CREATE_TIME, REMARK, RESERVE, VERSION, UPDATE_TIME, UPDATE_BY, EXPERTISE, SUBJECT, GENDER,
+        BIRTH_DATE, POSITION_TITLE, EDUCATION, MAJOR, TEL, FAX, ID_CARD_TYPE, ID_CARD, EDUCATION_COUNTRY,
+         DEPT, WORK_PER_YEAR, ADDRESS, ZIP_CODE, LIVE_BASE_NAME, TALENT_PLAN, SOURCE_PERSON_ID, DEGREE,
+          OFFICE_NAME, PROJECT_COMMITMENT_UNIT,COUNTRY,NATION,EDUCATION_YEAR, FACULTY,
+          BIRTH_PLACE, PLO_STA, MANAGE_POSITION_RANK, DEPUTY_ACCOUNT_ID, RESEARCH_RESULTS, FIRST_LOGIN, POSITION_LEVEL
+    </sql>
+    <sql id="randSpecialistPage_Column_List">
+        t1.ID, t1.NAME, t1.EMP_NO, t1.HONOR, t1.EXPERTISE, t1.SUBJECT,t1.dept,t1.gender
+    </sql>
+    <!-- 删除用户 -->
+    <delete id="delById">
+        delete from isump_user
+        <where>
+          id = #{id}
+        </where>
+    </delete>
+    <select id="randSpecialist" resultMap="UserVoResultMap">
+        select <include refid="randSpecialistPage_Column_List"/>
+        from isump_user t1
+        <where>
+            and t1.state = '1'
+            <!--<if test="user.type != null and user.type !=''">-->
+                <!--and t1.TYPE = #{user.type}-->
+            <!--</if>-->
+            <if test="user.subject != null and user.subject !=''">
+                and t1.SUBJECT = #{user.subject}
+            </if>
+            <if test="user.expertise != null and user.expertise !=''">
+                and t1.EXPERTISE = #{user.expertise}
+            </if>
+            <if test="user.projectCommitmentUnit != null and user.projectCommitmentUnit !=''">
+                and t1.PROJECT_COMMITMENT_UNIT = #{user.projectCommitmentUnit}
+            </if>
+            <if test="user.gender != null and user.gender != ''">
+                and t1.GENDER = #{user.gender}
+            </if>
+            and (POSITION_TITLE = '正高级' or POSITION_TITLE = '副高级')
+            <if test="user.orgId != null and user.orgId != ''">
+                and t1.id in (
+                select user_id from T_DEPUTY_ACCOUNT where ORG_ID = #{user.orgId}
+                )
+            </if>
+        </where>
+        order by dbms_random.value()
+    </select>
+    
+    <select id="getByUserName" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM ISUMP_USER
+        <where>
+            or EMP_NO = #{username}
+            or PHONE = #{username}
+            or EMAIL = #{username}
+            or ID_CARD = #{username}
+        </where>
+    </select>
+
+    <update id="updateToken" parameterType="com.deloitte.services.isump.entity.User">
+      update ISUMP_USER set token = #{token} where id = #{id}
+    </update>
+
+    <update id="updateFirstLogin" parameterType="com.deloitte.services.isump.entity.User">
+      update ISUMP_USER set first_login = '1' where id = #{id}
+    </update>
+
+    <select id="getByToken" resultMap="UserVoResultMap">
+        select <include refid="Base_Column_List"/>
+        from ISUMP_USER where token = #{token}
+    </select>
+    <!-- 组织编码查询人员信息 -->
+    <select id="getByOrgCode" resultType="com.deloitte.services.isump.entity.User">
+        select
+          iuser.*
+        from ISUMP_USER iuser,
+			(select ida.user_id from ISUMP_DEPUTY_ACCOUNT ida
+					where ida.org_ID = (SELECT org.id FROM isump_organization org where org.code = #{orgcode}) group by ida.user_id)  t
+			where iuser.id = t.user_id and iuser.state = '1'
+    </select>
+
+    <!-- 组织编码查询当前组织及下级组织人员信息 -->
+    <select id="getByOrgCodeList" resultType="com.deloitte.services.isump.entity.User">
+        select iuser.* from ISUMP_USER iuser,
+			(select ida.user_id from ISUMP_DEPUTY_ACCOUNT ida
+					where ida.org_ID in (SELECT org.id FROM isump_organization org  where org.path like concat(#{orgcode}, '%')) group by ida.user_id) t
+			where iuser.id = t.user_id and iuser.state = '1'
+    </select>
+
+    <!-- 根据系统CODE、角色CODE、单位CODE查询 -->
+    <select id="getByRoleCode" resultType="com.deloitte.services.isump.entity.User">
+        select u.* from ISUMP_USER u
+            ,ISUMP_DEPUTY_ACCOUNT d
+            , (
+                select idar.deputy_account_id from isump_role r
+                  left join ISUMP_DEPUTY_ACCOUNT_ROLE idar on r.id = idar.role_id
+                    where r.service= #{systemCode}
+                      and r.code= #{roleCode}
+                      GROUP BY idar.deputy_account_id
+              ) t
+            where d.id = t.deputy_account_id
+                and u.id = d.user_id
+                and u.dept in
+                <foreach item="item" index="index" collection="deptList" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+    </select>
+
+    <!-- 用户ID -->
+    <select id="getById" resultType="com.deloitte.platform.api.isump.vo.UserVo">
+        select * from ISUMP_USER where id = #{id}
+    </select>
+
+    <select id="getBpmUserByEmpNo" resultType="com.deloitte.platform.api.isump.vo.UserBpmVo">
+        SELECT
+            u.id,
+            u.name,
+            u.emp_no,
+            u.dept,
+            d.dept_name,
+            org.type orgType,
+            org.id orgId,
+            org.code orgCode,
+            org.name orgName
+        FROM
+            ISUMP_DEPUTY_ACCOUNT ida
+                LEFT JOIN isump_user u ON u.id = ida.user_id
+                left join ISUMP_DEPT d on u.dept = d.dept_code
+                left join ISUMP_ORGANIZATION org on ida.org_id = org.id
+        where u.emp_no is not null
+          and u.state=1
+          and u.emp_no = #{empNo}
+        <if test="orgCode != null and orgCode != ''">
+            and org.code = #{orgCode}
+        </if>
+    </select>
+    <select id="getBpmUserListPage" resultType="com.deloitte.platform.api.isump.vo.UserBpmVo">
+        select
+            distinct ida.id idaId,
+            u.id,
+            u.name,
+            u.emp_no,
+            u.dept,
+            d.dept_name,
+            org.type orgType,
+            org.id orgId,
+            org.code orgCode,
+            org.name orgName
+            from isump_user u
+                left join ISUMP_DEPUTY_ACCOUNT ida on u.id = ida.user_id
+                left join (
+                        select deputy_account_id,role_id from ISUMP_DEPUTY_ACCOUNT_ROLE group by deputy_account_id,role_id
+                ) idarole on ida.id = idarole.deputy_account_id
+                left join ISUMP_ROLE role on idarole.role_id = role.id
+                left join ISUMP_DEPT d on u.dept = d.dept_code
+                left join ISUMP_ORGANIZATION org on ida.org_id = org.id
+                <where>
+                    u.emp_no is not null
+                    and u.state=1
+                    <if test="deptCode!= null and deptCode!=''">
+                        and (org.code = #{deptCode} or org.path like #{deptCode}||'/%')
+                    </if>
+                    <if test="orgName != null and orgName.size() > 0">
+                        and org.type = 'post'
+                        and org.name in
+                        <foreach item="item" index="index" collection="orgName" open="(" separator="," close=")">
+                            #{item}
+                        </foreach>
+                    </if>
+                    <if test="orgCode != null and orgCode.size() > 0">
+                        and org.code in
+                        <foreach item="item" index="index" collection="orgCode" open="(" separator="," close=")">
+                            #{item}
+                        </foreach>
+                    </if>
+                    <if test="roleCode != null and roleCode.size() > 0">
+                        <if test="systemName != null and systemName != ''">
+                          and role.service = #{systemName}
+                        </if>
+                        and role.code in
+                        <foreach item="item" index="index" collection="roleCode" open="(" separator="," close=")">
+                            #{item}
+                        </foreach>
+                    </if>
+                </where>
+    </select>
+
+    <select id="getDeptById" resultType="com.deloitte.services.isump.entity.User">
+      select * from ISUMP_USER where email=(select main_email from isump_dept where id = #{id})
+      or phone=(select main_phone from isump_dept where id = #{id})
+    </select>
+
+    <select id="getDeptByCode" resultType="com.deloitte.services.isump.entity.User">
+      select * from ISUMP_USER where email=(select main_email from ISUMP_DEPT where dept_code = #{deptCode})
+      or phone=(select main_phone from isump_dept where dept_code = #{deptCode})
+    </select>
+    <select id="getUserById" resultType="com.deloitte.services.isump.entity.User">
+        select * from ISUMP_USER where id = #{id}
+    </select>
+
+    <update id="logout" parameterType="String">
+      update ISUMP_USER set token = null where token = #{token}
+    </update>
+
+    <update id="updateState">
+      update ISUMP_USER set state = #{state} where id = #{id}
+    </update>
+
+
+    <!-- 根据系统CODE、角色CODE查询用户信息-->
+    <select id="getBmpUserInfoByRole" resultType="com.deloitte.services.isump.entity.User">
+        SELECT u.* FROM isump_user u
+        ,isump_deputy_account d
+        , (
+        SELECT idar.deputy_account_id FROM isump_role r
+        LEFT JOIN isump_deputy_account_role idar ON r.id = idar.role_id
+        <where>
+            <if test="systemCode != null and systemCode != ''">
+                r.service= #{systemCode}
+            </if>
+            <if test="roleCodeList != null and roleCodeList.size() > 0">
+                AND r.code IN
+                <foreach item="item" index="index" collection="roleCodeList" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            GROUP BY idar.deputy_account_id
+        </where>
+        ) t
+        WHERE d.id = t.deputy_account_id
+        AND u.id = d.user_id
+    </select>
+
+    <select id="getByOrgCodePage" resultType="com.deloitte.services.isump.entity.User">
+         select
+          iuser.*
+        from ISUMP_USER iuser,
+			(select ida.user_id from ISUMP_DEPUTY_ACCOUNT ida
+					where ida.org_ID = (SELECT org.id FROM isump_organization org where org.code = #{orgcode}) group by ida.user_id)  t
+			where iuser.id = t.user_id and iuser.state = '1'
+            <if test="name != null and name != ''">
+                and iuser.name like concat(concat('%', #{name}),'%')
+            </if>
+            <if test="empNo != null and empNo != ''">
+                and iuser.emp_no like concat(concat('%',#{empNo}),'%')
+            </if>
+    </select>
+</mapper>

@@ -1,0 +1,106 @@
+/*各个页面的公共头尾样式*/
+ul,
+p,
+div,
+h1,
+form,
+a,
+input,
+button,
+blockquote,
+body,
+dd,
+dl,
+dt,
+fieldset,
+hr,
+legend,
+li,
+ol,
+pre,
+textarea,
+th,
+td {
+	/*现在还没有normalize.css,引入normalize.css初始化之后可以去掉*/
+	margin: 0;
+	padding: 0;
+}
+
+ul {
+	list-style: none;
+}
+
+body,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+ol,
+dl,
+li,
+dt,
+dd {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	color: #646464;
+	font-size: 14px;
+	font-family: "微软雅黑";
+}
+
+strong,
+em,
+i,
+s,
+a {
+	font-weight: 400;
+	font-style: normal;
+	text-decoration: none;
+	color: #646464;
+}
+
+a:hover {
+	color: red;
+}
+
+img,
+input {
+	border: 0 none;
+	outline-style: none;
+	padding: 0;
+	margin: 0;
+	vertical-align: middle;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+
+.fl {
+	float: left;
+}
+
+.fr {
+	float: right;
+}
+
+.clearfix::after {
+	content: "";
+	display: block;
+	clear: both;
+	height: 0;
+	line-height: 0;
+	visibility: hidden;
+}
+
+.clearfix {
+	zoom: 1;
+}
+
+/* 版心 */

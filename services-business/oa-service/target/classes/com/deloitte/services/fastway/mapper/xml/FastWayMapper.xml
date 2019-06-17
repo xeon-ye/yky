@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fastway.mapper.FastWayMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fastway.entity.FastWay">
+        <id column="ID" property="id"/>
+        <result column="PIC_URL" property="picUrl"/>
+        <result column="APPLY_NAME" property="applyName"/>
+        <result column="APPLY_SORT" property="applySort"/>
+        <result column="APPLY_DATETIME" property="applyDatetime"/>
+        <result column="APPLY_UPDATETIME" property="applyUpdatetime"/>
+        <result column="APPLY_URL" property="applyUrl"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, PIC_URL, APPLY_NAME, APPLY_SORT, APPLY_DATETIME, APPLY_UPDATETIME, APPLY_URL
+    </sql>
+
+</mapper>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.project.mapper.ProjectEvaluationMapper">
+
+    <!-- 通用映射结果集 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.project.entity.ProjectEvaluation">
+        <id column="PROJECT_ID" property="id"/>
+        <result column="PROJECT_NAME" property="projectName"/>
+        <result column="PROJECT_CODE" property="projectCode"/>
+        <result column="REPLY_CODE" property="replyCode"/>
+        <result column="PROJECT_TYPE_CODE" property="projectTypeCode"/>
+        <result column="PROJECT_TYPE_NAME" property="projectTypeName"/>
+        <result column="PROJECT_STATUS_CODE" property="projectStatusCode"/>
+        <result column="PROJECT_STATUS_NAME" property="projectStatusName"/>
+        <result column="PROJECT_HEADER_ID" property="projectHeaderId"/>
+        <result column="PROJECT_HEADER_NAME" property="projectHeaderName"/>
+        <result column="ORGANIZATION_ID" property="organizationId"/>
+        <result column="ORGANIZATION_CODE" property="organizationCode"/>
+        <result column="ORGANIZATION_NAME" property="organizationName"/>
+        <result column="PLAN_YEAR" property="planYear"/>
+        <result column="CYCLE" property="cycle"/>
+
+        <result column="ENCLOSURE_NAME" property="fileName"/>
+        <result column="ENCLOSURE_TYPE" property="fileType"/>
+        <result column="ENCLOSURE_URL" property="fileUrl"/>
+        <result column="FILE_ID" property="fileId"/>
+        <result column="UPLOAD_TIME" property="uploadTime"/>
+        <result column="ENCLOSURE_ID" property="enclosureId"/>
+    </resultMap>
+
+    <!-- 通用查询条件Sql -->
+    <sql id="CommonSql">
+        <if test="app.projectName != null and app.projectName != '' ">
+            and PRO.project_name like '%'||#{app.projectName}||'%'
+        </if>
+        <if test="app.projectCode != null and app.projectCode != ''">
+            and PRO.project_code like '%'||#{app.projectCode}||'%'
+        </if>
+        <if test="app.projectTypeCode != null">
+            and PRO.project_type_code = #{app.projectTypeCode}
+        </if>
+        <if test="app.organizationId != null">
+            and PRO.organization_id = #{app.organizationId}
+        </if>
+        <if test="app.organizationCode != null">
+            and PRO.organization_code = #{app.organizationCode}
+        </if>
+        <if test="app.organizationName != null and app.organizationName != ''">
+            and PRO.organization_name like '%'||#{app.organizationName}||'%'
+        </if>
+        <if test="app.projectHeaderId != null">
+            and PRO.project_header_id = #{app.projectHeaderId}
+        </if>
+        <if test="app.projectHeaderName != null and app.projectHeaderName != ''">
+            and PRO.project_header_name like '%'||#{app.projectHeaderName}||'%'
+        </if>
+        <if test="app.planYear != null and app.planYear != ''">
+            and PRO.plan_year = #{app.planYear}
+        </if>
+        <if test="app.cycle != null">
+            and PRORPY.cycle = #{app.cycle}
+        </if>
+        <if test="app.replyCode != null and app.replyCode != ''">
+            and PRORPY.reply_code like '%'||#{app.replyCode}||'%'
+        </if>
+    </sql>
+
+    <!-- 项目评价 -->
+    <select id="searchProjectEvaluation" parameterType="Map" resultMap="BaseResultMap">
+        SELECT
+            PRO.PROJECT_ID,
+            PRO.PROJECT_CODE,
+            PRO.PROJECT_NAME,
+            PRO.PROJECT_TYPE_CODE,
+            PRO.PROJECT_TYPE_NAME,
+            PRORPY.CYCLE,
+            PRO.PLAN_YEAR,
+            PRO.PROJECT_STATUS_CODE,
+            PRO.PROJECT_STATUS_NAME,
+            PRORPY.REPLY_CODE
+        FROM
+            PROJECTS PRO,PROJECT_REPLY PRORPY
+        WHERE
+            PRO.PROJECT_ID = PRORPY.PROJECT_ID
+        AND PRO.PROJECT_STATUS_CODE IN ('7004', '7005')
+        <include refid="CommonSql"/>
+    </select>
+
+    <select id="selectEnclosureList" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+               ENCLOSURE_NAME,
+               ENCLOSURE_TYPE,
+               ENCLOSURE_URL,
+               FILE_ID,
+               UPLOAD_TIME,
+               ENCLOSURE_ID
+        FROM
+               PROJECT_ENCLOSURE
+        WHERE
+               PROJECT_ID = #{projectId}
+    </select>
+
+</mapper>

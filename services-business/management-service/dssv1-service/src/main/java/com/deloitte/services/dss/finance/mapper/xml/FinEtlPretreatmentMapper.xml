@@ -1,0 +1,579 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.finance.mapper.FinEtlPretreatmentMapper">
+
+    <!-- 查询指定部门在特定期间的某指标YTD -->
+    <select id="queryYtdByPeriod" parameterType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment"
+            resultType="java.math.BigDecimal">
+        select YTD
+        from DSS_FIN_ETL_PRETREATMENT
+        where PERIOD_CODE = #{periodCode}
+        and INDEX_CODE = #{indexCode}
+        and COM_CODE = #{comCode}
+    </select>
+
+    <!-- 合计并查询预处理表中数据 -->
+    <select id="queryGroupBy" parameterType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+            sum(YTD) ytd,
+            sum(YTD_N) ytdN,
+            sum(YTD_D) ytdD,
+            sum(PTD) ptd,
+            sum(PTD_N) ptdN,
+            sum(PTD_D) ptdD,
+            COM_CODE comCode,
+            PERIOD_CODE periodCode,
+            INDEX_CODE indexCode
+        from
+          DSS_FIN_ETL_PRETREATMENT pre
+        where
+          PERIOD_CODE = #{periodCode}
+        group by
+          INDEX_CODE,PERIOD_CODE,COM_CODE,SPARE1,SPARE2,SPARE3,EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10
+    </select>
+
+    <!-- 合并数据 收入 -->
+    <select id="queryGroupByIncome" parameterType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          COM_CODE comCode,
+          INDEX_CODE indexCode,
+          PERIOD_CODE periodCode,
+          sum(YTD) ytd,
+          sum(PTD) ptd
+        from
+          DSS_FIN_ETL_PRETREATMENT pre
+        where
+          PERIOD_CODE = #{periodCode}
+        and
+          INDEX_CODE in (
+            select
+              distinct INDEX_CODE
+            from
+              DSS_FIN_ETL_INCOME_MAP2
+          )
+        group by
+          COM_CODE,INDEX_CODE,PERIOD_CODE, SPARE1, SPARE2, SPARE3, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10
+    </select>
+
+    <!-- 合并数据 收入预算 -->
+    <select id="queryGroupByIncomeBud" parameterType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          COM_CODE comCode,
+          INDEX_CODE indexCode,
+          PERIOD_CODE periodCode,
+          sum(YTD) ytd
+        from
+          DSS_FIN_ETL_PRETREATMENT pre
+        where
+          PERIOD_CODE = #{periodCode}
+        and
+          INDEX_CODE in (
+            select
+              distinct INDEX_CODE
+            from
+              DSS_FIN_ETL_INCOME_MAP6
+          )
+        group by
+          COM_CODE,INDEX_CODE,PERIOD_CODE, SPARE1, SPARE2, SPARE3, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10
+    </select>
+
+    <!-- 合计数据 收入预算达成率 -->
+    <select id="queryGroupByExe" parameterType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          COM_CODE comCode,
+          INDEX_CODE indexCode,
+          PERIOD_CODE periodCode,
+          sum(YTD_N) ytdN,
+          sum(YTD_D) ytdD
+        from
+          DSS_FIN_ETL_PRETREATMENT pre
+        where
+          PERIOD_CODE = #{periodCode}
+        and
+          INDEX_CODE in (
+            select distinct INDEX_CODE
+            from DSS_FIN_ETL_INCOME_MAP3
+          )
+        group by
+          COM_CODE,INDEX_CODE,PERIOD_CODE, SPARE1, SPARE2, SPARE3, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10
+    </select>
+
+    <!-- 合并数据 收入计划增长 -->
+    <select id="queryGroupByGrowth" parameterType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          COM_CODE comCode,
+          INDEX_CODE indexCode,
+          PERIOD_CODE periodCode,
+          sum(YTD_N) ytdN,
+          sum(YTD_D) ytdD
+        from
+          DSS_FIN_ETL_PRETREATMENT pre
+        where
+          PERIOD_CODE = #{periodCode}
+        and
+          INDEX_CODE in (
+            select
+              distinct INDEX_CODE
+            from
+              DSS_FIN_ETL_INCOME_MAP5
+          )
+        group by
+          COM_CODE,INDEX_CODE,PERIOD_CODE, SPARE1, SPARE2, SPARE3, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10
+    </select>
+
+    <!-- 合并数据 支出预算 -->
+    <select id="queryGroupByExpBud" parameterType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          COM_CODE comCode,
+          INDEX_CODE indexCode,
+          PERIOD_CODE periodCode,
+          sum(YTD) ytd
+        from
+          DSS_FIN_ETL_PRETREATMENT pre
+        where
+          PERIOD_CODE = #{periodCode}
+        and
+          INDEX_CODE in (
+            select
+              distinct INDEX_CODE
+            from
+              DSS_FIN_ETL_EXP_MAP1
+          )
+        group by
+          COM_CODE,INDEX_CODE,PERIOD_CODE, SPARE1, SPARE2, SPARE3, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10
+    </select>
+
+    <!-- 合并数据 支出 -->
+    <select id="queryGroupByExp" parameterType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          COM_CODE comCode,
+          INDEX_CODE indexCode,
+          PERIOD_CODE periodCode,
+          sum(YTD) ytd,
+          sum(PTD) ptd
+        from
+          DSS_FIN_ETL_PRETREATMENT pre
+        where
+          PERIOD_CODE = #{periodCode}
+        and
+          INDEX_CODE in (
+            select
+              distinct INDEX_CODE
+            from
+              DSS_FIN_ETL_EXP_MAP2
+          )
+        group by
+          COM_CODE,INDEX_CODE,PERIOD_CODE, SPARE1, SPARE2, SPARE3, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10
+    </select>
+
+    <!-- 合并数据 支出预算执行率 -->
+    <select id="queryGroupByExpExe" parameterType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          COM_CODE comCode,
+          INDEX_CODE indexCode,
+          PERIOD_CODE periodCode,
+          sum(YTD_N) ytdN,
+          sum(YTD_D) ytdD
+        from
+          DSS_FIN_ETL_PRETREATMENT pre
+        where
+          PERIOD_CODE = #{periodCode}
+        and
+          INDEX_CODE in (
+            select
+              distinct INDEX_CODE
+            from
+              DSS_FIN_ETL_EXP_MAP3
+          )
+        group by
+          COM_CODE,INDEX_CODE,PERIOD_CODE, SPARE1, SPARE2, SPARE3, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10
+    </select>
+
+    <!-- 合并数据 支出计划增长 -->
+    <select id="queryGroupByExpGrowth" parameterType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          COM_CODE comCode,
+          INDEX_CODE indexCode,
+          PERIOD_CODE periodCode,
+          sum(YTD_N) ytdN,
+          sum(YTD_D) ytdD
+        from
+          DSS_FIN_ETL_PRETREATMENT pre
+        where
+          PERIOD_CODE = #{periodCode}
+        and
+          INDEX_CODE in (
+            select
+              distinct INDEX_CODE
+            from
+              DSS_FIN_ETL_EXP_MAP5
+          )
+        group by
+          COM_CODE,INDEX_CODE,PERIOD_CODE, SPARE1, SPARE2, SPARE3, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10
+    </select>
+
+    <!-- 合并数据 资产总额 -->
+    <select id="queryGroupByLiab" parameterType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          COM_CODE comCode,
+          INDEX_CODE indexCode,
+          PERIOD_CODE periodCode,
+          sum(YTD) ytd
+        from
+          DSS_FIN_ETL_PRETREATMENT pre
+        where
+          PERIOD_CODE = #{periodCode}
+        and
+          INDEX_CODE in (
+            select
+              distinct INDEX_CODE
+            from
+              DSS_FIN_ETL_LIAB_MAP1
+          )
+        group by
+          COM_CODE,INDEX_CODE,PERIOD_CODE, SPARE1, SPARE2, SPARE3, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10
+    </select>
+
+    <!-- 合并数据 资产负债率与累计折旧率 -->
+    <select id="queryGroupByLiaAndDep" parameterType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          COM_CODE comCode,
+          INDEX_CODE indexCode,
+          PERIOD_CODE periodCode,
+          sum(YTD_N) ytdN,
+          sum(YTD_D) ytdD
+        from
+          DSS_FIN_ETL_PRETREATMENT pre
+        where
+          PERIOD_CODE = #{periodCode}
+        and
+          INDEX_CODE in (
+            select
+              distinct INDEX_CODE
+            from
+              DSS_FIN_ETL_LIAB_MAP2
+          )
+        group by
+          COM_CODE,INDEX_CODE,PERIOD_CODE, SPARE1, SPARE2, SPARE3, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10
+    </select>
+
+    <!-- 合并数据 项目支出预算 -->
+    <select id="queryGroupByProExpBud" parameterType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          COM_CODE comCode,
+          INDEX_CODE indexCode,
+          PERIOD_CODE periodCode,
+          sum(YTD) ytd
+        from
+          DSS_FIN_ETL_PRETREATMENT pre
+        where
+          PERIOD_CODE = #{periodCode}
+        and
+          INDEX_CODE in (
+            select
+              distinct INDEX_CODE
+            from
+              DSS_FIN_ETL_PROEXP_MAP1
+            where
+              MAPPING_TYPE = '项目预算支出'
+          )
+        group by
+          COM_CODE,INDEX_CODE,PERIOD_CODE, SPARE1, SPARE2, SPARE3, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10
+    </select>
+
+    <!-- 合并数据 项目实际支出 -->
+    <select id="queryGroupByProExp" parameterType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          COM_CODE comCode,
+          INDEX_CODE indexCode,
+          PERIOD_CODE periodCode,
+          sum(YTD) ytd
+        from
+          DSS_FIN_ETL_PRETREATMENT pre
+        where
+          PERIOD_CODE = #{periodCode}
+        and
+          INDEX_CODE in (
+            select
+              distinct INDEX_CODE
+            from
+              DSS_FIN_ETL_PROEXP_MAP1
+            where
+              MAPPING_TYPE = '项目实际支出'
+          )
+        group by
+          COM_CODE,INDEX_CODE,PERIOD_CODE, SPARE1, SPARE2, SPARE3, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10
+    </select>
+
+    <!-- 合并数据 整体项目预算绩效 -->
+    <select id="queryGroupByAchive" parameterType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          COM_CODE comCode,
+          INDEX_CODE indexCode,
+          PERIOD_CODE periodCode,
+          sum(YTD_N) ytdN,
+          sum(YTD_D) ytdD
+        from
+          DSS_FIN_ETL_PRETREATMENT pre
+        where
+          PERIOD_CODE = #{periodCode}
+        and
+          INDEX_CODE = 'FINC0091'
+        group by
+          COM_CODE,INDEX_CODE,PERIOD_CODE, SPARE1, SPARE2, SPARE3, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10
+    </select>
+
+    <!-- 合并数据 各类型项目预算绩效 -->
+    <select id="queryGroupByComAchive" parameterType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          COM_CODE comCode,
+          INDEX_CODE indexCode,
+          PERIOD_CODE periodCode,
+          sum(YTD_N) ytdN,
+          sum(YTD_D) ytdD
+        from
+          DSS_FIN_ETL_PRETREATMENT pre
+        where
+          PERIOD_CODE = #{periodCode}
+        and
+          INDEX_CODE in (
+            select
+              distinct INDEX_CODE
+            from
+              DSS_FIN_ETL_ACHIEVEMENT_MAP1
+          )
+        group by
+          COM_CODE,INDEX_CODE,PERIOD_CODE, SPARE1, SPARE2, SPARE3, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10
+    </select>
+
+    <!-- 合并数据 平均项目预算绩效同比增长 -->
+    <select id="queryGroupByAvgAchive" parameterType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          COM_CODE comCode,
+          INDEX_CODE indexCode,
+          PERIOD_CODE periodCode,
+          sum(YTD_N) ytdN,
+          sum(YTD_D) ytdD
+        from
+          DSS_FIN_ETL_PRETREATMENT pre
+        where
+          PERIOD_CODE = #{periodCode}
+        and
+          INDEX_CODE = 'FINC0093'
+        group by
+          COM_CODE,INDEX_CODE,PERIOD_CODE, SPARE1, SPARE2, SPARE3, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10
+    </select>
+
+    <!-- 合并数据 平均科研项目预算绩效 -->
+    <select id="queryGroupByAvgSciAchive" parameterType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          COM_CODE comCode,
+          INDEX_CODE indexCode,
+          PERIOD_CODE periodCode,
+          sum(YTD_N) ytdN,
+          sum(YTD_D) ytdD
+        from
+          DSS_FIN_ETL_PRETREATMENT pre
+        where
+          PERIOD_CODE = #{periodCode}
+        and
+          INDEX_CODE in (select distinct INDEX_CODE from DSS_FIN_ETL_ACHIEVEMENT_MAP2)
+        group by
+          COM_CODE,INDEX_CODE,PERIOD_CODE, SPARE1, SPARE2, SPARE3, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10
+    </select>
+
+    <!-- 合并数据 收入同比 -->
+    <select id="queryGroupByIncomeRate" parameterType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          COM_CODE comCode,
+          INDEX_CODE indexCode,
+          PERIOD_CODE periodCode,
+          sum(YTD_N) ytdN,
+          sum(YTD_D) ytdD
+        from
+          DSS_FIN_ETL_PRETREATMENT pre
+        where
+          PERIOD_CODE = #{periodCode}
+        and
+          INDEX_CODE in (select distinct INDEX_CODE from DSS_FIN_ETL_INCOME_MAP4)
+        group by
+          COM_CODE,INDEX_CODE,PERIOD_CODE, SPARE1, SPARE2, SPARE3, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10
+    </select>
+
+    <!-- 合并数据 支出同比 -->
+    <select id="queryGroupByExpRate" parameterType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          COM_CODE comCode,
+          INDEX_CODE indexCode,
+          PERIOD_CODE periodCode,
+          sum(YTD_N) ytdN,
+          sum(YTD_D) ytdD
+        from
+          DSS_FIN_ETL_PRETREATMENT pre
+        where
+          PERIOD_CODE = #{periodCode}
+        and
+          INDEX_CODE in (select distinct INDEX_CODE from DSS_FIN_ETL_EXP_MAP4)
+        group by
+          COM_CODE,INDEX_CODE,PERIOD_CODE, SPARE1, SPARE2, SPARE3, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10
+    </select>
+
+    <!-- 合并数据 项目支出预算执行率 -->
+    <select id="queryGroupByProExpBudExe" parameterType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+         select
+             comCode1 comCode,
+             indexCode1 indexCode,
+             periodCode1 periodCode,
+             spare11 spare1,
+             spare12 spare2,
+             spare13 spare3,
+             sum(ytdN) ytdN,
+             sum(ytdD) ytdD
+         from
+              (
+              select
+                  COM_CODE comCode1,
+                  INDEX_CODE indexCode1,
+                  PERIOD_CODE periodCode1,
+                  SPARE1 spare11,
+                  SPARE2 spare12,
+                  SPARE3 spare13,
+                  sum(YTD_N) ytdN
+              from
+                  DSS_FIN_ETL_PRETREATMENT pre
+              where
+                  PERIOD_CODE = #{periodCode}
+              and
+                  INDEX_CODE in
+                  (
+                    select
+                      distinct INDEX_CODE
+                    from
+                      DSS_FIN_ETL_PROEXP_MAP1
+                    where
+                      MAPPING_TYPE = '项目支出预算执行率'
+                  )
+              group by
+                COM_CODE,INDEX_CODE,PERIOD_CODE, SPARE1, SPARE2, SPARE3,EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10
+              ) t1
+         inner join
+            (
+            select
+              COM_CODE comCode2,
+              INDEX_CODE indexCode2,
+              PERIOD_CODE periodCode2,
+              SPARE1 spare21,
+              SPARE2 spare22,
+              SPARE3 spare23,
+              sum(YTD_D) ytdD
+            from
+              DSS_FIN_ETL_PRETREATMENT pre
+            where
+              PERIOD_CODE = #{periodCode}
+            and
+              INDEX_CODE in
+              (
+                select
+                  distinct INDEX_CODE
+                from
+                  DSS_FIN_ETL_PROEXP_MAP1
+                where
+                  MAPPING_TYPE = '项目支出预算执行率')
+                group by
+                  COM_CODE,INDEX_CODE,PERIOD_CODE, SPARE1, SPARE2, SPARE3,EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10
+              ) t2
+         on
+           comCode1 = comCode2
+         and
+           indexCode1 = indexCode2
+         and
+           periodCode1 = periodCode2
+         group by
+           comCode1,indexCode1,periodCode1,spare11,spare12,spare13
+    </select>
+
+    <!-- 合并数据 项目支出预算执行率（分母） -->
+    <select id="queryGroupByProExpBudExeD" parameterType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          COM_CODE comCode,
+          INDEX_CODE indexCode,
+          PERIOD_CODE periodCode,
+          sum(YTD_D) ytdD
+        from
+          DSS_FIN_ETL_PRETREATMENT pre
+        where
+          PERIOD_CODE = #{periodCode}
+        and
+          INDEX_CODE in (select distinct INDEX_CODE from DSS_FIN_ETL_PROEXP_MAP1)
+        group by
+          COM_CODE,INDEX_CODE,PERIOD_CODE, SPARE1, SPARE2, SPARE3, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10
+    </select>
+
+    <!-- 删除重复数据 -->
+    <delete id="deleteDate" parameterType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        delete
+          DSS_FIN_ETL_PRETREATMENT
+        where
+          PERIOD_CODE = #{periodCode}
+        and
+          INDEX_CODE = #{indexCode}
+    </delete>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        <result column="ID" property="id" />
+        <result column="INDEX_CODE" property="indexCode" />
+        <result column="PERIOD_CODE" property="periodCode" />
+        <result column="COM_CODE" property="comCode" />
+        <result column="SPARE1" property="spare1" />
+        <result column="SPARE2" property="spare2" />
+        <result column="SPARE3" property="spare3" />
+        <result column="PTD" property="ptd" />
+        <result column="PTD_N" property="ptdN" />
+        <result column="PTD_D" property="ptdD" />
+        <result column="YTD" property="ytd" />
+        <result column="YTD_N" property="ytdN" />
+        <result column="YTD_D" property="ytdD" />
+        <result column="EX1" property="ex1" />
+        <result column="EX2" property="ex2" />
+        <result column="EX3" property="ex3" />
+        <result column="EX4" property="ex4" />
+        <result column="EX5" property="ex5" />
+        <result column="EX6" property="ex6" />
+        <result column="EX7" property="ex7" />
+        <result column="EX8" property="ex8" />
+        <result column="EX9" property="ex9" />
+        <result column="EX10" property="ex10" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, INDEX_CODE, PERIOD_CODE, COM_CODE, SPARE1, SPARE2, SPARE3, PTD, PTD_N, PTD_D, YTD, YTD_N, YTD_D, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME
+    </sql>
+
+</mapper>

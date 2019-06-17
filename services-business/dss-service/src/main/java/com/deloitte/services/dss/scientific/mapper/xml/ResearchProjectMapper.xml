@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.scientific.mapper.ResearchProjectMapper">
+    <!-- 查询映射结果 -->
+    <resultMap id="researchProject" type="com.deloitte.platform.api.dss.scientific.vo.ResearchProjectVo">
+        <result column="totalNum" property="number"></result>
+        <result column="category" property="category"></result>
+        <result column="amount" property="money"></result>
+    </resultMap>
+    <resultMap id="annualNum" type="com.deloitte.platform.api.dss.scientific.vo.ProjectAnnualNumberVo">
+        <result column="academy" property="academy"></result>
+        <result column="national" property="national"></result>
+        <result column="provincial" property="provincial"></result>
+        <result column="transverse" property="transverse"></result>
+        <result column="other" property="other"></result>
+        <result column="totalNum" property="totalNum"></result>
+        <result column="year" property="annual"></result>
+
+    </resultMap>
+
+    <select id="queryProjectNum" resultMap="researchProject">
+<![CDATA[
+        select category , count(*) totalNum from (
+                         select substr(nt.PRO_CATEGORY, 0, 4) category, nt.PRO_NAME proName
+                         from SRPMS_OUTLINE_NEW_TITLE nt
+                         where sysdate BETWEEN nt.PRO_START_DATE AND nt.PRO_END_DATE
+                         union
+                         select substr(pro.PROJECT_TYPE, 0, 4) category, pro.PROJECT_NAME proName
+                         from SRPMS_PROJECT pro
+                         where pro.status =50
+                         and  sysdate BETWEEN pro.PROJECT_ACTION_DATE_START AND pro.PROJECT_ACTION_DATE_END
+                       )  group by  category
+        ]]>
+
+    </select>
+
+
+    <select id="queryFund" resultMap="researchProject">
+        <![CDATA[select  category,sum(amount)  amount from (
+                 select substr(nt.PRO_CATEGORY, 0, 4) category, nt.PRO_TOTAL_OUTLAY amount, nt.PRO_CODE proCode
+                 from SRPMS_OUTLINE_NEW_TITLE nt
+                 where 
+                    sysdate BETWEEN nt.PRO_START_DATE AND nt.PRO_END_DATE
+                 union
+
+                 select substr(pro.PROJECT_TYPE, 0, 4) category,
+                        budget.BUDGET_AMOUNT               amount,
+                        pro.PROJECT_NUM                    proCode
+                 from SRPMS_PROJECT pro,
+                      SRPMS_PROJECT_BUDGET_DETAIL budget
+                 where pro.status = 50
+                   AND budget.BUDGET_CATEGORY='0101'
+                   and pro.ID = budget.PROJECT_ID
+                   and sysdate between pro.PROJECT_ACTION_DATE_START and pro.PROJECT_ACTION_DATE_END
+                   and budget.BUDGET_YEAR = to_char(sysdate, 'yyyy')
+               )  group by  category
+
+]]>
+    </select>
+
+    <select id="queryAnnualProjectNum" resultMap="annualNum">
+        <![CDATA[
+        select
+               temp1.year,
+               count(*)   totalNum,
+               sum(case when category = '1001' then 1 else 0 end  )  academy,
+               sum(case when category = '1002' then 1 else 0 end  )  national,
+               sum(case when category = '1003' then 1 else 0 end  )  provincial,
+               sum(case when category = '1005' then 1 else 0 end  )  transverse,
+               sum(case when category = '1004' then 1 else 0 end  )  other
+        from (
+              select substr(nt.PRO_CATEGORY, 0, 4)  category,
+                   to_char(sysdate, 'yyyy')      year,
+                   nt.PRO_CODE                   proCode
+            from SRPMS_OUTLINE_NEW_TITLE nt
+            where  sysdate BETWEEN nt.PRO_START_DATE AND nt.PRO_END_DATE
+            union
+            select substr(pro.PROJECT_TYPE, 0, 4) category,
+                   to_char(sysdate, 'yyyy')           year,
+                   pro.PROJECT_NUM                    proCode
+            from SRPMS_PROJECT pro
+            where pro.status = 50
+              and sysdate between pro.PROJECT_ACTION_DATE_START and pro.PROJECT_ACTION_DATE_END
+            union
+            select substr(nt.PRO_CATEGORY, 0, 4)             category,
+                   to_char(add_months(sysdate, -12), 'yyyy') year,
+                   nt.PRO_CODE                   proCode
+            from SRPMS_OUTLINE_NEW_TITLE nt
+            where add_months(sysdate, -12) BETWEEN nt.PRO_START_DATE AND nt.PRO_END_DATE
+            union
+            select substr(pro.PROJECT_TYPE, 0, 4)        category,
+                   to_char(add_months(sysdate, -12), 'yyyy') year,
+                   pro.PROJECT_NUM                    proCode
+            from SRPMS_PROJECT pro
+            where pro.status = 50
+              and add_months(sysdate, -12) between pro.PROJECT_ACTION_DATE_START and pro.PROJECT_ACTION_DATE_END
+            union
+            select substr(nt.PRO_CATEGORY, 0, 4)             category,
+                   to_char(add_months(sysdate, -24), 'yyyy') year,
+                   nt.PRO_CODE                               proCode
+            from SRPMS_OUTLINE_NEW_TITLE nt
+            where add_months(sysdate, -24) BETWEEN nt.PRO_START_DATE AND nt.PRO_END_DATE
+
+            union
+            select substr(pro.PROJECT_TYPE, 0, 4)        category,
+                   to_char(add_months(sysdate, -24), 'yyyy') year,
+                   pro.PROJECT_NUM                    proCode
+            from SRPMS_PROJECT pro
+            where pro.status = 50
+              and add_months(sysdate, -24) between pro.PROJECT_ACTION_DATE_START and pro.PROJECT_ACTION_DATE_END
+            union
+            select substr(nt.PRO_CATEGORY, 0, 4)             category,
+                   to_char(add_months(sysdate, -36), 'yyyy')   year,
+                   nt.PRO_CODE                   proCode
+            from SRPMS_OUTLINE_NEW_TITLE nt
+            where add_months(sysdate, -36) BETWEEN nt.PRO_START_DATE AND nt.PRO_END_DATE
+
+            union
+            select substr(pro.PROJECT_TYPE, 0, 4)           category,
+                   to_char(add_months(sysdate, -36), 'yyyy')  year,
+                   pro.PROJECT_NUM                    proCode
+            from SRPMS_PROJECT pro
+            where pro.status = 50
+              and add_months(sysdate, -36) between pro.PROJECT_ACTION_DATE_START and pro.PROJECT_ACTION_DATE_END
+              ) temp1
+              group by  temp1.year
+
+]]>
+    </select>
+</mapper>

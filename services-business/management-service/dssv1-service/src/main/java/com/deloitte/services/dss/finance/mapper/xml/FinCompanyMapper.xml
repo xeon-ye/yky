@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.finance.mapper.FinCompanyMapper">
+
+
+    <select id="selectCompany" resultType="com.deloitte.platform.api.dss.finance.vo.FinCompanyVo">
+        select
+          COM_CODE comCode,
+          COM_DES comDes
+        from
+          DSS_FINANCE_COMPANY
+    </select>
+
+
+
+
+</mapper>

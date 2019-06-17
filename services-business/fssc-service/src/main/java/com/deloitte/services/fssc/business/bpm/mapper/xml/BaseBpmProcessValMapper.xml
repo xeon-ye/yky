@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.business.bpm.mapper.BaseBpmProcessValMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.business.bpm.entity.BaseBpmProcessVal">
+        <id column="ID" property="id" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="VERSION" property="version" />
+        <result column="DOCUMENT_ID" property="documentId" />
+        <result column="DOCUMENT_TYPE" property="documentType" />
+        <result column="KEY" property="key" />
+        <result column="VALUE" property="value" />
+        <result column="EX1" property="ex1" />
+        <result column="EX2" property="ex2" />
+        <result column="EX3" property="ex3" />
+        <result column="EX4" property="ex4" />
+        <result column="EX5" property="ex5" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, UPDATE_TIME, CREATE_TIME, VERSION, DOCUMENT_ID, DOCUMENT_TYPE, KEY, VALUE, EX1, EX2, EX3, EX4, EX5
+    </sql>
+
+</mapper>

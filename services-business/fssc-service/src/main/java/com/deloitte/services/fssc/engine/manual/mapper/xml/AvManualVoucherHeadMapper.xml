@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.engine.manual.mapper.AvManualVoucherHeadMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.engine.manual.entity.AvManualVoucherHead">
+        <id column="ID" property="id" />
+        <result column="DOCUMENT_NUM" property="documentNum" />
+        <result column="DOCUMENT_STATUS" property="status" />
+        <result column="UNIT_ID" property="unitId" />
+        <result column="UNIT_NAME" property="unitName" />
+        <result column="CURRENCY_CODE" property="currencyCode" />
+        <result column="COST" property="cost" />
+        <result column="TOTAL_ORIGINAL_AMOUNT" property="totalOriginalAmount" />
+        <result column="TOTAL_STANDARD_AMOUNT" property="totalStandardAmount" />
+        <result column="POST_STATUS" property="postStatus" />
+        <result column="ATTACH_COUNT" property="attachCount" />
+        <result column="LEDGER_ID" property="ledgerId" />
+        <result column="JE_CATEGORY" property="jeCategory" />
+        <result column="JE_SOURCE" property="jeSource" />
+        <result column="PERIOD_NAME" property="periodName" />
+        <result column="NAME" property="name" />
+        <result column="ACCRUAL_REV_FLAG" property="accrualRevFlag" />
+        <result column="DEFAULT_EFFECTIVE_DATE" property="defaultEffectiveDate" />
+        <result column="FROM_RECURRING_HEADER_ID" property="fromRecurringHeaderId" />
+        <result column="POSTED_DATE" property="postedDate" />
+        <result column="ACCRUAL_REV_JE_HEADER_ID" property="accrualRevJeHeaderId" />
+        <result column="DESCRIPTION" property="description" />
+        <result column="CURRENCY_CONVERSION_RATE" property="currencyConversionRate" />
+        <result column="CURRENCY_CONVERSION_TYPE" property="currencyConversionType" />
+        <result column="CURRENCY_CONVERSION_DATE" property="currencyConversionDate" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_USER_NAME" property="createUserName" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="EX1" property="ex1" />
+        <result column="EX2" property="ex2" />
+        <result column="EX3" property="ex3" />
+        <result column="EX4" property="ex4" />
+        <result column="EX5" property="ex5" />
+        <result column="EX6" property="ex6" />
+        <result column="EX7" property="ex7" />
+        <result column="EX8" property="ex8" />
+        <result column="EX9" property="ex9" />
+        <result column="EX10" property="ex10" />
+        <result column="EX11" property="ex11" />
+        <result column="EX12" property="ex12" />
+        <result column="EX13" property="ex13" />
+        <result column="EX14" property="ex14" />
+        <result column="EX15" property="ex15" />
+        <result column="REQUEST_ID" property="requestId" />
+        <result column="CARRY_ID" property="carrId" />
+        <result column="APPROVED_BY" property="approvedBy" />
+        <result column="POSTED_BY" property="postedBy" />
+        <result column="APPROVED_USER_NAME" property="approvedUserName" />
+        <result column="POSTED_USER_NAME" property="postedUserName" />
+        <result column="CARRAY_STATUS" property="carrayStatus" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, DOCUMENT_NUM, DOCUMENT_STATUS, UNIT_ID, UNIT_NAME, CURRENCY_CODE, COST, TOTAL_ORIGINAL_AMOUNT, TOTAL_STANDARD_AMOUNT, POST_STATUS, ATTACH_COUNT, LEDGER_ID, JE_CATEGORY, JE_SOURCE, PERIOD_NAME, NAME, ACCRUAL_REV_FLAG, DEFAULT_EFFECTIVE_DATE, FROM_RECURRING_HEADER_ID, POSTED_DATE, ACCRUAL_REV_JE_HEADER_ID, DESCRIPTION, CURRENCY_CONVERSION_RATE, CURRENCY_CONVERSION_TYPE, CURRENCY_CONVERSION_DATE, CREATE_BY, CREATE_USER_NAME, CREATE_TIME, UPDATE_TIME, UPDATE_BY, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10, EX11, EX12, EX13, EX14, EX15, REQUEST_ID,CARRY_ID
+         ,APPROVED_BY,POSTED_BY,APPROVED_USER_NAME,POSTED_USER_NAME,CARRAY_STATUS
+    </sql>
+
+
+
+
+</mapper>

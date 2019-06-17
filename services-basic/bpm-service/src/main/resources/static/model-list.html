@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模型管理</title>
+    <style type="text/css">
+        table {
+            border-collapse: collapse;
+            width:100%;
+            border: 1px solid #fff;
+        }
+        table td,th {
+            border: 1px solid #E5E5E5;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+<div id="top">
+</div>
+<h2>模型列表</h2>
+
+<a href="javascript: AJAX.POST('/models/newModel')" target="_blank">绘制流程</a>
+<table border="1" id="query">
+    <tr>
+        <td>模型名称</td>
+        <td><input type="text" id="modelName" name="modelName" value="">&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="queryList('');">查询</button></td>
+    </tr>
+</table>
+<hr>
+<div id="query-page">
+    每页
+    <select id="rowSize" name="rowSize" onchange="setPageSize(this.value)" style="width: 40px;">
+        <option value="10" selected="selected">10</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+        <option value="40">40</option>
+        <option value="50">50</option>
+    </select>
+    条，当前<input type="text" id="page" name="page" value="1" style="width: 20px;"/>页，总<span id="totalRowsSpan"></span>记录
+    <button style="cursor: pointer;" onclick="queryList('prev');">上一页</button>
+    <input type="hidden" id="totalRows" name="totalRows" value="" style="width: 20px;"/>
+    <button style="cursor: pointer;" onclick="queryList('next');">下一页</button>
+</div>
+<table border="1" id="model-list">
+    <tr>
+        <td>模型编号</td>
+        <td>模型名称</td>
+        <td>版本</td>
+        <td>创建时间</td>
+        <td>操作</td>
+    </tr>
+    <script id="models" type="text/html">
+        <tr>
+            <td>模型编号</td>
+            <td>模型名称</td>
+            <td>版本</td>
+            <td>创建时间</td>
+            <td>操作</td>
+        </tr>
+        {{each rows.list}}
+        <tr>
+            <td>{{$value.id}}</td>
+            <td>{{$value.name}}</td>
+            <td>{{$value.version}}</td>
+            <td>{{$value.createTime}}</td>
+            <td>
+                <a href="/modeler.html?modelId={{$value.id}}" target="_blank">编辑</a>
+                <a href="javascript: deleteFlow({{$value.id}})">删除</a>
+                <a href="javascript: deploy({{$value.id}})">发布</a>
+                <a href="/model_approve_matrix.html?modelId={{$value.id}}" target="_blank">配置审批矩阵</a>
+                <a href="javascript: exportModel({{$value.id}})">导出</a>
+            </td>
+        </tr>
+        {{/each}}
+    </script>
+</table>
+<hr>
+<h2>模型上传</h2>
+<hr>
+<form id="form1" enctype="multipart/form-data" method="POST"
+      action="/models/upload">
+    <div class="container">
+        <label>请选流程文件：</label> <input type="file" name="file" id="file_input" multiple="file" ></input>
+    </div>
+    <div class="row">
+        <input type="submit"  value="Upload" ></input>
+    </div>
+    <div id="progressNumber"></div>
+</form>
+
+<hr>
+<h2>部署列表</h2>
+<hr>
+<table border="1" id="queryDeploy">
+    <tr>
+        <td>模型名称</td>
+        <td><input type="text" id="deployName" name="modelName" value="">&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="queryDeployList('');">查询</button></td>
+    </tr>
+</table>
+<hr>
+<div id="queryDeploy-page">
+
+    每页<select id="rowSizeDeploy" name="rowSize" onchange="setDeployPageSize(this.value)" style="width: 40px;">
+        <option value="10" selected="selected">10</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+        <option value="40">40</option>
+        <option value="50">50</option>
+    </select>条，当前<input type="text" id="pageDeploy" name="page" value="1" style="width: 20px;"/>页，总<span id="totalRowsDeploySpan"></span>记录
+    <button style="cursor: pointer;" onclick="queryDeployList('prev');">上一页</button>
+    <input type="hidden" id="totalRowsDeploy" name="totalRows" value="" style="width: 20px;"/>
+    <button style="cursor: pointer;" onclick="queryDeployList('next');">下一页</button>
+</div>
+<table border="1" id="deployment-list">
+    <tr>
+        <td>编号</td>
+        <td>名称</td>
+        <td>部署时间</td>
+        <td>操作</td>
+    </tr>
+    <script id="deployments" type="text/html">
+        <tr>
+            <td>编号</td>
+            <td>名称</td>
+            <td>部署时间</td>
+            <td>操作</td>
+        </tr>
+        {{each rows.list}}
+        <tr>
+            <td>{{$value.id}}</td>
+            <td>{{$value.name}}</td>
+            <td>{{$value.deploymentTime}}</td>
+            <td><a href="javascript: AJAX.DELETE('/deployments/{{$value.id}}')">删除</a></td>
+        </tr>
+        {{/each}}
+    </script>
+</table>
+<script src="/lib/js/jquery-1.10.2.min.js"></script>
+<script src="/lib/js/jquery.cookie.js"></script>
+<script src="/js/ajax-util.js"></script>
+<script src="/lib/js/template.js"></script>
+
+<script>
+    $(function() {
+        AJAX.GET("/models?rowSize=10", null
+            , function (result) {
+                var html = template("models", result);
+                $("#model-list").html(html);
+                $("#totalRows").val(result.rows.totalRows);
+                $("#totalRowsSpan").html(result.rows.totalRows);
+            });
+
+        AJAX.GET("/deployments?rowSize=10", null
+            , function (result) {
+                var html = template("deployments", result);
+                $("#deployment-list").html(html);
+                $("#totalRowsDeploy").val(result.rows.totalRows);
+                $("#totalRowsDeploySpan").html(result.rows.totalRows);
+            });
+    });
+
+    function deploy(id){
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "/models/"+id+"/deployment",
+            "method": "POST",
+            "headers": {
+                "Content-Type": "application/json",
+                "cache-control": "no-cache"
+            },
+            "processData": false,
+            "data": ""
+        }
+        $.ajax(settings).done(function (res) {
+            if(res['refresh']){
+                alert("发布成功");
+                queryList("");
+                return;
+            }
+        });
+    }
+
+    function queryList(option){
+        var rowSize = $("#rowSize").val();
+        var page = $("#page").val();
+        if(option === "prev"){
+           page = parseInt(page);
+           if(page <= 1){
+               page = 1;
+               return;
+           }else{
+               page--;
+           }
+        }else if(option === "next"){
+            page = parseInt(page);
+            page++;
+            var total = parseInt($("#totalRows").val());
+            var totalPage = Math.ceil(total/rowSize);
+            if(totalPage<page){
+                return;
+            }
+        }else{
+            page = 1;
+        }
+        var modelName = $("#modelName").val();
+        var url = "/models/query/list?rowSize="+rowSize+"&page="+page+"&modelName="+modelName;
+        AJAX.GET(url, null
+            , function (result) {
+                console.log(result)
+                console.log(result.rows.current)
+                $("#page").val(result.rows.current);
+                $("#totalRows").val(result.rows.totalRows);
+                $("#totalRowsSpan").html(result.rows.totalRows);
+                var html = template("models", result);
+                $("#model-list").html(html);
+            });
+    }
+
+    function queryDeployList(option){
+        var rowSize = $("#rowSizeDeploy").val();
+        var page = $("#pageDeploy").val();
+        if(option === "prev"){
+            page = parseInt(page);
+            if(page <= 1){
+                page = 1;
+                return;
+            }else{
+                page--;
+            }
+        }else if(option === "next"){
+            page = parseInt(page);
+            page++;
+            var total = parseInt($("#totalRowsDeploy").val());
+            var totalPage = Math.ceil(total/rowSize);
+            if(totalPage<page){
+                return;
+            }
+        }else{
+            page = 1;
+        }
+        var modelName = $("#deployName").val();
+        var url = "/deployments/query/list?rowSize="+rowSize+"&page="+page+"&modelName="+modelName;
+        AJAX.GET(url, null
+            , function (result) {
+                console.log(result)
+                console.log(result.rows.current)
+                $("#pageDeploy").val(result.rows.current);
+                $("#totalRowsDeploy").val(result.rows.totalRows);
+                $("#totalRowsDeploySpan").html(result.rows.totalRows);
+                var html = template("deployments", result);
+                $("#deployment-list").html(html);
+            });
+    }
+
+    function setDeployPageSize(val){
+        $("#pageDeploy").val(1);
+        $("#deployName").val("");
+        AJAX.GET("/deployments?rowSize="+val, null
+            , function (result) {
+                var html = template("deployments", result);
+                $("#deployment-list").html(html);
+                $("#totalRowsDeploy").val(result.rows.totalRows);
+                $("#totalRowsDeploySpan").html(result.rows.totalRows);
+            });
+    }
+
+    function setPageSize(val){
+        $("#page").val(1);
+        $("#modelName").val("");
+        AJAX.GET("/models?rowSize="+val, null
+            , function (result) {
+                var html = template("models", result);
+                $("#totalRows").val(result.rows.totalRows);
+                $("#totalRowsSpan").html(result.rows.totalRows);
+                $("#model-list").html(html);
+            });
+    }
+    function deleteFlow(id){
+        if(window.confirm("是否确定删除此流程")){
+            AJAX.DELETE('/models/'+id)
+        }
+    }
+
+    function approveMatrix(id){
+        window.location.href="/models/" + id + "/approve";
+    }
+
+    function exportModel(id)
+    {
+        window.open("/models/" + id + "/export");
+    }
+
+
+</script>
+</body>
+</html>

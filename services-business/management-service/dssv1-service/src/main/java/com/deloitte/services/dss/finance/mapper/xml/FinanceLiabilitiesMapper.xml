@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.finance.mapper.FinanceLiabilitiesMapper">
+
+    <!-- 整体资产负债率 -->
+    <select id="queryLiabilities" parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo">
+        select
+          sum(YTD_N)/sum(YTD_D) rate,
+          ind.INDEX_CODE indexCode,
+          ind.INDEX_DES indexDes
+        from
+          DSS_FIN_ETL_FACT fact
+        inner join
+          DSS_FIN_ETL_INDEX ind
+        on
+          fact.INDEX_CODE = ind.INDEX_CODE
+        where
+          fact.PERIOD_CODE = #{periodCode}
+        and
+          ind.INDEX_CODE in (
+            select distinct INDEX_CODE from DSS_FIN_ETL_LIAB_MAP2
+          )
+        <if test="comCode != null">
+            and fact.COM_CODE in ${comCode}
+        </if>
+        group by
+          ind.INDEX_CODE,ind.INDEX_DES
+        order by
+          ind.INDEX_CODE
+    </select>
+    <select id="selectLiabilities" parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo">
+        select
+        sum(YTD_N)/sum(YTD_D) rate,
+        ind.INDEX_CODE indexCode,
+        ind.INDEX_DES indexDes
+        from
+        DSS_FIN_ETL_FACT fact
+        inner join
+        DSS_FIN_ETL_INDEX ind
+        on
+        fact.INDEX_CODE = ind.INDEX_CODE
+        where
+        fact.PERIOD_CODE = #{periodCode}
+        and
+        ind.INDEX_CODE in (
+        select distinct INDEX_CODE from DSS_FIN_ETL_LIAB_MAP2
+        )
+        group by
+        ind.INDEX_CODE,ind.INDEX_DES
+        order by
+        ind.INDEX_CODE
+    </select>
+
+    <!-- 查询各机构资产负债率 -->
+    <select id="queryComLiabilities" parameterType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo"
+            resultType="com.deloitte.platform.api.dss.finance.vo.IncomeBudgetVo">
+        select
+        sum(YTD_N) ytdN,
+        sum(YTD_D) ytdD,
+        ind.INDEX_CODE indexCode,
+        ind.INDEX_DES indexDes,
+        com.COM_CODE comCode,
+        com.COM_DES comDes
+        from
+        DSS_FIN_ETL_FACT fact
+        inner join
+        DSS_FIN_ETL_INDEX ind
+        on
+        fact.INDEX_CODE = ind.INDEX_CODE
+        inner join
+        DSS_FINANCE_COMPANY com
+        on
+        fact.COM_CODE = com.COM_CODE
+        where
+        fact.PERIOD_CODE like #{periodCode}||'%'
+        and
+        ind.INDEX_CODE in (
+        select distinct INDEX_CODE from DSS_FIN_ETL_LIAB_MAP2
+        )
+        <if test="comCode != null">
+            and fact.COM_CODE = #{comCode}
+        </if>
+        group by
+        ind.INDEX_CODE,ind.INDEX_DES,com.COM_CODE,com.COM_DES
+        order by
+        ind.INDEX_CODE
+    </select>
+
+
+
+</mapper>

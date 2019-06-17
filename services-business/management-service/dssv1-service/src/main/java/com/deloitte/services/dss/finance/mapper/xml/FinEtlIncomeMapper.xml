@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.finance.mapper.FinEtlIncomeMapper">
+
+    <select id="queryInfo" parameterType="com.deloitte.platform.api.dss.finance.vo.FinEtlIncomeVo"
+            resultType="com.deloitte.platform.api.dss.finance.vo.FinEtlIncomeVo">
+        select * from DSS_FIN_ETL_INCOME
+    </select>
+
+    <!-- 1月收入所需数据 -->
+    <select id="queryInfoForIncome" parameterType="java.util.Map"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        <![CDATA[
+        select
+          income.PERIOD periodCode,
+          map.INDEX_CODE indexCode,
+          income.ENTITY comCode,
+          income.YTD ytd,
+          income.YTD ptd
+        from
+          DSS_FIN_ETL_INCOME income
+        inner join
+          DSS_FIN_ETL_INCOME_MAP2 map
+        on
+          income.ITEM = map.ITEM
+        where
+          PERIOD = #{period}
+        ]]>
+    </select>
+
+    <!-- 2月以后的收入数据 -->
+    <select id="queryInfoForIncomeEt" parameterType="java.util.Map"
+        resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+    select
+      indexCode2 indexCode,
+      comCode2 comCode,
+      period periodCode,
+      ytd2 ytd,
+      ytd2-ytd1 ptd
+    from
+    (select
+        income.YTD ytd1,
+        income.ITEM item1,
+        income.ENTITY comCode1,
+        map.INDEX_CODE indexCode1
+      from
+        DSS_FIN_ETL_INCOME income
+      inner join
+        DSS_FIN_ETL_INCOME_MAP2 map
+      on
+        income.ITEM = map.ITEM
+      where
+        period = #{periodBefore}
+      ) t1
+      inner join
+      (select
+        income.YTD ytd2,
+        income.ITEM item2,
+        map.INDEX_CODE indexCode2,
+        income.ENTITY comCode2,
+        income.PERIOD period
+      from
+        DSS_FIN_ETL_INCOME income
+      inner join
+        DSS_FIN_ETL_INCOME_MAP2 map
+      on
+        income.ITEM = map.ITEM
+      where
+        period = #{periodNow}
+      ) t2
+      on
+        item1 = item2
+      and
+        indexCode1 = indexCode2
+      and
+        comCode1 = comCode2
+    </select>
+
+    <!-- 查询同比数据 -->
+    <select id="queryInfoForRate" parameterType="java.util.Map"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+              indexCode2 indexCode,
+              periodCode,
+              comCode2 comCode,
+              ytd2 ytdN,
+              ytd1 ytdD
+        from
+              (select
+                map.INDEX_CODE indexCode1,
+                income.YTD ytd1,
+                income.ITEM item1,
+                income.ENTITY comCode1
+              from
+                DSS_FIN_ETL_INCOME income
+              inner join
+               DSS_FIN_ETL_INCOME_MAP4 map
+              on
+               income.ITEM = map.ITEM
+              where
+               PERIOD = #{periodBefore}) t1
+        inner join
+              (select
+                map.INDEX_CODE indexCode2,
+                income.YTD ytd2,
+                income.ITEM item2,
+                income.period periodCode,
+                income.ENTITY comCode2
+              from
+               DSS_FIN_ETL_INCOME income
+              inner join
+               DSS_FIN_ETL_INCOME_MAP4 map
+              on
+               income.ITEM = map.ITEM
+              where
+               PERIOD = #{periodNow}) t2
+        on
+          comCode1 = comCode2
+        and
+          item1 = item2
+        and
+          indexCode1 = indexCode2
+    </select>
+
+    <!-- 查询预算所需数据 -->
+    <select id="queryInfoForIncomeBud" parameterType="java.util.Map"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          income.PERIOD periodCode,
+          map.INDEX_CODE indexCode,
+          income.ENTITY comCode,
+          income.BUD_YTD ytd
+        from
+          DSS_FIN_ETL_INCOME income
+        inner join
+          DSS_FIN_ETL_INCOME_MAP6 map
+        on
+          income.ITEM = map.ITEM
+        where
+          PERIOD = #{period}
+    </select>
+
+    <!-- 查询预算达成率所需数据 -->
+    <select id="queryInfoForExe" parameterType="java.util.Map"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+            periodCode1 periodCode,
+            indexCode1 indexCode,
+            comCode1 comCode,
+            ytd1 ytdD,
+            ytd2 ytdN
+          from
+            (select
+              income.PERIOD periodCode1,
+              map.INDEX_CODE indexCode1,
+              income.ENTITY comCode1,
+              map.ITEM item1,
+              income.BUD_YTD ytd1
+            from
+              DSS_FIN_ETL_INCOME income
+            inner join
+              DSS_FIN_ETL_INCOME_MAP3 map
+            on
+              income.ITEM = map.ITEM
+            where
+              PERIOD = #{period}
+            and
+              VALUE_TYPE = 'BUD_YTD') t1
+          inner join
+            (select
+              income.PERIOD periodCode2,
+              map.INDEX_CODE indexCode2,
+              income.ENTITY comCode2,
+              map.ITEM item2,
+              income.YTD ytd2
+            from
+              DSS_FIN_ETL_INCOME income
+            inner join
+              DSS_FIN_ETL_INCOME_MAP3 map
+            on
+              income.ITEM = map.ITEM
+            where
+              PERIOD = #{period}
+            and
+              VALUE_TYPE = 'YTD') t2
+          on
+            indexCode1 = indexCode2
+          and
+            comCode1 = comCode2
+          and
+            item1 = item2
+    </select>
+
+    <!-- 查询计划增长率 -->
+    <select id="queryGrowth" parameterType="java.util.Map"
+            resultType="com.deloitte.services.dss.finance.entity.FinEtlPretreatment">
+        select
+          periodCode1 periodCode,
+          indexCode1 indexCode,
+          budYtd ytdN,
+          ytd ytdD,
+          comCode2 comCode
+        from
+            (select
+              income.BUD_YTD budYtd,
+              income.PERIOD periodCode1,
+              income.ENTITY comCode1,
+              map.INDEX_CODE indexCode1,
+              income.ITEM item1
+            from
+              DSS_FIN_ETL_INCOME income
+            inner join
+              DSS_FIN_ETL_INCOME_MAP5 map
+            on
+              income.ITEM = map.ITEM
+            where
+              income.PERIOD = #{periodNow}
+            order by
+              income.ENTITY,map.INDEX_CODE)t1
+        inner join
+            (select
+              income.YTD ytd,
+              income.PERIOD periodCode2,
+              income.ENTITY comCode2,
+              map.INDEX_CODE indexCode2,
+              income.ITEM item2
+            from
+              DSS_FIN_ETL_INCOME income
+            inner join
+              DSS_FIN_ETL_INCOME_MAP5 map
+            on
+              income.ITEM = map.ITEM
+            where
+              income.PERIOD = #{periodBefore}
+            order by
+              income.ENTITY,map.INDEX_CODE)t2
+        on
+          item1 = item2
+        and
+          indexCode1 = indexCode2
+        and
+          comCode1 = comCode2
+    </select>
+
+    <!-- 查询指标 -->
+    <select id="queryIndexCode" parameterType="java.util.Map" resultType="string">
+        select
+          map.INDEX_CODE
+        from
+          DSS_FIN_ETL_INCOME income
+        inner join
+          DSS_FIN_ETL_INCOME_MAP map
+        on
+          income.ITEM = map.ITEM
+        where
+          map.INDEX_CODE = #{item}
+    </select>
+
+    <!-- 查询机构编码 -->
+    <select id="queryComCode" parameterType="java.util.Map" resultType="integer">
+        select
+          COM_CODE comCode
+        from
+          DSS_FIN_ETL_INCOME income
+        inner join
+          DSS_FINANCE_COMPANY com
+        on
+          income.ENTITY = com.COM_DES
+        where
+          income.ENTITY = #{entity}
+    </select>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.dss.finance.entity.FinEtlIncome">
+        <result column="ID" property="id" />
+        <result column="PERIOD" property="period" />
+        <result column="ENTITY" property="entity" />
+        <result column="ITEM" property="item" />
+        <result column="YTD" property="ytd" />
+        <result column="BUD_YTD" property="budYtd" />
+        <result column="EX1" property="ex1" />
+        <result column="EX2" property="ex2" />
+        <result column="EX3" property="ex3" />
+        <result column="EX4" property="ex4" />
+        <result column="EX5" property="ex5" />
+        <result column="EX6" property="ex6" />
+        <result column="EX7" property="ex7" />
+        <result column="EX8" property="ex8" />
+        <result column="EX9" property="ex9" />
+        <result column="EX10" property="ex10" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, PERIOD, ENTITY, ITEM, YTD, BUD_YTD, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME
+    </sql>
+
+</mapper>

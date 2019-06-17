@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.project.mapper.ProjectsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.project.entity.Projects">
+        <id column="ID" property="id" />
+        <result column="PROJECT_ID" property="projectId" />
+        <result column="PROJECT_CODE" property="projectCode" />
+        <result column="PROJECT_NAME" property="projectName" />
+        <result column="PROJECT_ATTRIBUTE" property="projectAttribute" />
+        <result column="PROJECT_TYPE_CODE" property="projectTypeCode" />
+        <result column="PROJECT_TYPE_NAME" property="projectTypeName" />
+        <result column="PLAN_YEAR" property="planYear" />
+        <result column="CYCLE" property="cycle" />
+        <result column="PROJECT_HEADER_ID" property="projectHeaderId" />
+        <result column="PROJECT_HEADER_NAME" property="projectHeaderName" />
+        <result column="FIN_HEADER_ID" property="finHeaderId" />
+        <result column="PROJECT_CONNECT_STAFF_ID" property="projectConnectStaffId" />
+        <result column="ORGANIZATION_ID" property="organizationId" />
+        <result column="ORGANIZATION_NAME" property="organizationName" />
+        <result column="PROJECT_CATGORY" property="projectCatgory" />
+        <result column="PRO_CANCEL_DES" property="proCancelDes" />
+        <result column="PRO_CHANGE" property="proChange" />
+        <result column="PRIORITY" property="priority" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+        <result column="ORG_ID" property="orgId" />
+        <result column="ORG_PATH" property="orgPath" />
+        <result column="PROJECT_STATUS_CODE" property="projectStatusCode" />
+        <result column="PROJECT_STATUS_NAME" property="projectStatusName" />
+        <result column="ENTRUST_ID" property="entrustId" />
+        <result column="ASSUME_ID" property="assumeId" />
+        <result column="PROJECT_MARK" property="projectMark" />
+        <result column="FIN_HEADER_NAME" property="finHeaderName" />
+        <result column="PROJECT_CONNECT_STAFF_NAME" property="projectConnectStaffName" />
+        <result column="PROJECT_CATGORY_CODE" property="projectCatgoryCode" />
+        <result column="ENTRUST_NAME" property="entrustName" />
+        <result column="ASSUME_NAME" property="assumeName" />
+        <result column="APPLICATION_MARK" property="applicationMark" />
+        <result column="ZIP_CODE" property="zipCode" />
+        <result column="OU_CHARGE_STAFF_ID" property="ouChargeStaffId" />
+        <result column="OU_CHARGE_STAFF_NAME" property="ouChargeStaffName" />
+        <result column="PROJECT_HEADER_POST" property="projectHeaderPost" />
+        <result column="PROJECT_HEADER_TEL" property="projectHeaderTel" />
+        <result column="PRO_CONNECT_STAFF_POST" property="proConnectStaffPost" />
+        <result column="PRO_CONNECT_STAFF_TEL" property="proConnectStaffTel" />
+        <result column="ADRESS" property="adress" />
+        <result column="DEPARTMENT" property="department" />
+        <result column="DEPARTMENT_CODE" property="departmentCode" />
+        <result column="APP_OPARTION_OU" property="appOpartionOu" />
+        <result column="REPLY_NEW_MARK" property="replyNewMark" />
+        <result column="SUBACT_CATAGORY_CODE" property="subactCatagoryCode" />
+        <result column="SUBACT_CATAGORY_NAME" property="subactCatagoryName" />
+        <result column="ORGANIZATION_CODE" property="organizationCode" />
+        <result column="PROJECT_CATAGORY_CODE" property="projectCatagoryCode" />
+        <result column="PROJECT_CATAGORY_NAME" property="projectCatagoryName" />
+        <result column="CREATE_USER_NAME" property="createUserName" />
+        <result column="CREATE_USER_ID" property="createUserId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, PROJECT_ID, PROJECT_CODE, PROJECT_NAME, PROJECT_ATTRIBUTE, PROJECT_TYPE_CODE, PROJECT_TYPE_NAME, PLAN_YEAR, CYCLE, PROJECT_HEADER_ID, PROJECT_HEADER_NAME, FIN_HEADER_ID, PROJECT_CONNECT_STAFF_ID, ORGANIZATION_ID, ORGANIZATION_NAME, PROJECT_CATGORY, PRO_CANCEL_DES, PRO_CHANGE, PRIORITY, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, EXT1, EXT2, EXT3, EXT4, EXT5, ORG_ID, ORG_PATH, PROJECT_STATUS_CODE, PROJECT_STATUS_NAME, ENTRUST_ID, ASSUME_ID, PROJECT_MARK, FIN_HEADER_NAME, PROJECT_CONNECT_STAFF_NAME, PROJECT_CATGORY_CODE, ENTRUST_NAME, ASSUME_NAME, APPLICATION_MARK, ZIP_CODE, OU_CHARGE_STAFF_ID, OU_CHARGE_STAFF_NAME, PROJECT_HEADER_POST, PROJECT_HEADER_TEL, PRO_CONNECT_STAFF_POST, PRO_CONNECT_STAFF_TEL, ADRESS, DEPARTMENT, DEPARTMENT_CODE, APP_OPARTION_OU, REPLY_NEW_MARK, SUBACT_CATAGORY_CODE, SUBACT_CATAGORY_NAME, ORGANIZATION_CODE, PROJECT_CATAGORY_CODE, PROJECT_CATAGORY_NAME, CREATE_USER_NAME, CREATE_USER_ID
+    </sql>
+
+</mapper>

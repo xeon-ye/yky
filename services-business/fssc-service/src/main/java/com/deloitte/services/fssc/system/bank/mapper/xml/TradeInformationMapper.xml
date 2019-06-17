@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.system.bank.mapper.TradeInformationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.system.bank.entity.TradeInformation">
+        <id column="ID" property="id" />
+        <result column="QUERY_ACCOUNT" property="queryAccount" />
+        <result column="DEALINGS_FLAG" property="dealingsFlag" />
+        <result column="BUSINESS_TYPE" property="businessType" />
+        <result column="PAYMENT_BANK_NUM" property="paymentBankNum" />
+        <result column="PAYMENT_ACCOUNT" property="paymentAccount" />
+        <result column="PAYMENT_NAME" property="paymentName" />
+        <result column="TRADE_DATE" property="tradeDate" />
+        <result column="TRADE_TIME" property="tradeTime" />
+        <result column="TRADE_CURRENCY" property="tradeCurrency" />
+        <result column="TRADE_AMOUNT" property="tradeAmount" />
+        <result column="TRADE_REMAINING_AMOUNT" property="tradeRemainingAmount" />
+        <result column="TRADE_SERIAL_NUM" property="tradeSerialNum" />
+        <result column="REMITTING_BANK_BUSINESS_NUM" property="remittingBankBusinessNum" />
+        <result column="RECEIVER_BANK_NUM" property="receiverBankNum" />
+        <result column="RECEIVER_BANK_NAME" property="receiverBankName" />
+        <result column="RECEIVER_NAME" property="receiverName" />
+        <result column="RECEIVER_BANK_BUSINESS_NUM" property="receiverBankBusinessNum" />
+        <result column="PROXIED_BANK_NUM" property="proxiedBankNum" />
+        <result column="PROXIED_ACCOUNT" property="proxiedAccount" />
+        <result column="PROXIED_ACCOUNT_NAME" property="proxiedAccountName" />
+        <result column="PROXIED_ACCOUNT_BANK_NUM" property="proxiedAccountBankNum" />
+        <result column="USABLE_AMOUNT" property="usableAmount" />
+        <result column="FREEZE_AMOUNT" property="freezeAmount" />
+        <result column="OVERDRAFT_AMOUNT" property="overdraftAmount" />
+        <result column="USABLE_OVERDRAFT_AMOUNT" property="usableOverdraftAmount" />
+        <result column="DATE_OF_VALUE" property="dateOfValue" />
+        <result column="VOUCHER_TYPE" property="voucherType" />
+        <result column="VOUCHER_NUM" property="voucherNum" />
+        <result column="EXCHANGE_RATE" property="exchangeRate" />
+        <result column="CHANNEL_IDENTIFICATION" property="channelIdentification" />
+        <result column="MERCHANT_NUM" property="merchantNum" />
+        <result column="ORG_PATH" property="orgPath" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+        <result column="VERSION" property="version" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, QUERY_ACCOUNT, DEALINGS_FLAG, BUSINESS_TYPE, PAYMENT_BANK_NUM, PAYMENT_ACCOUNT, PAYMENT_NAME, TRADE_DATE, TRADE_TIME,
+         TRADE_CURRENCY, TRADE_AMOUNT, TRADE_REMAINING_AMOUNT, TRADE_SERIAL_NUM, REMITTING_BANK_BUSINESS_NUM, RECEIVER_BANK_NUM,
+         RECEIVER_BANK_NAME, RECEIVER_NAME, RECEIVER_BANK_BUSINESS_NUM, PROXIED_BANK_NUM, PROXIED_ACCOUNT, PROXIED_ACCOUNT_NAME,
+          PROXIED_ACCOUNT_BANK_NUM, USABLE_AMOUNT, FREEZE_AMOUNT, OVERDRAFT_AMOUNT, USABLE_OVERDRAFT_AMOUNT, DATE_OF_VALUE, VOUCHER_TYPE,
+          VOUCHER_NUM, EXCHANGE_RATE, CHANNEL_IDENTIFICATION, MERCHANT_NUM, ORG_PATH, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME,
+          EXT1, EXT2, EXT3, EXT4, EXT5, VERSION
+    </sql>
+
+</mapper>

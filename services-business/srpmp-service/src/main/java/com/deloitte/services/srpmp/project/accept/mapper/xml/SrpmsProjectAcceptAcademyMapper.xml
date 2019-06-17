@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.srpmp.project.accept.mapper.SrpmsProjectAcceptAcademyMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.srpmp.project.accept.entity.SrpmsProjectAcceptAcademy">
+        <id column="ID" property="id" />
+        <result column="ACCEPT_ID" property="acceptId" />
+        <result column="ASSESSMENT_INDICATORS" property="assessmentIndicators" />
+        <result column="PROJECT_COMPLETION_CASE" property="projectCompletionCase" />
+        <result column="PROJECT_UNFINISH_REASON" property="projectUnfinishReason" />
+        <result column="PROJECT_IMPLEMENT_EXPERIENCE" property="projectImplementExperience" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, ACCEPT_ID, ASSESSMENT_INDICATORS, PROJECT_COMPLETION_CASE, PROJECT_UNFINISH_REASON, PROJECT_IMPLEMENT_EXPERIENCE
+    </sql>
+
+</mapper>

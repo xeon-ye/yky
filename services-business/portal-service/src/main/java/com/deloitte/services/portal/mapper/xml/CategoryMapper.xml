@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.portal.mapper.CategoryMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.portal.entity.Category">
+        <result column="CATEGORY_ID" property="categoryId" />
+        <result column="CATEGORY_TITLE" property="categoryTitle" />
+        <result column="CATEGORY_KEY" property="categoryKey" />
+        <result column="CATEGORY_SORT" property="categorySort" />
+        <result column="CATEGORY_DATETIME" property="categoryDatetime" />
+        <result column="CATEGORY_DESCRIPTION" property="categoryDescription" />
+        <result column="DEL_FLG" property="delFlg" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        CATEGORY_ID, CATEGORY_TITLE, CATEGORY_KEY, CATEGORY_SORT, CATEGORY_DATETIME, CATEGORY_DESCRIPTION, DEL_FLG
+    </sql>
+
+    <!-- 获取栏目首页列表 -->
+    <select id="selectHomeCategories" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM
+            CATEGORY
+        WHERE
+            DEL_FLG != 1
+        ORDER BY
+            CATEGORY_SORT
+    </select>
+
+</mapper>

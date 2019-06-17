@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.scientific.mapper.DeptFundMapper">
+
+    <resultMap id="amountpay" type="com.deloitte.platform.api.dss.scientific.vo.DeptFundVo">
+        <result column="projectId" property="projectId"/>
+        <result column="projectNum" property="projectNum"/>
+        <result column="projectName" property="projectName"/>
+        <result column="deptAmount" property="deptAmount"/>
+        <result column="deptPay" property="deptPay"/>
+    </resultMap>
+
+    <resultMap id="leader" type="com.deloitte.platform.api.dss.scientific.vo.ProjectLeaderVo">
+        <result column="leaderName" property="leaderName"/>
+        <result column="projectStatus" property="projectStatus"/>
+        <result column="subjectCategory" property="subjectCategory"/>
+    </resultMap>
+
+    <resultMap id="personJoin" type="com.deloitte.platform.api.dss.scientific.vo.ProjectPersonJoinVo">
+        <result column="postDoctor" property="postDoctor"/>
+        <result column="doctor" property="doctor"/>
+        <result column="master" property="master"/>
+        <result column="underGraduate" property="underGraduate"/>
+    </resultMap>
+
+    <!--单位-项目年度预算与支出-->
+    <select id="queryDeptProAmountPay" resultMap="amountpay" parameterType="java.util.Map">
+        select p.ID  projectId,
+        p.PROJECT_NUM projectNum,
+        p.PROJECT_NAME projectName,
+        sum(d.BUDGET_AMOUNT) deptAmount,
+        sum(s.BUDGET_AMOUNT) deptPay
+        from SRPMS_PROJECT_BUDGET_DETAIL d,
+        SRPMS_PROJECT p,
+        DSS_PROJECT_TASK_PAY s
+        where d.PROJECT_NUM = p.PROJECT_NUM and p.PROJECT_NUM = s.PROJECT_NUM
+        and d.PROJECT_NUM = s.PROJECT_NUM
+        and d.TASK_DEPT_NAME = #{deptName} --单位名称
+        and s.TASK_DEPT_NAME = #{deptName} --单位名称
+        and d.BUDGET_CATEGORY in ('0111','0202','0302') --分任务预算
+        and d.BUDGET_YEAR = #{year}
+        and p.STATUS = 50
+        GROUP BY p.ID,p.PROJECT_NUM,p.PROJECT_NAME
+        ORDER BY sum(d.BUDGET_AMOUNT) DESC
+    </select>
+
+    <!--单位-项目预算与支出明细-->
+    <select id="queryDeptProFundDetail" resultType="java.util.Map" parameterType="java.util.Map">
+        select p.ID  projectId,
+        p.PROJECT_NAME projectName,
+        d.BUDGET_DETAIL amountDetail,
+        s.BUDGET_DETAIL payDetail
+        from SRPMS_PROJECT_BUDGET_DETAIL d ,SRPMS_PROJECT p, DSS_PROJECT_TASK_PAY s
+        where d.PROJECT_NUM = p.PROJECT_NUM and p.PROJECT_NUM = s.PROJECT_NUM
+        and d.PROJECT_NUM = #{projectNum}
+        and d.TASK_DEPT_NAME = #{deptName} --单位名称
+        and d.BUDGET_CATEGORY in ('0111','0202','0302') --分任务预算
+        and d.BUDGET_YEAR = #{year}
+    </select>
+
+
+    <!--项目Pi-->
+    <select id="queryLeader" resultMap="leader" parameterType="java.lang.String">
+        select SPP.NAME leaderName,
+        SP.STATUS projectStatus,
+        SP.SUBJECT_CATEGORY subjectCategory
+        from SRPMS_PROJECT SP,ISUMP_USER SPP
+        where SP.PROJECT_NUM=#{projectNum} AND SPP.ID=SP.LEAD_PERSON_ID
+    </select>
+
+    <!--项目参与人员学位统计-->
+    <select id="queryJoinPerson" resultMap="personJoin" parameterType="java.lang.String">
+        select
+        sum(case when PERSON_CATEGORY = '3' then 1 else 0 end ) postDoctor,
+        sum(case when DEGREE = '10' then 1 else 0 end  )   doctor,
+        sum(case when DEGREE = '20' then 1 else 0 end  )  master,
+        sum(case when DEGREE = '30' then 1 else 0 end  )  underGraduate
+        from
+        SRPMS_PROJECT_PERSON_JOIN
+        where PROJECT_NUM = #{projectNum}
+    </select>
+
+</mapper>

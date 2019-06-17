@@ -1,0 +1,9 @@
+zuul:
+#  retryable: true
+  add-host-header: true
+  ignored-services: "*"
+  routes:
+    demo-mybatis-auto:
+      path: /user-demo/**
+
+

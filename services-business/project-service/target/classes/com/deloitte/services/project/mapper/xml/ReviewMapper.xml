@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.project.mapper.ReviewMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.project.entity.Review">
+        <id column="ID" property="id" />
+        <result column="REVIEW_ID" property="reviewId" />
+        <result column="APPLICATION_ID" property="applicationId" />
+        <result column="BUDGET_ID" property="budgetId" />
+        <result column="EXPENSE_ID" property="expenseId" />
+        <result column="PERFORMANCE_ID" property="performanceId" />
+        <result column="SCHOOL_PRIORITY" property="schoolPriority" />
+        <result column="FIRST_LEVEL_PROJECT" property="firstLevelProject" />
+        <result column="REVIEW_ADVICE" property="reviewAdvice" />
+        <result column="REVIEW_STATUS_NAME" property="reviewStatusName" />
+        <result column="REVIEW_STATUS_CODE" property="reviewStatusCode" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+        <result column="ORG_ID" property="orgId" />
+        <result column="ORG_PATH" property="orgPath" />
+        <result column="REMARK" property="remark" />
+        <result column="APPROVER" property="approver" />
+        <result column="APPROVER_TIME" property="approverTime" />
+        <result column="OPINION" property="opinion" />
+        <result column="FIRST_LEVEL_PROJECT_CODE" property="firstLevelProjectCode" />
+        <result column="SERVICE_NUM" property="serviceNum" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, REVIEW_ID, APPLICATION_ID, BUDGET_ID, EXPENSE_ID, PERFORMANCE_ID, SCHOOL_PRIORITY, FIRST_LEVEL_PROJECT, REVIEW_ADVICE, REVIEW_STATUS_NAME, REVIEW_STATUS_CODE, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, EXT1, EXT2, EXT3, EXT4, EXT5, ORG_ID, ORG_PATH, REMARK, APPROVER, APPROVER_TIME, OPINION, FIRST_LEVEL_PROJECT_CODE, SERVICE_NUM
+    </sql>
+
+</mapper>

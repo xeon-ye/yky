@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.project.mapper.ExeRepHisMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.project.entity.ExeRepHis">
+        <id column="ID" property="id" />
+        <result column="REP_HIS_ID" property="repHisId" />
+        <result column="EXE_REPLY_ID" property="exeReplyId" />
+        <result column="REPLY_PART_ID" property="replyPartId" />
+        <result column="REPLY_PART_NAME" property="replyPartName" />
+        <result column="REPLY_ADV" property="replyAdv" />
+        <result column="REPLY_END_CODE" property="replyEndCode" />
+        <result column="REPLY_END_NAME" property="replyEndName" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="ORG_ID" property="orgId" />
+        <result column="ORG_PATH" property="orgPath" />
+        <result column="APPLICATION_ID" property="applicationId" />
+        <result column="PROJECT_ID" property="projectId" />
+        <result column="REP_PERSON_ID" property="repPersonId" />
+        <result column="REP_PERSON_NAME" property="repPersonName" />
+        <result column="REP_DEPARTMENT_ID" property="repDepartmentId" />
+        <result column="REP_DEPARTMENT_NAME" property="repDepartmentName" />
+        <result column="MAINTENANCE_ID" property="maintenanceId" />
+        <result column="REPLY_ID" property="replyId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, REP_HIS_ID, EXE_REPLY_ID, REPLY_PART_ID, REPLY_PART_NAME, REPLY_ADV, REPLY_END_CODE, REPLY_END_NAME, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, EXT1, EXT2, EXT3, ORG_ID, ORG_PATH, APPLICATION_ID, PROJECT_ID, REP_PERSON_ID, REP_PERSON_NAME, REP_DEPARTMENT_ID, REP_DEPARTMENT_NAME, MAINTENANCE_ID, REPLY_ID
+    </sql>
+
+</mapper>

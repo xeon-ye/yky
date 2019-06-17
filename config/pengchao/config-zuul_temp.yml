@@ -1,0 +1,139 @@
+zuul:
+#  retryable: true
+  add-host-header: true
+#  ignored-services: "*"
+  routes:
+    demoMybatisAuto:
+      path: /demomybatiesauto/**
+      stripPrefix: true
+      serviceId: demo-mybatis-auto
+      sensitiveHeaders: "*"
+
+
+ribbon:
+  eureka:
+    enabled: true
+
+#fotonweb:
+#  ribbon:
+#    listOfServers: localhost:8090
+#
+#fotonService:
+#  ribbon:
+#    listOfServers: localhost:2000
+#
+#serviceBasic:
+#  ribbon:
+#    listOfServers: localhost:2001,localhost:2005
+#
+#authserver:
+#  ribbon:
+#    listOfServers: localhost:9999
+
+
+proxy:
+  auth:
+    routes:
+      fotonService: oauth2
+      serviceBasic: oauth2
+      fotonweb: oauth2
+      authserver: oauth2
+#      stores: passthru
+#      recommendations: none
+---
+spring:
+  session:
+    store-type: redis
+  cloud:
+    zookeeper:
+      dependency:
+        enabled: false
+
+
+feign:
+  hystrix:
+    enabled: false
+  httpclient:
+    enabled: true
+
+---
+zuul:
+  max:
+    host:
+      connections: 500
+  host:
+    socket-timeout-millis: 60000
+    connect-timeout-millis: 60000
+---
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
+  MaxAutoRetries: 1
+  MaxAutoRetriesNextServer: 2
+  OkToRetryOnAllOperations: false
+---
+hystrix:
+  threadpool:
+    default:
+      coreSize: 10000
+---
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+          #这里将线程策略设置为SEMAPHORE
+          strategy: SEMAPHORE
+        semaphore:
+          maxConcurrentRequests: 200
+#---
+##断路器的超时时间,断路器的超时时间需要大于ribbon的超时时间，不然不会触发重试。
+##hystrix:
+##  command:
+##    default:
+##      execution:
+##        isolation:
+##          thread:
+##            timeoutInMilliseconds: 10000
+#
+#
+##retry
+##该参数用来开启重试机制
+##spring:
+##  cloud:
+##    loadbalancer:
+##      retry:
+##        enabled: true
+#
+##ribbon请求连接的超时时间
+#ribbon:
+#  eureka:
+#    enabled: true
+#  ConnectTimeout: 60000
+##请求处理的超时时间
+#  ReadTimeout: 60000
+##对所有操作请求都进行重试
+#  OkToRetryOnAllOperations: false
+##对当前实例的重试次数
+#  MaxAutoRetries: 1
+##对下个实例的重试次数
+#  MaxAutoRetriesNextServer: 1
+#
+#---
+#hystrix:
+#  threadpool:
+#    default:
+#      coreSize: 1000 ##并发执行的最大线程数，默认10
+#      maxQueueSize: 1000 ##BlockingQueue的最大队列数
+#      queueSizeRejectionThreshold: 500 ##即使maxQueueSize没有达到，达到queueSizeRejectionThreshold该值后，请求也会被拒绝
+#  command:
+#    default:
+#      execution:
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 5000
+#
+
+

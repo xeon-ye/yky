@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.scientific.mapper.IProjectInformationlistMapper">
+    <!-- 查询映射结果 -->
+    <resultMap id="projectDetail" type="com.deloitte.platform.api.dss.scientific.vo.ProjectDetailInformationVo">
+        <result column="PROJECT_NAME" property="projectName"></result>
+        <result column="PERSON_NAME" property="projectPI"></result>
+        <result column="BUDGET_AMOUNT" property="fund"></result>
+        <result column="POST_DOCTOR" property="postDoctorNum"></result>
+        <result column="DOCTOR_MASTER" property="doctorAndMasterNum"></result>
+        <result column="UNDERGRADUATE" property="undergraduateNum"></result>
+        <result column="STATUS" property="status"></result>
+        <result column="SUBJECT_CATEGORY" property="subjectCategory"></result>
+    </resultMap>
+    <resultMap id="projectMember" type="com.deloitte.platform.api.dss.scientific.vo.ProjectMemberInformationVo">
+        <result column="PERSON_NAME" property="personName"></result>
+        <result column="DEPT_NAME" property="unit"></result>
+        <result column="DEGREE" property="degree"></result>
+        <result column="NATIONAL_NUM" property="nationalNum"></result>
+        <result column="PROVINCIAL_NUM" property="provincialNum"></result>
+        <result column="PERSON_CATEGORY" property="personCategory"></result>
+        <result column="PHD_COLLEGE" property="phpCollege"></result>
+        <result column="MASTER_COLLEGE" property="masterCollege"></result>
+        <result column="BACHELOR_COLLEGE" property="bachelorCollege"></result>
+        <result column="SUBJECT_BACKGROUND" property="subjectBackground"></result>
+    </resultMap>
+
+
+    <select id="queryProjectDetailInformation"  resultMap="projectDetail" parameterType="java.lang.String">
+       <![CDATA[
+         select sp.PROJECT_NAME,spp.name PERSON_NAME,bd.BUDGET_AMOUNT,sp.STATUS,sp.SUBJECT_CATEGORY,
+          (select count(*) from SRPMS_PROJECT_PERSON_JOIN bs where  bs.PROJECT_NUM=sp.project_num and bs.PERSON_CATEGORY  = 3) POST_DOCTOR,
+               (select COUNT(ID) from SRPMS_PROJECT_PERSON_JOIN  dm where DEGREE IN('10','20') and dm.PROJECT_NUM =sp.PROJECT_NUM) DOCTOR_MASTER,
+               (select COUNT(ID) from SRPMS_PROJECT_PERSON_JOIN   ur where DEGREE ='30' and ur.PROJECT_NUM=sp.PROJECT_NUM ) UNDERGRADUATE
+        from SRPMS_PROJECT sp,
+             SRPMS_PROJECT_BUDGET_DETAIL bd,
+             ISUMP_USER spp
+        where bd.PROJECT_NUM=sp.PROJECT_NUM and spp.ID=sp.LEAD_PERSON_ID and sp.PROJECT_NUM=#{projectNum}
+          and bd.BUDGET_YEAR=to_char(sysdate,'yyyy') and  bd.BUDGET_CATEGORY = '0101'
+]]>
+   </select>
+
+
+    <select id="queryProjectMemberInformation"  resultMap="projectMember" parameterType="java.lang.String">
+    <![CDATA[
+       select DIU.NAME PERSON_NAME,dept.DEPT_NAME DEPT_NAME,DIU.DEGREE,SRI.PERSON_CATEGORY,
+       (SELECT  COUNT(ID)   FROM SRPMS_OUTLINE_AWARD WHERE  COMPLETION_PERSON=DIU.NAME AND PROJECT_NUM = SRI.PROJECT_NUM and AWARD_CAT='国家')  NATIONAL_NUM,
+       (SELECT  COUNT(ID)   FROM SRPMS_OUTLINE_AWARD WHERE  COMPLETION_PERSON=DIU.NAME AND PROJECT_NUM = SRI.PROJECT_NUM and AWARD_CAT='省部') PROVINCIAL_NUM,
+       DIU.PHD_COLLEGE,DIU.MASTER_COLLEGE,DIU.BACHELOR_COLLEGE,DIU.SUBJECT_BACKGROUND
+        from SRPMS_PROJECT_PERSON_JOIN SRI,ISUMP_USER DIU,ISUMP_DEPT dept
+        where
+             SRI.PERSON_ID = DIU.ID
+             and  DIU.DEPT = dept.DEPT_CODE
+             AND SRI.PROJECT_NUM=#{projectNum}
+        ]]>
+    </select>
+
+
+</mapper>

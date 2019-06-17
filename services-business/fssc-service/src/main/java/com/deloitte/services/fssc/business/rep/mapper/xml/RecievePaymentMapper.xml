@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.business.rep.mapper.RecievePaymentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.business.rep.entity.RecievePayment">
+        <id column="ID" property="id"/>
+        <result column="CREATE_BY" property="createBy"/>
+        <result column="CREATE_USER_NAME" property="createUserName"/>
+        <result column="UPDATE_BY" property="updateBy"/>
+        <result column="UPDATE_TIME" property="updateTime"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="VERSION" property="version"/>
+        <result column="DOCUMENT_NUM" property="documentNum"/>
+        <result column="DOCUMENT_STATUS" property="documentStatus"/>
+        <result column="RECIEVE_STATUS" property="recieveStatus"/>
+        <result column="SOURCE_DURING" property="sourceDuring"/>
+        <result column="RECIEVE_PAYMENT_TYPE" property="recievePaymentType"/>
+        <result column="PAYMENT_TYPE" property="paymentType"/>
+        <result column="IN_COME_MAIN_TYPE_ID" property="inComeMainTypeId"/>
+        <result column="IN_COME_MAIN_TYPE_CODE" property="inComeMainTypeCode"/>
+        <result column="IN_COME_MAIN_TYPE_NAME" property="inComeMainTypeName"/>
+        <result column="UNIT_CODE" property="unitCode"/>
+        <result column="UNIT_ID" property="unitId"/>
+        <result column="UNIT_NAME" property="unitName"/>
+        <result column="DEPT_CODE" property="deptCode"/>
+        <result column="DEPT_ID" property="deptId"/>
+        <result column="DEPT_NAME" property="deptName"/>
+        <result column="PROJECT_NAME" property="projectName"/>
+        <result column="PROJECT_CODE" property="projectCode"/>
+        <result column="PROJECT_UNIT_ID" property="projectUnitId"/>
+        <result column="PROJECT_UNIT_CODE" property="projectUnitCode"/>
+        <result column="PROJECT_UNIT_NAME" property="projectUnitName"/>
+        <result column="PROJECT_ID" property="projectId"/>
+        <result column="REMARK" property="remark"/>
+        <result column="CURRENCY_CODE" property="currencyCode"/>
+        <result column="COST" property="cost"/>
+        <result column="TOTAL_AMOUNT" property="totalAmount"/>
+        <result column="IS_NEED_INVOICE" property="isNeedInvoice"/>
+        <result column="TOTAL_AMOUNT_OTHER_CURRENCY" property="totalAmountOtherCurrency"/>
+        <result column="IS_AFTER_PATCH" property="isAfterPatch"/>
+        <result column="EX1" property="ex1"/>
+        <result column="EX2" property="ex2"/>
+        <result column="EX3" property="ex3"/>
+        <result column="EX4" property="ex4"/>
+        <result column="EX5" property="ex5"/>
+        <result column="EX6" property="ex6"/>
+        <result column="EX7" property="ex7"/>
+        <result column="EX8" property="ex8"/>
+        <result column="EX9" property="ex9"/>
+        <result column="EX10" property="ex10"/>
+        <result column="EX11" property="ex11"/>
+        <result column="EX12" property="ex12"/>
+        <result column="EX13" property="ex13"/>
+        <result column="EX14" property="ex14"/>
+        <result column="EX15" property="ex15"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, CREATE_BY, CREATE_USER_NAME, UPDATE_BY, UPDATE_TIME, CREATE_TIME, VERSION, DOCUMENT_NUM, DOCUMENT_STATUS,
+        RECIEVE_STATUS, SOURCE_DURING, RECIEVE_PAYMENT_TYPE, PAYMENT_TYPE, IN_COME_MAIN_TYPE_ID, IN_COME_MAIN_TYPE_CODE,
+        IN_COME_MAIN_TYPE_NAME, UNIT_CODE, UNIT_ID, UNIT_NAME, DEPT_CODE, DEPT_ID, DEPT_NAME, PROJECT_NAME,
+        PROJECT_CODE, PROJECT_UNIT_ID, PROJECT_UNIT_CODE, PROJECT_UNIT_NAME, PROJECT_ID, REMARK, CURRENCY_CODE, COST,
+        TOTAL_AMOUNT, IS_NEED_INVOICE, TOTAL_AMOUNT_OTHER_CURRENCY, IS_AFTER_PATCH, EX1, EX2, EX3, EX4, EX5, EX6, EX7,
+        EX8, EX9, EX10, EX11, EX12, EX13, EX14, EX15
+    </sql>
+    <select id="findRecieveLines" resultType="com.deloitte.platform.api.fssc.rep.vo.RecieveLineMsgVo">
+
+        SELECT
+        RMS.ID,
+        RRP.DOCUMENT_NUM,
+        RMS.DOCUMENT_ID,
+        RMS.DOCUMENT_TYPE,
+        RRP.UNIT_NAME,
+        RRP.UNIT_CODE,
+        RRP.UNIT_ID,
+        RMS.RECIEVE_BANK_NAME,
+        RMS.RECIEVE_BANK_ACCOUNT,
+        RMS.RECIEVE_UNIT_NAME,
+        RMS.PAY_BANK_ACCOUNT,
+        RMS.PAYMENT_BANK_INFORMATION PAYMENT_BANK_NAME,
+        RMS.PAYMENT_BANK_INFORMATION paymentBankInformation,
+        RMS.PAY_UNIT_NAME,
+        RMS.RECIEVE_TIME,
+        RMS.AMOUNT_COLLECTED,
+        RMS.IN_COME_SUB_TYPE_ID,
+        RMS.IN_COME_SUB_TYPE_CODE,
+        MT.NAME IN_COME_MAIN_TYPE_NAME,
+        SUBTT.NAME IN_COME_SUB_TYPE_NAME,
+        RMS.REMARK,
+        RMS.RECIEVE_BANK_TYPE,
+        RMS.NO_TAX_AMOUNT,
+        RMS.TAX,
+        RMS.TAX_AMOUNT,
+        RMS.RECIEVE_BANK_UNIT_ID
+        FROM
+        REP_RECIEVE_LINE_MSG RMS LEFT JOIN REP_RECIEVE_PAYMENT RRP ON RMS.DOCUMENT_ID=RRP.ID
+        LEFT JOIN BASE_INCOME_MAIN_TYPE MT ON MT.ID=RRP.IN_COME_MAIN_TYPE_ID
+        LEFT JOIN BASE_INCOME_SUB_TYPE SUBTT ON SUBTT.ID=RMS.IN_COME_SUB_TYPE_ID
+
+        <where>
+            <if test="param.documentNum!=null and param.documentNum!=''">
+                AND RRP.DOCUMENT_NUM LIKE CONCAT('%',CONCAT(#{param.documentNum},'%'))
+            </if>
+            <if test="param.inComeMainTypeId!=null">
+                AND RRP.IN_COME_MAIN_TYPE_ID=#{param.inComeMainTypeId}
+            </if>
+            <if test="param.inComeSubTypeId!=null">
+                AND RMS.IN_COME_SUB_TYPE_ID=#{param.inComeSubTypeId}
+            </if>
+            <if test="param.payUnitId!=null">
+                AND RMS.PAY_UNIT_ID=#{param.payUnitId}
+            </if>
+            <if test="param.startTime!=null">
+                AND RMS.RECIEVE_TIME  <![CDATA[>=]]>
+                to_date(to_char(#{param.startTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+            <if test="param.endTime!=null">
+                AND RMS.RECIEVE_TIME  <![CDATA[<=]]>
+                to_date(to_char(#{param.endTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+            <if test="param.recieveUnitId!=null">
+                AND RMS.RECIEVE_UNIT_ID=#{param.recieveUnitId}
+            </if>
+            AND (RRP.DOCUMENT_STATUS='HAS_ACCOUTED' OR RRP.DOCUMENT_STATUS='SUBMIT' OR RRP.DOCUMENT_STATUS='APPROVED')
+            AND (RRP.INCOME_CLAIM_STATUS = 'SOME' OR RRP.INCOME_CLAIM_STATUS = 'N' OR RRP.INCOME_CLAIM_STATUS IS NULL)
+        </where>
+        ORDER BY RRP.CREATE_TIME DESC
+
+    </select>
+
+
+    <select id="findRecieveLineShouRuShangjiao" resultType="com.deloitte.platform.api.fssc.rep.vo.RecieveLineMsgVo">
+
+        SELECT
+        RMS.ID,
+        RRP.DOCUMENT_NUM,
+        RMS.DOCUMENT_ID,
+        RMS.DOCUMENT_TYPE,
+        RRP.UNIT_NAME,
+        RRP.UNIT_CODE,
+        RRP.UNIT_ID,
+        RMS.RECIEVE_BANK_NAME,
+        RMS.RECIEVE_BANK_ACCOUNT,
+        RMS.RECIEVE_UNIT_NAME,
+        RMS.PAY_BANK_ACCOUNT,
+        RMS.PAYMENT_BANK_INFORMATION PAYMENT_BANK_NAME,
+        RMS.PAYMENT_BANK_INFORMATION paymentBankInformation,
+        RMS.PAY_UNIT_NAME,
+        RMS.RECIEVE_TIME,
+        RMS.AMOUNT_COLLECTED,
+        RMS.IN_COME_SUB_TYPE_ID,
+        RMS.IN_COME_SUB_TYPE_CODE,
+        MT.NAME IN_COME_MAIN_TYPE_NAME,
+        SUBTT.NAME IN_COME_SUB_TYPE_NAME,
+        RMS.REMARK,
+        RMS.RECIEVE_BANK_TYPE,
+        RMS.NO_TAX_AMOUNT,
+        RMS.TAX,
+        RMS.TAX_AMOUNT,
+        RMS.RECIEVE_BANK_UNIT_ID
+        FROM
+        REP_RECIEVE_LINE_MSG RMS LEFT JOIN REP_RECIEVE_PAYMENT RRP ON RMS.DOCUMENT_ID=RRP.ID
+        LEFT JOIN BASE_INCOME_MAIN_TYPE MT ON MT.ID=RRP.IN_COME_MAIN_TYPE_ID
+        LEFT JOIN BASE_INCOME_SUB_TYPE SUBTT ON SUBTT.ID=RMS.IN_COME_SUB_TYPE_ID
+
+        <where>
+            <if test="param.documentNum!=null and param.documentNum!=''">
+                AND RRP.DOCUMENT_NUM LIKE CONCAT('%',CONCAT(#{param.documentNum},'%'))
+            </if>
+            <if test="param.inComeMainTypeId!=null">
+                AND RRP.IN_COME_MAIN_TYPE_ID=#{param.inComeMainTypeId}
+            </if>
+            <if test="param.inComeSubTypeId!=null">
+                AND RMS.IN_COME_SUB_TYPE_ID=#{param.inComeSubTypeId}
+            </if>
+            <if test="param.payUnitId!=null">
+                AND RMS.PAY_UNIT_ID=#{param.payUnitId}
+            </if>
+            <if test="param.startTime!=null">
+                AND RMS.RECIEVE_TIME  <![CDATA[>=]]>
+                to_date(to_char(#{param.startTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+            <if test="param.endTime!=null">
+                AND RMS.RECIEVE_TIME  <![CDATA[<=]]>
+                to_date(to_char(#{param.endTime},'yyyy-mm-dd HH24:MI:SS'),'yyyy-mm-dd HH24:MI:SS')
+            </if>
+            <if test="param.recieveUnitId!=null">
+                AND RMS.RECIEVE_UNIT_ID=#{param.recieveUnitId}
+            </if>
+            AND RRP.DOCUMENT_STATUS='HAS_ACCOUTED'
+            AND (RMS.EX1 <![CDATA[<>]]> 'Y' OR RMS.EX1 IS NULL)
+        </where>
+        ORDER BY RRP.CREATE_TIME DESC
+
+    </select>
+
+    <select id="findBySerialNum" resultType="com.deloitte.platform.api.fssc.trade.vo.BusinessRelateDocument">
+        SELECT head.DOCUMENT_NUM as documentNum,'收款单' as documentType ,head.CREATE_USER_NAME as applyForPerson ,
+        head.total_amount as amount，head.CREATE_TIME as createTime, line.TRANSACTION_CODE as serialNum
+        from REP_RECIEVE_PAYMENT head
+        inner join REP_RECIEVE_LINE_MSG line on line.document_id = head.id
+        <if test="serialNumList != null">
+            <where>
+                line.TRANSACTION_CODE in
+                <foreach collection="serialNumList" item="serialNum" separator="," open="(" close=")">
+                    #{serialNum}
+                </foreach>
+            </where>
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.project.mapper.MyApplicationMapper">
+
+    <!-- MyApplication ResultMap -->
+    <resultMap id="Base_Column" type="com.deloitte.services.project.entity.MyApplication">
+        <result column="ID" property="id"/>
+        <result column="APPLICATION_ID" property="applicationId"/>
+        <result column="PROJECT_NAME" property="projectName" />
+        <result column="PROJECT_TYPE_CODE" property="projectTypeCode"/>
+        <result column="PROJECT_TYPE_NAME" property="projectTypeName" />
+        <result column="PLAN_YEAR" property="planYear" />
+        <result column="PROJECT_STATUS_CODE" property="projectStatusCode"/>
+        <result column="PROJECT_STATUS_NAME" property="projectStatusName" />
+        <result column="REVIEW_STATE" property="reviewState" />
+        <result column="REVIEW_RESULT" property="reviewResult"/>
+        <result column="THE_APPLICATION_YEAR" property="theApplicationYear" />
+    </resultMap>
+
+    <sql id="MyApp_SQL">
+        SELECT
+            PS.ID,
+            PS.PROJECT_NAME,
+            ps.PROJECT_TYPE_CODE,
+            PS.PROJECT_TYPE_NAME,
+            PS.PROJECT_STATUS_CODE,
+            PS.PROJECT_STATUS_NAME,
+            PR.REVIEW_STATE,
+            PR.REVIEW_RESULT,
+            PS.PLAN_YEAR,
+            PA.THE_APPLICATION_YEAR,
+            PA.APPLICATION_ID
+        FROM
+            PROJECTS PS,
+            PROJECT_APPLICATION PA,
+            PROJECT_REVIEW PR
+        WHERE
+            PS."ID" = PA.PROJECT_ID
+        AND
+            PA."ID" = PR.APPLICATION_ID
+        ORDER BY
+            PS.PLAN_YEAR ASC
+    </sql>
+
+    <select id="searchMyApplication" resultMap="Base_Column">
+        <include refid="MyApp_SQL"/>
+    </select>
+
+</mapper>

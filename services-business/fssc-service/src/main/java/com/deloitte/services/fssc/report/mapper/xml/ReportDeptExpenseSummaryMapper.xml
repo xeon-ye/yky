@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.report.mapper.ReportDeptExpenseSummaryMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.report.entity.ReportDeptExpenseSummary">
+        <result column="ID" property="id" />
+        <result column="UNIT_ID" property="unitId" />
+        <result column="UNIT_CODE" property="unitCode" />
+        <result column="YEAR" property="year" />
+        <result column="MONTH" property="month" />
+        <result column="STATUS" property="status" />
+        <result column="PERIOD_TYPE" property="periodType" />
+        <result column="MERGE_FLAG" property="mergeFlag" />
+        <result column="TOTAL_ITEM_1" property="totalItem1" />
+        <result column="TOTAL_ITEM_2" property="totalItem2" />
+        <result column="TOTAL_ITEM_3" property="totalItem3" />
+        <result column="TOTAL_ITEM_4" property="totalItem4" />
+        <result column="TOTAL_ITEM_5" property="totalItem5" />
+        <result column="TOTAL_ITEM_6" property="totalItem6" />
+        <result column="TOTAL_ITEM_7" property="totalItem7" />
+        <result column="TOTAL_ITEM_8" property="totalItem8" />
+        <result column="TOTAL_ITEM_9" property="totalItem9" />
+        <result column="TOTAL_ITEM_10" property="totalItem10" />
+        <result column="TOTAL_ITEM_11" property="totalItem11" />
+        <result column="TOTAL_ITEM_12" property="totalItem12" />
+        <result column="TOTAL_ITEM_13" property="totalItem13" />
+        <result column="BASE_ITEM_1" property="baseItem1" />
+        <result column="BASE_ITEM_2" property="baseItem2" />
+        <result column="BASE_ITEM_3" property="baseItem3" />
+        <result column="BASE_ITEM_4" property="baseItem4" />
+        <result column="BASE_ITEM_5" property="baseItem5" />
+        <result column="BASE_ITEM_6" property="baseItem6" />
+        <result column="BASE_ITEM_7" property="baseItem7" />
+        <result column="BASE_ITEM_8" property="baseItem8" />
+        <result column="BASE_ITEM_9" property="baseItem9" />
+        <result column="BASE_ITEM_10" property="baseItem10" />
+        <result column="BASE_ITEM_11" property="baseItem11" />
+        <result column="BASE_ITEM_12" property="baseItem12" />
+        <result column="BASE_ITEM_13" property="baseItem13" />
+        <result column="PROJECT_ITEM_1" property="projectItem1" />
+        <result column="PROJECT_ITEM_2" property="projectItem2" />
+        <result column="PROJECT_ITEM_3" property="projectItem3" />
+        <result column="PROJECT_ITEM_4" property="projectItem4" />
+        <result column="PROJECT_ITEM_5" property="projectItem5" />
+        <result column="PROJECT_ITEM_6" property="projectItem6" />
+        <result column="PROJECT_ITEM_7" property="projectItem7" />
+        <result column="PROJECT_ITEM_8" property="projectItem8" />
+        <result column="PROJECT_ITEM_9" property="projectItem9" />
+        <result column="PROJECT_ITEM_10" property="projectItem10" />
+        <result column="PROJECT_ITEM_11" property="projectItem11" />
+        <result column="PROJECT_ITEM_12" property="projectItem12" />
+        <result column="PROJECT_ITEM_13" property="projectItem13" />
+        <result column="SUPERIOR_ITEM_1" property="superiorItem1" />
+        <result column="SUPERIOR_ITEM_2" property="superiorItem2" />
+        <result column="SUPERIOR_ITEM_3" property="superiorItem3" />
+        <result column="SUPERIOR_ITEM_4" property="superiorItem4" />
+        <result column="SUPERIOR_ITEM_5" property="superiorItem5" />
+        <result column="SUPERIOR_ITEM_6" property="superiorItem6" />
+        <result column="SUPERIOR_ITEM_7" property="superiorItem7" />
+        <result column="SUPERIOR_ITEM_8" property="superiorItem8" />
+        <result column="SUPERIOR_ITEM_9" property="superiorItem9" />
+        <result column="SUPERIOR_ITEM_10" property="superiorItem10" />
+        <result column="SUPERIOR_ITEM_11" property="superiorItem11" />
+        <result column="SUPERIOR_ITEM_12" property="superiorItem12" />
+        <result column="SUPERIOR_ITEM_13" property="superiorItem13" />
+        <result column="INSTITUTION_ITEM_1" property="institutionItem1" />
+        <result column="INSTITUTION_ITEM_2" property="institutionItem2" />
+        <result column="INSTITUTION_ITEM_3" property="institutionItem3" />
+        <result column="INSTITUTION_ITEM_4" property="institutionItem4" />
+        <result column="INSTITUTION_ITEM_5" property="institutionItem5" />
+        <result column="INSTITUTION_ITEM_6" property="institutionItem6" />
+        <result column="INSTITUTION_ITEM_7" property="institutionItem7" />
+        <result column="INSTITUTION_ITEM_8" property="institutionItem8" />
+        <result column="INSTITUTION_ITEM_9" property="institutionItem9" />
+        <result column="INSTITUTION_ITEM_10" property="institutionItem10" />
+        <result column="INSTITUTION_ITEM_11" property="institutionItem11" />
+        <result column="INSTITUTION_ITEM_12" property="institutionItem12" />
+        <result column="INSTITUTION_ITEM_13" property="institutionItem13" />
+        <result column="SOLDIERS_ITEM_1" property="soldiersItem1" />
+        <result column="SOLDIERS_ITEM_2" property="soldiersItem2" />
+        <result column="SOLDIERS_ITEM_3" property="soldiersItem3" />
+        <result column="SOLDIERS_ITEM_4" property="soldiersItem4" />
+        <result column="SOLDIERS_ITEM_5" property="soldiersItem5" />
+        <result column="SOLDIERS_ITEM_6" property="soldiersItem6" />
+        <result column="SOLDIERS_ITEM_7" property="soldiersItem7" />
+        <result column="SOLDIERS_ITEM_8" property="soldiersItem8" />
+        <result column="SOLDIERS_ITEM_9" property="soldiersItem9" />
+        <result column="SOLDIERS_ITEM_10" property="soldiersItem10" />
+        <result column="SOLDIERS_ITEM_11" property="soldiersItem11" />
+        <result column="SOLDIERS_ITEM_12" property="soldiersItem12" />
+        <result column="SOLDIERS_ITEM_13" property="soldiersItem13" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, UNIT_ID, UNIT_CODE, YEAR, MONTH, STATUS, PERIOD_TYPE, MERGE_FLAG, TOTAL_ITEM_1, TOTAL_ITEM_2, TOTAL_ITEM_3, TOTAL_ITEM_4, TOTAL_ITEM_5, TOTAL_ITEM_6, TOTAL_ITEM_7, TOTAL_ITEM_8, TOTAL_ITEM_9, TOTAL_ITEM_10, TOTAL_ITEM_11, TOTAL_ITEM_12, TOTAL_ITEM_13, BASE_ITEM_1, BASE_ITEM_2, BASE_ITEM_3, BASE_ITEM_4, BASE_ITEM_5, BASE_ITEM_6, BASE_ITEM_7, BASE_ITEM_8, BASE_ITEM_9, BASE_ITEM_10, BASE_ITEM_11, BASE_ITEM_12, BASE_ITEM_13, PROJECT_ITEM_1, PROJECT_ITEM_2, PROJECT_ITEM_3, PROJECT_ITEM_4, PROJECT_ITEM_5, PROJECT_ITEM_6, PROJECT_ITEM_7, PROJECT_ITEM_8, PROJECT_ITEM_9, PROJECT_ITEM_10, PROJECT_ITEM_11, PROJECT_ITEM_12, PROJECT_ITEM_13, SUPERIOR_ITEM_1, SUPERIOR_ITEM_2, SUPERIOR_ITEM_3, SUPERIOR_ITEM_4, SUPERIOR_ITEM_5, SUPERIOR_ITEM_6, SUPERIOR_ITEM_7, SUPERIOR_ITEM_8, SUPERIOR_ITEM_9, SUPERIOR_ITEM_10, SUPERIOR_ITEM_11, SUPERIOR_ITEM_12, SUPERIOR_ITEM_13, INSTITUTION_ITEM_1, INSTITUTION_ITEM_2, INSTITUTION_ITEM_3, INSTITUTION_ITEM_4, INSTITUTION_ITEM_5, INSTITUTION_ITEM_6, INSTITUTION_ITEM_7, INSTITUTION_ITEM_8, INSTITUTION_ITEM_9, INSTITUTION_ITEM_10, INSTITUTION_ITEM_11, INSTITUTION_ITEM_12, INSTITUTION_ITEM_13, SOLDIERS_ITEM_1, SOLDIERS_ITEM_2, SOLDIERS_ITEM_3, SOLDIERS_ITEM_4, SOLDIERS_ITEM_5, SOLDIERS_ITEM_6, SOLDIERS_ITEM_7, SOLDIERS_ITEM_8, SOLDIERS_ITEM_9, SOLDIERS_ITEM_10, SOLDIERS_ITEM_11, SOLDIERS_ITEM_12, SOLDIERS_ITEM_13, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME, EXT1, EXT2, EXT3, EXT4, EXT5
+    </sql>
+
+</mapper>

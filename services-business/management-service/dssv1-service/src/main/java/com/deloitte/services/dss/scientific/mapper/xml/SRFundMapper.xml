@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.scientific.mapper.SRFundMapper">
+
+    <!-- 修改版 v20190305-->
+    <resultMap id="FundBaseVo" type="com.deloitte.platform.api.dss.scientific.vo.FundBaseVo">
+        <result column="amount" property="amount"/>
+        <result column="reciveAmount" property="reciveAmount"/>
+        <result column="payAmount" property="payAmount"/>
+    </resultMap>
+
+    <resultMap id="FundColumnarVo" type="com.deloitte.platform.api.dss.scientific.vo.FundColumnarVo">
+        <result column="yaerValue" property="yaerValue"/>
+        <result column="totalMoeny" property="totalMoeny"/>
+        <result column="academy" property="academy"/>
+        <result column="national" property="national"/>
+        <result column="provincial" property="provincial"/>
+        <result column="transverse" property="transverse"/>
+        <result column="other" property="other"/>
+    </resultMap>
+
+    <select id="queryTotalMoney"  resultMap="FundBaseVo"  parameterType="java.util.Map">
+        <!-- 查询本年度总经费 和到位经费-->
+        <![CDATA[
+
+               SELECT
+                  max(pro.FUNDS) amount,
+                  sum(revice.FUNDS)/10000 reciveAmount
+                FROM DSS_SCIENTIFIC_PROJECT  pro
+                  left join  DSS_SCIENTIFIC_RECIVE  revice
+                on pro.CODE = revice.PRO_CODE  and to_char(revice.RECIVE_DATE,'yyyy') = to_char(sysdate,'yyyy')
+				and pro.STATE in (200,300,400,500)
+			    and substr(pro.PRO_TYPE,0,6)='100101'
+			    and revice.STATUS = 'Y'
+        ]]>
+    </select>
+<!--查询新获项目经费-->
+    <select id="queryProMoney" resultMap="FundBaseVo" parameterType="java.util.Map">
+        <![CDATA[
+            select sum(pro.funds) amount
+					from DSS_SCIENTIFIC_PROJECT pro
+					where pro.STATE in (200,300,400,500)
+					and to_char(pro.START_DATE,'yyyy') = to_char(sysdate,'yyyy')
+        ]]>
+    </select>
+<!--查询到位经费-->
+    <select id="queryReciveMoney" resultMap="FundBaseVo" parameterType="java.util.Map">
+        <![CDATA[
+            select sum(revice.FUNDS)/10000 reciveAmount from DSS_SCIENTIFIC_PROJECT pro,DSS_SCIENTIFIC_RECIVE revice
+					where pro.CODE = revice.PRO_CODE
+					and pro.STATE in (200,300,400,500)
+					and to_char(revice.RECIVE_DATE,'yyyy') = to_char(sysdate,'yyyy')
+					and revice.STATUS = 'Y'
+        ]]>
+    </select>
+
+    <select id="queryPayMoney"  resultMap="FundBaseVo"  parameterType="java.util.Map">
+        <!-- 查询本年创新工程支出总计-->
+        <![CDATA[
+                SELECT
+	            sum( pay.FUNDS )/10000 payAmount
+                FROM
+	            DSS_SCIENTIFIC_PAY pay,
+	            DSS_SCIENTIFIC_PROJECT pro
+                WHERE
+	            pay.PRO_CODE = pro.CODE
+	            AND substr(pay.PAY_DATE,0,4) = to_char ( sysdate, 'yyyy' )
+				and pay.STATUS = 'Y'
+				and substr(PAY_DATE,0,4) = to_char(sysdate,'yyyy')
+        ]]>
+    </select>
+
+
+    <select id="queryColumnalData"  resultMap="FundColumnarVo"  parameterType="java.util.Map">
+        <!-- 查询年度柱状图数据-->
+        <![CDATA[
+                   select
+              temp.yaerValue,
+              sum(reviceMoney) totalMoeny,
+              sum(case when category = '1001' then reviceMoney else 0 end  )  academy,
+              sum(case when category = '1002' then reviceMoney else 0 end  )  national,
+              sum(case when category = '1003' then reviceMoney else 0 end  )  provincial,
+              sum(case when category = '1005' then reviceMoney else 0 end  )  transverse,
+              sum(case when category = '1004' then reviceMoney else 0 end  )  other
+            from (
+                   select outlay.ID,
+                          substr(pro.PRO_TYPE,0,4)    category,
+                          to_char(outlay.RECIVE_DATE,'yyyy') yaerValue,
+                          outlay.FUNDS/10000           reviceMoney,
+                          pro.CODE proCode
+                   from DSS_SCIENTIFIC_RECIVE outlay,DSS_SCIENTIFIC_PROJECT  pro
+                   WHERE
+                         outlay.PRO_CODE = pro.CODE
+						 and  pro.STATE in (200,300,400,500)
+                         and to_char(outlay.RECIVE_DATE,'yyyy') >= to_char(add_months(sysdate, -36), 'yyyy')
+                         and outlay.STATUS = 'Y'
+                 ) temp group by  temp.yaerValue
+        ]]>
+    </select>
+    <!-- 修改版 v20190305-->
+
+</mapper>

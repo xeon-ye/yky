@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.business.basecontract.mapper.BaseContractInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.business.basecontract.entity.BaseContractInfo">
+        <id column="ID" property="id" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="VERSION" property="version" />
+        <result column="CONTRACT_ID" property="contractId" />
+        <result column="CONTRACT_NO" property="contractNo" />
+        <result column="CONTRACT_NAME" property="contractName" />
+        <result column="SIDE_SUBJECT_NAME" property="sideSubjectName" />
+        <result column="OUR_SUBJECT_NAME" property="ourSubjectName" />
+        <result column="EXECUTE_STATUE_TIME" property="executeStatueTime" />
+        <result column="EXECUTE_START_TIME" property="executeStartTime" />
+        <result column="EXECUTE_END_TIME" property="executeEndTime" />
+        <result column="CONTRACT_TYPE" property="contractType" />
+        <result column="STATUE" property="statue" />
+        <result column="ORG" property="org" />
+        <result column="OPERATOR" property="operator" />
+        <result column="IS_PAY_STAMP_DUTY" property="isPayStampDuty" />
+        <result column="IS_FOREIGN_CONTRACT" property="isForeignContract" />
+        <result column="CONTRACT_TYPE_STAMP_DUTY" property="contractTypeStampDuty" />
+        <result column="NAME_OF_TAXABLE" property="nameOfTaxable" />
+        <result column="STAMP_DUTY" property="stampDuty" />
+        <result column="GENERAL_STAMP_DUTY_RATE" property="generalStampDutyRate" />
+        <result column="TAX_AMOUNT_OR_PIECES" property="taxAmountOrPieces" />
+        <result column="EX1" property="ex1" />
+        <result column="EX2" property="ex2" />
+        <result column="EX3" property="ex3" />
+        <result column="EX4" property="ex4" />
+        <result column="EX5" property="ex5" />
+        <result column="EX6" property="ex6" />
+        <result column="EX7" property="ex7" />
+        <result column="EX8" property="ex8" />
+        <result column="EX9" property="ex9" />
+        <result column="EX10" property="ex10" />
+        <result column="EX11" property="ex11" />
+        <result column="EX12" property="ex12" />
+        <result column="EX13" property="ex13" />
+        <result column="EX14" property="ex14" />
+        <result column="EX15" property="ex15" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, UPDATE_BY, UPDATE_TIME, CREATE_TIME, VERSION, CONTRACT_ID, CONTRACT_NO, CONTRACT_NAME, SIDE_SUBJECT_NAME, OUR_SUBJECT_NAME, EXECUTE_STATUE_TIME, EXECUTE_START_TIME, EXECUTE_END_TIME, CONTRACT_TYPE, STATUE, ORG, OPERATOR, IS_PAY_STAMP_DUTY, IS_FOREIGN_CONTRACT, CONTRACT_TYPE_STAMP_DUTY, NAME_OF_TAXABLE, STAMP_DUTY, GENERAL_STAMP_DUTY_RATE, TAX_AMOUNT_OR_PIECES, EX1, EX2, EX3, EX4, EX5, EX6, EX7, EX8, EX9, EX10, EX11, EX12, EX13, EX14, EX15
+    </sql>
+    <update id="updateContract">
+
+        UPDATE BASE_CONTRACT_INFO
+        SET
+        IS_PAY_STAMP_DUTY=#{form.isPayStampDuty,jdbcType=VARCHAR},
+        CONTRACT_TYPE_STAMP_DUTY=#{form.contractTypeStampDuty,jdbcType=VARCHAR},
+        NAME_OF_TAXABLE=#{form.nameOfTaxable,jdbcType=VARCHAR},
+        STAMP_DUTY=#{form.stampDuty,jdbcType=DECIMAL},
+        GENERAL_STAMP_DUTY_RATE=#{form.generalStampDutyRate,jdbcType=DECIMAL},
+        TAX_AMOUNT_OR_PIECES=#{form.taxAmountOrPieces,jdbcType=DECIMAL}
+        WHERE ID=#{form.id}
+
+    </update>
+
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.project.mapper.ExpenseMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.project.entity.Expense">
+        <id column="ID" property="id" />
+        <result column="EXPENSE_ID" property="expenseId" />
+        <result column="PROJECT_APPROVAL_ID" property="projectApprovalId" />
+        <result column="BUDGET_YEAR" property="budgetYear" />
+        <result column="EXPENSE_PLAN" property="expensePlan" />
+        <result column="FIN_ALLOCATION_EARLY" property="finAllocationEarly" />
+        <result column="FIN_CARRY_OVER_EARLY" property="finCarryOverEarly" />
+        <result column="ADJ_FINANCIAL_ALLOCATION" property="adjFinancialAllocation" />
+        <result column="ADJ_FINANCIAL_CARRY_OVER" property="adjFinancialCarryOver" />
+        <result column="FIN_ALLOCATION_ALL_YEAR" property="finAllocationAllYear" />
+        <result column="FIN_CARRY_OVER_ALL_YEAR" property="finCarryOverAllYear" />
+        <result column="FIN_ALLOCATION_BUDGET" property="finAllocationBudget" />
+        <result column="FIN_CARRY_OVER_BUDGET" property="finCarryOverBudget" />
+        <result column="FIN_ALLOCATION_SURPLUS" property="finAllocationSurplus" />
+        <result column="FIN_CARRY_OVER_SURPLUS" property="finCarryOverSurplus" />
+        <result column="FIN_ALLOCATION_FACT_SURPLUS" property="finAllocationFactSurplus" />
+        <result column="FIN_CARRY_OVER_FACT_SURPLUS" property="finCarryOverFactSurplus" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="ORG_ID" property="orgId" />
+        <result column="ORG_PATH" property="orgPath" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+        <result column="PROJECT_ID" property="projectId" />
+        <result column="APPLICATION_ID" property="applicationId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, EXPENSE_ID, PROJECT_APPROVAL_ID, BUDGET_YEAR, EXPENSE_PLAN, FIN_ALLOCATION_EARLY, FIN_CARRY_OVER_EARLY, ADJ_FINANCIAL_ALLOCATION, ADJ_FINANCIAL_CARRY_OVER, FIN_ALLOCATION_ALL_YEAR, FIN_CARRY_OVER_ALL_YEAR, FIN_ALLOCATION_BUDGET, FIN_CARRY_OVER_BUDGET, FIN_ALLOCATION_SURPLUS, FIN_CARRY_OVER_SURPLUS, FIN_ALLOCATION_FACT_SURPLUS, FIN_CARRY_OVER_FACT_SURPLUS, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, ORG_ID, ORG_PATH, EXT1, EXT2, EXT3, EXT4, EXT5, PROJECT_ID, APPLICATION_ID
+    </sql>
+
+</mapper>

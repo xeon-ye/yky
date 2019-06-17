@@ -1,0 +1,27 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.deloitte.services.demosimple.properties.TestPropertis",
+      "name": "test",
+      "type": "com.deloitte.services.demosimple.properties.TestPropertis"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.deloitte.services.demosimple.properties.TestPropertis",
+      "name": "test.password",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.deloitte.services.demosimple.properties.TestPropertis",
+      "name": "test.strlist",
+      "type": "java.util.List<java.lang.String>"
+    },
+    {
+      "sourceType": "com.deloitte.services.demosimple.properties.TestPropertis",
+      "name": "test.username",
+      "type": "java.lang.String"
+    }
+  ]
+}

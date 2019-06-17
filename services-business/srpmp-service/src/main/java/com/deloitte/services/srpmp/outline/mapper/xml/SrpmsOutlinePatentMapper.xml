@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.srpmp.outline.mapper.SrpmsOutlinePatentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.srpmp.outline.entity.SrpmsOutlinePatent">
+        <id column="ID" property="id"/>
+        <result column="BASE_ID" property="baseId"/>
+        <result column="PRO_CODE" property="proCode"/>
+        <result column="PRO_NAME" property="proName"/>
+        <result column="APPLICATION_NUM" property="applicationNum"/>
+        <result column="PATENT_NUM" property="patentNum"/>
+        <result column="PATENT_NAME" property="patentName"/>
+        <result column="PATENT_CAT" property="patentCat"/>
+        <result column="AUTHORIZED_FLAG" property="authorizedFlag"/>
+        <result column="PROPOSER" property="proposer"/>
+        <result column="APPLICATION_TIME" property="applicationTime"/>
+        <result column="AUTHORIZED_TIME" property="authorizedTime"/>
+        <result column="AUTHORIZED_REGION" property="authorizedRegion"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="CREATE_BY" property="createBy"/>
+        <result column="UPDATE_TIME" property="updateTime"/>
+        <result column="UPDATE_BY" property="updateBy"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, BASE_ID, PRO_CODE, PRO_NAME, APPLICATION_NUM, PATENT_NUM, PATENT_NAME, PATENT_CAT, AUTHORIZED_FLAG, PROPOSER, APPLICATION_TIME, AUTHORIZED_TIME, AUTHORIZED_REGION, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+    </sql>
+
+    <!--根据条件查询专利数据-->
+    <select id="listQuery" parameterType="com.deloitte.platform.api.srpmp.outline.param.SrpmsOutlinePatentQueryForm"
+            resultType="com.deloitte.platform.api.srpmp.outline.param.SrpmsOutlinePatentQueryParam">
+        SELECT t1.*, t2.org_id, t2.year, t2.month
+        FROM
+        SRPMS_OUTLINE_PATENT t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE
+        1=1
+        <if test="orgId != null">
+            AND t2.org_id = #{orgId}
+        </if>
+        <if test="year != null and year != ''">
+            AND t2.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t2.month = #{month}
+        </if>
+        <if test="proCode != null and proCode != ''">
+            AND t1.pro_code = #{proCode}
+        </if>
+        <if test="proName != null and proName != ''">
+            AND t1.pro_name LIKE '%'||#{proName}||'%'
+        </if>
+        <if test="applicationNum != null and applicationNum != ''">
+            AND t1.application_num LIKE '%'||#{applicationNum}||'%'
+        </if>
+        <if test="patentNum != null and patentNum != ''">
+            AND t1.patent_num LIKE '%'||#{patentNum}||'%'
+        </if>
+        <if test="patentName != null and patentName != ''">
+            AND t1.patent_name LIKE '%'||#{patentName}||'%'
+        </if>
+        <if test="patentCat != null and patentCat != ''">
+            AND t1.patent_cat = #{patentCat}
+        </if>
+        <if test="authorizedFlag != null and authorizedFlag != ''">
+            AND t1.authorized_flag = #{authorizedFlag}
+        </if>
+        <if test="proposer != null and proposer != ''">
+            AND t1.proposer = #{proposer}
+        </if>
+        <if test="applicationStartDate != null and applicationStartDate != ''">
+            AND t1.application_time = <![CDATA[ >= ]]> to_date(#{applicationStartDate},'YYYY-MM-DD HH24:MI:SS')
+        </if>
+        <if test="applicationEndDate != null and applicationEndDate != ''">
+            AND t1.application_time = <![CDATA[ <= ]]> to_date(#{applicationEndDate},'YYYY-MM-DD HH24:MI:SS')
+        </if>
+        <if test="authorizedStartDate != null and authorizedStartDate != ''">
+            AND t1.authorized_time = <![CDATA[ >= ]]> to_date(#{authorizedStartDate},'YYYY-MM-DD HH24:MI:SS')
+        </if>
+        <if test="authorizedEndDate != null and authorizedEndDate != ''">
+            AND t1.authorized_time = <![CDATA[ <= ]]> to_date(#{authorizedEndDate},'YYYY-MM-DD HH24:MI:SS')
+        </if>
+        <if test="authorizedRegion != null and authorizedRegion != ''">
+            AND t1.authorized_region = #{authorizedRegion}
+        </if>
+        <if test="createBy != null and createBy != ''">
+            AND t1.create_by = #{createBy}
+        </if>
+        ORDER by nvl(t1.create_time, TO_DATE('1900-01-01', 'YYYY-MM-DD HH24:MI:SS')) DESC
+    </select>
+
+    <!--根据条件(单位+期间+专利号)查询题录-专利数据-->
+    <select id="getQueryCount" parameterType="java.util.Map"
+            resultType="int">
+        SELECT count(*)
+        FROM
+        SRPMS_OUTLINE_PATENT t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE
+        1=1
+        AND t2.org_id = #{orgId}
+        AND t2.year = #{year}
+        AND t2.month = #{month}
+        AND t1.authorized_flag = #{authorizedFlag}
+        AND t1.application_num = #{applicationNum}
+        AND t1.patent_num = #{patentNum}
+        <if test="id != null">
+            AND t1.id &lt;&gt; #{id}
+        </if>
+    </select>
+
+    <!--查询题录-专利统计数据-->
+    <select id="getReportCount"
+            parameterType="java.util.Map"
+            resultType="com.deloitte.platform.api.srpmp.outline.vo.SrpmsOutlinePatentReportVo">
+        SELECT tt.orgId,tt.inAuthCount,tt.inNoAuthCount,tt.outAuthCount,tt.outNoAuthCount,
+        nvl(tt.inAuthCount,0)+nvl(tt.inNoAuthCount,0)+nvl(tt.outAuthCount,0)+nvl(tt.outNoAuthCount,0) totalCount
+        FROM
+        (SELECT tc.orgId,
+        SUM(CASE WHEN tc.AUTHORIZED_REGION = '10' AND tc.AUTHORIZED_FLAG = '10' THEN 1 ELSE 0 END) inAuthCount,
+        SUM(CASE WHEN tc.AUTHORIZED_REGION = '10' AND tc.AUTHORIZED_FLAG = '20' THEN 1 ELSE 0 END) inNoAuthCount,
+        SUM(CASE WHEN tc.AUTHORIZED_REGION = '20' AND tc.AUTHORIZED_FLAG = '10' THEN 1 ELSE 0 END) outAuthCount,
+        SUM(CASE WHEN tc.AUTHORIZED_REGION = '20' AND tc.AUTHORIZED_FLAG = '20' THEN 1 ELSE 0 END) outNoAuthCount
+        FROM
+        (SELECT t2.org_id orgId, t1.AUTHORIZED_REGION, t1.AUTHORIZED_FLAG
+        FROM SRPMS_OUTLINE_PATENT t1
+        LEFT JOIN
+        SRPMS_OUTLINE_BASE t2
+        ON
+        t1.BASE_ID = t2.id
+        WHERE 1 = 1
+        <if test="year != null and year != ''">
+            AND t2.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t2.month = #{month}
+        </if>
+        <if test="orgId != null and orgId != 0">
+            AND t2.org_id = #{orgId}
+        </if>
+
+        UNION ALL
+
+        select t1.DEPT_CODE orgId, t1.AUTHORIZED_REGION, t1.AUTHORIZED_FLAG
+        from SRPMS_RESULT_PATENT t1
+        WHERE 1 = 1
+        <if test="year != null and year != ''">
+            AND t1.year = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND t1.month = #{month}
+        </if>
+        <if test="orgId != null and orgId != 0">
+            AND t1.DEPT_CODE = #{orgId}
+        </if>
+        ) tc
+        GROUP BY tc.orgId
+        ORDER by tc.orgId) tt
+
+    </select>
+
+</mapper>

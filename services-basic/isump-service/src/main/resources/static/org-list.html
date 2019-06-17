@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户管理</title>
+    <style type="text/css">
+        table {
+            border-collapse: collapse;
+            width:100%;
+            border: 1px solid #fff;
+        }
+        table td,th {
+            border: 1px solid #E5E5E5;
+            white-space: nowrap;
+        }
+        .text{
+            margin-bottom:12px;
+            width:95%;
+            padding: .4em;
+        }
+    </style>
+</head>
+<body>
+<div id="top">
+</div>
+<h2>组织管理</h2>
+<table border="1" id="query">
+    <tr>
+        <td>名称</td>
+        <td><input type="text" id="modelName" name="modelName" value="">&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="queryList('');">查询</button></td>
+    </tr>
+</table>
+<hr>
+<table border="1" id="model-list">
+    <tr>
+        <td>用户ID</td>
+        <td>名称</td>
+        <td>登录账号</td>
+        <td>操作</td>
+    </tr>
+    <script id="models" type="text/html">
+        <tr>
+            <td>组织ID</td>
+            <td>组织编号</td>
+            <td>组织名称</td>
+            <td>组织类型</td>
+            <td>组织路径</td>
+            <td>组织状态</td>
+        </tr>
+        {{each content}}
+        <tr>
+            <td>{{$value.id}}</td>
+            <td>{{$value.code}}</td>
+            <td>{{$value.name}}</td>
+            <td>
+                {{$value.type}}
+            </td>
+            <td>
+                {{$value.path}}
+            </td>
+            <td>
+                {{$value.state}}
+            </td>
+        </tr>
+        {{/each}}
+    </script>
+</table>
+<hr>
+<div id="query-page">
+
+    每页<select id="rowSize" name="rowSize" onchange="setPageSize(this.value);" style="width: 40px;">
+    <option value="10" selected="selected">10</option>
+    <option value="20">20</option>
+    <option value="30">30</option>
+    <option value="40">40</option>
+    <option value="50">50</option>
+</select>条，当前<input type="text" id="page" name="page" value="1" style="width: 20px;"/>页，总<span id="totalRowsSpan"></span>记录
+    <button style="cursor: pointer;" onclick="queryList('prev');">上一页</button>
+    <input type="hidden" id="totalRows" name="totalRows" value="" style="width: 20px;"/>
+    <button style="cursor: pointer;" onclick="queryList('next');">下一页</button>
+</div>
+<hr>
+
+
+<script type="text/javascript" src="jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui.js"></script>
+<script src="/lib/js/jquery.cookie.js"></script>
+<script src="/js/ajax-util.js"></script>
+<script src="/lib/js/template.js"></script>
+<link href="/css/jquery-ui.css" rel="stylesheet">
+<script>
+    $(function() {
+        queryList("");
+
+
+    });
+    
+
+
+    function queryList(option){
+        var rowSize = $("#rowSize").val();
+        var page = $("#page").val();
+        if(option === "prev"){
+            page = parseInt(page);
+            if(page <= 1){
+                page = 1;
+                return;
+            }else{
+                page--;
+            }
+        }else if(option === "next"){
+            page = parseInt(page);
+            page++;
+            var total = parseInt($("#totalRows").val());
+            var totalPage = Math.ceil(total/rowSize);
+            if(totalPage<page){
+                return;
+            }
+        }else{
+            page = 1;
+        }
+        var modelName = $("#modelName").val();
+        var url = "/isump/organization/page2/conditions";
+        var param = {
+            "pageSize":rowSize,
+            "currentPage":page,
+            "name":modelName
+        }
+        var p_json = JSON.stringify(param)
+        AJAX.POST_JSON(url, p_json
+            , function (result) {
+                console.log(result);
+                $("#page").val(result.pageNo);
+                $("#rowSize").val(result.pageSize);
+                $("#totalRows").val(result.total);
+                $("#totalRowsSpan").html(result.total);
+                var html = template("models", result);
+                $("#model-list").html(html);
+
+            });
+    }
+
+    function setPageSize(val){
+        $("#page").val(1);
+        $("#modelName").val("");
+        $("#rowSize").val(val);
+        queryList("");
+    }
+
+</script>
+</body>
+</html>

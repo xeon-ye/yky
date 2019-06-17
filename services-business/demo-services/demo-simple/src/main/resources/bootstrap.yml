@@ -1,0 +1,49 @@
+server:
+  port: 8901
+
+spring:
+  application:
+    name: demo-simple
+  cloud:
+    config:
+      fail-fast: true
+      discovery:
+        enabled: true
+        service-id: config-server
+      name: config
+      profile: common
+    bus:
+      trace:
+        enabled: true
+      enabled: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_ZONE_HOST:localhost}:${EUREKA_ZONE_PORT:8101}/eureka/
+
+
+context:
+  listener:
+    classes: com.deloitte.platform.common.core.monitor.ApplicationEventListener
+endpoints:
+  shutdown:
+    enabled: true
+    #禁用密码验证
+    sensitive: false
+
+
+#自定义超时时间
+hystrix:
+  command:
+    #自定义的commandKey。 Feign客户端中的某方法超时时间定成9秒(格式是类名#方法名()，如果方法有入参，也要把入参的类型拼上)
+    "FileOperatorFeignService#uploadFiles(MultipartFile[] files)":
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+file-service:
+  ribbon:
+    ConnectTimeout: 60000
+    ReadTimeout: 60000
+

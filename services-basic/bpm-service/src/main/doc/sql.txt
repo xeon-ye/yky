@@ -1,0 +1,146 @@
+--修改截止2019-05-23
+alter table BPM_PROCESS_TASK add EMERGENCY varchar2(20);
+alter table BPM_PROCESS_TASK add SIGN_TIME TIMESTAMP(6);
+alter table BPM_PROCESS_TASK add CREATE_BY varchar2(60);
+alter table BPM_PROCESS_TASK add CREATE_BY_ORG_ID varchar2(60);
+alter table BPM_PROCESS_TASK add PREVIOUS_TASK_ID varchar2(60);
+alter table BPM_PROCESS_TASK add PROCESS_CREATE_TIME TIMESTAMP(6);
+alter table BPM_PROCESS_TASK add AGENT_ID varchar2(60);
+alter table BPM_PROCESS_TASK add AGENT_NAME varchar2(60);
+alter table BPM_PROCESS_TASK add OBJECT_APP_URL VARCHAR2(3000);
+alter table BPM_PROCESS_TASK add create_by_name VARCHAR2(300);
+
+alter table BPM_PROCESS_TASK modify object_id VARCHAR2(60);
+alter table BPM_PROCESS_TASK modify object_order_num VARCHAR2(300);
+alter table BPM_PROCESS_TASK modify opinion VARCHAR2(4000);
+alter table BPM_PROCESS_TASK modify task_name VARCHAR2(500);
+alter table BPM_PROCESS_TASK modify approver_name VARCHAR2(300);
+alter table BPM_PROCESS_TASK modify approver_station VARCHAR2(300);
+alter table BPM_PROCESS_TASK modify object_description VARCHAR2(2000);
+alter table BPM_PROCESS_TASK modify submitter_name VARCHAR2(300);
+alter table BPM_PROCESS_TASK modify submitter_station VARCHAR2(300);
+alter table BPM_PROCESS_TASK modify agent_name VARCHAR2(300);
+
+alter table BPM_PROCESS_TASK modify object_url VARCHAR2(2550);
+
+
+comment on column BPM_PROCESS_TASK.EMERGENCY
+  is '紧急程度';
+  comment on column BPM_PROCESS_TASK.SIGN_TIME
+  is '签收时间';
+  comment on column BPM_PROCESS_TASK.CREATE_BY
+  is '创建人';
+  comment on column BPM_PROCESS_TASK.CREATE_BY_ORG_ID
+  is '创建人所在部门';
+  comment on column BPM_PROCESS_TASK.PREVIOUS_TASK_ID
+  is '上一任务id';
+  comment on column BPM_PROCESS_TASK.PROCESS_CREATE_TIME
+  is '流程创建时间';
+    comment on column BPM_PROCESS_TASK.AGENT_ID
+  is '代理人';
+    comment on column BPM_PROCESS_TASK.AGENT_NAME
+  is '代理人姓名';
+  comment on column BPM_PROCESS_TASK.object_app_url
+    is '手机端请求地址';
+  comment on column BPM_PROCESS_TASK.create_by_name
+    is '任务创建人姓名';
+
+  create table BPM_PROCESS_TASK_APPROVE
+  (
+    id                   NUMBER primary key,
+    process_instance_id  VARCHAR2(60),
+    previous_task_id     VARCHAR2(300),
+    task_key             VARCHAR2(300),
+    acount_id            VARCHAR2(60),
+    acount_name          VARCHAR2(300),
+    agent_id             VARCHAR2(60),
+    agent_name           VARCHAR2(300),
+    station_id           VARCHAR2(600),
+    org_id               VARCHAR2(60),
+    approver_description VARCHAR2(600),
+    object_url           VARCHAR2(2000),
+    object_app_url       VARCHAR2(2000),
+    order_num            NUMBER,
+    end_flag             VARCHAR2(10)
+  );
+
+  comment on column BPM_PROCESS_TASK_APPROVE.id
+    is '主键';
+  comment on column BPM_PROCESS_TASK_APPROVE.process_instance_id
+    is '流程实例id';
+  comment on column BPM_PROCESS_TASK_APPROVE.previous_task_id
+    is '上一任务的id';
+  comment on column BPM_PROCESS_TASK_APPROVE.task_key
+    is '当前任务节点';
+  comment on column BPM_PROCESS_TASK_APPROVE.acount_id
+    is '审批人id';
+  comment on column BPM_PROCESS_TASK_APPROVE.acount_name
+    is '审批人名称';
+  comment on column BPM_PROCESS_TASK_APPROVE.agent_id
+    is '代理人id';
+  comment on column BPM_PROCESS_TASK_APPROVE.agent_name
+    is '代理人名称';
+  comment on column BPM_PROCESS_TASK_APPROVE.station_id
+    is '岗位id';
+  comment on column BPM_PROCESS_TASK_APPROVE.org_id
+    is '所属组织';
+  comment on column BPM_PROCESS_TASK_APPROVE.approver_description
+    is '审批描述';
+  comment on column BPM_PROCESS_TASK_APPROVE.object_url
+    is '业务访问地址';
+  comment on column BPM_PROCESS_TASK_APPROVE.object_app_url
+    is 'app端业务访问地址';
+  comment on column BPM_PROCESS_TASK_APPROVE.order_num
+    is '排序号';
+  comment on column BPM_PROCESS_TASK_APPROVE.end_flag
+    is '是否已结束{1：结束，0：未经过}';
+
+
+    alter table BPM_APPROVAL_MATRIX add account_emp_no VARCHAR2(30);
+    alter table BPM_APPROVAL_MATRIX add org_no_list VARCHAR2(3000);
+    alter table BPM_APPROVAL_MATRIX add position_list VARCHAR2(3000);
+    alter table BPM_APPROVAL_MATRIX add role_no_list VARCHAR2(3000);
+    alter table BPM_APPROVAL_MATRIX add rule_type VARCHAR2(60);
+    alter table BPM_APPROVAL_MATRIX add custom_rule VARCHAR2(600);
+    alter table BPM_APPROVAL_MATRIX add order_num number;
+    alter table BPM_APPROVAL_MATRIX add system_code varchar2(60);
+
+
+alter table BPM_APPROVAL_MATRIX modify activity_name VARCHAR2(500);
+alter table BPM_APPROVAL_MATRIX modify charge_business VARCHAR2(300);
+alter table BPM_APPROVAL_MATRIX modify account_name VARCHAR2(300);
+alter table BPM_APPROVAL_MATRIX modify position VARCHAR2(500);
+
+    comment on column BPM_APPROVAL_MATRIX.system_code
+      is '所属系统';
+    comment on column BPM_APPROVAL_MATRIX.order_num
+      is '审批排序';
+    comment on column BPM_APPROVAL_MATRIX.account_emp_no
+      is '员工编号';
+    comment on column BPM_APPROVAL_MATRIX.org_no_list
+      is '组织编码列表';
+    comment on column BPM_APPROVAL_MATRIX.position_list
+      is '岗位列表';
+    comment on column BPM_APPROVAL_MATRIX.role_no_list
+      is '角色编码列表';
+    comment on column BPM_APPROVAL_MATRIX.rule_type
+      is '规则类型{PERSON,CUSTOM,COMBINATION}';
+    comment on column BPM_APPROVAL_MATRIX.custom_rule
+      is '自定义规则';
+
+-----修改截止2019-05-28---------------------------------
+
+    alter table BPM_PROCESS_TASK add  CUSTOM_TEXT01 varchar2(300);
+    alter table BPM_PROCESS_TASK add  CUSTOM_TEXT02 varchar2(300);
+    alter table BPM_PROCESS_TASK add  CUSTOM_TEXT03 varchar2(300);
+    alter table BPM_PROCESS_TASK add  CUSTOM_TEXT04 varchar2(300);
+    alter table BPM_PROCESS_TASK add  CUSTOM_TEXT05 varchar2(300);
+    alter table BPM_PROCESS_TASK add  CUSTOM_TEXT06 varchar2(300);
+    alter table BPM_PROCESS_TASK add  CUSTOM_TEXT07 varchar2(300);
+    alter table BPM_PROCESS_TASK add  CUSTOM_TEXT08 varchar2(300);
+    alter table BPM_PROCESS_TASK add  CUSTOM_TEXT09 varchar2(600);
+    alter table BPM_PROCESS_TASK add  CUSTOM_TEXT10 varchar2(2000);
+    alter table BPM_PROCESS_TASK add  CUSTOM_NUMBER01 number;
+    alter table BPM_PROCESS_TASK add  CUSTOM_NUMBER02 number;
+    alter table BPM_PROCESS_TASK add  CUSTOM_DATE01 date;
+    alter table BPM_PROCESS_TASK add  CUSTOM_DATE02 date;

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.contract.mapper.FinanceInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.contract.entity.FinanceInfo">
+        <id column="ID" property="id" />
+        <result column="OUR_CONTRACT_ENTITY_CODE" property="ourContractEntityCode" />
+        <result column="OUR_CONTRACT_ENTITY" property="ourContractEntity" />
+        <result column="OTHER_CONTRACT_ENTITY_CODE" property="otherContractEntityCode" />
+        <result column="OTHER_CONTRACT_ENTITY" property="otherContractEntity" />
+        <result column="OTHER_BANK_CODE" property="otherBankCode" />
+        <result column="OTHER_BANK" property="otherBank" />
+        <result column="OTHER_ACCOUNT_NAME" property="otherAccountName" />
+        <result column="OTHER_ACCOUNT" property="otherAccount" />
+        <result column="APPOINT_PAY_STAGE" property="appointPayStage" />
+        <result column="APPOINT_PAY_CONDITION" property="appointPayCondition" />
+        <result column="APPOINT_PAY_RATE" property="appointPayRate" />
+        <result column="APPOINT_PAY_AMOUNT" property="appointPayAmount" />
+        <result column="ACT_PAY_RATE" property="actPayRate" />
+        <result column="PLAN_PAY_TIME" property="planPayTime" />
+        <result column="ACT_PAY_TIME" property="actPayTime" />
+        <result column="IS_MANUAL" property="isManual" />
+        <result column="IS_USED" property="isUsed" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="CONTRACT_ID" property="contractId" />
+        <result column="CONTRACT_NAME" property="contractName" />
+        <result column="SPARE_FIELD_1" property="spareField1" />
+        <result column="SPARE_FIELD_2" property="spareField2" />
+        <result column="SPARE_FIELD_3" property="spareField3" />
+        <result column="SPARE_FIELD_4" property="spareField4" />
+        <result column="SPARE_FIELD_5" property="spareField5" />
+        <result column="APPOINT_INCOME_STAGE" property="appointIncomeStage" />
+        <result column="APPOINT_INCOME_CONDITION" property="appointIncomeCondition" />
+        <result column="APPOINT_INCOME_RATE" property="appointIncomeRate" />
+        <result column="APPOINT_INCOME_AMOUNT" property="appointIncomeAmount" />
+        <result column="ACT_INCOME_RATE" property="actIncomeRate" />
+        <result column="PLAN_INCOME_TIME" property="planIncomeTime" />
+        <result column="ACT_INCOME_TIME" property="actIncomeTime" />
+        <result column="IS_MANUAL_INCOME" property="isManualIncome" />
+        <result column="CONTRACT_TYPE" property="contractType" />
+        <result column="TYPE" property="type" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, OUR_CONTRACT_ENTITY_CODE, OUR_CONTRACT_ENTITY, OTHER_CONTRACT_ENTITY_CODE, OTHER_CONTRACT_ENTITY, OTHER_BANK_CODE, OTHER_BANK, OTHER_ACCOUNT_NAME, OTHER_ACCOUNT, APPOINT_PAY_STAGE, APPOINT_PAY_CONDITION, APPOINT_PAY_RATE, APPOINT_PAY_AMOUNT, ACT_PAY_RATE, PLAN_PAY_TIME, ACT_PAY_TIME, IS_MANUAL, IS_USED, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, CONTRACT_ID, CONTRACT_NAME, SPARE_FIELD_1, SPARE_FIELD_2, SPARE_FIELD_3, SPARE_FIELD_4, SPARE_FIELD_5, APPOINT_INCOME_STAGE, APPOINT_INCOME_CONDITION, APPOINT_INCOME_RATE, APPOINT_INCOME_AMOUNT, ACT_INCOME_RATE, PLAN_INCOME_TIME, ACT_INCOME_TIME, IS_MANUAL_INCOME, CONTRACT_TYPE, TYPE
+    </sql>
+    <select id="selectFinanceInfo" resultType="com.deloitte.platform.api.contract.vo.FinanceInfoVo" parameterType="java.lang.String">
+        SELECT
+        C.*
+        FROM CONTRACT_BASIC_FINANCE_MAP T
+        INNER JOIN CONTRACT_FINANCE_INFO C
+        ON T.FINANCE_ID = C.ID
+        WHERE T.CONTRACT_ID=#{_parameter}
+    </select>
+
+</mapper>

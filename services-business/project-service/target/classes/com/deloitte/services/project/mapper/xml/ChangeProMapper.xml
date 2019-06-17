@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.project.mapper.ChangeProMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.project.entity.ChangePro">
+        <id column="ID" property="id" />
+        <result column="CHANGE_ID" property="changeId" />
+        <result column="PROJECT_ID" property="projectId" />
+        <result column="APPLICATION_ID" property="applicationId" />
+        <result column="CHANGE_ADV" property="changeAdv" />
+        <result column="CHANGE_CODE" property="changeCode" />
+        <result column="CHANGE_NAME" property="changeName" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="ORG_ID" property="orgId" />
+        <result column="ORG_PATH" property="orgPath" />
+        <result column="SERVICE_NUM" property="serviceNum" />
+        <result column="CHANGE_DATE" property="changeDate" />
+        <result column="REPLY_ID" property="replyId" />
+        <result column="MAINTENCEID" property="maintenceid" />
+        <result column="CHANGE_STATUS_CODE" property="changeStatusCode" />
+        <result column="CHANGE_STATUS_NAME" property="changeStatusName" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, CHANGE_ID, PROJECT_ID, APPLICATION_ID, CHANGE_ADV, CHANGE_CODE, CHANGE_NAME, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, EXT1, EXT2, EXT3, EXT4, ORG_ID, ORG_PATH, SERVICE_NUM, CHANGE_DATE, REPLY_ID, MAINTENCEID, CHANGE_STATUS_CODE, CHANGE_STATUS_NAME
+    </sql>
+
+</mapper>

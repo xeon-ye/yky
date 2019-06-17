@@ -1,0 +1,101 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: oa-svc
+  labels:
+    app: oa-svc
+  namespace: default
+spec:
+  clusterIP: None
+  ports:
+    - port: 8408
+      protocol: TCP
+      targetPort: 8408
+  selector:
+    app: oa
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: oa-http
+  labels:
+    app: oa-http
+  namespace: default
+spec:
+  ports:
+    - port: 8408
+      protocol: TCP
+      targetPort: 8408
+      nodePort: 30012
+  selector:
+    app: oa
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: oa-filebeat-config
+  namespace: default
+data:
+  filebeat.yml: |-
+    filebeat.prospectors:
+    - type: log
+      paths:
+        - /app-log/*.log
+      multiline:
+        pattern: '^[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))' 
+        negate:  true
+        match:   after
+    output.elasticsearch:
+      hosts: ["124.17.100.239:9200"]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oa
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: oa
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: oa
+    spec:
+      containers:
+        - name: oa-contaner
+          image: 124.17.100.180:8084/oa:vBUILD_NUMBER
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8408
+              protocol: TCP
+          volumeMounts:
+            - name: app-logs
+              mountPath: /opt/app/dtt_service/applog
+        - name: filebeat
+          image: docker.elastic.co/beats/filebeat-oss:6.5.0
+          imagePullPolicy: IfNotPresent
+          args: [
+            "-c", "/etc/filebeat.yml",
+            "-e",
+          ]
+          securityContext:
+            runAsUser: 0
+          volumeMounts:
+            - name: app-logs
+              mountPath: /app-log
+            - name: oa-filebeat-config
+              mountPath: /etc/filebeat.yml
+              readOnly: true
+              subPath: filebeat.yml
+      volumes:
+        - name: app-logs
+          emptyDir: {}
+        - name: oa-filebeat-config
+          configMap:
+            name: oa-filebeat-config
+      imagePullSecrets:
+        - name: regsecret

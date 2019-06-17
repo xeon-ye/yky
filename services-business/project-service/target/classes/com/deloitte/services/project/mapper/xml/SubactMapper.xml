@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.project.mapper.SubactMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.project.entity.Subact">
+        <id column="ID" property="id" />
+        <result column="SUBACT_ID" property="subactId" />
+        <result column="ACT_ID" property="actId" />
+        <result column="SUBACT" property="subact" />
+        <result column="SUBACT_ABS" property="subactAbs" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="REVIEW_AMOUNT" property="reviewAmount" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+        <result column="ORG_ID" property="orgId" />
+        <result column="ORG_PATH" property="orgPath" />
+        <result column="IS_RELATED" property="isRelated" />
+        <result column="APPLICATION_ID" property="applicationId" />
+        <result column="QUANTITY_FRENQUENCE" property="quantityFrenquence" />
+        <result column="SUB_EXPENSE" property="subExpense" />
+        <result column="PRICE_STANDARD" property="priceStandard" />
+        <result column="ACT_PLAN" property="actPlan" />
+        <result column="REMARKS" property="remarks" />
+        <result column="ACT_NAME" property="actName" />
+        <result column="ACT_ABS" property="actAbs" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, SUBACT_ID, ACT_ID, SUBACT, SUBACT_ABS, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, REVIEW_AMOUNT, EXT2, EXT3, EXT4, EXT5, ORG_ID, ORG_PATH, IS_RELATED, APPLICATION_ID, QUANTITY_FRENQUENCE, SUB_EXPENSE, PRICE_STANDARD, ACT_PLAN, REMARKS, ACT_NAME, ACT_ABS
+    </sql>
+
+</mapper>

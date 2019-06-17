@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.dss.scientific.mapper.FundViewMapper">
+    <!-- 查询映射结果 -->
+    <!--历年项目经费趋势-->
+  <resultMap id="FundViewVo" type="com.deloitte.platform.api.dss.scientific.vo.FundViewVo">
+        <result column="style" property="style" />
+        <result column="money" property="money" />
+        <result column="period"  property="period" />
+    </resultMap>
+    <!--明细经费-->
+    <resultMap id="FundDetailVo" type="com.deloitte.platform.api.dss.scientific.vo.FundDetailVo">
+        <result column="money" property="money"/>
+        <result column="total" property="total"/>
+        <result column="category" property="category"/>
+    </resultMap>
+    <!--科研成果-->
+    <resultMap id="ResultVo" type="com.deloitte.platform.api.dss.scientific.vo.ResultVo">
+        <result column="category" property="category" />
+        <result column="total" property="total" />
+    </resultMap>
+
+    <resultMap id="TotalVo" type="com.deloitte.platform.api.dss.scientific.vo.TotalVo">
+        <result column="total" property="total" />
+    </resultMap>
+    <!--历年项目经费-->
+    <select id="queryFund" resultMap="FundViewVo" parameterType="java.lang.Integer">
+        <![CDATA[
+        select '新获项目' style,sum(e.PRD_RECEIVE_OUTLAY) money,to_char(sysdate,'yyyy') period from DSS_PRD_RECEIVE_OUTLAY_ACADEMY e
+          left join SRPMS_PROJECT t on e.pro_code=t.project_num  and SUBSTR(e.PERIOD_RECEIVE, 0, 4) = to_char(sysdate, 'yyyy')
+        where to_char(e.pro_start_date,'yyyy')=to_char(sysdate,'yyyy')
+          and substr(t.PROJECT_TYPE,0,6)='100101'
+        ]]>
+        <if test="_parameter != null">
+            and  t.LEAD_DEPT_ID=#{_parameter}
+        </if>
+        <![CDATA[
+        union
+        select '延续项目' style,sum(e.PRD_RECEIVE_OUTLAY) money,to_char(sysdate,'yyyy') period from DSS_PRD_RECEIVE_OUTLAY_ACADEMY e
+          left join SRPMS_PROJECT t on e.pro_code=t.project_num and SUBSTR(e.PERIOD_RECEIVE, 0, 4) = to_char(sysdate, 'yyyy')
+        where
+          to_char(e.pro_end_date,'yyyy')>to_char(sysdate,'yyyy')
+          and substr(t.PROJECT_TYPE,0,6)='100101'
+          and to_char(e.pro_start_date,'yyyy')<to_char(sysdate,'yyyy')
+        ]]>
+        <if test="_parameter != null">
+            and  t.LEAD_DEPT_ID=#{_parameter}
+        </if>
+        union
+        select '新获项目' style,sum(e.PRD_RECEIVE_OUTLAY) money,to_char(add_months(sysdate,-12),'yyyy') period from DSS_PRD_RECEIVE_OUTLAY_ACADEMY e
+        left join SRPMS_PROJECT t on e.pro_code=t.project_num  and SUBSTR(e.PERIOD_RECEIVE, 0, 4) = to_char(add_months(sysdate,-12),'yyyy')
+        where to_char(e.pro_start_date,'yyyy')=to_char(add_months(sysdate,-12),'yyyy')
+        and substr(t.PROJECT_TYPE,0,6)='100101'
+
+        <if test="_parameter != null">
+            and  t.LEAD_DEPT_ID=#{_parameter}
+        </if>
+        <![CDATA[
+         union
+        select '延续项目' style,sum(e.PRD_RECEIVE_OUTLAY) money,to_char(add_months(sysdate,-12),'yyyy') period from DSS_PRD_RECEIVE_OUTLAY_ACADEMY e
+          left join SRPMS_PROJECT t on e.pro_code=t.project_num and SUBSTR(e.PERIOD_RECEIVE, 0, 4) = to_char(add_months(sysdate,-12),'yyyy')
+        where
+          to_char(e.pro_end_date,'yyyy')>to_char(add_months(sysdate,-12),'yyyy')
+          and substr(t.PROJECT_TYPE,0,6)='100101'
+          and to_char(e.pro_start_date,'yyyy')<to_char(add_months(sysdate,-12),'yyyy')
+        ]]>
+        <if test="_parameter != null">
+            and  t.LEAD_DEPT_ID=#{_parameter}
+        </if>
+        union
+
+        select '新获项目' style,sum(e.PRD_RECEIVE_OUTLAY) money,to_char(add_months(sysdate,-24),'yyyy') period from DSS_PRD_RECEIVE_OUTLAY_ACADEMY e
+        left join SRPMS_PROJECT t on e.pro_code=t.project_num  and SUBSTR(e.PERIOD_RECEIVE, 0, 4) = to_char(add_months(sysdate,-24),'yyyy')
+        where to_char(e.pro_start_date,'yyyy')=to_char(add_months(sysdate,-24),'yyyy')
+        and substr(t.PROJECT_TYPE,0,6)='100101'
+
+        <if test="_parameter != null">
+            and  t.LEAD_DEPT_ID=#{_parameter}
+        </if>
+        <![CDATA[
+        union
+         select '延续项目' style,sum(e.PRD_RECEIVE_OUTLAY) money,to_char(add_months(sysdate,-24),'yyyy') period from DSS_PRD_RECEIVE_OUTLAY_ACADEMY e
+          left join SRPMS_PROJECT t on e.pro_code=t.project_num and SUBSTR(e.PERIOD_RECEIVE, 0, 4) = to_char(add_months(sysdate,-24),'yyyy')
+        where
+          to_char(e.pro_end_date,'yyyy')>to_char(add_months(sysdate,-24),'yyyy')
+          and substr(t.PROJECT_TYPE,0,6)='100101'
+          and to_char(e.pro_start_date,'yyyy')<to_char(add_months(sysdate,-24),'yyyy')
+        ]]>
+        <if test="_parameter != null">
+            and  t.LEAD_DEPT_ID=#{_parameter}
+        </if>
+        union
+        select '新获项目' style,sum(e.PRD_RECEIVE_OUTLAY) money,to_char(add_months(sysdate,-36),'yyyy') period from DSS_PRD_RECEIVE_OUTLAY_ACADEMY e
+        left join SRPMS_PROJECT t on e.pro_code=t.project_num  and SUBSTR(e.PERIOD_RECEIVE, 0, 4) = to_char(add_months(sysdate,-36),'yyyy')
+        where to_char(e.pro_start_date,'yyyy')=to_char(add_months(sysdate,-36),'yyyy')
+        and substr(t.PROJECT_TYPE,0,6)='100101'
+
+        <if test="_parameter != null">
+            and  t.LEAD_DEPT_ID=#{_parameter}
+        </if>
+        <![CDATA[
+        union
+         select '延续项目' style,sum(e.PRD_RECEIVE_OUTLAY) money,to_char(add_months(sysdate,-36),'yyyy') period from DSS_PRD_RECEIVE_OUTLAY_ACADEMY e
+          left join SRPMS_PROJECT t on e.pro_code=t.project_num and SUBSTR(e.PERIOD_RECEIVE, 0, 4) = to_char(add_months(sysdate,-36),'yyyy')
+        where
+          to_char(e.pro_end_date,'yyyy')>to_char(add_months(sysdate,-36),'yyyy')
+          and substr(t.PROJECT_TYPE,0,6)='100101'
+          and to_char(e.pro_start_date,'yyyy')<to_char(add_months(sysdate,-36),'yyyy')
+    ]]>
+        <if test="_parameter != null">
+            and  t.LEAD_DEPT_ID=#{_parameter}
+        </if>
+    </select>
+    <!--博士后人才占比-->
+    <select id="queryDoctorc" resultMap="TotalVo" parameterType="java.lang.Integer">
+
+        select count(*) total from SRPMS_PROJECT p
+        left join SRPMS_PROJECT_PERSON_JOIN j on p.project_num=j.project_num
+        where J.PERSON_CATEGORY  = 3
+        and substr(p.PROJECT_TYPE,0,6)='100101'
+        <if test="_parameter != null">
+            and  p.LEAD_DEPT_ID=#{_parameter}
+        </if>
+
+    </select>
+    <select id="queryDoctor" resultMap="TotalVo" parameterType="java.lang.Integer">
+
+        select count(*) total from SRPMS_PROJECT p
+        left join SRPMS_PROJECT_PERSON_JOIN j on p.project_num=j.project_num
+        where J.PERSON_CATEGORY  = 3
+        <if test="_parameter != null">
+            and  p.LEAD_DEPT_ID=#{_parameter}
+        </if>
+    </select>
+
+    <!--明细经费-->
+    <select id="queryFundDetail" resultMap="FundDetailVo" parameterType="java.lang.Integer">
+
+        select '重大协同' category,sum(t.PRD_RECEIVE_OUTLAY) money,count(*) total from DSS_PRD_RECEIVE_OUTLAY_ACADEMY t left join SRPMS_PROJECT p on t.pro_code=p.project_num where p.PROJECT_TYPE='10010101'
+        <if test="_parameter != null">
+            and  p.LEAD_DEPT_ID=#{_parameter}
+        </if>
+        union
+        --协同创新
+        select '协同创新' category,sum(t.PRD_RECEIVE_OUTLAY) money,count(*) total from DSS_PRD_RECEIVE_OUTLAY_ACADEMY t left join SRPMS_PROJECT p on t.pro_code=p.project_num where p.PROJECT_TYPE='10010102'
+        <if test="_parameter != null">
+            and  p.LEAD_DEPT_ID=#{_parameter}
+        </if>
+        --先到专项
+        union
+        select '先导专项' category,sum(t.PRD_RECEIVE_OUTLAY) money,count(*) total from DSS_PRD_RECEIVE_OUTLAY_ACADEMY t left join SRPMS_PROJECT p on t.pro_code=p.project_num where p.PROJECT_TYPE='10010103'
+        <if test="_parameter != null">
+            and  p.LEAD_DEPT_ID=#{_parameter}
+        </if>
+        union
+        select '院外研发机构' category,sum(t.PRD_RECEIVE_OUTLAY) money,count(*) total from DSS_PRD_RECEIVE_OUTLAY_ACADEMY t left join SRPMS_PROJECT p on t.pro_code=p.project_num where p.PROJECT_TYPE='10010104'
+        <if test="_parameter != null">
+            and  p.LEAD_DEPT_ID=#{_parameter}
+        </if>
+    </select>
+
+    <!--科研成果-->
+    <select id="queryResult1" resultMap="ResultVo" parameterType="java.lang.Integer">
+
+        select '专利数量' category,count(t.Patent_Num) total from SRPMS_OUTLINE_PATENT t left join SRPMS_PROJECT p on t.pro_code=p.project_num
+        where to_char(t.application_time,'yyyy')=to_char(sysdate,'yyyy')
+        and substr(p.PROJECT_TYPE,0,6)='100101'
+        <if test="_parameter != null">
+            and  p.LEAD_DEPT_ID=#{_parameter}
+        </if>
+        union
+        select '论文SCI数量' category,count(r.paper_title) total from SRPMS_OUTLINE_PAPER r left join SRPMS_OUTLINE_BASE e on r.base_id=e.id
+        LEFT JOIN dss_sci_paper d on d.JOURNAL_TITLE=r.JOURNAL_TITLE
+        left join SRPMS_PROJECT p on r.pro_code=p.project_num
+        where e.year=to_char(sysdate,'yyyy')
+        and substr(p.PROJECT_TYPE,0,6)='100101'
+        <if test="_parameter != null">
+            and  p.LEAD_DEPT_ID=#{_parameter}
+        </if>
+        union
+        select '成果转化' category,count(*) total from SRPMS_OUTLINE_RESULT_TRANS s left join SRPMS_PROJECT p on s.pro_code=p.project_num
+        where s.contract_signing_year=to_char(sysdate,'yyyy')
+        and substr(p.PROJECT_TYPE,0,6)='100101'
+        <if test="_parameter != null">
+            and  p.LEAD_DEPT_ID=#{_parameter}
+        </if>
+        union
+        select '论文' category,count(m.paper_title) total from SRPMS_OUTLINE_PAPER m left join SRPMS_OUTLINE_BASE e on m.base_id=e.id
+        left join SRPMS_PROJECT p on m.pro_code=p.project_num
+        where e.year=to_char(sysdate,'yyyy')
+        and  substr(p.PROJECT_TYPE,0,6)='100101'
+        <if test="_parameter != null">
+            and  p.LEAD_DEPT_ID=#{_parameter}
+        </if>
+    </select>
+    <!--高级人才占比-->
+    <select id="queryHeightc" resultMap="TotalVo" parameterType="java.lang.Integer">
+
+        select count(*) total from SRPMS_PROJECT p left join ISUMP_USER s on p.LEAD_PERSON_ID=s.id
+    left join SRPMS_PROJECT_PERSON_JOIN j on p.project_num=j.project_num
+    where substr(p.PROJECT_TYPE,0,6)='100101'
+    and (s.position_title ='10' or j.person_category='10')
+        <if test="_parameter != null">
+            and  p.LEAD_DEPT_ID=#{_parameter}
+        </if>
+
+    </select>
+    <select id="queryHeight" resultMap="TotalVo" parameterType="java.lang.Integer">
+
+       select count(*) total from SRPMS_PROJECT p left join ISUMP_USER s on p.LEAD_PERSON_ID=s.id
+    left join SRPMS_PROJECT_PERSON_JOIN j on p.project_num=j.project_num
+    where (s.position_title ='10' or j.person_category='10')
+        <if test="_parameter != null">
+            and  p.LEAD_DEPT_ID=#{_parameter}
+        </if>
+
+    </select>
+    <!--高层次人才主持项目占比-->
+    <select id="queryHpersonc" resultMap="TotalVo" parameterType="java.lang.Integer">
+        <![CDATA[
+        select sum(total1) total from
+        (select count(*) total1 from SRPMS_PROJECT p left join SRPMS_PROJECT_PERSON_JOIN j on p.project_num=j.project_num
+        left join isump_user r on j.PERSON_ID=r.ID
+        where r.high_talent='是'
+        and substr(p.PROJECT_TYPE,0,6)='100101'
+        and to_char(p.project_action_date_start,'yyyy')<=to_char(sysdate,'yyyy')
+        and to_char(p.project_action_date_end,'yyyy')>=to_char(sysdate,'yyyy')
+        ]]>
+        <if test="_parameter != null">
+            and  p.LEAD_DEPT_ID=#{_parameter}
+        </if>
+        <![CDATA[
+        union all
+        select count(*) total1 from SRPMS_PROJECT p
+          left join isump_user r on p.LEAD_PERSON_ID = r.ID
+        where r.high_talent='是'
+          and substr(p.PROJECT_TYPE,0,6)='100101'
+          and to_char(p.project_action_date_start,'yyyy')<=to_char(sysdate,'yyyy')
+          and to_char(p.project_action_date_end,'yyyy')>=to_char(sysdate,'yyyy')
+        ]]>
+        <if test="_parameter != null">
+            and  p.LEAD_DEPT_ID=#{_parameter}
+        </if>
+        )
+    </select>
+    <select id="queryHperson" resultMap="TotalVo" parameterType="java.lang.Integer">
+        <![CDATA[
+        select sum(total1) total from
+          (select count(*) total1 from SRPMS_PROJECT p
+            left join SRPMS_PROJECT_PERSON_JOIN j on p.project_num=j.project_num
+            left join isump_user r on j.PERSON_ID=r.ID
+           where r.high_talent='是'
+             and to_char(p.project_action_date_start,'yyyy')<=to_char(sysdate,'yyyy')
+             and to_char(p.project_action_date_end,'yyyy')>=to_char(sysdate,'yyyy')
+        ]]>
+        <if test="_parameter != null">
+            and  p.LEAD_DEPT_ID=#{_parameter}
+        </if>
+        <![CDATA[
+        union all
+       select count(*) total1 from SRPMS_PROJECT p
+          left join isump_user r on  p.LEAD_PERSON_ID=r.ID
+          where r.high_talent='是'
+           and to_char(p.project_action_date_start,'yyyy')<=to_char(sysdate,'yyyy')
+           and to_char(p.project_action_date_end,'yyyy')>=to_char(sysdate,'yyyy')
+        ]]>
+        <if test="_parameter != null">
+            and  p.LEAD_DEPT_ID=#{_parameter}
+        </if>
+        )
+    </select>
+    <!--本年预算执行比-->
+    <select id="queryExecutionc" resultMap="TotalVo" parameterType="java.lang.Integer">
+
+        select sum(e.PRO_RECEIVE_OUTLAY) total from SRPMS_OUTLINE_NEW_TITLE e
+        left join SRPMS_PROJECT t on e.pro_code=t.project_num
+        left join DSS_PROJECT_TASK_PAY y on t.project_num=y.PROJECT_NUM
+        where substr(t.PROJECT_TYPE,0,6)='100101'
+        and to_char(e.PRO_START_DATE,'yyyy')=to_char(sysdate,'yyyy')
+        and to_char(y.CREATE_TIME,'yyyy')=to_char(sysdate,'yyyy')
+        <if test="_parameter != null">
+            and  t.LEAD_DEPT_ID=#{_parameter}
+        </if>
+    </select>
+    <select id="queryExecution" resultMap="TotalVo" parameterType="java.lang.Integer">
+
+        select sum(e.PRO_RECEIVE_OUTLAY) total from SRPMS_OUTLINE_NEW_TITLE e
+        left join SRPMS_PROJECT t on e.pro_code=t.project_num
+        where substr(t.PROJECT_TYPE,0,6)='100101'
+        and to_char(e.PRO_START_DATE,'yyyy')=to_char(sysdate,'yyyy')
+        <if test="_parameter != null">
+            and  t.LEAD_DEPT_ID=#{_parameter}
+        </if>
+
+    </select>
+    <!--成果物-->
+    <select id="queryResultratio" resultMap="TotalVo" parameterType="java.lang.Integer">
+
+        select sum(total2) total from (
+        select count(*) total2 from SRPMS_OUTLINE_PAPER r left join  SRPMS_PROJECT p on r.pro_code=p.project_num where substr(p.PROJECT_TYPE,0,6)='100101'
+        <if test="_parameter != null">
+           and  p.LEAD_DEPT_ID=#{_parameter}
+        </if>
+        union all
+        select count(*) total2 from SRPMS_OUTLINE_PATENT t left join SRPMS_PROJECT p on t.pro_code=p.project_num where substr(p.PROJECT_TYPE,0,6)='100101'
+        <if test="_parameter != null">
+            and  p.LEAD_DEPT_ID=#{_parameter}
+        </if>
+        union all
+        select count(*) total2 from SRPMS_OUTLINE_RESULT_TRANS s left join SRPMS_PROJECT p on s.pro_code=p.project_num where substr(p.PROJECT_TYPE,0,6)='100101'
+        <if test="_parameter != null">
+           and  p.LEAD_DEPT_ID=#{_parameter}
+        </if>
+        )
+    </select>
+    <select id="queryResultratioc" resultMap="TotalVo" parameterType="java.lang.Integer">
+        select count(*) total from SRPMS_PROJECT p where substr(p.PROJECT_TYPE,0,6)='100101'
+        <if test="_parameter != null">
+            and  p.LEAD_DEPT_ID=#{_parameter}
+        </if>
+    </select>
+    <!--科研成果接口-->
+    <select id="queryResult" resultMap="ResultVo" >
+        select '专利数量' category,count(t.Patent_Num) total from SRPMS_OUTLINE_PATENT t left join SRPMS_PROJECT p on t.pro_code=p.project_num
+        where to_char(t.application_time,'yyyy')=to_char(sysdate,'yyyy')
+        and substr(p.PROJECT_TYPE,0,6)='100101'
+        union
+        select '论文SCI数量' category,count(r.paper_title) total from SRPMS_OUTLINE_PAPER r left join SRPMS_OUTLINE_BASE e on r.base_id=e.id
+        LEFT JOIN dss_sci_paper d on d.JOURNAL_TITLE=r.JOURNAL_TITLE
+        left join SRPMS_PROJECT p on r.pro_code=p.project_num
+        where e.year=to_char(sysdate,'yyyy')
+        and substr(p.PROJECT_TYPE,0,6)='100101'
+        union
+        select '成果转化' category,count(*) total from SRPMS_OUTLINE_RESULT_TRANS s left join SRPMS_PROJECT p on s.pro_code=p.project_num
+        where s.contract_signing_year=to_char(sysdate,'yyyy')
+        and substr(p.PROJECT_TYPE,0,6)='100101'
+        union
+        select '论文' category,count(m.paper_title) total from SRPMS_OUTLINE_PAPER m left join SRPMS_OUTLINE_BASE e on m.base_id=e.id
+        left join SRPMS_PROJECT p on m.pro_code=p.project_num
+        where e.year=to_char(sysdate,'yyyy')
+        and substr(p.PROJECT_TYPE,0,6)='100101'
+    </select>
+</mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.business.contract.mapper.CrbAssocAdvancePaymentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.business.contract.entity.CrbAssocAdvancePayment">
+        <id column="ID" property="id" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_USER_NAME" property="createUserName" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="VERSION" property="version" />
+        <result column="DOCUMENT_NUM" property="documentNum" />
+        <result column="MAIN_TYPE_ID" property="mainTypeId" />
+        <result column="TOTAL_SUM" property="totalSum" />
+        <result column="MAIN_TYPE_NAME" property="mainTypeName" />
+        <result column="EXT1" property="ext1" />
+        <result column="EXT2" property="ext2" />
+        <result column="EXT3" property="ext3" />
+        <result column="EXT4" property="ext4" />
+        <result column="EXT5" property="ext5" />
+        <result column="EXT6" property="ext6" />
+        <result column="EXT7" property="ext7" />
+        <result column="EXT8" property="ext8" />
+        <result column="EXT9" property="ext9" />
+        <result column="EXT10" property="ext10" />
+        <result column="EXT11" property="ext11" />
+        <result column="EXT12" property="ext12" />
+        <result column="EXT13" property="ext13" />
+        <result column="EXT14" property="ext14" />
+        <result column="EXT15" property="ext15" />
+        <result column="MAIN_TYPE_CODE" property="mainTypeCode" />
+        <result column="DOCUMENT_TYPE" property="documentType" />
+        <result column="DOCUMENT_ID" property="documentId" />
+        <result column="HAS_VER_AMOUNT" property="hasVerAmount" />
+        <result column="NO_VER_AMOUNT" property="noVerAmount" />
+        <result column="THIS_VER_AMOUNT" property="thisVerAmount" />
+        <result column="VER_INSTRUCTIONS" property="verInstructions" />
+        <result column="PREPAID_AMOUNT" property="prepaidAmount" />
+        <result column="CANCELLATION_TIME" property="cancellationTime" />
+        <result column="SUB_TYPE_ID" property="subTypeId" />
+        <result column="SUB_TYPE_CODE" property="subTypeCode" />
+        <result column="SUB_TYPE_NAME" property="subTypeName" />
+        <result column="LINE_NUMBER" property="lineNumber" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, CREATE_BY, CREATE_USER_NAME, UPDATE_BY, UPDATE_TIME, CREATE_TIME, VERSION, DOCUMENT_NUM, MAIN_TYPE_ID, TOTAL_SUM, MAIN_TYPE_NAME, EXT1, EXT2, EXT3, EXT4, EXT5, EXT6, EXT7, EXT8, EXT9, EXT10, EXT11, EXT12, EXT13, EXT14, EXT15, MAIN_TYPE_CODE, DOCUMENT_TYPE, DOCUMENT_ID, HAS_VER_AMOUNT, NO_VER_AMOUNT, THIS_VER_AMOUNT, VER_INSTRUCTIONS, PREPAID_AMOUNT, CANCELLATION_TIME, SUB_TYPE_ID, SUB_TYPE_CODE, SUB_TYPE_NAME, LINE_NUMBER
+    </sql>
+
+</mapper>

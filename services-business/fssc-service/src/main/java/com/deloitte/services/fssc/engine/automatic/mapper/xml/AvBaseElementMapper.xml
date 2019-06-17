@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.fssc.engine.automatic.mapper.AvBaseElementMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.fssc.engine.automatic.entity.AvBaseElement">
+        <id column="ID" property="id" />
+        <result column="DATA_TYPE" property="dataType" />
+        <result column="DATA_CODE" property="dataCode" />
+        <result column="DATA_DESC" property="dataDesc" />
+        <result column="DATA_STATUS" property="dataStatus" />
+        <result column="CREATE_DATE" property="createDate" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="ETX_1" property="etx1" />
+        <result column="ETX_2" property="etx2" />
+        <result column="ETX_3" property="etx3" />
+        <result column="ETX_4" property="etx4" />
+        <result column="ETX_5" property="etx5" />
+        <result column="SUMMARY_FLAG" property="summaryFlag" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, DATA_TYPE, DATA_CODE, DATA_DESC, DATA_STATUS, CREATE_DATE, CREATE_BY, ETX_1, ETX_2, ETX_3, ETX_4, ETX_5,SUMMARY_FLAG
+    </sql>
+
+    <select id="baseValueListByElementId"  resultType="com.deloitte.services.fssc.engine.automatic.entity.AvBaseElement">
+        SELECT * FROM(
+            SELECT A.* ,ROWNUM RN FROM
+                (
+                select ABE.*  from AV_ACCOUNT_ELEMENT AE
+                INNER JOIN  AV_ACCOUNT_BASE_RELE ABR ON AE.ID= ABR.ELEMENT_ID
+                INNER JOIN  AV_BASE_ELEMENT ABE ON ABR.BASE_ID = ABE.ID
+                WHERE  AE.ID= #{elementId}
+                ORDER BY ABE.DATA_CODE
+                )A
+            )
+        WHERE RN BETWEEN #{start} AND #{end}
+    </select>
+    <select id="baseValueCountByElementId"  resultType="java.lang.Integer">
+        SELECT count(*) FROM
+        (
+        select ABE.*  from AV_ACCOUNT_ELEMENT AE
+        INNER JOIN  AV_ACCOUNT_BASE_RELE ABR ON AE.ID= ABR.ELEMENT_ID
+        INNER JOIN  AV_BASE_ELEMENT ABE ON ABR.BASE_ID = ABE.ID
+        WHERE  AE.ID= #{elementId}
+        )A
+    </select>
+    <select id="selectBaseElementForAccount" resultType="com.deloitte.services.fssc.engine.automatic.entity.AvBaseElement">
+        select ABE.DATA_CODE,ABE.DATA_DESC  from AV_CHART_OF_ACCOUNT AA
+        LEFT JOIN  AV_ACCOUNT_ELEMENT_RELE AR ON AA.LEDGER_ID = AR.LEDGER_ID
+        LEFT JOIN  AV_ACCOUNT_ELEMENT AE ON AR.ELEMENT_ID = AE.ID
+        LEFT JOIN  AV_ACCOUNT_BASE_RELE ABR ON AE.ID = ABR.ELEMENT_ID
+        LEFT JOIN  AV_BASE_ELEMENT ABE ON ABR.BASE_ID = ABE.ID
+        WHERE  ABE.ETX_1 = '${type}' AND  AA.LEDGER_ID = #{ledgerId} AND ABE.DATA_TYPE LIKE '%ACCOUNT%' AND ABE.DATA_STATUS = 'Y' AND ABE.SUMMARY_FLAG !='Y'
+    </select>
+
+    <select id="selectJeCategory" resultType="com.deloitte.services.fssc.engine.automatic.entity.AvBaseElement">
+        select ABE.DATA_CODE,ABE.DATA_DESC  from AV_BASE_ELEMENT ABE
+           WHERE ABE.DATA_TYPE ='JE_CATEGORY' AND ABE.DATA_STATUS ='Y'
+    </select>
+
+    <select id="selectBaseElementByNum" resultType="com.deloitte.platform.api.fssc.engine.automatic.vo.AvBaseElementVo">
+        select ABE.* ,AE.SEGMENT_NUM from AV_CHART_OF_ACCOUNT AA
+        INNER JOIN  AV_ACCOUNT_ELEMENT_RELE AR ON AA.LEDGER_ID = AR.LEDGER_ID
+        INNER JOIN  AV_ACCOUNT_ELEMENT AE ON AR.ELEMENT_ID = AE.ID
+        INNER JOIN  AV_ACCOUNT_BASE_RELE ABR ON AE.ID = ABR.ELEMENT_ID
+        INNER JOIN  AV_BASE_ELEMENT ABE ON ABR.BASE_ID = ABE.ID
+        WHERE 1=1 AND  AA.LEDGER_ID =#{ledgerId}
+        AND ABE.DATA_STATUS ='Y' AND AE.TYPE='COA'
+        ORDER BY AE.SEGMENT_NUM,ABE.DATA_CODE
+    </select>
+    <select id="selectBaseElementByCode" resultType="com.deloitte.services.fssc.engine.automatic.entity.AvBaseElement">
+        select ABE.* from AV_CHART_OF_ACCOUNT AOA LEFT JOIN AV_ACCOUNT_ELEMENT AAE ON AOA.CHART_OF_ACCOUNTS_ID = AAE.CHART_OF_ACCOUNTS_ID
+        LEFT JOIN AV_BASE_ELEMENT ABE ON AAE.SEGMENT_TYPE = ABE.DATA_TYPE WHERE AOA.LEDGER_ID =${ledgerId} AND DATA_CODE ='${code}' AND AAE.SEGMENT_NUM = ${segmentNum}
+    </select>
+
+
+
+</mapper>

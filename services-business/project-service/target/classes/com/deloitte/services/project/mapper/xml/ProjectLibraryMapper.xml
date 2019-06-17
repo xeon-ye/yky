@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.project.mapper.ProjectLibraryMapper">
+
+    <!-- 项目库通用查询映射结果 -->
+    <resultMap id="Base_Project_Library" type="com.deloitte.services.project.entity.ProjectLibrary">
+        <result column="PROJECT_NAME" property="projectName" />
+        <result column="PROJECT_CODE" property="projectCode" />
+        <result column="PROJECT_TYPE_NAME" property="projectTypeName" />
+        <result column="THE_APPLICATION_YEAR" property="theApplicationYear" />
+        <result column="PLAN_YEAR" property="planYear" />
+        <result column="CYCLE" property="projectCycle" />
+        <result column="OPERATION_OU" property="operationOu" />
+        <result column="PROJECT_STATUS_NAME" property="projectStatusName" />
+        <result column="SCHOOL_PRIORITY" property="schoolPriority" />
+    </resultMap>
+    
+    <sql id="Common_Condition_Sql">
+       WHERE
+            PS."ID" = PAS.PROJECT_ID
+       AND PAS."ID" = PB.APPLICATION_ID
+       AND PAS."ID" = PR.APPLICATION_ID
+       <if test="map.projectName != null and map.projectName != ''">
+           AND PS.PROJECT_NAME LIKE '%'||#{map.projectName}||'%'
+       </if>
+       <if test="map.projectCode != null and map.projectCode != ''">
+           AND PS.PROJECT_CODE LIKE '%'||#{map.projectCode}||'%'
+       </if>
+       <if test="map.projectTypeCode != null and map.projectTypeCode != ''">
+           AND PS.PROJECT_TYPE_CODE LIKE '%'||#{map.projectTypeCode}||'%'
+       </if>
+       <if test="map.projectStatusCode != null and map.projectStatusCode != ''">
+           AND PS.PROJECT_STATUS_CODE LIKE '%'||#{map.projectStatusCode}||'%'
+       </if>
+       <if test="map.theApplicationYear != null and map.theApplicationYear != ''">
+           AND PAS.THE_APPLICATION_YEAR LIKE '%'||#{map.theApplicationYear}||'%'
+       </if>
+       <if test="map.projectCycle != null and map.projectCycle != ''">
+           AND PS.CYCLE LIKE '%'||#{map.projectCycle}||'%'
+       </if>
+       <if test="map.planYear != null and map.planYear != ''">
+           AND PS.PLAN_YEAR LIKE '%'||#{map.planYear}||'%'
+       </if>
+       <if test="map.operationOu != null and map.operationOu != ''">
+           AND PAS.OPERATION_OU LIKE '%'||#{map.operationOu}||'%'
+       </if>
+    </sql>
+
+    <sql id="Common_Query_Sql">
+        SELECT
+            PS.PROJECT_NAME,
+            PS.PROJECT_CODE,
+            PS.PROJECT_TYPE_CODE,
+            PS.PROJECT_TYPE_NAME,
+            PAS.THE_APPLICATION_YEAR,
+            PS.PLAN_YEAR,
+            PS.CYCLE,
+            PS.ORGANIZATION_ID,
+            PS.ORGANIZATION_NAME,
+            PS.PROJECT_STATUS_CODE,
+            PS.PROJECT_STATUS_NAME,
+            PR.SCHOOL_PRIORITY
+        FROM
+            PROJECTS PS,
+            PROJECT_APPLICATION PAS,
+            PROJECT_BUDGET PB,
+            PROJECT_REVIEW PR
+    </sql>
+
+    <select id="selectProjectLibraryLisPage" parameterType="Map" resultMap="Base_Project_Library">
+        <include refid="Common_Query_Sql"/>
+        <include refid="Common_Condition_Sql"/>
+    </select>
+
+    <select id="selectProjectLibraryList" parameterType="Map" resultMap="Base_Project_Library">
+        <include refid="Common_Query_Sql"/>
+        <include refid="Common_Condition_Sql"/>
+    </select>
+
+</mapper>

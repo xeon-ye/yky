@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deloitte.services.srpmp.project.mpr.mapper.MprTaskEvaInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.deloitte.services.srpmp.project.mpr.entity.MprTaskEvaInfo">
+        <id column="ID" property="id" />
+        <result column="PROJECT_NO" property="projectNo" />
+        <result column="PROJECT_TYPE" property="projectType" />
+        <result column="PROJECT_CATEGORY" property="projectCategory" />
+        <result column="PROJECT_NAME" property="projectName" />
+        <result column="PROJECT_CYCLE" property="projectCycle" />
+        <result column="TASK_PROGRESS" property="taskProgress" />
+        <result column="ADJUST_STATE" property="adjustState" />
+        <result column="LANDMARK_ACHIEVE" property="landmarkAchieve" />
+        <result column="ECON_SOCIAL_BENEFITS" property="econSocialBenefits" />
+        <result column="CAPA_IMPROVE" property="capaImprove" />
+        <result column="DEVE_PROS_ANA" property="deveProsAna" />
+        <result column="PERSON_FUND_USE" property="personFundUse" />
+        <result column="FUND_ADJUST" property="fundAdjust" />
+        <result column="PROBLEM_SUGGEST" property="problemSuggest" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, PROJECT_NO, PROJECT_TYPE, PROJECT_CATEGORY, PROJECT_NAME, PROJECT_CYCLE, TASK_PROGRESS, ADJUST_STATE, LANDMARK_ACHIEVE, ECON_SOCIAL_BENEFITS, CAPA_IMPROVE, DEVE_PROS_ANA, PERSON_FUND_USE, FUND_ADJUST, PROBLEM_SUGGEST, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+    </sql>
+
+</mapper>
