@@ -37,7 +37,7 @@
     <druid.version>1.1.9</druid.version>
     <lombok.version>1.16.22</lombok.version>
     <swagger.version>2.7.0</swagger.version>
-    <junit.version>4.12</junit.version>
+    <junit.version>4.13.1</junit.version>
     <mybatisPlus.version>3.0.6</mybatisPlus.version>
   </properties>
 
@@ -54,7 +54,7 @@
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
-        <version>4.11</version>
+        <version>4.13.1</version>
         <scope>test</scope>
       </dependency>
     </dependencies>
